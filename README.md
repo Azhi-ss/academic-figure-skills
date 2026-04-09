@@ -134,10 +134,6 @@ AI:  [生成极其详细的英文提示词，包含布局、色值、标注、�
 | ML TopConf Colorblind | Seaborn 色盲友好 |
 | ML TopConf Deep | 多面板消融图 |
 
-## 相关项目
-
-- [Academic Figure Generator](https://github.com/Azhi-ss/academic-figure-generator) - 完整的 Web 应用版本
-
 ## 许可证
 
 本项目基于 [MIT License](./LICENSE) 开源。
