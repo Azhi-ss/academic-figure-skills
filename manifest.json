@@ -1,10 +1,10 @@
 {
   "$schema": "https://raw.githubusercontent.com/anthropics/skills/main/schema.json",
-  "name": "academic-figure-generator-skills",
-  "version": "2.1.0",
+  "name": "academic-figure-skills",
+  "version": "2.2.0",
   "description": "AI-powered academic figure generation skill pack — parse papers, analyze code repos, plan figures, generate publication-quality prompts with colorblind-safe palettes",
-  "author": "LigphiDonk",
-  "repository": "https://github.com/LigphiDonk/academic-figure-generator",
+  "author": "Azhi-ss",
+  "repository": "https://github.com/Azhi-ss/academic-figure-skills",
   "license": "MIT",
   "skills": [
     {

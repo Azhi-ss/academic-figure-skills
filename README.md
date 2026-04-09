@@ -1,9 +1,22 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-2.1.0-blue)
+![Version](https://img.shields.io/badge/version-2.2.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / Cursor 等 AI 编程助手。从代码仓库分析到论文配图规划，再到高质量提示词生成。
+
+## 示例配图
+
+以下为使用本技能包生成提示词后创建的学术配图示例：
+
+<table>
+<tr>
+<td align="center" width="100%">
+<img src="docs/images/example-architecture.png" alt="网络架构图示例" />
+<br/><sub><b>网络架构图示例</b></sub>
+</td>
+</tr>
+</table>
 
 ## 技能列表
 
@@ -82,6 +95,23 @@ AI:  [生成极其详细的英文提示词，包含布局、色值、标注、�
 | ML TopConf Tab10 | Matplotlib 默认，熟悉感强 |
 | ML TopConf Colorblind | Seaborn 色盲友好 |
 | ML TopConf Deep | 多面板消融图 |
+
+## 常见问题 FAQ
+
+### Q: 生成的提示词是英文还是中文？
+A: 提示词本身是英文（因为 AI 图片工具对英文理解更好），但说明文字是中文。
+
+### Q: 支持哪些 AI 图片生成工具？
+A: 提示词兼容 NanoBanana、Gemini、DALL-E、Midjourney 等主流工具。
+
+### Q: 生成的图不满意怎么办？
+A: 可以用"图生图"功能，在已有图的基础上用文字指令修改。
+
+### Q: figure-prompt 要求先选配色，我不确定选哪个怎么办？
+A: 直接说"用默认配色"或"用 Okabe-Ito"即可，Okabe-Ito 是最通用的推荐方案。
+
+### Q: 可以只使用其中一个技能吗？
+A: 当然可以！每个技能都是独立的，你可以只使用 figure-prompt 直接生成提示词。
 
 ## 许可证
 

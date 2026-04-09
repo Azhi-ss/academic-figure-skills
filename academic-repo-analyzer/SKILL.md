@@ -168,6 +168,64 @@ tools: [bash]
 
 每次分析完成后，按照上述格式输出完整的 markdown 文档。
 
+## 工具使用指南
+
+使用 bash 工具实际扫描和分析代码文件时，按以下步骤操作：
+
+### 1. 获取目录结构
+
+```bash
+# 显示完整目录树
+find . -type f -name "*.py" -o -name "*.md" -o -name "*.txt" -o -name "*.yml" -o -name "*.yaml" -o -name "*.toml" -o -name "*.json" | head -100
+
+# 或者用 tree（如果安装了）
+tree -L 3 -I '__pycache__|.git|*.pyc'
+```
+
+### 2. 读取关键文件
+
+```bash
+# 读取 README
+cat README.md
+
+# 读取依赖文件
+ls -la requirements.txt setup.py pyproject.toml environment.yml 2>/dev/null
+cat requirements.txt 2>/dev/null || cat pyproject.toml 2>/dev/null
+
+# 查找模型定义目录
+ls -la models/ model/ networks/ src/ 2>/dev/null
+
+# 查找入口脚本
+ls -la main.py train.py eval.py inference.py run.py 2>/dev/null
+```
+
+### 3. 快速扫描代码内容
+
+```bash
+# 查找框架导入
+grep -r "import torch\|import tensorflow\|import jax" --include="*.py" . | head -20
+
+# 查找模型架构关键词
+grep -r "class.*Model\|class.*Network\|class.*Transformer\|class.*CNN" --include="*.py" . | head -20
+
+# 查找损失函数
+grep -r "def loss\|criterion\|loss_fn" --include="*.py" . | head -10
+```
+
+### 4. 读取模型定义文件
+
+```bash
+# 读取模型目录下的主要文件
+find models/ model/ networks/ src/ -name "*.py" -type f 2>/dev/null | head -5
+```
+
+### 5. 工作流程建议
+
+1. **先看目录结构**：了解仓库组织方式
+2. **再读 README**：获取项目介绍和核心功能
+3. **然后看依赖**：识别技术栈
+4. **最后读代码**：重点看模型定义和入口脚本
+
 ## 注意事项
 
 1. **证据导向**：基于实际发现的文件和代码做出判断，不确定时注明"推测"
