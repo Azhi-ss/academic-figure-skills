@@ -17,13 +17,17 @@ AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / C
 
 <table>
 <tr>
-<td align="center" width="50%">
+<td align="center" width="33%">
 <img src="docs/images/example-architecture.png" alt="Claude Opus 4.6 提示词 + Gemini NanoBanana2Flash 生成" />
 <br/><sub><b>Claude Opus 4.6 提示词 + Gemini NanoBanana2Flash</b></sub>
 </td>
-<td align="center" width="50%">
+<td align="center" width="33%">
 <img src="docs/images/example-gemini-doubao.png" alt="豆包 2.0 Pro 提示词 + Gemini NanoBanana2Flash 生成" />
 <br/><sub><b>豆包 2.0 Pro 提示词 + Gemini NanoBanana2Flash</b></sub>
+</td>
+<td align="center" width="33%">
+<img src="docs/images/example-glm5.png" alt="GLM-5 提示词 + Gemini NanoBanana2Flash 生成" />
+<br/><sub><b>GLM-5 提示词 + Gemini NanoBanana2Flash</b></sub>
 </td>
 </tr>
 </table>
