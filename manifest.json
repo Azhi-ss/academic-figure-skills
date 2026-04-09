@@ -1,0 +1,87 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/skills/main/schema.json",
+  "name": "academic-figure-generator-skills",
+  "version": "2.1.0",
+  "description": "AI-powered academic figure generation skill pack — parse papers, analyze code repos, plan figures, generate publication-quality prompts with colorblind-safe palettes",
+  "author": "LigphiDonk",
+  "repository": "https://github.com/LigphiDonk/academic-figure-generator",
+  "license": "MIT",
+  "skills": [
+    {
+      "id": "academic-repo-analyzer",
+      "name": "Academic Repo Analyzer",
+      "version": "1.0.0",
+      "description": "Analyze deep learning/machine learning code repositories to understand what they do, identify model architecture, core algorithms, tech stack, and key innovations. Generates a \"quick understanding document\" that can be passed to paper-analyzer.",
+      "path": "./academic-repo-analyzer",
+      "trigger_phrases": [
+        "分析代码仓库", "仓库分析", "repo analyzer",
+        "analyze this repo", "理解这个代码库",
+        "what does this repo do", "code repository analysis"
+      ],
+      "stages": ["research", "review"],
+      "tools": ["bash"],
+      "tags": ["academic", "repository", "analysis", "deep-learning", "machine-learning", "code"]
+    },
+    {
+      "id": "academic-figure-prompt",
+      "name": "Academic Figure Prompt",
+      "version": "1.0.0",
+      "description": "Generate extremely detailed English prompts for AI image tools to produce top-conference-quality academic figures. Uses classic Okabe-Ito / Nature / CVPR style with 8 preset palettes.",
+      "path": "./academic-figure-prompt",
+      "trigger_phrases": [
+        "论文配图提示词", "生成论文配图", "学术论文生图",
+        "架构图提示词", "框架图提示词", "顶会风格配图",
+        "CVPR 风格图", "NeurIPS 风格图",
+        "paper figure prompt", "academic diagram prompt"
+      ],
+      "stages": ["writing", "research", "review"],
+      "tools": ["bash"],
+      "tags": ["academic", "figure", "prompt", "paper", "cvpr", "neurips"]
+    },
+    {
+      "id": "academic-figure-prompt-pastel",
+      "name": "Academic Figure Prompt — Modern ML Airy Style",
+      "version": "4.0.0",
+      "description": "Generate prompts for modern ML/RL paper-style figures matching ICLR/NeurIPS/ICML 2024-2025 aesthetics. Pure white canvas, white panels with soft shadow, rounded fonts, pastel token squares, pill-shaped labels.",
+      "path": "./academic-figure-prompt-pastel",
+      "trigger_phrases": [
+        "pastel风格论文配图", "现代ML论文配图",
+        "modern ML figure prompt", "pastel academic figure",
+        "ICLR 2024 风格图", "NeurIPS 2025 风格图"
+      ],
+      "stages": ["writing", "research", "review"],
+      "tools": ["bash"],
+      "tags": ["academic", "figure", "prompt", "pastel", "modern-ml", "iclr"]
+    },
+    {
+      "id": "academic-figure-paper-analyzer",
+      "name": "Academic Paper Analyzer & Figure Planner",
+      "version": "1.0.0",
+      "description": "Analyze academic papers to plan which figures to generate. Extracts section structure, identifies figure-worthy content, suggests figure types and count per section.",
+      "path": "./academic-figure-paper-analyzer",
+      "trigger_phrases": [
+        "分析论文配图需求", "论文需要哪些图", "论文配图规划",
+        "paper figure planning", "analyze paper for figures",
+        "which figures does my paper need"
+      ],
+      "stages": ["research", "review"],
+      "tools": ["bash"],
+      "tags": ["academic", "paper", "analysis", "planning", "figure"]
+    },
+    {
+      "id": "academic-figure-color-expert",
+      "name": "Academic Figure Color Expert",
+      "version": "1.0.0",
+      "description": "Academic color palette expert with 9 preset schemes plus colorblind-safe design principles. Helps choose the right palette for your venue and validates accessibility.",
+      "path": "./academic-figure-color-expert",
+      "trigger_phrases": [
+        "学术配图配色", "论文配色方案", "色盲友好配色",
+        "academic color palette", "colorblind safe figure",
+        "paper color scheme"
+      ],
+      "stages": ["writing", "research"],
+      "tools": ["bash"],
+      "tags": ["academic", "color", "palette", "colorblind", "accessibility"]
+    }
+  ]
+}
