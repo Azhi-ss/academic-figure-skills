@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/anthropics/skills/main/schema.json",
   "name": "academic-figure-skills",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "AI-powered academic figure generation skill pack — parse papers, analyze code repos, plan figures, generate publication-quality prompts with colorblind-safe palettes",
   "author": "Azhi-ss",
   "repository": "https://github.com/Azhi-ss/academic-figure-skills",
@@ -25,8 +25,8 @@
     {
       "id": "academic-figure-prompt",
       "name": "Academic Figure Prompt",
-      "version": "1.0.0",
-      "description": "Generate extremely detailed English prompts for AI image tools to produce top-conference-quality academic figures. Uses classic Okabe-Ito / Nature / CVPR style with 8 preset palettes.",
+      "version": "1.1.0",
+      "description": "Generate extremely detailed English prompts for AI image tools to produce top-conference-quality academic figures. Uses classic Okabe-Ito / Nature / CVPR style with 9 preset palettes.",
       "path": "./academic-figure-prompt",
       "trigger_phrases": [
         "论文配图提示词", "生成论文配图", "学术论文生图",

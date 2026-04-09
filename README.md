@@ -102,6 +102,16 @@ AI:  [生成极其详细的英文提示词，包含布局、色值、标注、�
 | ML TopConf Colorblind | Seaborn 色盲友好 |
 | ML TopConf Deep | 多面板消融图 |
 
+## 📚 文档与资源
+
+| 文档 | 说明 |
+|-----|------|
+| **[CHANGELOG.md](CHANGELOG.md)** | 版本历史记录 |
+| **[CONTRIBUTING.md](CONTRIBUTING.md)** | 贡献指南 |
+| **[docs/academic-references.md](docs/academic-references.md)** | 学术引用与权威参考文献 |
+| **[docs/best-practices.md](docs/best-practices.md)** | 2024-2025 顶会配图最佳实践 |
+| **[examples/](examples/)** | 完整端到端工作流示例 |
+
 ## 常见问题 FAQ
 
 ### Q: 生成的提示词是英文还是中文？
@@ -118,6 +128,13 @@ A: 直接说"用默认配色"或"用 Okabe-Ito"即可，Okabe-Ito 是最通用�
 
 ### Q: 可以只使用其中一个技能吗？
 A: 当然可以！每个技能都是独立的，你可以只使用 figure-prompt 直接生成提示词。
+
+### Q: 这些技能必须按顺序使用吗？
+A: 不需要！每个技能都是完全独立的。你可以：
+- 只使用 figure-prompt 直接生成提示词
+- 只使用 color-expert 选择配色
+- 只使用 repo-analyzer 理解代码仓库
+- 或者按完整工作流使用所有技能
 
 ## 许可证
 
