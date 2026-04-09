@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Azhi-ss/academic-figure-generator/main/logo.png" alt="Academic Figure Generator Logo" width="220" />
-</p>
-
 # Academic Figure Skills
 
 ![Version](https://img.shields.io/badge/version-2.1.0-blue)
