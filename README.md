@@ -11,6 +11,19 @@ AI-powered academic figure generation skill pack for AI coding assistants (Claud
 
 > 从代码仓库到论文配图的完整 AI 工作流。
 
+## 示例配图
+
+以下为使用本技能包生成的学术配图示例：
+
+<table>
+<tr>
+<td align="center" width="100%">
+<img src="docs/images/example-architecture.png" alt="网络架构图示例" />
+<br/><sub><b>网络架构图示例（由 skills 生成的提示词创建）</b></sub>
+</td>
+</tr>
+</table>
+
 ## 技能清单
 
 | 技能 | 说明 | 触发词 |
