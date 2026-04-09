@@ -1,8 +1,8 @@
 ---
 id: academic-figure-prompt
 name: Academic Figure Prompt
-version: 1.0.0
-description: Use this skill whenever the user wants to generate detailed English prompts for AI image tools (NanoBanana / Gemini / DALL-E / Midjourney) to produce top-conference-quality academic figures — including framework diagrams, network architecture diagrams, pipeline flowcharts, module detail diagrams, comparison/ablation figures, and data pattern grids — especially when the user says "论文配图提示词", "生成论文配图", "学术论文生图", "架构图提示词", "框架图提示词", "顶会风格配图", "CVPR 风格图", "NeurIPS 风格图", "paper figure prompt", "academic diagram prompt", or provides a LaTeX/PDF/Word paper and asks for figure prompts. If the user has not specified a color scheme, present the 8 preset palette options and color tool links before generating any prompt.
+version: 1.1.0
+description: Use this skill whenever the user wants to generate detailed English prompts for AI image tools (NanoBanana / Gemini / DALL-E / Midjourney) to produce top-conference-quality academic figures — including framework diagrams, network architecture diagrams, pipeline flowcharts, module detail diagrams, comparison/ablation figures, and data pattern grids — especially when the user says "论文配图提示词", "生成论文配图", "学术论文生图", "架构图提示词", "框架图提示词", "顶会风格配图", "CVPR 风格图", "NeurIPS 风格图", "paper figure prompt", "academic diagram prompt", or provides a LaTeX/PDF/Word paper and asks for figure prompts. If the user has not specified a color scheme, you can either use the default Okabe-Ito scheme (recommended) or present the 9 preset palette options and color tool links before generating any prompt.
 stages: [writing, research, review]
 tools: [bash]
 ---
@@ -41,26 +41,31 @@ tools: [bash]
 | **信息密度** | 每个模块内的子细节数量、嵌入缩略图的使用方式 |
 | **特殊元素** | 反馈环路、虚线框、跳接箭头、图例位置 |
 
-### Step 2.5: 配色方案选择（必须在生成提示词前完成）
+### Step 2.5: 配色方案选择（快速默认模式可用）
 
-**在生成任何提示词之前，必须先向用户展示配色选项并等待确认。**
-
-展示以下内容：
+**如果用户没有明确指定配色，优先使用默认 Okabe-Ito 方案（推荐），或者询问用户是否想查看其他选项。**
 
 ---
 
-**请选择配色方案（输入编号或自定义）：**
+**快速选项（推荐）：**
+
+> ✅ **直接使用默认 Okabe-Ito 配色？**（Nature / Science / CVPR 推荐，色盲友好）
+>
+> 如果同意，直接说"用默认配色"即可开始生成。
+
+**或者查看全部 9 套配色方案：**
 
 | # | 方案名 | 风格定位 | 主色 | 辅色 | 点缀色 |
 |---|--------|----------|------|------|--------|
-| A | Okabe-Ito 学术标准 | Nature / Science / CVPR 推荐，色盲友好 | Steel Blue `#0072B2` | Warm Orange `#E69F00` | Bluish Green `#009E73` |
-| B | Blue 单色系 | 克制、模块详解图适用 | Navy `#0072B2` | Medium Blue `#4A90D9` | Light Blue `#A0C4E8` |
-| C | Teal + Amber | 现代感强，ICLR / NeurIPS 风 | Deep Teal `#00897B` | Amber `#FFB300` | Soft Grey `#ECEFF1` |
-| D | Navy + Coral | 沉稳大气，IEEE 期刊风 | Deep Navy `#1A3A5C` | Coral `#E05A47` | Warm Sand `#F5ECD7` |
-| E | Slate + Violet | 优雅冷调，医学 / 生物信息学风 | Slate Blue `#3F51B5` | Muted Violet `#7E57C2` | Pale Lavender `#EDE7F6` |
-| F | Forest + Gold | 厚重学术感，自然科学期刊风 | Forest Green `#2E7D32` | Gold `#C49A00` | Cream `#F9F6EE` |
-| G | Minimal Grey | 极简灰度 + 单一强调色，arXiv 技术报告风 | Charcoal `#263238` | Steel `#546E7A` | 单一强调（用户指定） |
-| H | 自定义 | 由用户提供色值或从下方工具选取 | — | — | — |
+| A | Okabe-Ito 学术标准⭐ | Nature / Science / CVPR 推荐，色盲友好 | Steel Blue `#0072B2` | Warm Orange `#E69F00` | Bluish Green `#009E73` |
+| B | Blue 单色系 | 克制、模块详解图适用 | Navy `#1565C0` | Medium Blue `#42A5F5` | Light Blue `#90CAF9` |
+| C | Warm Earth | 生物学、医学影像 | Brick Red `#C0392B` | Burnt Orange `#E67E22` | Amber `#F39C12` |
+| D | Purple-Green | 数据可视化、IEEE 期刊 | Deep Purple `#6A1B9A` | Forest Green `#2E7D32` | Medium Purple `#AB47BC` |
+| E | Grayscale | 仅黑白打印 | Near-black `#212121` | Medium Gray `#616161` | Light Gray `#9E9E9E` |
+| F | Teal-Coral | HCI / CHI 现代感 | Dark Teal `#00695C` | Coral `#E64A19` | Medium Teal `#26A69A` |
+| G | ML TopConf Tab10 | Matplotlib 默认，熟悉感强 | tab:blue `#1F77B4` | tab:orange `#FF7F0E` | tab:green `#2CA02C` |
+| H | ML TopConf Colorblind | Seaborn 色盲友好 | `#0173B2` | `#DE8F05` | `#029E73` |
+| I | 自定义 | 由用户提供色值或从下方工具选取 | — | — | — |
 
 **如需自定义配色，推荐以下工具：**
 
@@ -142,93 +147,107 @@ pathways, embedded thumbnail visualizations, and dense annotations"].
 
 | 元素 | 色值 | 用途 |
 |------|------|------|
-| 主色 | Steel Blue `#0072B2` | 核心模块边框、节标签、主箭头 |
-| 辅色 | Warm Orange `#E69F00` | 次要模块边框、替代高亮 |
-| 点缀色 | Bluish Green `#009E73` | 输出/结果模块（极少量） |
-| 警告色 | Vermillion `#D55E00` | 关键高亮/警告（极少量） |
-| 模块填充 | Pure White `#FFFFFF` | 所有内容框 |
-| 区域背景 | Faint Grey `#F7F7F7` | 大区域分组 |
-| 标准边框 | Light Grey `#CCCCCC` | 普通框体（1px） |
-| 正文字色 | Charcoal `#333333` | 所有标签 |
-| 箭头/线条 | Dark Grey `#4D4D4D` | 连接线 |
-| 次要注释 | Medium Grey `#666666` | 标注文字 |
+| primary | Steel Blue `#0072B2` | 核心模块边框、节标签、主箭头 |
+| secondary | Warm Orange `#E69F00` | 次要模块边框、替代高亮 |
+| tertiary | Bluish Green `#009E73` | 输出/结果模块（极少量） |
+| text | Charcoal `#333333` | 所有标签 |
+| fill | Pure White `#FFFFFF` | 所有内容框 |
+| section_bg | Faint Grey `#F7F7F7` | 大区域分组 |
+| border | Light Grey `#CCCCCC` | 普通框体（1px） |
+| arrow | Dark Grey `#4D4D4D` | 连接线 |
 
-### 方案 B: Blue 单色系
+### 方案 B: Blue Monochrome（蓝色单色系）
 
 | 元素 | 色值 | 用途 |
 |------|------|------|
-| 强调/标签 | Navy `#0072B2` | 关键模块边框、节标签 |
-| 主要边框 | Medium Blue `#4A90D9` | 主流程模块 |
-| 次要边框 | Light Blue `#A0C4E8` | 次要/辅助模块 |
-| 区域背景 | Pale Blue `#EBF3FA` | 大区域分组 |
-| 模块填充 | Pure White `#FFFFFF` | 所有内容框 |
-| 中性/箭头 | Grey `#999999` | 连接线、次要标注 |
-| 正文字色 | Charcoal `#333333` | 所有标签 |
+| primary | Deep Blue `#1565C0` | 核心模块边框 |
+| secondary | Light Blue `#42A5F5` | 次要模块边框 |
+| tertiary | Pale Blue `#90CAF9` | 辅助元素 |
+| text | Near-black `#212121` | 所有标签 |
+| fill | Pure White `#FFFFFF` | 所有内容框 |
+| section_bg | Very Pale Blue `#F5F8FC` | 大区域分组 |
+| border | Blue-gray `#B0BEC5` | 普通框体 |
+| arrow | Dark Blue-gray `#37474F` | 连接线 |
 
-### 方案 C: Teal + Amber
-
-| 元素 | 色值 | 用途 |
-|------|------|------|
-| 主色 | Deep Teal `#00897B` | 核心模块边框、节标签 |
-| 辅色 | Amber `#FFB300` | 次要模块边框、强调 |
-| 区域背景 | Soft Grey-Blue `#ECEFF1` | 大区域分组 |
-| 模块填充 | Pure White `#FFFFFF` | 所有内容框 |
-| 标准边框 | Light Grey `#CFD8DC` | 普通框体 |
-| 正文字色 | Dark Slate `#263238` | 所有标签 |
-| 箭头/线条 | Medium Grey `#607D8B` | 连接线 |
-| 次要注释 | Grey `#90A4AE` | 标注文字 |
-
-### 方案 D: Navy + Coral
+### 方案 C: Warm Earth（暖土色系）
 
 | 元素 | 色值 | 用途 |
 |------|------|------|
-| 主色 | Deep Navy `#1A3A5C` | 核心模块边框、节标签 |
-| 辅色 | Coral `#E05A47` | 强调模块、关键路径 |
-| 点缀色 | Warm Sand `#D4A96A` | 输出/结果模块（极少量） |
-| 区域背景 | Ivory `#F9F6EE` | 大区域分组 |
-| 模块填充 | Pure White `#FFFFFF` | 所有内容框 |
-| 标准边框 | Light Warm Grey `#D4C5B0` | 普通框体 |
-| 正文字色 | Dark Slate `#1A3A5C` | 所有标签 |
-| 箭头/线条 | Medium Grey `#7A8A99` | 连接线 |
+| primary | Brick Red `#C0392B` | 核心模块边框 |
+| secondary | Burnt Orange `#E67E22` | 次要模块边框 |
+| tertiary | Amber `#F39C12` | 输出/结果 |
+| text | Charcoal `#2C2C2C` | 所有标签 |
+| fill | Pure White `#FFFFFF` | 所有内容框 |
+| section_bg | Warm Cream `#FDF6EC` | 大区域分组 |
+| border | Sand `#D5C5A1` | 普通框体 |
+| arrow | Brown `#5D4037` | 连接线 |
 
-### 方案 E: Slate + Violet
-
-| 元素 | 色值 | 用途 |
-|------|------|------|
-| 主色 | Indigo `#3F51B5` | 核心模块边框、节标签 |
-| 辅色 | Muted Violet `#7E57C2` | 次要模块边框 |
-| 点缀色 | Teal Accent `#26A69A` | 输出/结果模块（极少量） |
-| 区域背景 | Pale Lavender `#EDE7F6` | 大区域分组 |
-| 模块填充 | Pure White `#FFFFFF` | 所有内容框 |
-| 标准边框 | Light Purple Grey `#C5CAE9` | 普通框体 |
-| 正文字色 | Deep Indigo `#1A237E` | 所有标签 |
-| 箭头/线条 | Medium Grey `#7986CB` | 连接线 |
-
-### 方案 F: Forest + Gold
+### 方案 D: Purple-Green（紫绿互补）
 
 | 元素 | 色值 | 用途 |
 |------|------|------|
-| 主色 | Forest Green `#2E7D32` | 核心模块边框、节标签 |
-| 辅色 | Antique Gold `#C49A00` | 次要模块边框、强调 |
-| 区域背景 | Warm Cream `#F9F6EE` | 大区域分组 |
-| 模块填充 | Pure White `#FFFFFF` | 所有内容框 |
-| 标准边框 | Sage `#A5D6A7` | 普通框体 |
-| 正文字色 | Dark Forest `#1B5E20` | 所有标签 |
-| 箭头/线条 | Warm Grey `#795548` | 连接线 |
+| primary | Deep Purple `#6A1B9A` | 核心模块边框 |
+| secondary | Forest Green `#2E7D32` | 次要模块边框 |
+| tertiary | Medium Purple `#AB47BC` | 第三类元素 |
+| text | Near-black `#1A1A1A` | 所有标签 |
+| fill | Pure White `#FFFFFF` | 所有内容框 |
+| section_bg | Lavender tint `#F8F5FC` | 大区域分组 |
+| border | Light Purple `#CE93D8` | 普通框体 |
+| arrow | Dark Purple `#4A148C` | 连接线 |
 
-### 方案 G: Minimal Grey + 单一强调色
+### 方案 E: Grayscale（纯灰度）
 
 | 元素 | 色值 | 用途 |
 |------|------|------|
-| 强调色（可替换） | Steel Blue `#0072B2` | 仅用于最核心的 1-2 个模块边框 |
-| 深灰 | Charcoal `#263238` | 节标签、正文字色 |
-| 中深灰 | Slate `#546E7A` | 主要边框、箭头 |
-| 中灰 | Medium Grey `#90A4AE` | 次要边框 |
-| 浅灰 | Light Grey `#ECEFF1` | 区域背景 |
-| 模块填充 | Pure White `#FFFFFF` | 所有内容框 |
-| 标准边框 | Grey `#B0BEC5` | 普通框体 |
+| primary | Near-black `#212121` | 核心模块边框 |
+| secondary | Medium Gray `#616161` | 次要模块边框 |
+| tertiary | Light Gray `#9E9E9E` | 辅助元素 |
+| text | Black `#111111` | 所有标签 |
+| fill | Pure White `#FFFFFF` | 所有内容框 |
+| section_bg | Off-white `#F5F5F5` | 大区域分组 |
+| border | Silver `#BDBDBD` | 普通框体 |
+| arrow | Dark Gray `#424242` | 连接线 |
 
-### 方案 H: 用户自定义
+### 方案 F: Teal-Coral（青蓝珊瑚）
+
+| 元素 | 色值 | 用途 |
+|------|------|------|
+| primary | Dark Teal `#00695C` | 核心模块边框 |
+| secondary | Coral `#E64A19` | 次要模块边框 |
+| tertiary | Medium Teal `#26A69A` | 输出/结果 |
+| text | Near-black `#212121` | 所有标签 |
+| fill | Pure White `#FFFFFF` | 所有内容框 |
+| section_bg | Pale Teal tint `#F0F9F8` | 大区域分组 |
+| border | Light Teal `#80CBC4` | 普通框体 |
+| arrow | Very Dark Teal `#004D40` | 连接线 |
+
+### 方案 G: ML TopConf Tab10（Matplotlib 默认）
+
+| 元素 | 色值 | 用途 |
+|------|------|------|
+| primary | tab:blue `#1F77B4` | 核心模块边框 |
+| secondary | tab:orange `#FF7F0E` | 次要模块边框 |
+| tertiary | tab:green `#2CA02C` | 输出/结果 |
+| text | slate-800 `#1F2937` | 所有标签 |
+| fill | Pure White `#FFFFFF` | 所有内容框 |
+| section_bg | slate-50 `#F8FAFC` | 大区域分组 |
+| border | slate-300 `#CBD5E1` | 普通框体 |
+| arrow | slate-700 `#334155` | 连接线 |
+
+### 方案 H: ML TopConf Colorblind（Seaborn 色盲友好）
+
+| 元素 | 色值 | 用途 |
+|------|------|------|
+| primary | `#0173B2` | 核心模块边框 |
+| secondary | `#DE8F05` | 次要模块边框 |
+| tertiary | `#029E73` | 输出/结果 |
+| text | `#1F2937` | 所有标签 |
+| fill | Pure White `#FFFFFF` | 所有内容框 |
+| section_bg | `#F8FAFC` | 大区域分组 |
+| border | `#CBD5E1` | 普通框体 |
+| arrow | `#334155` | 连接线 |
+
+### 方案 I: 用户自定义
 
 从参考图中提取，或使用调色工具选定色值后，按如下格式告知：
 

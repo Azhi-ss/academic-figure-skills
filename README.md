@@ -1,9 +1,15 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-2.2.0-blue)
+![Version](https://img.shields.io/badge/version-2.3.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / Cursor 等 AI 编程助手。从代码仓库分析到论文配图规划，再到高质量提示词生成。
+
+## 快速开始（30 秒上手）
+
+1. **安装**：`npx skills add Azhi-ss/academic-figure-skills`
+2. **分析仓库**："帮我分析这个 ML 代码仓库"
+3. **生成配图**："用 Okabe-Ito 配色，生成总体框架图提示词"
 
 ## 示例配图
 
