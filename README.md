@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LigphiDonk/academic-figure-generator/main/logo.png" alt="Academic Figure Generator Logo" width="220" />
+  <img src="https://raw.githubusercontent.com/Azhi-ss/academic-figure-generator/main/logo.png" alt="Academic Figure Generator Logo" width="220" />
 </p>
 
 # Academic Figure Skills
@@ -53,13 +53,13 @@ AI-powered academic figure generation skill pack for AI coding assistants (Claud
 ### 方式 1：使用 npx skills 一键安装（推荐）
 
 ```bash
-npx skills add LigphiDonk/academic-figure-skills
+npx skills add Azhi-ss/academic-figure-skills
 ```
 
 ### 方式 2：手动安装
 
 ```bash
-git clone https://github.com/LigphiDonk/academic-figure-skills.git
+git clone https://github.com/Azhi-ss/academic-figure-skills.git
 
 # Claude Code
 cp -r academic-figure-skills/* ~/.claude/skills/
@@ -140,7 +140,7 @@ AI:  [生成极其详细的英文提示词，包含布局、色值、标注、�
 
 ## 相关项目
 
-- [Academic Figure Generator](https://github.com/LigphiDonk/academic-figure-generator) - 完整的 Web 应用版本
+- [Academic Figure Generator](https://github.com/Azhi-ss/academic-figure-generator) - 完整的 Web 应用版本
 
 ## 许可证
 
