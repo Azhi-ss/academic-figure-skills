@@ -1,0 +1,16 @@
+# 临时文件
+*.pdf
+*.txt
+*.tmp
+*.log
+
+# IDE文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS文件
+.DS_Store
+Thumbs.db

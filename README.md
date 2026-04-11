@@ -1,6 +1,6 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-2.3.0-blue)
+![Version](https://img.shields.io/badge/version-2.4.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / Cursor 等 AI 编程助手。从代码仓库分析到论文配图规划，再到高质量提示词生成。
@@ -41,6 +41,7 @@ AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / C
 | **academic-figure-color-expert** | 9 套预设配色方案，含色盲友好设计原则 | "学术配图配色"、"论文配色方案" |
 | **academic-figure-prompt** | 经典风格（Okabe-Ito / Nature / CVPR）提示词生成 | "论文配图提示词"、"生成论文配图" |
 | **academic-figure-prompt-pastel** | 现代 ML 风格（ICLR / NeurIPS 2024-2025）提示词 | "pastel风格论文配图"、"现代ML论文配图" |
+| **academic-skill-eval-team** | 用多代理团队测评单个 skill 或整个 skill pack | "测评这个skill"、"创建一个agent team测评" |
 
 ## 完整工作流
 
@@ -55,6 +56,16 @@ AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / C
                               ↓
                          NanoBanana/Gemini → 配图
 ```
+
+## Skill 测评
+
+如果你想在发布前检查单个 skill 或整个 skill pack，可以直接说：
+
+- `创建一个agent team测评一下我的这个skill`
+- `评估这个 skill pack 的触发词、流程设计和输出质量`
+- `benchmark my skill before release`
+
+测评团队会从触发词、流程完整性、输出可用性、鲁棒性和整包一致性几个维度给出结构化报告。
 
 ## 安装
 
@@ -132,7 +143,7 @@ A: 提示词兼容 NanoBanana、Gemini、DALL-E、Midjourney 等主流工具。
 A: 可以用"图生图"功能，在已有图的基础上用文字指令修改。
 
 ### Q: figure-prompt 要求先选配色，我不确定选哪个怎么办？
-A: 直接说"用默认配色"或"用 Okabe-Ito"即可，Okabe-Ito 是最通用的推荐方案。
+A: 如果你没指定配色，系统会先按“用户指定 → 场景推荐 → 默认安全方案”决策：能识别投稿 venue、学科或图类型时，优先推荐更合适的方案；如果信息不足，则会明确说明先用默认 `Okabe-Ito` 继续，后续也可以随时切换。
 
 ### Q: 可以只使用其中一个技能吗？
 A: 当然可以！每个技能都是独立的，你可以只使用 figure-prompt 直接生成提示词。
