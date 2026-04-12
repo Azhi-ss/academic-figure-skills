@@ -2,7 +2,7 @@
 id: academic-figure-paper-analyzer
 name: Academic Paper Analyzer & Figure Planner
 version: 1.0.0
-description: Use this skill whenever the user wants to analyze an academic paper to plan which figures to generate, identify figure-worthy content, suggest figure types and count per section, or when the user says "分析论文配图需求", "论文需要哪些图", "论文配图规划", "paper figure planning", "analyze paper for figures", "which figures does my paper need".
+description: Use this skill whenever the user wants to analyze an academic paper, identify figure-worthy content, plan which figures to generate, suggest figure types and count per section, or says "分析论文配图需求", "论文需要哪些图", "论文配图规划", "paper figure planning", "analyze paper for figures", or "which figures does my paper need".
 stages: [research, review]
 tools: [bash]
 ---
@@ -18,6 +18,23 @@ tools: [bash]
 - 图表类型与内容匹配
 - 视觉叙事逻辑连贯
 - 读者理解路径清晰
+
+## Input Contract
+
+- **优先输入**：论文 PDF、LaTeX、Word、章节草稿、摘要、方法章节、实验章节、`repo-analyzer` 生成的快速理解文档
+- **最低可用输入**：至少提供标题+摘要，或一个方法/实验章节，或一份仓库理解文档
+- **缺失处理**：材料不完整时输出阶段性或局部规划，明确区分高置信建议与待确认项
+
+## Output Contract
+
+始终输出一个可执行的 `论文配图规划报告`，至少包含：
+
+- 论文概览
+- 信息完整度说明
+- 章节配图规划
+- 优先级建议
+- 配色方案建议
+- 可直接交给 prompt skill 的图类型与关键视觉约束
 
 ## 工作流程
 

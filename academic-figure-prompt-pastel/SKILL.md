@@ -2,7 +2,7 @@
 id: academic-figure-prompt-pastel
 name: Academic Figure Prompt — Modern ML Airy Style
 version: 4.0.0
-description: Generate prompts for AI image tools to produce modern ML/RL paper-style figures matching the aesthetic of recent ICLR/NeurIPS/ICML 2024-2025 publications. Key traits — pure white canvas, white panels with soft drop shadow, rounded friendly font (Nunito/Poppins), densely packed but uncluttered floating elements, small pastel token squares, rich inline illustrations, colored keyword text, pill-shaped concept labels. Trigger phrases — "pastel风格论文配图", "现代ML论文配图", "modern ML figure prompt".
+description: Use this skill whenever the user wants modern ML or RL paper-style figure prompts matching recent ICLR, NeurIPS, or ICML 2024-2025 aesthetics, needs a soft pastel academic diagram style, or says "pastel风格论文配图", "现代ML论文配图", "modern ML figure prompt", "pastel academic figure", "ICLR 2024 风格图", or "NeurIPS 2025 风格图".
 stages: [writing, research, review]
 tools: [bash]
 ---
@@ -10,6 +10,23 @@ tools: [bash]
 # Academic Figure Prompt — Modern ML Airy Style v4
 
 为学术论文生成**极其详细的英文提示词**，产出的图片风格对标近年 ICLR / NeurIPS / ICML 顶会中常见的**现代柔彩风格**。
+
+## Input Contract
+
+- **优先输入**：图类型、论文/章节内容、现代 ML 风格偏好、配色倾向、参考图、必要标签和公式
+- **最低可用输入**：至少提供图类型 + 主题/方法概述；若缺风格细节则按默认 pastel 方案继续
+- **缺失处理**：信息不足时保留现代柔彩风格骨架，明确说明默认配色与占位细节
+
+## Output Contract
+
+始终输出一个 `Prompt Package`，至少包含：
+
+- 中文图名
+- 适用图类型
+- 最终英文 image prompt
+- 使用的 pastel 方案与关键色值
+- 简短中文风格说明
+- 明确列出的假设或待确认项
 
 ---
 

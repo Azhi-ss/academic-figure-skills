@@ -14,3 +14,4 @@
 # OS文件
 .DS_Store
 Thumbs.db
+.omx/

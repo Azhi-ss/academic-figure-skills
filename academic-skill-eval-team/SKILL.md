@@ -2,7 +2,7 @@
 id: academic-skill-eval-team
 name: Academic Skill Eval Team
 version: 1.0.0
-description: Use this skill whenever the user wants to evaluate a skill or skill pack with an agent team, audit trigger phrases, inspect workflow completeness, stress-test prompt robustness, score output quality, or when the user says "测评这个skill", "创建一个agent team测评", "评估这个 skill pack", "skill evaluation", "evaluate this skill", "agent team review", or "benchmark my skill".
+description: Use this skill whenever the user wants to evaluate a skill or skill pack with an agent team, audit trigger phrases, inspect workflow completeness, score output quality, stress-test prompt robustness, or says "测评这个skill", "创建一个agent team测评", "评估这个skill pack", "skill evaluation", "evaluate this skill", "agent team review", or "benchmark my skill".
 stages: [review, research]
 tools: [bash]
 ---
@@ -21,6 +21,23 @@ tools: [bash]
 4. 作为一个可发布 skill，它的包装与协作链路是否一致？
 
 必须基于仓库证据进行判断，禁止空泛评价。
+
+## Input Contract
+
+- **优先输入**：目标 skill 目录、`SKILL.md`、`manifest.json`、`README.md`、示例文件、相关 docs
+- **最低可用输入**：至少提供一个目标 `SKILL.md` 或一个完整 skill pack 目录
+- **缺失处理**：证据不完整时继续评估可见范围，并在结论中明确说明评测范围与盲区
+
+## Output Contract
+
+始终输出一个结构化 `Skill Eval Report`，至少包含：
+
+- Scope
+- Overall Verdict
+- Scorecard
+- Agent Findings
+- Priority Fixes
+- Retest Prompts
 
 ## Agent Team 组成
 

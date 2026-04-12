@@ -2,7 +2,7 @@
 id: academic-figure-prompt
 name: Academic Figure Prompt
 version: 1.1.0
-description: Use this skill whenever the user wants to generate detailed English prompts for AI image tools (NanoBanana / Gemini / DALL-E / Midjourney) to produce top-conference-quality academic figures — including framework diagrams, network architecture diagrams, pipeline flowcharts, module detail diagrams, comparison/ablation figures, and data pattern grids — especially when the user says "论文配图提示词", "生成论文配图", "学术论文生图", "架构图提示词", "框架图提示词", "顶会风格配图", "CVPR 风格图", "NeurIPS 风格图", "paper figure prompt", "academic diagram prompt", or provides a LaTeX/PDF/Word paper and asks for figure prompts. If the user has not specified a color scheme, you can either use the default Okabe-Ito scheme (recommended) or present the 9 preset palette options and color tool links before generating any prompt.
+description: Use this skill whenever the user wants detailed English prompts for AI image tools to produce top-conference-quality academic figures, needs prompts for framework diagrams, architecture diagrams, pipeline flowcharts, module detail diagrams, comparison figures, or data-pattern grids, or says "论文配图提示词", "生成论文配图", "学术论文生图", "架构图提示词", "框架图提示词", "顶会风格配图", "CVPR 风格图", "NeurIPS 风格图", "paper figure prompt", or "academic diagram prompt".
 stages: [writing, research, review]
 tools: [bash]
 ---
@@ -16,6 +16,23 @@ tools: [bash]
 生成的提示词必须做到三点：**信息密度极高**、**视觉风格精确**、**内容完整无遗漏**。
 
 宁可提示词过长过详细，也绝不能简化省略。学术配图的价值在于精准传达复杂信息，而非美观简洁。
+
+## Input Contract
+
+- **优先输入**：图类型、论文/章节内容、方法或模块描述、必要标签、公式、维度、配色方案、参考图
+- **最低可用输入**：至少提供图类型 + 主题/方法概述；其余缺失时允许以占位约束继续
+- **缺失处理**：核心内容不足时生成骨架级 prompt，并明确哪些细节是占位项、哪些是推断
+
+## Output Contract
+
+始终输出一个 `Prompt Package`，至少包含：
+
+- 中文图名
+- 适用图类型
+- 最终英文 image prompt
+- 使用的配色方案或默认决定
+- 简短中文说明
+- 明确列出的假设或待确认项
 
 ## 工作流程
 

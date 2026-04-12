@@ -2,7 +2,7 @@
 id: academic-repo-analyzer
 name: Academic Repo Analyzer
 version: 1.0.0
-description: Use this skill whenever the user wants to analyze a deep learning/machine learning code repository to understand what it does, identify the model architecture, core algorithms, tech stack, and key innovations, then generate a "quick understanding document" that can be passed to the paper-analyzer skill. Trigger phrases: "分析代码仓库", "仓库分析", "repo analyzer", "analyze this repo", "理解这个代码库", "what does this repo do".
+description: Use this skill whenever the user wants to analyze a deep learning or machine learning code repository, understand what it does, identify its architecture and tech stack, generate a quick understanding document for downstream figure planning, or says "分析代码仓库", "仓库分析", "repo analyzer", "analyze this repo", "理解这个代码库", "what does this repo do", or "code repository analysis".
 stages: [research, review]
 tools: [bash]
 ---
@@ -14,6 +14,23 @@ tools: [bash]
 ## 核心理念
 
 通过系统性地扫描代码仓库结构，提取关键信息，让用户在几分钟内理解一个陌生的 ML/DL 代码仓库。
+
+## Input Contract
+
+- **优先输入**：仓库路径、目录结构、README、依赖文件、入口脚本、核心模型文件、配置文件
+- **最低可用输入**：至少提供 `README.md`、一个入口脚本、一个模型文件中的任意一项
+- **缺失处理**：材料不完整时继续做阶段性分析，并明确标注哪些结论属于推断、哪些仍待确认
+
+## Output Contract
+
+始终输出一个可复用的 `仓库快速理解文档`，至少包含：
+
+- 仓库概览
+- 信息完整度说明
+- 技术栈详情
+- 模型架构分析
+- 工作流程摘要
+- 可交给 `paper-analyzer` 的配图建议
 
 ## 工作流程
 

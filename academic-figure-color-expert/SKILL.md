@@ -2,7 +2,7 @@
 id: academic-figure-color-expert
 name: Academic Figure Color Expert
 version: 1.0.0
-description: Use this skill whenever the user needs help with academic figure color palettes, wants to choose a color scheme for their paper, needs colorblind-safe design advice, or when the user says "学术配图配色", "论文配色方案", "色盲友好配色", "academic color palette", "colorblind safe figure", "paper color scheme".
+description: Use this skill whenever the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, wants a paper color scheme recommendation, or says "学术配图配色", "论文配色方案", "色盲友好配色", "academic color palette", "colorblind safe figure", or "paper color scheme".
 stages: [writing, research]
 tools: [bash]
 ---
@@ -17,6 +17,22 @@ tools: [bash]
 1. **功能优先**：颜色服务于信息传达，而非装饰
 2. **克制简约**：最多 3 种彩色 + 灰色系
 3. **可访问性**：确保色盲读者也能清晰理解
+
+## Input Contract
+
+- **优先输入**：投稿 venue、学科领域、图类型、参考图、用户偏好颜色、可访问性要求
+- **最低可用输入**：至少提供 venue、图类型、学科中的任意一项
+- **缺失处理**：上下文不足时仍要给出保守推荐，并明确说明默认依据与可切换方案
+
+## Output Contract
+
+始终输出一个可下游复用的 `Palette Decision`，至少包含：
+
+- 推荐方案与备选方案
+- 主色/辅色/点缀色 hex 值
+- 适用理由
+- 可访问性说明
+- 可直接交给 prompt skill 的配色 handoff
 
 ---
 

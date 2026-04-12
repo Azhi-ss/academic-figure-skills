@@ -36,33 +36,42 @@ AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / C
 
 | 技能 | 功能 | 触发词 |
 |-----|------|--------|
-| **academic-repo-analyzer** | 分析 ML/DL 代码仓库，识别任务类型、模型架构、技术栈 | "分析代码仓库"、"repo analyzer" |
-| **academic-figure-paper-analyzer** | 分析论文内容，规划需要的配图类型和数量 | "分析论文配图需求"、"论文需要哪些图" |
-| **academic-figure-color-expert** | 9 套预设配色方案，含色盲友好设计原则 | "学术配图配色"、"论文配色方案" |
-| **academic-figure-prompt** | 经典风格（Okabe-Ito / Nature / CVPR）提示词生成 | "论文配图提示词"、"生成论文配图" |
-| **academic-figure-prompt-pastel** | 现代 ML 风格（ICLR / NeurIPS 2024-2025）提示词 | "pastel风格论文配图"、"现代ML论文配图" |
-| **academic-skill-eval-team** | 用多代理团队测评单个 skill 或整个 skill pack | "测评这个skill"、"创建一个agent team测评" |
+| **academic-figure-workflow** | 总入口工作流编排：判断从 repo / paper / prompt / color 哪一步开始，并自动路由到合适 skill | "帮我从仓库到配图走一遍"、"完整论文配图工作流"、"which skill should I use first" |
+| **academic-repo-analyzer** | 分析 ML/DL 代码仓库，识别任务类型、模型架构、技术栈 | "分析代码仓库"、"仓库分析"、"repo analyzer" |
+| **academic-figure-paper-analyzer** | 分析论文内容，规划需要的配图类型和数量 | "分析论文配图需求"、"论文需要哪些图"、"paper figure planning" |
+| **academic-figure-color-expert** | 9 套预设配色方案，含色盲友好设计原则 | "学术配图配色"、"论文配色方案"、"academic color palette" |
+| **academic-figure-prompt** | 经典风格（Okabe-Ito / Nature / CVPR）提示词生成 | "论文配图提示词"、"生成论文配图"、"paper figure prompt" |
+| **academic-figure-prompt-pastel** | 现代 ML 风格（ICLR / NeurIPS 2024-2025）提示词 | "pastel风格论文配图"、"现代ML论文配图"、"modern ML figure prompt" |
+| **academic-skill-eval-team** | 用多代理团队测评单个 skill 或整个 skill pack | "测评这个skill"、"评估这个skill pack"、"benchmark my skill" |
 
 ## 完整工作流
 
 ```
-代码仓库 → repo-analyzer → 快速理解文档 
-                              ↓
-                         paper-analyzer → 配图规划
-                              ↓
-                         color-expert → 配色选择
-                              ↓
-                         figure-prompt → 生成提示词
-                              ↓
+用户请求 → academic-figure-workflow（判断入口）
+                                   ↓
+             repo-analyzer / paper-analyzer / color-expert / figure-prompt
+                                   ↓
+                        结构化 handoff artifact
+                                   ↓
+                           最终英文配图提示词
+                                   ↓
                          NanoBanana/Gemini → 配图
 ```
+
+如果你不知道该先用哪个 skill，可以直接说：
+
+- `帮我从仓库到配图走一遍`
+- `完整论文配图工作流`
+- `which skill should I use first`
+
+总入口 skill 会先判断你当前处于哪一步，再只调用必要的下游 skill，而不是把整套流程强行跑完。
 
 ## Skill 测评
 
 如果你想在发布前检查单个 skill 或整个 skill pack，可以直接说：
 
 - `创建一个agent team测评一下我的这个skill`
-- `评估这个 skill pack 的触发词、流程设计和输出质量`
+- `评估这个skill pack的触发词、流程设计和输出质量`
 - `benchmark my skill before release`
 
 测评团队会从触发词、流程完整性、输出可用性、鲁棒性和整包一致性几个维度给出结构化报告。

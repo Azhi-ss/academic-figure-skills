@@ -8,10 +8,25 @@
   "license": "MIT",
   "skills": [
     {
+      "id": "academic-figure-workflow",
+      "name": "Academic Figure Workflow Orchestrator",
+      "version": "1.0.0",
+      "description": "Use when the user wants an end-to-end academic figure workflow, wants to go from a repository or paper to a figure prompt, or is unsure which academic-figure skill to start with.",
+      "path": "./academic-figure-workflow",
+      "trigger_phrases": [
+        "帮我从仓库到配图走一遍", "完整论文配图工作流", "academic figure workflow",
+        "end-to-end figure pipeline", "from paper to figure prompt",
+        "which skill should I use first"
+      ],
+      "stages": ["research", "writing", "review"],
+      "tools": ["bash"],
+      "tags": ["academic", "workflow", "orchestration", "figure", "prompt", "planning"]
+    },
+    {
       "id": "academic-repo-analyzer",
       "name": "Academic Repo Analyzer",
       "version": "1.0.0",
-      "description": "Analyze deep learning/machine learning code repositories to understand what they do, identify model architecture, core algorithms, tech stack, and key innovations. Generates a \"quick understanding document\" that can be passed to paper-analyzer.",
+      "description": "Use when the user wants to analyze a deep learning or machine learning code repository, understand what it does, identify its architecture and tech stack, or generate a quick understanding document for downstream figure planning.",
       "path": "./academic-repo-analyzer",
       "trigger_phrases": [
         "分析代码仓库", "仓库分析", "repo analyzer",
@@ -26,7 +41,7 @@
       "id": "academic-figure-prompt",
       "name": "Academic Figure Prompt",
       "version": "1.1.0",
-      "description": "Generate extremely detailed English prompts for AI image tools to produce top-conference-quality academic figures. Uses classic Okabe-Ito / Nature / CVPR style, supports 9 preset palettes plus custom colors, and follows the palette decision order: user-specified → scene-recommended → safe default fallback.",
+      "description": "Use when the user wants detailed English prompts for AI image tools to produce top-conference-quality academic figures in the classic academic style, including framework, architecture, module-detail, comparison, and data-pattern diagrams.",
       "path": "./academic-figure-prompt",
       "trigger_phrases": [
         "论文配图提示词", "生成论文配图", "学术论文生图",
@@ -42,7 +57,7 @@
       "id": "academic-figure-prompt-pastel",
       "name": "Academic Figure Prompt — Modern ML Airy Style",
       "version": "4.0.0",
-      "description": "Generate prompts for modern ML/RL paper-style figures matching ICLR/NeurIPS/ICML 2024-2025 aesthetics. Pure white canvas, white panels with soft shadow, rounded fonts, pastel token squares, pill-shaped labels.",
+      "description": "Use when the user wants modern ML or RL paper-style figure prompts matching ICLR, NeurIPS, or ICML 2024-2025 aesthetics, especially with a soft pastel academic diagram style.",
       "path": "./academic-figure-prompt-pastel",
       "trigger_phrases": [
         "pastel风格论文配图", "现代ML论文配图",
@@ -57,7 +72,7 @@
       "id": "academic-figure-paper-analyzer",
       "name": "Academic Paper Analyzer & Figure Planner",
       "version": "1.0.0",
-      "description": "Analyze academic papers to plan which figures to generate. Extracts section structure, identifies figure-worthy content, suggests figure types and count per section.",
+      "description": "Use when the user wants to analyze an academic paper, identify figure-worthy content, and plan which figures to generate by section.",
       "path": "./academic-figure-paper-analyzer",
       "trigger_phrases": [
         "分析论文配图需求", "论文需要哪些图", "论文配图规划",
@@ -72,7 +87,7 @@
       "id": "academic-figure-color-expert",
       "name": "Academic Figure Color Expert",
       "version": "1.0.0",
-      "description": "Academic color palette expert with 9 preset schemes plus colorblind-safe design principles. Helps choose the right palette for your venue and validates accessibility.",
+      "description": "Use when the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, or wants a paper color scheme recommendation.",
       "path": "./academic-figure-color-expert",
       "trigger_phrases": [
         "学术配图配色", "论文配色方案", "色盲友好配色",
@@ -87,7 +102,7 @@
       "id": "academic-skill-eval-team",
       "name": "Academic Skill Eval Team",
       "version": "1.0.0",
-      "description": "Evaluate a skill or skill pack with a multi-agent review team. Audits trigger phrases, workflow completeness, prompt robustness, output usefulness, and pack consistency before release.",
+      "description": "Use when the user wants to evaluate a skill or skill pack with an agent team, audit trigger phrases, inspect workflow completeness, score output quality, or stress-test prompt robustness before release.",
       "path": "./academic-skill-eval-team",
       "trigger_phrases": [
         "测评这个skill", "创建一个agent team测评", "评估这个skill pack",
