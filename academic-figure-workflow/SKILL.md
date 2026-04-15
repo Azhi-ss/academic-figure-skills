@@ -19,10 +19,10 @@ Read the sibling skill files only when their stage is needed:
 
 - `../academic-repo-analyzer/SKILL.md`: Use when the user provides a repository, asks what a codebase does, or needs a quick understanding document before figure planning.
 - `../academic-figure-paper-analyzer/SKILL.md`: Use when the user provides a paper, section draft, abstract, or method description and needs figure planning.
+- `../academic-figure-architecture-extractor/SKILL.md`: Use when the user provides a PDF, wants to extract architecture diagrams, analyze diagram structure, or get color scheme recommendations for existing diagrams.
 - `../academic-figure-color-expert/SKILL.md`: Use when the user asks for palette selection, venue-specific style advice, or accessibility-safe colors.
 - `../academic-figure-prompt/SKILL.md`: Use when the user wants a classic academic figure prompt.
 - `../academic-figure-prompt-pastel/SKILL.md`: Use when the user explicitly wants a modern ML / ICLR / NeurIPS 2024-2025 airy pastel style.
-- `../academic-skill-eval-team/SKILL.md`: Use only when the user wants to evaluate this skill pack or a specific skill before release.
 
 ## Stage Detection
 
@@ -32,12 +32,12 @@ Classify the request into one of these entry states:
    The user has a repository or codebase and wants to understand it before planning figures.
 2. **Paper-first**
    The user has a paper, PDF, outline, or section text and wants figure planning directly.
-3. **Prompt-first**
+3. **Architecture-extraction-first**
+   The user has a PDF and wants to extract architecture diagrams, analyze diagram structure, or get color recommendations for existing diagrams.
+4. **Prompt-first**
    The user already knows the target figure and wants a prompt now.
-4. **Color-first**
+5. **Color-first**
    The user mainly wants palette selection or venue-specific visual style guidance.
-5. **Evaluation**
-   The user wants to audit a skill or the entire pack.
 
 If the user is ambiguous, infer the most likely entry state from the artifacts they provided. Ask only for missing information that blocks the next step.
 
@@ -47,9 +47,9 @@ Use the lightest valid path:
 
 - **Repo-first**: repo analyzer -> paper analyzer if figure planning is requested -> color expert if palette is unspecified -> prompt skill
 - **Paper-first**: paper analyzer -> color expert if palette is unspecified -> prompt skill
+- **Architecture-extraction-first**: architecture extractor -> paper analyzer if figure planning is requested -> color expert if palette is unspecified -> prompt skill
 - **Prompt-first**: choose prompt style -> collect only the minimum missing figure details -> generate prompt
 - **Color-first**: color expert -> optionally continue into prompt generation
-- **Evaluation**: skill-eval-team
 
 Do not force the full chain when the user wants only one stage.
 

@@ -36,26 +36,39 @@ AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / C
 
 | 技能 | 功能 | 触发词 |
 |-----|------|--------|
-| **academic-figure-workflow** | 总入口工作流编排：判断从 repo / paper / prompt / color 哪一步开始，并自动路由到合适 skill | "帮我从仓库到配图走一遍"、"完整论文配图工作流"、"which skill should I use first" |
+| **academic-figure-workflow** | 总入口工作流编排：判断从 repo / paper / prompt / color / 架构图提取哪一步开始，并自动路由到合适 skill | "帮我从仓库到配图走一遍"、"完整论文配图工作流"、"从PDF提取架构图"、"which skill should I use first" |
 | **academic-repo-analyzer** | 分析 ML/DL 代码仓库，识别任务类型、模型架构、技术栈 | "分析代码仓库"、"仓库分析"、"repo analyzer" |
-| **academic-figure-paper-analyzer** | 分析论文内容，规划需要的配图类型和数量 | "分析论文配图需求"、"论文需要哪些图"、"paper figure planning" |
-| **academic-figure-color-expert** | 9 套预设配色方案，含色盲友好设计原则 | "学术配图配色"、"论文配色方案"、"academic color palette" |
+| **academic-figure-paper-analyzer** | 分析论文内容，规划需要的配图类型和数量，可对接架构图提取结果 | "分析论文配图需求"、"论文需要哪些图"、"paper figure planning" |
+| **academic-figure-architecture-extractor** | 从PDF中自动提取架构图、过滤无效图片、分析架构结构、自动匹配配色方案 | "提取论文架构图"、"架构图分析"、"从PDF提取图表"、"architecture diagram extraction" |
+| **academic-figure-color-expert** | 12 套预设配色方案，含色盲友好设计原则，支持架构图自动配色 | "学术配图配色"、"论文配色方案"、"架构图配色"、"academic color palette" |
 | **academic-figure-prompt** | 经典风格（Okabe-Ito / Nature / CVPR）提示词生成 | "论文配图提示词"、"生成论文配图"、"paper figure prompt" |
 | **academic-figure-prompt-pastel** | 现代 ML 风格（ICLR / NeurIPS 2024-2025）提示词 | "pastel风格论文配图"、"现代ML论文配图"、"modern ML figure prompt" |
-| **academic-skill-eval-team** | 用多代理团队测评单个 skill 或整个 skill pack | "测评这个skill"、"评估这个skill pack"、"benchmark my skill" |
 
 ## 完整工作流
 
 ```
 用户请求 → academic-figure-workflow（判断入口）
                                    ↓
-             repo-analyzer / paper-analyzer / color-expert / figure-prompt
+             repo-analyzer / paper-analyzer / architecture-extractor / color-expert / figure-prompt
                                    ↓
                         结构化 handoff artifact
                                    ↓
                            最终英文配图提示词
                                    ↓
                          NanoBanana/Gemini → 配图
+```
+
+### 新增架构图提取工作流
+```
+用户上传PDF → academic-figure-architecture-extractor（自动提取架构图+分析结构+匹配配色）
+                                   ↓
+               academic-figure-paper-analyzer（基于提取结果生成配图规划）
+                                   ↓
+               academic-figure-color-expert（调整配色方案）
+                                   ↓
+               academic-figure-prompt（生成重绘提示词）
+                                   ↓
+               生成标准化的学术架构图
 ```
 
 如果你不知道该先用哪个 skill，可以直接说：
@@ -116,11 +129,11 @@ You: 用 Okabe-Ito 配色，帮我画一个总体框架图
 AI:  [生成极其详细的英文提示词，包含布局、色值、标注、风格规格]
 ```
 
-## 配色方案（9 套）
+## 配色方案（12 套）
 
 | 方案 | 适用场景 |
 |-----|---------|
-| Okabe-Ito | CVPR / NeurIPS / Nature，色盲友好 ⭐ |
+| Okabe-Ito | CVPR / NeurIPS / Nature，色盲友好 ⭐ 默认 |
 | Blue Monochrome | 单色系期刊，灰度打印兼容 |
 | Warm Earth | 生物学、医学影像 |
 | Purple-Green | 数据可视化、IEEE 期刊 |
@@ -129,6 +142,9 @@ AI:  [生成极其详细的英文提示词，包含布局、色值、标注、�
 | ML TopConf Tab10 | Matplotlib 默认，熟悉感强 |
 | ML TopConf Colorblind | Seaborn 色盲友好 |
 | ML TopConf Deep | 多面板消融图 |
+| 灰度打印友好 | 完全兼容黑白印刷，IEEE推荐⭐ 新增 |
+| 学术期刊标准配色 | Nature/Science顶刊官方风格⭐ 新增 |
+| 生物材料/交叉学科专用配色 | 生物材料、材料科学+AI交叉领域⭐ 新增 |
 
 ## 📚 文档与资源
 

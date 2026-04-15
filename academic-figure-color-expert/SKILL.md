@@ -1,8 +1,8 @@
 ---
 id: academic-figure-color-expert
 name: Academic Figure Color Expert
-version: 1.0.0
-description: Use this skill whenever the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, wants a paper color scheme recommendation, or says "学术配图配色", "论文配色方案", "色盲友好配色", "academic color palette", "colorblind safe figure", or "paper color scheme".
+version: 1.1.0
+description: Use this skill whenever the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, wants a paper color scheme recommendation, wants to match a color scheme for extracted architecture diagrams, or says "学术配图配色", "论文配色方案", "色盲友好配色", "学术配色", "架构图配色", "academic color palette", "colorblind safe figure", "paper color scheme", "architecture diagram color matching".
 stages: [writing, research]
 tools: [bash]
 ---
@@ -237,6 +237,77 @@ tools: [bash]
 
 ---
 
+### 方案 10: 灰度打印友好（完全兼容黑白印刷）⭐ 新增
+
+**适用场景：** 仅黑白印刷的期刊、技术报告、灰度打印优先级高的论文
+
+| 角色 | 色值 | 用途 |
+|-----|------|------|
+| primary | `#000000` | 主色 — 核心模块边框、节标签 |
+| secondary | `#333333` | 辅色 — 次要模块边框 |
+| tertiary | `#666666` | 点缀色 — 辅助元素 |
+| text | `#333333` | 正文字色 |
+| fill | `#FFFFFF` | 画布背景（纯白） |
+| section_bg | `#F7F7F7` | 区域背景（极浅灰） |
+| border | `#CCCCCC` | 标准边框 |
+| arrow | `#4D4D4D` | 箭头/线条 |
+
+**特点：**
+- 100% 兼容黑白打印，灰度层级区分明显
+- 对比度高，印刷清晰
+- 完全不需要担心色彩在打印时丢失信息
+- IEEE/ACM 期刊灰度印刷推荐方案
+
+---
+
+### 方案 11: 学术期刊标准配色（Nature/Science 官方风格）⭐ 新增
+
+**适用场景：** Nature/Science/Cell 等顶刊投稿、需要专业权威视觉风格的论文
+
+| 角色 | 色值 | 用途 |
+|-----|------|------|
+| primary | `#1F77B4` | 主色 — 核心模型组件边框 |
+| secondary | `#FF7F0E` | 辅色 — 数据/输入输出 |
+| tertiary | `#2CA02C` | 点缀色 — 算法/处理模块 |
+| accent1 | `#D62728` | 强调色 — 损失/输出 |
+| accent2 | `#9467BD` | 特殊模块色 — 注意力/创新点 |
+| accent3 | `#8C564B` | 硬件/系统模块色 |
+| text | `#1F2937` | 正文字色 |
+| fill | `#FFFFFF` | 画布背景 |
+| section_bg | `#F8FAFC` | 区域背景 |
+| border | `#CBD5E1` | 标准边框 |
+| arrow | `#334155` | 箭头/线条 |
+
+**特点：**
+- 完全符合Nature/Science/Cell 等顶刊的图表配色规范
+- 专业、权威、高辨识度
+- 与顶刊实验图表配色天然一致
+- 色盲友好（红绿色盲可区分）
+
+---
+
+### 方案 12: 生物材料/交叉学科专用配色⭐ 新增
+
+**适用场景：** 生物材料、合成生物学、材料科学与AI交叉领域论文
+
+| 角色 | 色值 | 用途 |
+|-----|------|------|
+| primary | `#0072B2` | 主色 — 核心生物模块/材料结构 |
+| secondary | `#D55E00` | 辅色 — AI/算法模块 |
+| tertiary | `#009E73` | 点缀色 — 实验/结果模块 |
+| accent | `#CC79A7` | 高亮色 — 创新点/特殊材料 |
+| background | `#F0F4F8` | 画布背景（浅蓝调，模拟实验室风格） |
+| text | `#2D3748` | 正文字色 |
+| border | `#A0AEC0` | 标准边框 |
+| arrow | `#2D3748` | 箭头/线条 |
+
+**特点：**
+- 专门为生物材料、材料科学+AI交叉领域设计
+- 蓝色系对应生物/材料部分，橙色系对应AI/算法部分，区分清晰
+- 完全色盲友好，所有颜色对红绿色盲可区分
+- 符合生物医学、材料科学顶刊的配色风格
+---
+
 ## 配色禁忌清单
 
 ### ❌ 绝对禁止
@@ -310,9 +381,11 @@ tools: [bash]
 | 领域 | 推荐方案 |
 |-----|---------|
 | **HCI / CHI** | Teal-Coral / Okabe-Ito |
-| **生物学 / 医学** | Warm Earth / Okabe-Ito |
+| **生物学 / 医学** | Warm Earth / Okabe-Ito / 生物材料/交叉学科专用配色 |
+| **材料科学/生物材料+AI交叉** | 生物材料/交叉学科专用配色 / Okabe-Ito |
 | **机器人学** | Blue Monochrome / Okabe-Ito |
-| **理论计算机科学** | Grayscale / Blue Monochrome |
+| **理论计算机科学** | Grayscale / Blue Monochrome / 灰度打印友好 |
+| **Nature/Science/Cell 顶刊投稿** | 学术期刊标准配色 / Okabe-Ito |
 
 ---
 

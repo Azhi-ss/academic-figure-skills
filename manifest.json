@@ -84,34 +84,35 @@
       "tags": ["academic", "paper", "analysis", "planning", "figure"]
     },
     {
+      "id": "academic-figure-architecture-extractor",
+      "name": "Academic Figure Architecture Extractor & Analyzer",
+      "version": "1.0.0",
+      "description": "Use when the user wants to extract architecture diagrams from academic papers, filter out invalid images, analyze the structure and components of diagrams, automatically match suitable color schemes, or says \"提取论文架构图\", \"架构图分析\", \"从PDF中提取图表\", \"自动分析架构图\", \"architecture diagram extraction\", \"extract figures from pdf\", \"analyze architecture diagram\".",
+      "path": "./academic-figure-architecture-extractor",
+      "trigger_phrases": [
+        "提取论文架构图", "架构图分析", "从PDF提取图表",
+        "自动分析架构图", "architecture diagram extraction",
+        "extract figures from pdf", "analyze architecture diagram"
+      ],
+      "stages": ["research", "writing"],
+      "tools": ["bash", "python"],
+      "tags": ["academic", "architecture", "diagram", "extraction", "pdf", "analysis"]
+    },
+    {
       "id": "academic-figure-color-expert",
       "name": "Academic Figure Color Expert",
-      "version": "1.0.0",
-      "description": "Use when the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, or wants a paper color scheme recommendation.",
+      "version": "1.1.0",
+      "description": "Use when the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, wants a paper color scheme recommendation, wants to match a color scheme for extracted architecture diagrams, or says \"学术配图配色\", \"论文配色方案\", \"色盲友好配色\", \"学术配色\", \"架构图配色\", \"academic color palette\", \"colorblind safe figure\", \"paper color scheme\", \"architecture diagram color matching\".",
       "path": "./academic-figure-color-expert",
       "trigger_phrases": [
         "学术配图配色", "论文配色方案", "色盲友好配色",
-        "academic color palette", "colorblind safe figure",
-        "paper color scheme"
+        "学术配色", "架构图配色", "academic color palette",
+        "colorblind safe figure", "paper color scheme",
+        "architecture diagram color matching"
       ],
       "stages": ["writing", "research"],
       "tools": ["bash"],
       "tags": ["academic", "color", "palette", "colorblind", "accessibility"]
-    },
-    {
-      "id": "academic-skill-eval-team",
-      "name": "Academic Skill Eval Team",
-      "version": "1.0.0",
-      "description": "Use when the user wants to evaluate a skill or skill pack with an agent team, audit trigger phrases, inspect workflow completeness, score output quality, or stress-test prompt robustness before release.",
-      "path": "./academic-skill-eval-team",
-      "trigger_phrases": [
-        "测评这个skill", "创建一个agent team测评", "评估这个skill pack",
-        "skill evaluation", "evaluate this skill", "agent team review",
-        "benchmark my skill"
-      ],
-      "stages": ["review", "research"],
-      "tools": ["bash"],
-      "tags": ["academic", "skill", "evaluation", "agent-team", "review", "benchmark"]
     }
   ]
 }
