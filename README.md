@@ -1,6 +1,6 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-2.4.0-blue)
+![Version](https://img.shields.io/badge/version-2.5.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / Cursor 等 AI 编程助手。从代码仓库分析到论文配图规划，再到高质量提示词生成。
@@ -79,16 +79,6 @@ AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / C
 
 总入口 skill 会先判断你当前处于哪一步，再只调用必要的下游 skill，而不是把整套流程强行跑完。
 
-## Skill 测评
-
-如果你想在发布前检查单个 skill 或整个 skill pack，可以直接说：
-
-- `创建一个agent team测评一下我的这个skill`
-- `评估这个skill pack的触发词、流程设计和输出质量`
-- `benchmark my skill before release`
-
-测评团队会从触发词、流程完整性、输出可用性、鲁棒性和整包一致性几个维度给出结构化报告。
-
 ## 安装
 
 ### 方式 1：npx skills（推荐）
@@ -112,21 +102,27 @@ cp -r academic-figure-skills/* ~/.gemini/skills/
 ## 使用示例
 
 ```
-# Step 1: 分析代码仓库
+# 场景 1: 从代码仓库到配图
 You: 帮我分析这个 ML 代码仓库
 AI:  [扫描文件 → 识别任务类型 → 提取技术栈 → 生成快速理解文档]
 
-# Step 2: 规划论文配图
 You: 基于这份文档，帮我规划论文配图
 AI:  [分析内容 → 识别关键章节 → 输出配图规划报告]
 
-# Step 3: 选择配色方案
 You: 我要投 NeurIPS，推荐什么配色？
 AI:  [推荐 ML TopConf 方案 → 展示色值 → 说明适用场景]
 
-# Step 4: 生成配图提示词
 You: 用 Okabe-Ito 配色，帮我画一个总体框架图
 AI:  [生成极其详细的英文提示词，包含布局、色值、标注、风格规格]
+```
+
+```
+# 场景 2: 从 PDF 提取架构图并重绘
+You: 从这篇 PDF 中提取架构图
+AI:  [扫描 PDF → 提取所有图片 → 过滤非架构图 → 分析架构结构]
+
+You: 用 Nature/Science 顶刊配色重新绘制第一张架构图
+AI:  [匹配配色方案 → 生成重绘提示词 → 标准化架构图]
 ```
 
 ## 配色方案（12 套）

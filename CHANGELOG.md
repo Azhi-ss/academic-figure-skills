@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - 2026-04-15
+
+### Added
+- ✨ **New Skill**: `academic-figure-architecture-extractor` - Extract and analyze architecture diagrams from PDFs, filter invalid images, analyze diagram structure, auto-match color schemes
+- 🎨 **Color Schemes**: Added 3 new palettes (12 total):
+  - Grayscale Print Friendly - IEEE-recommended, 100% black-and-white compatible
+  - Nature/Science Standard - Official top-journal style
+  - Biomaterials Cross-Disciplinary - For materials science + AI intersection
+- 📚 **Documentation**: Added architecture extraction workflow to README
+- 🔧 **Gitignore**: Added `.codex` to ignore list
+
+### Changed
+- 🔄 **Workflow**: Updated `academic-figure-workflow` to support architecture extraction stage
+- 📝 **README**: Removed eval-team section, added architecture extractor usage examples
+- 🔢 **Versioning**: Bumped pack version to `2.5.0`
+
+### Removed
+- ❌ **Deprecated**: `academic-skill-eval-team` (per user request)
+
 ## [2.4.0] - 2026-04-11
 
 ### Added
