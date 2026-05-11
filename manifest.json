@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/anthropics/skills/main/schema.json",
   "name": "academic-figure-skills",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "AI-powered academic figure generation skill pack — parse papers, analyze code repos, plan figures, generate publication-quality prompts with colorblind-safe palettes",
   "author": "Azhi-ss",
   "repository": "https://github.com/Azhi-ss/academic-figure-skills",
@@ -40,14 +40,15 @@
     {
       "id": "academic-figure-prompt",
       "name": "Academic Figure Prompt",
-      "version": "1.1.0",
-      "description": "Use when the user wants detailed English prompts for AI image tools to produce top-conference-quality academic figures in the classic academic style, including framework, architecture, module-detail, comparison, and data-pattern diagrams.",
+      "version": "1.2.0",
+      "description": "Use when the user wants detailed English prompts for AI image tools to produce top-conference-quality academic figures in the classic academic style, including framework, architecture, module-detail, comparison, and data-pattern diagrams. Now supports JSON structured figure specs for precise layout/text control with exact_text_to_render, label hierarchy, and rendering rules.",
       "path": "./academic-figure-prompt",
       "trigger_phrases": [
         "论文配图提示词", "生成论文配图", "学术论文生图",
         "架构图提示词", "框架图提示词", "顶会风格配图",
         "CVPR 风格图", "NeurIPS 风格图",
-        "paper figure prompt", "academic diagram prompt"
+        "paper figure prompt", "academic diagram prompt",
+        "fig JSON spec"
       ],
       "stages": ["writing", "research", "review"],
       "tools": ["bash"],
@@ -101,14 +102,15 @@
     {
       "id": "academic-figure-color-expert",
       "name": "Academic Figure Color Expert",
-      "version": "1.1.0",
-      "description": "Use when the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, wants a paper color scheme recommendation, wants to match a color scheme for extracted architecture diagrams, or says \"学术配图配色\", \"论文配色方案\", \"色盲友好配色\", \"学术配色\", \"架构图配色\", \"academic color palette\", \"colorblind safe figure\", \"paper color scheme\", \"architecture diagram color matching\".",
+      "version": "1.2.0",
+      "description": "Use when the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, wants a paper color scheme recommendation, or wants to match a color scheme for extracted architecture diagrams. Now includes Nature Blue monochrome scheme and monochrome-vs-polychrome philosophy.",
       "path": "./academic-figure-color-expert",
       "trigger_phrases": [
         "学术配图配色", "论文配色方案", "色盲友好配色",
         "学术配色", "架构图配色", "academic color palette",
         "colorblind safe figure", "paper color scheme",
-        "architecture diagram color matching"
+        "architecture diagram color matching",
+        "Nature Blue", "单色系"
       ],
       "stages": ["writing", "research"],
       "tools": ["bash"],

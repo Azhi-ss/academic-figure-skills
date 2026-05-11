@@ -1,8 +1,8 @@
 ---
 id: academic-figure-color-expert
 name: Academic Figure Color Expert
-version: 1.1.0
-description: Use this skill whenever the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, wants a paper color scheme recommendation, wants to match a color scheme for extracted architecture diagrams, or says "学术配图配色", "论文配色方案", "色盲友好配色", "学术配色", "架构图配色", "academic color palette", "colorblind safe figure", "paper color scheme", "architecture diagram color matching".
+version: 1.2.0
+description: Use this skill whenever the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, wants a paper color scheme recommendation, wants to match a color scheme for extracted architecture diagrams, or says "学术配图配色", "论文配色方案", "色盲友好配色", "学术配色", "架构图配色", "academic color palette", "colorblind safe figure", "paper color scheme", "architecture diagram color matching", "Nature Blue", "单色系". Now 13 preset schemes including the new Nature Blue monochrome, plus monochrome-vs-polychrome philosophy.
 stages: [writing, research]
 tools: [bash]
 ---
@@ -13,10 +13,11 @@ tools: [bash]
 
 ## 核心理念
 
-学术配色的三大原则：
+学术配色的四大原则：
 1. **功能优先**：颜色服务于信息传达，而非装饰
 2. **克制简约**：最多 3 种彩色 + 灰色系
 3. **可访问性**：确保色盲读者也能清晰理解
+4. **模块多时默认单色系**：≥ 4 个模块的框架图优先用单色相渐变，比多色相更不容易产生杂乱感
 
 ## Input Contract
 
@@ -286,27 +287,46 @@ tools: [bash]
 
 ---
 
-### 方案 12: 生物材料/交叉学科专用配色⭐ 新增
+### 方案 13: Nature Blue / Deep Blue Monochrome（深蓝单色系）⭐ 新增
 
-**适用场景：** 生物材料、合成生物学、材料科学与AI交叉领域论文
+**适用场景：** Nature/Science 风格材料科学论文、高分子/化学/物理交叉学科、需要专业权威感又不想多色杂乱
 
 | 角色 | 色值 | 用途 |
 |-----|------|------|
-| primary | `#0072B2` | 主色 — 核心生物模块/材料结构 |
-| secondary | `#D55E00` | 辅色 — AI/算法模块 |
-| tertiary | `#009E73` | 点缀色 — 实验/结果模块 |
-| accent | `#CC79A7` | 高亮色 — 创新点/特殊材料 |
-| background | `#F0F4F8` | 画布背景（浅蓝调，模拟实验室风格） |
-| text | `#2D3748` | 正文字色 |
-| border | `#A0AEC0` | 标准边框 |
-| arrow | `#2D3748` | 箭头/线条 |
+| primary | `#1B3A5C` | 主色 — 核心模块边框、节标签（最深的 Navy） |
+| secondary | `#2E6B9E` | 辅色 — 次要模块边框（Medium Blue） |
+| tertiary | `#5BA0D0` | 点缀色 — 输出/结果模块（Light Blue） |
+| gray | `#8EAEC4` | 灰蓝 — 辅助模块边框（Steel Gray） |
+| text | `#333333` | 正文字色 |
+| fill | `#FFFFFF` | 画布背景 |
+| section_bg | `#F7F7F7` | 区域背景 |
+| border | `#CCCCCC` | 标准边框 |
+| arrow | `#4D4D4D` | 箭头/线条 |
 
 **特点：**
-- 专门为生物材料、材料科学+AI交叉领域设计
-- 蓝色系对应生物/材料部分，橙色系对应AI/算法部分，区分清晰
-- 完全色盲友好，所有颜色对红绿色盲可区分
-- 符合生物医学、材料科学顶刊的配色风格
+- 从深 Navy 到浅 Steel Gray 的单一色相渐变，视觉极度统一
+- 比 Blue Monochrome（方案 2）更深沉、更学术、更 "Nature 期刊风"
+- 四个层级颜色天然对应四个模块（HCEA→CFM→CBSG→DPES 由深到浅）
+- 完全色盲友好（仅靠亮度区分）
+- 黑白打印时色阶区分清晰（深→浅→亮灰→浅灰）
+- **实践验证：单一色系比 3 种不同色相更不容易产生 "杂乱感"**
+
+> **推荐场景：** 当你用 Okabe-Ito 或 Teal-Coral 三色方案仍然觉得图 "太花" 时，切换到单色系是最高效的解法。
+
 ---
+
+### 配色哲学：单色系 vs 多色系
+
+| | 单色系 (Blue Monochrome / Nature Blue) | 多色系 (Okabe-Ito / Tab10) |
+|---|---|---|
+| **视觉统一感** | 极强，各模块像一家人 | 弱，各模块各说各话 |
+| **模块区分度** | 靠明度差异 + 边框样式 + 标签 | 靠色相差 + 标签 |
+| **适用场景** | 模块多（≥4 个）的框架图 | 模块少（2-3 个）、需强调对比 |
+| **色盲友好** | 天然友好 | 需选对方案 |
+| **黑白打印** | 优秀 | 一般 |
+| **"杂乱感"风险** | 极低 | 中高 |
+
+> **经验法则：** 模块 ≥ 4 个时，默认用单色系。模块 ≤ 3 个时，可用多色系突出对比。不确定时，单色系永远比多色系安全。
 
 ## 配色禁忌清单
 
@@ -385,7 +405,8 @@ tools: [bash]
 | **材料科学/生物材料+AI交叉** | 生物材料/交叉学科专用配色 / Okabe-Ito |
 | **机器人学** | Blue Monochrome / Okabe-Ito |
 | **理论计算机科学** | Grayscale / Blue Monochrome / 灰度打印友好 |
-| **Nature/Science/Cell 顶刊投稿** | 学术期刊标准配色 / Okabe-Ito |
+| **Nature/Science/Cell 顶刊投稿** | 学术期刊标准配色 / Okabe-Ito / **Nature Blue** |
+| **材料科学/化学/物理** | **Nature Blue** / Blue Monochrome / 灰度打印友好 |
 
 ---
 

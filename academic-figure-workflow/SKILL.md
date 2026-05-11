@@ -67,9 +67,9 @@ If one or two details are missing, proceed with explicit assumptions. If core co
 
 ## Default Decisions
 
-- If no palette is specified, prefer a safe default and say so explicitly. Default to `Okabe-Ito` unless the user's venue or requested style strongly suggests otherwise.
+- If no palette is specified, prefer a safe default and say so explicitly. For frameworks with ≥ 4 modules, default to `Nature Blue` monochrome. Otherwise default to `Okabe-Ito`.
 - If the user mentions ICLR / NeurIPS / ICML 2024-2025 airy pastel aesthetics, route to `academic-figure-prompt-pastel`.
-- Otherwise route to `academic-figure-prompt`.
+- For complex framework/architecture diagrams with many modules, route to `academic-figure-prompt` and suggest the JSON structured spec format for precise layout/text control.
 - If the user has both a repo and a paper, prioritize the paper for figure planning and use the repo only to fill technical gaps.
 
 ## Handoff Artifacts

@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2026-05-11
+
+### Added
+- 📐 **academic-figure-prompt**: JSON Structured Figure Spec output format — `exact_text_to_render`, `relative_position`, `layout_and_content_blocks`, label hierarchy, and `RENDERING_RULES` patterns for precise layout/text control
+- 📝 **academic-figure-prompt**: Text Budget principle — per-element word limits (≤5 for titles, ≤3 for labels, ≤2 for pipeline steps) preventing cluttered figures
+- 🏷️ **academic-figure-prompt**: Label Hierarchy (Primary/Secondary/Caption) — formulas and parameters go to figure captions, not on-figure
+- 🎨 **academic-figure-color-expert**: Nature Blue / Deep Blue Monochrome scheme (#1B3A5C → #2E6B9E → #5BA0D0 → #8EAEC4) — field-validated for 4+ module framework diagrams
+- 🎨 **academic-figure-color-expert**: Monochrome vs Polychrome philosophy section — when to use single-hue vs multi-hue
+
+### Changed
+- 🔄 **academic-figure-prompt**: Quality checklist rebalanced — "text restraint" replaces "max information density"; "caption separation" replaces "no simplification"
+- 🔄 **academic-figure-prompt**: Core philosophy changed from "max information density at all costs" to "labels on figure, details in caption"
+- 🔢 **academic-figure-prompt**: v1.1.0 → v1.2.0
+- 🔢 **academic-figure-color-expert**: v1.1.0 → v1.2.0
+
+### Fixed
+- 🐛 Real-world validation: verbose descriptions in figure specs produce unreadable cluttered output — now prevented by Text Budget + exact_text_to_render pattern
+
 ## [2.5.0] - 2026-04-15
 
 ### Added

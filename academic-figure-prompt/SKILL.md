@@ -1,8 +1,8 @@
 ---
 id: academic-figure-prompt
 name: Academic Figure Prompt
-version: 1.1.0
-description: Use this skill whenever the user wants detailed English prompts for AI image tools to produce top-conference-quality academic figures, needs prompts for framework diagrams, architecture diagrams, pipeline flowcharts, module detail diagrams, comparison figures, or data-pattern grids, or says "论文配图提示词", "生成论文配图", "学术论文生图", "架构图提示词", "框架图提示词", "顶会风格配图", "CVPR 风格图", "NeurIPS 风格图", "paper figure prompt", or "academic diagram prompt".
+version: 1.2.0
+description: Use this skill whenever the user wants detailed English prompts for AI image tools to produce top-conference-quality academic figures, needs prompts for framework diagrams, architecture diagrams, pipeline flowcharts, module detail diagrams, comparison figures, or data-pattern grids. Now also supports JSON structured figure specs for precise layout/text control. Trigger: "论文配图提示词", "生成论文配图", "学术论文生图", "架构图提示词", "框架图提示词", "顶会风格配图", "CVPR 风格图", "NeurIPS 风格图", "paper figure prompt", "academic diagram prompt", "fig JSON spec".
 stages: [writing, research, review]
 tools: [bash]
 ---
@@ -13,9 +13,26 @@ tools: [bash]
 
 ## 核心理念
 
-生成的提示词必须做到三点：**信息密度极高**、**视觉风格精确**、**内容完整无遗漏**。
+生成的提示词必须做到三点：**文字克制**、**视觉风格精确**、**关键信息不遗漏**。
 
-宁可提示词过长过详细，也绝不能简化省略。学术配图的价值在于精准传达复杂信息，而非美观简洁。
+**图上只放短标签和结构，公式、参数、长描述放到 Figure Caption。** 实践反复验证：图上文字越多越杂乱，越少越专业。宁可提示词把布局和视觉写得极其精确，也绝不能让图上塞满段落文字。
+
+### 文字预算原则 (Text Budget)
+
+| 元素 | 字数上限 | 示例 |
+|------|---------|------|
+| 模块标题 | ≤ 5 词 | `HCEA: Hierarchical Co-Evolutionary Architecture` |
+| 子组件标签 | ≤ 3 词 | `P_A Explorers` / `EGD Crossover` |
+| Pipeline 步骤 | ≤ 2 词 primary + ≤ 2 词 secondary | `Diffuse` + `(forward noise)` |
+| 公式标注 | 只保留核心公式，≤ 1 行 | `D = 0.6·Jaccard + 0.4·USR` |
+| 箭头标签 | ≤ 3 词 | `Migration / 10 gen` |
+
+### 标签层级 (Label Hierarchy)
+
+图上文字分两级：
+- **Primary（大号/显眼）**：模块名、步骤名、关键操作。用户扫一眼必须看懂的。
+- **Secondary（小号/可选/可省略）**：方法名、参数范围、补充说明。空间不够时优先砍掉。
+- **Caption（不放图上）**：完整公式推导、超参数列表、边界条件说明。这些属于论文图注。
 
 ## Input Contract
 
@@ -75,10 +92,11 @@ tools: [bash]
 **场景推荐示例：**
 - `NeurIPS / ICML / ICLR` → `ML TopConf Colorblind` / `ML TopConf Tab10`
 - `Nature / Science / CVPR` → `Okabe-Ito`
+- `材料科学 / 化学 / 多模块框架图` → `Nature Blue`（单色相，最不易杂乱）
 - `HCI / CHI` → `Teal-Coral`
 - `生物 / 医学` → `Warm Earth` / `Okabe-Ito`
 
-**或者查看全部 9 套预设配色方案：**
+**或者查看全部 10 套预设配色方案：**
 
 | # | 方案名 | 风格定位 | 主色 | 辅色 | 点缀色 |
 |---|--------|----------|------|------|--------|
@@ -91,6 +109,7 @@ tools: [bash]
 | G | ML TopConf Tab10 | Matplotlib 默认，熟悉感强 | tab:blue `#1F77B4` | tab:orange `#FF7F0E` | tab:green `#2CA02C` |
 | H | ML TopConf Colorblind | Seaborn 色盲友好 | `#0173B2` | `#DE8F05` | `#029E73` |
 | I | ML TopConf Deep | Seaborn Deep，柔和稳定，适合多面板密集布局 | `#4C72B0` | `#DD8452` | `#55A868` |
+| J | **Nature Blue** ⭐ 新增 | 单色相渐变，4+ 模块框架图首选，视觉最统一 | Navy `#1B3A5C` | Medium Blue `#2E6B9E` | Light Blue `#5BA0D0` |
 
 **额外入口：自定义配色**
 
@@ -438,19 +457,151 @@ pathways, embedded thumbnail visualizations, and dense annotations"].
 
 生成每个提示词后，对照以下清单自检：
 
-- [ ] **信息密度**：每个模块框内都有子内容（子框、缩略图、公式），没有空白框
+- [ ] **文字克制**：每个标签 ≤ 5 词，公式 ≤ 1 行。没有段落文字出现在图上。
+- [ ] **标签层级**：Primary 标签突出，Secondary 标签收窄/可省略。Details 留给 caption。
 - [ ] **色彩克制**：仅使用 2-3 种色彩，无多余颜色
 - [ ] **白色主导**：≥70% 面积为白色/近白色，无彩色背景面板
 - [ ] **边框而非填充**：模块用白色填充 + 彩色/灰色细边框，而非彩色填充
 - [ ] **分区方式**：用 small-caps 文字标签 + 灰色分割线，不用彩色 banner bar
-- [ ] **维度标注**：所有主要数据流箭头上都标注了维度（如 R^(N×D)）
-- [ ] **公式标注**：关键操作旁有对应数学公式
-- [ ] **缩略图嵌入**：至少 50% 的模块内嵌入了单色/双色缩略可视化
-- [ ] **完整性**：论文中描述的所有组件都在图中体现，无遗漏
+- [ ] **维度标注**：主要数据流箭头上标注了维度（如 R^(N×D)），但不过度
+- [ ] **公式精简**：仅核心公式留在图上（≤ 1 行），完整推导在图注中
+- [ ] **缩略图嵌入**：关键模块内嵌入了单色/双色缩略可视化
+- [ ] **完整性**：论文中所有核心组件都在图中体现，无遗漏
 - [ ] **连接清晰**：并行路径、残差连接、反馈环路都有明确描述
 - [ ] **风格规格**：末尾包含完整的 STYLE SPECIFICATIONS 段落（含色值约束和禁止项）
-- [ ] **无简化**：没有用 "..." 或 "etc." 省略任何内容
+- [ ] **Caption 分离**：详细公式、参数列表、边界条件留给 Figure Caption，不堆在图上
 - [ ] **灰度测试**：描述确保图片在黑白打印时仍可完整阅读
+
+---
+
+## JSON 结构化配图规范 (推荐替代纯文本 Prompt)
+
+当用户需要精确控制画面布局、文字位置和渲染规则时，输出以下 JSON 格式。**实践表明：JSON 结构化 spec 比纯英文 prompt 生成的图更可控、更干净。**
+
+### JSON 顶层结构
+
+```json
+{
+  "diagram_type": "图表类型标签",
+  "diagram_title_rendering": "None",
+  "style_and_colors": { ... },
+  "layout_and_content_blocks": [ ... ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [ ... ]
+}
+```
+
+### `layout_and_content_blocks` 核心模式
+
+每个 block 描述图上一个区域，关键字段：
+
+| 字段 | 用途 | 示例 |
+|------|------|------|
+| `relative_position` | 画面中的相对位置 | `"Top Left"`, `"Mid-Right"` |
+| `shape` | 框的形状、颜色、边框样式、填充 | `"Dark Navy Blue (#1B3A5C) 2px dashed border, white fill"` |
+| `exact_title_to_render_inside` | 模块标题 — 图上就渲染这几个词 | `"HCEA: Hierarchical Co-Evolutionary Architecture"` |
+| `exact_label` | 组件标签 — 精确到词 | `"Input"` |
+| `exact_text` | 任何显示文字 | `"MMPolymer Transformer\nPredicts Tg & Dk"` |
+| `exact_floating_text` | 浮在箭头旁、图标旁的小字 | `"Valid linear polymer"` |
+| `secondary_note` | 二级小字，空间不够时可省略 | `"(ETKDGv3)"` |
+| `icon` | 图标描述（始终单色灰阶线稿） | `"Compass icon, thin Dark Navy Blue line art"` |
+| `flow` | 该 block 后的箭头方向、颜色、样式 | `"Horizontal arrow pointing RIGHT to CFM container"` |
+| `failure_branch` / `success_branch` | 条件分支 | fail: red arrow to trash; pass: green arrow to next |
+| `branch_yes` / `branch_no` | Diamond 决策节点分支 | yes: → output; no: dashed loop back |
+| `internal_content.layout` | 内部布局描述 | `"Three equal-width vertical columns"` |
+
+### 文字精确控制原则（最重要）
+
+- 所有显示在画面上的文字，必须通过 `exact_*` 字段锁定，**不允许生成工具自行编造文字**
+- 主标签 `exact_label` 用 ≤ 2 词，`secondary_note` 用 ≤ 2 词（字号减半）
+- 完整公式、参数列表通过 `caption_note` 标记为"放图注"，**不在图上渲染**
+- 所有 `exact_text` 中可以用 `\n` 断行，但每行 ≤ 5 词
+
+### Pipeline 标签层级示例
+
+```json
+{
+  "step_1": {
+    "icon": "SMILES text string icon",
+    "exact_label": "Input",
+    "secondary_note": "SMILES"
+  },
+  "step_2": {
+    "icon": "2D → 3D molecular transform icon",
+    "exact_label": "Embed",
+    "secondary_note": "ETKDGv3"
+  }
+}
+```
+
+> 生成工具看到 `exact_label: "Input"` 就在图标下渲染 "Input"，看到 `secondary_note: "SMILES"` 就在下面用小字渲染 "SMILES"。没有 `description` 字段给生成工具自由发挥。
+
+### RENDERING_RULES 范式
+
+```json
+"RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+  "NEVER render JSON keys, field names, or underscores as visible text.",
+  "Render text ONLY within designated exact_* fields.",
+  "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+  "Icons are monochrome thin grey line art. No colored icons.",
+  "Feedback loop arrows are DASHED. Main forward flow arrows are SOLID.",
+  "No gradients, no 3D effects, no shadows. Flat vector style throughout.",
+  "Canvas is pure white (#FFFFFF). No background tint, no watermark."
+]
+```
+
+### 完整 JSON 示例（精简版总体框架图）
+
+```json
+{
+  "diagram_type": "Scientific Closed-Loop System Architecture",
+  "diagram_title_rendering": "None",
+  "style_and_colors": {
+    "background": "White (#FFFFFF)",
+    "main_block_color_palette": {
+      "Module_A": "Dark Navy Blue (#1B3A5C) dashed border, white fill",
+      "Module_B": "Medium Blue (#2E6B9E) dashed border, white fill",
+      "Aux_block": "Steel Gray (#8EAEC4) thin solid border, white fill"
+    },
+    "flow_arrow_colors": {
+      "main_forward_flow": "Dark Grey (#4D4D4D) straight arrows",
+      "feedback_loop": "Dark Grey (#4D4D4D) dashed curved arrow"
+    }
+  },
+  "layout_and_content_blocks": [
+    {
+      "relative_position": "Top Left",
+      "shape": "Rounded rectangular box, Light Blue thin border, white fill",
+      "exact_text_to_render": "BRICS Fragment Library\n→ Initial Population",
+      "flow": "Horizontal arrow pointing RIGHT to Main Module"
+    },
+    {
+      "relative_position": "Top Center",
+      "shape": "Large rectangular container, Dark Navy Blue 2px dashed border, white fill",
+      "exact_title_to_render_inside": "Module A: Name",
+      "internal_content": {
+        "layout": "Three equal-width vertical columns",
+        "column_1": { "exact_header": "Sub-A", "icon": "compass icon", "exact_text_below_icon": "Operation" }
+      },
+      "flow": "Horizontal arrow pointing RIGHT to Module B"
+    }
+  ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+    "NEVER render JSON keys as visible text.",
+    "All boxes use WHITE fill with COLORED BORDERS only."
+  ]
+}
+```
+
+### 何时用 JSON 格式 vs 纯文本 Prompt
+
+| 场景 | 推荐格式 |
+|------|---------|
+| 框架图、架构图（模块多、流程复杂） | JSON spec |
+| 需要精确控制每个位置的文字 | JSON spec |
+| 需要反复迭代调优 | JSON spec |
+| 简单示意图（≤ 3 个模块） | 纯文本 prompt |
+| 数据图、热力图、曲线图 | 纯文本 prompt |
+| 用户明确要求 "给我一段 prompt" | 纯文本 prompt |
 
 ---
 
@@ -458,10 +609,33 @@ pathways, embedded thumbnail visualizations, and dense annotations"].
 
 每个提示词用 markdown 代码块包裹：
 
+### 适用 JSON Spec 时
+
 ```markdown
 ### 图 X.Y — [中文图名]
 
-适用类型：[框架图/架构图/模块图/对比图/模板图]
+适用类型：[框架图/架构图/模块图/对比图]
+配色方案：[已选方案名]
+推荐分辨率：[宽高比]
+
+#### 信息完整度说明
+- **已分析材料**：[论文、摘要、章节、参考图]
+- **当前输出类型**：JSON 结构化配图规范
+- **配色来源**：用户指定 / 场景推荐 / 默认方案
+- **Caption 预留**：[应该放到图注中的公式、参数、边界条件]
+- **待确认信息**：[需要用户核实的模块名、公式、布局]
+
+​```json
+[JSON 结构化配图规范]
+​```
+```
+
+### 适用纯文本 Prompt 时
+
+```markdown
+### 图 X.Y — [中文图名]
+
+适用类型：[框架图/架构图/模块图/对比图]
 配色方案：[已选方案名]
 推荐分辨率：[建议的宽高比，如 16:9, 3:2]
 
@@ -471,7 +645,7 @@ pathways, embedded thumbnail visualizations, and dense annotations"].
 - **配色来源**：用户指定 / 场景推荐 / 默认安全方案
 - **高置信信息**：[已明确出现的模块、流程、术语、配色或风格要求]
 - **待确认信息**：[公式、维度、具体模块命名、实验面板数量等]
-- **建议补充材料**：[最值得补充的 1-3 项]
+- **Caption 预留**：[应该移到图注的内容]
 
 ​```
 [完整英文提示词]
