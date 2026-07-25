@@ -16,3 +16,8 @@
 Thumbs.db
 .omx/
 .codex
+
+# Local agent/harness path configs (machine-specific)
+.agents/
+skills.json
+
