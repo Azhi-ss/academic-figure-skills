@@ -1,67 +1,66 @@
 # Example: Paper Analyzer Output
 
-This example shows the output from the `academic-figure-paper-analyzer` skill.
+Output shape from `academic-figure-paper-analyzer` (Figure Plan). Palette = **names only**; hex comes later from color-expert / `docs/palettes.md`.
 
 ---
 
 # 论文配图规划报告
 
-## 📄 论文基本信息
+## 论文概览
 
 | 项目 | 内容 |
 |-----|------|
 | **论文主题** | 高效扩散模型的注意力机制优化 |
+| **主要贡献** | 降低 cross-attn 计算成本，同时保持生成质量 |
 | **目标会议** | NeurIPS 2024 |
-| **推荐配色** | ML TopConf Colorblind |
-| **预估配图数** | 6-8 幅 |
+| **推荐配图总数** | 6–8 |
 
-## 📋 章节结构与配图规划
+## 信息完整度说明
 
-### 1. Introduction（引言）
-**配图建议：**
-- Figure 1: Overall Framework - 总体框架图，展示完整的扩散模型流程
-- 风格：经典学术风格，Okabe-Ito 配色
+- **已分析材料**：摘要 + Method + Experiments 草稿；repo quick-understanding doc
+- **当前输出类型**：完整规划
+- **高置信信息**：需要 framework / U-Net arch / attention module / ablation
+- **待确认信息**：是否单独出 noise-schedule 图
+- **建议补充材料**：最终实验表（FID/IS 列）
 
-### 2. Related Work（相关工作）
-**配图建议：**
-- 无需独立配图，可在 Figure 1 中加入对比元素
+## 章节配图规划
 
-### 3. Method（方法）
-**配图建议：**
-- Figure 2: Network Architecture - U-Net 详细架构图
-- Figure 3: Attention Module - 改进的注意力模块细节
-- Figure 4: Computation Graph - 计算流程对比图（我们的 vs 标准）
+### 1. Introduction
+- **Overall Framework** × 1（must）— 噪声 → 去噪 → 图像；标出改进 attn 位置  
+- 宽高比 16:9
 
-### 4. Experiments（实验）
-**配图建议：**
-- Figure 5: Qualitative Results - 生成样本质量对比
-- Figure 6: Quantitative Results - FID/IS 指标对比柱状图
-- Figure 7: Ablation Study - 消融实验多面板图
+### 2. Related Work
+- 无独立图；对比并入 framework 或 ablation
 
-### 5. Conclusion（结论）
-**配图建议：**
-- 可复用 Figure 5 的精选样本作为总结
+### 3. Method
+- **Network Architecture** × 1（must）— U-Net 层级 + attn 插入点  
+- **Module Detail** × 1（must）— 改进注意力内部数据流  
+- **Comparison** × 1（strong）— 计算图 ours vs standard
 
-## 🎨 配色方案推荐
+### 4. Experiments
+- **Comparison / Ablation** × 1–2（strong）— 样本网格 + 消融多面板  
+- **Data Behavior** × 1（medium）— 可选效率曲线
 
-**主方案：ML TopConf Colorblind**
-- 适用场景：NeurIPS / ICML / ICLR
-- 特点：色盲友好，读者熟悉
+## 优先级
 
-**备选方案：Okabe-Ito**
-- 适用场景：CVPR / Nature / Science
-- 特点：Nature Methods 推荐，最通用
+| 优先级 | 图 |
+|--------|----|
+| must | Framework, Network Architecture, Attention Module Detail |
+| strong | Computation comparison, Qualitative grid, Ablation |
+| nice | Extra metric charts |
 
-## ✅ 配图检查清单
+## 配色 handoff（→ color-expert）
 
-- [ ] Figure 1: 总体框架图，包含噪声调度、U-Net、VAE
-- [ ] Figure 2: U-Net 架构，标注注意力模块位置
-- [ ] Figure 3: 注意力模块细节，展示改进点
-- [ ] Figure 4: 计算效率对比（我们的 vs 标准）
-- [ ] Figure 5: 生成样本质量对比（我们的 vs 基线）
-- [ ] Figure 6: 量化指标对比（FID, IS, 推理速度）
-- [ ] Figure 7: 消融实验（各组件的贡献）
+不要在本阶段展开 hex 表。
+
+```
+venue: NeurIPS
+domain: generative CV
+figure_types: framework, architecture, module, ablation
+module_count_framework: 4+
+hint: prefer ML TopConf Colorblind; alternate Okabe-Ito
+```
 
 ---
 
-*This is an example output for demonstration purposes.*
+*Demonstration output only.*

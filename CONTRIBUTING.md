@@ -101,13 +101,14 @@ tools: [bash, glob, read, write]
 
 A good skill should include:
 
-1. **核心理念** - Define the skill's values and principles
-2. **工作流程** - Step-by-step operation guide
-3. **模板/词汇表** - Reusable component library
-4. **质量检查清单** - Validation standards
-5. **输出格式** - Standard output template
-6. **注意事项** - Boundary conditions and best practices
-7. **与其他技能配合** - How it fits into the workflow
+1. **Input / Output Contract** — minimum inputs, deliverable shape
+2. **Steps with completion criteria** — checkable done conditions per step
+3. **Pointers to disclosed reference** — large tables/schemas live in sibling `.md` files (e.g. `docs/palettes.md`), not duplicated in every skill
+4. **Stop conditions** — when to halt vs continue downstream
+5. **Sparse-input cases** — partial results labeled `推断` / `待确认` (see `docs/missing-info-policy.md`)
+
+Do **not** paste the full palette hex tables into new skills — load `docs/palettes.md`.
+Keep descriptions short: one leading job + distinct trigger branches; no implementation counts (“13 presets”).
 
 ### Trigger Phrases
 

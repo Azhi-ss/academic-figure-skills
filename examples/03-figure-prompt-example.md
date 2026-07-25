@@ -1,70 +1,121 @@
 # Example: Figure Prompt Output
 
-This example shows the output from the `academic-figure-prompt` skill.
+Default deliverable from `academic-figure-prompt`: **JSON figure spec** + Palette Decision hex from `docs/palettes.md`.
 
 ---
 
-# 学术配图提示词（Okabe-Ito 配色）
+### 图 1 — 扩散模型总体框架图
 
-## 🎨 配色方案确认
+适用类型：Overall Framework  
+配色方案：Okabe-Ito（用户指定 / scene: CVPR）  
+推荐分辨率：16:9
 
-| 颜色 | Hex | 用途 |
-|------|-----|------|
-| Steel Blue | `#0072B2` | 主流程、主要模块边框 |
-| Warm Orange | `#E69F00` | 辅流程、次要模块边框 |
-| Bluish Green | `#009E73` | 创新点高亮 |
-| Vermillion | `#D55E00` | 损失/优化模块 |
-| Sky Blue | `#56B4E9` | 连接箭头 |
-| Yellow | `#F0E442` | 标注背景 |
-| Black | `#000000` | 文字、细边框 |
-| Dark Gray | `#666666` | 辅助线、次要文字 |
-| Light Gray | `#CCCCCC` | 背景分隔线 |
-
----
-
-## 📝 总体框架图提示词
+#### Palette Decision（handoff）
 
 ```
-A highly detailed, information-dense academic paper overall framework diagram in the style of top-tier CVPR/Nature publications. The diagram illustrates a diffusion model for image generation, arranged as a horizontal pipeline from left (input) to right (output).
-
-=== LEFT SECTION: INPUT ===
-White background panel with light gray `#CCCCCC` border, small-caps label "INPUT" at top-left in dark gray `#666666`. Inside:
-- Gaussian noise distribution visualization (monochrome, bell curve)
-- Text embedding representation (sequence of small squares)
-- Label: "x_T ~ N(0, I)" and "c" in small black text
-
-=== CENTER SECTION: DENOISING ===
-White background panel with light gray `#CCCCCC` border, small-caps label "DENOISING PROCESS" at top-left in dark gray `#666666`. Inside:
-- U-Net architecture overview with steel blue `#0072B2` border
-- Time embedding module with warm orange `#E69F00` border
-- Cross-attention module highlighted with bluish green `#009E73` border
-- All modules have WHITE FILL, no colored fill
-- Arrows show data flow, labeled with dimensions
-- Repeat indicator "×50" in light gray dashed box
-
-=== RIGHT SECTION: OUTPUT ===
-White background panel with light gray `#CCCCCC` border, small-caps label "OUTPUT" at top-left in dark gray `#666666`. Inside:
-- Generated image preview (monochrome sketch placeholder)
-- VAE decoder icon with steel blue `#0072B2` border
-- Label: "x_0" in small black text
-
-=== GLOBAL ELEMENTS ===
-- Horizontal arrows connecting sections, sky blue `#56B4E9`
-- Formula: "ε_θ(x_t, t, c)" centered above U-Net
-- Legend at bottom-right showing color meanings
-- No gradient, no 3D effects, no photorealistic elements
-
-=== STYLE SPECIFICATIONS ===
-- Background: Pure white `#FFFFFF`
-- Font: Clean sans-serif (Computer Modern / Latin Modern style)
-- Line weight: 1.5pt for main borders, 0.75pt for secondary
-- Resolution: 300 DPI, 16:9 aspect ratio
-- NO GRADIENT, NO SHADING, NO PHOTOREALISTIC ELEMENTS
-- Vector illustration, technical diagram style
-
-Make sure every module box contains sub-content, dimensions are labeled on all main arrows, and at least 50% of modules have embedded monochrome thumbnail visualizations. The diagram should be readable in grayscale.
+palette: Okabe-Ito
+primary / secondary / tertiary: #0072B2 / #E69F00 / #009E73
+text / fill / section_bg / border / arrow: #333333 / #FFFFFF / #F7F7F7 / #CCCCCC / #4D4D4D
+reason: user-specified; colorblind-safe CVPR default
+accessibility: colorblind-safe
 ```
+
+#### 信息完整度说明
+
+- **已分析材料**：方法概述 + 用户指定 Okabe-Ito
+- **当前输出类型**：JSON 结构化配图规范
+- **Caption 预留**：完整 ε 预测目标公式、采样步数超参
+- **待确认信息**：U-Net 内部通道数是否上图
+
+```json
+{
+  "diagram_type": "Diffusion Overall Framework",
+  "diagram_title_rendering": "None",
+  "style_and_colors": {
+    "background": "White (#FFFFFF)",
+    "main_block_color_palette": {
+      "Input": "Steel Blue (#0072B2) 1.5px solid border, white fill",
+      "Denoise": "Steel Blue (#0072B2) 1.5px solid border, white fill",
+      "Attention": "Bluish Green (#009E73) 1.5px solid border, white fill",
+      "TimeEmbed": "Warm Orange (#E69F00) 1.5px solid border, white fill",
+      "Output": "Steel Blue (#0072B2) 1.5px solid border, white fill"
+    },
+    "flow_arrow_colors": {
+      "main_forward_flow": "Dark Grey (#4D4D4D) solid arrows"
+    }
+  },
+  "layout_and_content_blocks": [
+    {
+      "relative_position": "Left",
+      "shape": "Rounded rect, #CCCCCC thin border, white fill",
+      "exact_title_to_render_inside": "INPUT",
+      "internal_content": {
+        "layout": "vertical stack",
+        "item_1": {
+          "icon": "monochrome bell-curve thumbnail",
+          "exact_label": "Noise",
+          "secondary_note": "x_T"
+        },
+        "item_2": {
+          "icon": "token squares row",
+          "exact_label": "Condition",
+          "secondary_note": "c"
+        }
+      },
+      "flow": "Horizontal arrow RIGHT to Denoising"
+    },
+    {
+      "relative_position": "Center",
+      "shape": "Large rounded rect, Steel Blue (#0072B2) border, white fill",
+      "exact_title_to_render_inside": "DENOISING",
+      "internal_content": {
+        "layout": "three columns",
+        "column_1": {
+          "exact_label": "U-Net",
+          "secondary_note": "backbone"
+        },
+        "column_2": {
+          "exact_label": "Time Emb",
+          "shape_hint": "Warm Orange border"
+        },
+        "column_3": {
+          "exact_label": "Cross-Attn",
+          "shape_hint": "Bluish Green border"
+        },
+        "badge": {
+          "exact_floating_text": "×50"
+        }
+      },
+      "caption_note": "ε_θ(x_t, t, c) full objective in figure caption",
+      "flow": "Horizontal arrow RIGHT to Output"
+    },
+    {
+      "relative_position": "Right",
+      "shape": "Rounded rect, #CCCCCC thin border, white fill",
+      "exact_title_to_render_inside": "OUTPUT",
+      "internal_content": {
+        "item_1": {
+          "icon": "monochrome image sketch",
+          "exact_label": "x_0"
+        },
+        "item_2": {
+          "exact_label": "VAE Dec"
+        }
+      }
+    }
+  ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+    "Render text ONLY within designated exact_* fields.",
+    "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+    "Icons are monochrome thin grey line art.",
+    "Flat vector: no gradients, no 3D.",
+    "Canvas is pure white (#FFFFFF)."
+  ]
+}
+```
+
+> 简单数据图或用户明确要求 prose 时，才退回纯文本 prompt（见 skill `json-schema.md`）。
 
 ---
 
-*This is an example output for demonstration purposes.*
+*Demonstration output only.*

@@ -85,6 +85,27 @@
 
 ---
 
+## 权重状态与组件表达规范
+
+在 AI 架构图（如 CLIP, LoRA, ScentCLIP, LLaVA）中，区分**冻结权重 (Frozen Weights)** 与 **可训练权重 (Trainable Weights)** 是极常见的需求。
+
+### 禁用法则：避免 Emoji 图标
+
+❌ **不推荐使用 Emoji/卡通图标**（如 🔥 火焰、❄️ 雪花、🔒 锁头、⚡ 闪电）：
+- AI 生图模型极易对 Emoji 产生扭曲、过摄或伪影。
+- Emoji 会破坏期刊级（Nature/NeurIPS/CVPR）严肃学术图表的矢量统一感。
+
+### 4 种标准学术表达模式
+
+| 模式 | 适用场景 | 冻结组件 (Frozen) 表达 | 可训练组件 (Trainable) 表达 | Prompt 关键短语 |
+| :--- | :--- | :--- | :--- | :--- |
+| **模式 A：虚实边框 + 胶囊 (推荐)** | NeurIPS / CVPR / ICML | 灰色虚线边框 (`Dashed border`) + `[Fixed]` 胶囊 | 高亮加粗实线边框 (`Solid bold border`) + `[Tune]` 胶囊 | `thin grey dashed border with subtle [Fixed] pill badge` vs `bold solid border with [Tune] pill badge` |
+| **模式 B：纯小字标注** | Nature / Science / Cell | 白色底 + 细边框 + 下标小字 `(fixed)` | 饱满填色 + 实线框 + 下标小字 `(trainable)` | `subscript label (fixed)` vs `subscript label (trainable)` |
+| **模式 C：工程斜线阴影** | IEEE Trans / ACM / CAD | 内部填充斜线阴影 (`Diagonal stripe hatching pattern`) | 纯色填充无阴影 (`Solid color fill`) | `diagonal stripe hatching texture fill` vs `solid vibrant fill` |
+| **模式 D：灰度-彩度强对比** | HCI / 简报与开题报告 | 低饱冷灰色填充 (`Muted Cool Gray #F1F5F9`) | 高饱鲜艳色彩填充 (`Vibrant Accent Fill`) | `muted slate gray fill` vs `vibrant accent fill` |
+
+---
+
 ## 字体与排版
 
 ### 字体选择

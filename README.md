@@ -1,6 +1,6 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-2.5.0-blue)
+![Version](https://img.shields.io/badge/version-2.8.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / Cursor 等 AI 编程助手。从代码仓库分析到论文配图规划，再到高质量提示词生成。
@@ -36,13 +36,13 @@ AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / C
 
 | 技能 | 功能 | 触发词 |
 |-----|------|--------|
-| **academic-figure-workflow** | 总入口工作流编排：判断从 repo / paper / prompt / color / 架构图提取哪一步开始，并自动路由到合适 skill | "帮我从仓库到配图走一遍"、"完整论文配图工作流"、"从PDF提取架构图"、"which skill should I use first" |
-| **academic-repo-analyzer** | 分析 ML/DL 代码仓库，识别任务类型、模型架构、技术栈 | "分析代码仓库"、"仓库分析"、"repo analyzer" |
-| **academic-figure-paper-analyzer** | 分析论文内容，规划需要的配图类型和数量，可对接架构图提取结果 | "分析论文配图需求"、"论文需要哪些图"、"paper figure planning" |
-| **academic-figure-architecture-extractor** | 从PDF中自动提取架构图、过滤无效图片、分析架构结构、自动匹配配色方案 | "提取论文架构图"、"架构图分析"、"从PDF提取图表"、"architecture diagram extraction" |
-| **academic-figure-color-expert** | 12 套预设配色方案，含色盲友好设计原则，支持架构图自动配色 | "学术配图配色"、"论文配色方案"、"架构图配色"、"academic color palette" |
-| **academic-figure-prompt** | 经典风格（Okabe-Ito / Nature / CVPR）提示词生成 | "论文配图提示词"、"生成论文配图"、"paper figure prompt" |
-| **academic-figure-prompt-pastel** | 现代 ML 风格（ICLR / NeurIPS 2024-2025）提示词 | "pastel风格论文配图"、"现代ML论文配图"、"modern ML figure prompt" |
+| **academic-figure-workflow** | 总入口路由：判断 repo / paper / prompt / color / 架构分析 入口，只加载必要 sibling | "帮我从仓库到配图走一遍"、"完整论文配图工作流"、"which skill should I use first" |
+| **academic-repo-analyzer** | ML/DL 仓库快速理解文档（任务、栈、架构、配图线索） | "分析代码仓库"、"仓库分析"、"repo analyzer" |
+| **academic-figure-paper-analyzer** | 论文配图规划（类型、数量、优先级） | "分析论文配图需求"、"论文需要哪些图"、"paper figure planning" |
+| **academic-figure-architecture-extractor** | 架构图/PDF 图结构分析与重绘参数 | "提取论文架构图"、"架构图分析"、"architecture diagram extraction" |
+| **academic-figure-color-expert** | Palette Decision（12 套预设，色盲友好） | "学术配图配色"、"论文配色方案"、"academic color palette" |
+| **academic-figure-prompt** | 经典学术 JSON 配图规范（默认） | "论文配图"、"学术配图JSON"、"paper figure prompt" |
+| **academic-figure-prompt-pastel** | 现代 ML 柔彩 / ICLR–NeurIPS airy 风格英文 prompt | "pastel风格论文配图"、"现代ML论文配图" |
 
 ## 完整工作流
 
@@ -53,31 +53,22 @@ AI 驱动的学术论文配图技能包，适用于 Claude Code / Gemini CLI / C
                                    ↓
                         结构化 handoff artifact
                                    ↓
-                           最终英文配图提示词
+                    JSON figure spec 或英文 prompt
                                    ↓
                          NanoBanana/Gemini → 配图
 ```
 
-### 新增架构图提取工作流
+架构图路径：
+
 ```
-用户上传PDF → academic-figure-architecture-extractor（自动提取架构图+分析结构+匹配配色）
-                                   ↓
-               academic-figure-paper-analyzer（基于提取结果生成配图规划）
-                                   ↓
-               academic-figure-color-expert（调整配色方案）
-                                   ↓
-               academic-figure-prompt（生成重绘提示词）
-                                   ↓
-               生成标准化的学术架构图
+PDF/图 → architecture-extractor → (paper-analyzer) → color-expert → prompt → 重绘
 ```
 
-如果你不知道该先用哪个 skill，可以直接说：
+不知道从哪开始时直接说：
 
 - `帮我从仓库到配图走一遍`
 - `完整论文配图工作流`
 - `which skill should I use first`
-
-总入口 skill 会先判断你当前处于哪一步，再只调用必要的下游 skill，而不是把整套流程强行跑完。
 
 ## 安装
 
@@ -110,76 +101,85 @@ You: 基于这份文档，帮我规划论文配图
 AI:  [分析内容 → 识别关键章节 → 输出配图规划报告]
 
 You: 我要投 NeurIPS，推荐什么配色？
-AI:  [推荐 ML TopConf 方案 → 展示色值 → 说明适用场景]
+AI:  [先定 classic/pastel → 再按 scene 推荐 ML TopConf / Okabe-Ito 等]
 
 You: 用 Okabe-Ito 配色，帮我画一个总体框架图
-AI:  [生成极其详细的英文提示词，包含布局、色值、标注、风格规格]
+AI:  [生成 JSON 配图规范 / 英文提示词]
 ```
 
 ```
-# 场景 2: 从 PDF 提取架构图并重绘
+# 场景 2: 从 PDF 分析架构图并重绘
 You: 从这篇 PDF 中提取架构图
-AI:  [扫描 PDF → 提取所有图片 → 过滤非架构图 → 分析架构结构]
+AI:  [extract_pdf_figures.py → 结构分析 → 重绘参数]
 
 You: 用 Nature/Science 顶刊配色重新绘制第一张架构图
-AI:  [匹配配色方案 → 生成重绘提示词 → 标准化架构图]
+AI:  [Palette Decision → JSON figure spec]
 ```
 
-## 配色方案（12 套）
+## 配色方案（12 套）+ 风格选择
+
+单一事实源：[`docs/palettes.md`](docs/palettes.md)
+
+**先选风格族，再选色系：**
+
+| 风格族 | 何时用 | 技能 | 色系来源 |
+|--------|--------|------|----------|
+| Classic academic | CVPR/Nature/IEEE、框线架构图、JSON spec | `academic-figure-prompt` | 下表 12 套 |
+| Pastel airy | ICLR/NeurIPS 现代柔彩、token/面板风 | `academic-figure-prompt-pastel` | P1 / P2 / P3 |
+
+场景配方（图类型 / venue / 领域 / “太花了” / 黑白印刷等）见 `docs/palettes.md` 的 **Scene → palette decision** 与 **Worked decision recipes**。
 
 | 方案 | 适用场景 |
 |-----|---------|
-| Okabe-Ito | CVPR / NeurIPS / Nature，色盲友好 ⭐ 默认 |
-| Blue Monochrome | 单色系期刊，灰度打印兼容 |
-| Warm Earth | 生物学、医学影像 |
-| Purple-Green | 数据可视化、IEEE 期刊 |
-| Grayscale | 仅黑白打印 |
-| Teal-Coral | HCI / CHI 现代感 |
-| ML TopConf Tab10 | Matplotlib 默认，熟悉感强 |
-| ML TopConf Colorblind | Seaborn 色盲友好 |
-| ML TopConf Deep | 多面板消融图 |
-| 灰度打印友好 | 完全兼容黑白印刷，IEEE推荐⭐ 新增 |
-| 学术期刊标准配色 | Nature/Science顶刊官方风格⭐ 新增 |
-| 生物材料/交叉学科专用配色 | 生物材料、材料科学+AI交叉领域⭐ 新增 |
+| Okabe-Ito | 默认多色；CVPR / NeurIPS / Nature，色盲友好 |
+| Nature Blue | 默认单色；≥ 4 模块框架图 |
+| Blue Monochrome | 模块详解、灰度友好 |
+| Warm Earth | 生物 / 医学 |
+| Purple-Green | 对比消融、IEEE |
+| Grayscale | 纯灰度 |
+| Teal-Coral | HCI / CHI |
+| ML TopConf Tab10 | Matplotlib 熟悉感 |
+| ML TopConf Colorblind | ML 顶会 + 色盲安全 |
+| ML TopConf Deep | 多面板消融 |
+| Print-Safe Gray | 严格黑白印刷 |
+| Journal Standard | Nature/Science 多类别图 |
 
-## 📚 文档与资源
+默认规则：`用户指定 → 场景推荐 → 安全默认`（≥ 4 模块用 Nature Blue，否则 Okabe-Ito）。
+
+
+## 文档与资源
 
 | 文档 | 说明 |
 |-----|------|
-| **[CHANGELOG.md](CHANGELOG.md)** | 版本历史记录 |
+| **[docs/palettes.md](docs/palettes.md)** | 12 套配色 SSOT + classic/pastel 场景决策指南 |
+
+| **[docs/missing-info-policy.md](docs/missing-info-policy.md)** | 缺信息时的统一策略 |
+| **[CHANGELOG.md](CHANGELOG.md)** | 版本历史 |
 | **[CONTRIBUTING.md](CONTRIBUTING.md)** | 贡献指南 |
-| **[docs/academic-references.md](docs/academic-references.md)** | 学术引用与权威参考文献 |
-| **[docs/best-practices.md](docs/best-practices.md)** | 2024-2025 顶会配图最佳实践 |
-| **[examples/](examples/)** | 完整端到端工作流示例 |
+| **[docs/academic-references.md](docs/academic-references.md)** | 学术引用 |
+| **[docs/best-practices.md](docs/best-practices.md)** | 顶会配图实践 |
+| **[examples/](examples/)** | 端到端示例 |
 
 ## 常见问题 FAQ
 
 ### Q: 生成的提示词是英文还是中文？
-A: 提示词本身是英文（因为 AI 图片工具对英文理解更好），但说明文字是中文。
+A: 给图片模型的 prompt / JSON 内容用英文；对用户的说明可用中文。
 
 ### Q: 支持哪些 AI 图片生成工具？
-A: 提示词兼容 NanoBanana、Gemini、DALL-E、Midjourney 等主流工具。
+A: NanoBanana、Gemini、DALL-E、Midjourney 等主流工具。
 
-### Q: 生成的图不满意怎么办？
-A: 可以用"图生图"功能，在已有图的基础上用文字指令修改。
-
-### Q: figure-prompt 要求先选配色，我不确定选哪个怎么办？
-A: 如果你没指定配色，系统会先按“用户指定 → 场景推荐 → 默认安全方案”决策：能识别投稿 venue、学科或图类型时，优先推荐更合适的方案；如果信息不足，则会明确说明先用默认 `Okabe-Ito` 继续，后续也可以随时切换。
+### Q: 不确定配色怎么办？
+A: 按“用户指定 → 场景推荐 → 默认安全方案”。信息不足时会明确使用 Okabe-Ito 或 Nature Blue（≥ 4 模块），并可随时切换。详见 `docs/palettes.md`。
 
 ### Q: 可以只使用其中一个技能吗？
-A: 当然可以！每个技能都是独立的，你可以只使用 figure-prompt 直接生成提示词。
+A: 可以。每个技能独立；workflow 只在需要路由时使用。
 
-### Q: 这些技能必须按顺序使用吗？
-A: 不需要！每个技能都是完全独立的。你可以：
-- 只使用 figure-prompt 直接生成提示词
-- 只使用 color-expert 选择配色
-- 只使用 repo-analyzer 理解代码仓库
-- 或者按完整工作流使用所有技能
+### Q: 必须按顺序使用吗？
+A: 不需要。可单独用 prompt / color-expert / repo-analyzer，或走完整流水线。
 
 ## 许可证
 
 MIT License
-
 
 ## 致谢
 

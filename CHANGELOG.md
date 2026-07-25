@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [2.8.0] - 2026-07-25
+
+### Added
+- 🛠 **architecture-extractor**: real `scripts/extract_pdf_figures.py` (pdfimages / PyMuPDF / optional pdftoppm) + size filter report
+- 📘 **examples/**: aligned with Palette Decision handoff + JSON figure spec default
+- 🗺 **docs/palettes.md**: scene→style family→palette decision guide (figure type / venue / domain / vibe recipes + checklist)
+
+
+### Changed
+- 🧹 **Skill rewrite (writing-great-skills pass)**: slim all 7 `SKILL.md` files; steps + checkable completion criteria; progressive disclosure of reference
+- 🎨 **Palette SSOT**: single source of truth in `docs/palettes.md` (12 presets); removed duplicated hex tables from prompt / paper-analyzer / architecture-extractor / color-expert body
+- 📐 **academic-figure-prompt**: schema/examples moved to `json-schema.md`; Text Budget + JSON-default kept in skill body
+- 🔍 **academic-repo-analyzer**: keyword tables moved to `keywords.md`
+- 🧭 **Defaults aligned**: ≥ 4 modules → Nature Blue; else Okabe-Ito (workflow, color-expert, prompt agree)
+- 🧾 **architecture-extractor**: removed unverifiable performance claims (≥92%, ≤10s/PDF); scoped as agent-driven analysis with honest tool gaps
+- 📝 **Descriptions**: shorter model-facing descriptions; leading words front-loaded
+- 📚 **Shared policy**: `docs/missing-info-policy.md` for sparse-input handling
+- 🔢 **Pack**: 2.7.0 → 2.8.0; skill versions bumped
+
+### Fixed
+- 🐛 Palette count inconsistency across README / color-expert / prompt (9 vs 10 vs 12 vs 13)
+- 🐛 README badge version lag (2.5.0 vs manifest)
+
+## [2.7.0] - 2026-05-11
+
+### Changed
+- 🔄 **academic-figure-prompt v1.3.0**: JSON spec is now the **default output format** — all framework/architecture/flowchart/module/comparison figures output JSON by default
+- 🔄 **academic-figure-prompt**: Old text prompt template demoted to "备选" (fallback, simple scenes only)
+- 🔄 **academic-figure-prompt**: Title changed from "学术论文配图提示词生成器" to "学术论文配图 JSON 规范生成器"
+- 🔄 **academic-figure-workflow**: Routing updated to reflect JSON-first output
+- 🔢 **Pack**: 2.6.0 → 2.7.0
+
 ## [2.6.0] - 2026-05-11
 
 ### Added

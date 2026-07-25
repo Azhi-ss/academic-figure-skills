@@ -1,366 +1,103 @@
 ---
 id: academic-figure-prompt-pastel
 name: Academic Figure Prompt — Modern ML Airy Style
-version: 4.0.0
-description: Use this skill whenever the user wants modern ML or RL paper-style figure prompts matching recent ICLR, NeurIPS, or ICML 2024-2025 aesthetics, needs a soft pastel academic diagram style, or says "pastel风格论文配图", "现代ML论文配图", "modern ML figure prompt", "pastel academic figure", "ICLR 2024 风格图", or "NeurIPS 2025 风格图".
+version: 4.1.0
+description: Pastel airy figure prompts for modern ML papers — ICLR/NeurIPS/ICML soft-panel style with tokens, pills, and rounded type. Use when the user wants pastel academic figures, 现代ML论文配图, or 2024-2025 conference airy aesthetics.
 stages: [writing, research, review]
 tools: [bash]
 ---
 
-# Academic Figure Prompt — Modern ML Airy Style v4
+# Academic Figure Prompt — Modern ML Airy Style
 
-为学术论文生成**极其详细的英文提示词**，产出的图片风格对标近年 ICLR / NeurIPS / ICML 顶会中常见的**现代柔彩风格**。
+English **image prompts** in the soft pastel style common in recent ICLR / NeurIPS / ICML figures.
 
-## Input Contract
+Missing info: → `../docs/missing-info-policy.md`  
+Classic JSON specs: use `academic-figure-prompt` instead.
 
-- **优先输入**：图类型、论文/章节内容、现代 ML 风格偏好、配色倾向、参考图、必要标签和公式
-- **最低可用输入**：至少提供图类型 + 主题/方法概述；若缺风格细节则按默认 pastel 方案继续
-- **缺失处理**：信息不足时保留现代柔彩风格骨架，明确说明默认配色与占位细节
+## Airy rules (all must hold)
 
-## Output Contract
+1. **White canvas + white panels + soft shadow**  
+   Canvas `#FFFFFF`. Panels `#FFFFFF`, ~20px radius, shadow `3px blur / 1px y / rgba(0,0,0,0.06)`. Separation by shadow only — no grey panel fills, no gradient canvas.
 
-始终输出一个 `Prompt Package`，至少包含：
+2. **Rounded geometric sans**  
+   Nunito / Poppins / Quicksand / Comfortaa. Titles 600–700 ~16–18pt; body 400 ~10–11pt; math italic serif.
 
-- 中文图名
-- 适用图类型
-- 最终英文 image prompt
-- 使用的 pastel 方案与关键色值
-- 简短中文风格说明
-- 明确列出的假设或待确认项
+3. **Packed, not sparse**  
+   Panels filled with tokens, curves, formulas, icons; 8–12px micro-gaps; ordered density without overlap or text walls.
 
----
+4. **Floating elements**  
+   Content sits on the panel surface. Pills for concept names. No box-in-box nesting.
 
-## ⚠️ 核心风格规则（经 7 轮迭代验证）
+5. **Color via tokens, text, and curves**  
+   Panels stay white. Color lives in 10–14px rounded tokens (pastel fill + 1px darker border), semantic text (coral/teal/purple/green), curves, and dots.
 
-### 规则 1：纯白画布 + 白色面板 + 微弱阴影
+## Pastel schemes
 
-```
-画布（canvas）= 纯白 #FFFFFF，无渐变、无灰度、无暖色调
-面板（panel）= 白色 #FFFFFF 圆角矩形 + 极微弱的 soft drop-shadow
-          (3px blur, 1px y-offset, rgba(0,0,0,0.06))
-区分方式 = 仅靠阴影浮起，不靠灰色填充或边框
-```
+| id | name | tokens | emphasis text |
+|----|------|--------|---------------|
+| P1 | Warm ML | `#FFD0D0` `#BBDEFB` `#FFF3C4` `#E1BEE7` `#C8E6C9` | `#E05555` `#1A9988` `#6A5ACD` `#3A8F3A` |
+| P2 | Cool Research (default) | `#B3E5FC` `#C5CAE9` `#CFD8DC` `#B2DFDB` `#D1C4E9` | `#1565C0` `#3949AB` `#00897B` |
+| P3 | Earthy Warm | `#FFE0B2` `#D7CCC8` `#C8E6C9` `#E0E0E0` `#EFEBE9` | `#6D4C41` `#827717` `#2E7D32` |
 
-> ❌ 不要用灰色 `#F5F5F5` 填充面板  
-> ❌ 不要用渐变画布背景  
-> ✅ 面板是白色，浮在白色画布上，靠阴影区分
+Decision: user → scene (modern ML → P2; playful → P1; natural/robotics → P3) → default **P2**. Full classic-vs-pastel and venue recipes: `../docs/palettes.md` (**Style family first** + pastel map). If the user wants box-border Nature/CVPR classic, route to `academic-figure-prompt` instead.
 
-### 规则 2：圆角友好字体
 
-```
-字体 = 圆角几何无衬线体（Nunito / Poppins / Quicksand / Comfortaa）
-特征 = 字母末端圆润，手感友好温暖，不是锐利的 Helvetica/Arial
-标题 = semi-bold ~ bold (600-700)，~16-18pt
-正文 = regular (400)，~10-11pt
-公式 = italic serif (Computer Modern / STIX)
-```
+## Input / Output
 
-> 字体是区分这种风格与传统论文图的核心特征之一
+- Prefer: figure type, content, pastel preference, reference image, labels  
+- Minimum: type + subject  
+- Output **Prompt Package**: Chinese name, type, full English prompt, scheme + key hex, style note, completeness block  
 
-### 规则 3：排满但不拥挤
+## Steps
 
-```
-每个面板 = 充满内容（token、曲线、公式、图标、箭头）
-元素间距 = 8-12px 微间距，不留大面积空白
-整体感 = "信息丰富、排列有序" 而非 "空旷稀疏"
-但也不 = 重叠、堆砌、文字墙
-```
+### Step 1: Ground content
 
-> ❌ 每个面板只放 1-3 个元素（太空）  
-> ❌ 密密麻麻文字标注堆砌（太挤）  
-> ✅ 丰富的视觉元素 + 一致的微间距 = 充实而有序
+Extract modules, flows, symbols from available material.
 
-### 规则 4：浮动元素，不嵌套框
+Done when: content list is sourced or placeholder-tagged.
 
-```
-元素直接浮在白色面板上，不套独立的背景框
-不要 box-in-box 嵌套结构
-概念名用白色/极淡色 pill 药丸标签
-曲线、公式、图标直接画在面板表面
-```
+### Step 2: Choose pastel scheme
 
-### 规则 5：色彩通过 token + 文字 + 曲线传达
+Apply decision order; state branch.
 
-```
-Token 小方块 = 10-14px 圆角方块，pastel 填充 + 1px 略深边框
-彩色文字 = 关键概念名用语义色（coral/teal/purple/green）
-曲线线条 = 用 pastel 色画线
-面板/画布 = 始终白色，不参与色彩
-```
+Done when: P1/P2/P3 (or custom) fixed with token + emphasis hex.
 
----
+### Step 3: Layout
 
-## 五种色彩载体
+2–5 panels sized by content (asymmetric OK). ~20px panel gaps. Prefer content-driven layouts over forced 2×2 symmetry.
 
-| 载体 | 说明 | 示例 |
-|------|------|------|
-| **Token 方块** | 小圆角方块，pastel 填充 + 暗 1px 边框 | `soft blue #BBDEFB square with 1px #90CAF9 border, "s₁" label` |
-| **彩色文字** | 关键词直接用彩色字体 | `bold coral #E05555 text "Exciter"` |
-| **Pill 标签** | 极淡底色圆角药丸 | `faint green-tinted pill badge "Random Forest"` |
-| **曲线线条** | 内嵌缩略图的线条颜色 | `sigmoid curve in warm amber #DAA520 line` |
-| **叶节点/圆点** | 小彩色圆点标记类别 | `5 tiny circles in blue, pink, amber, purple, green` |
+Done when: panel count and roles are listed.
 
----
+### Step 4: Write prompt
 
-## 工作流程
+Layers:
 
-### Step 1: 理解论文内容
+1. Global: airy ICLR/NeurIPS style, white canvas/panels, rounded font, packed density, no nested boxes  
+2. `=== PANEL: name ===` blocks with floating tokens / pills / curves / formulas  
+3. `=== STYLE SPECIFICATIONS ===` with scheme hex  
 
-1. 阅读论文源文件，提取核心概念、方法、数据流
-2. 识别需要配图的位置
-3. 理解数学符号和维度
+Color carriers:
 
-### Step 2: 配色方案选择
+| carrier | form |
+|---------|------|
+| token | `soft blue #BBDEFB square with 1px #90CAF9 border, "s₁"` |
+| colored text | `bold coral #E05555 text "Exciter"` |
+| pill | `faint green-tinted pill badge "Random Forest"` |
+| curve | `sigmoid in warm amber #DAA520` |
+| dots | tiny category circles |
 
-**如果用户没有明确指定 pastel 配色，不要静默锁定为单一方案。先按以下顺序决策：**
+Done when checklist passes:
 
-1. 若能从用户上下文识别论文领域、图类型、参考图气质，优先给出“场景推荐方案 + 1 个备选方案”
-2. 若上下文不足以判断，再明确告知“当前先使用默认 `P2 Cool Research` 继续生成”
-3. 始终说明：后续可随时切换到 `P1 / P2 / P3 / 自定义`
+- [ ] pure white canvas and panels  
+- [ ] rounded font named  
+- [ ] packed micro-spacing (8-12px)  
+- [ ] soft panel shadows (`rgba(0,0,0,0.05)`)  
+- [ ] no nested boxes  
+- [ ] tokens have borders  
+- [ ] scheme hex present  
+- [ ] weight status encoded via pill tags (`[Fixed]` vs `[Trainable]`) or dashed/solid borders (NO emojis)  
+- [ ] negative constraints explicit: `NO emojis, NO lock/fire/lightning icons, NO 3D rendering`  
 
-| # | 方案名 | Token 色 | 文字强调色 |
-|---|--------|----------|-----------|
-| P1 | **Warm ML** | 粉 `#FFD0D0` · 蓝 `#BBDEFB` · 黄 `#FFF3C4` · 紫 `#E1BEE7` · 绿 `#C8E6C9` | coral `#E05555` · teal `#1A9988` · purple `#6A5ACD` · green `#3A8F3A` |
-| P2 | **Cool Research** | 蓝 `#B3E5FC` · 靛 `#C5CAE9` · 灰蓝 `#CFD8DC` · 青 `#B2DFDB` · 薰衣草 `#D1C4E9` | navy `#1565C0` · indigo `#3949AB` · teal `#00897B` |
-| P3 | **Earthy Warm** | 米 `#FFE0B2` · 驼 `#D7CCC8` · 灰绿 `#C8E6C9` · 灰 `#E0E0E0` · 浅棕 `#EFEBE9` | brown `#6D4C41` · olive `#827717` · forest `#2E7D32` |
-| P4 | **自定义** | 用户指定 | 用户指定 |
+## Stop
 
-**快速继续（显式默认）：**
-
-> ✅ 如果你暂时不想选 pastel 配色，我会先用默认 **P2 Cool Research** 继续生成；如果你想要更温暖 / 更活泼 / 更自然，也可以随时切换。
-
-**场景推荐示例：**
-- `现代 ML / NLP / 系统框架图` → `P2 Cool Research`
-- `教学感 / 交互感 / 更柔和活泼` → `P1 Warm ML`
-- `自然 / 机器人 / 更温暖克制` → `P3 Earthy Warm`
-
-### Step 2.5: 缺信息处理分支
-
-**总原则：** 信息不足时，优先输出“保守但有用”的阶段性结果，而不是停止任务；配色决策顺序为：`用户指定` → `场景推荐` → `默认柔彩方案`。任何超出已知条件的判断，都必须明确标注为“推断”或“待确认”。
-
-#### 情况 1：用户没有指定 pastel 配色
-- 先尝试从论文领域、图类型、参考图风格中推断最合适的方案
-- 若能判断场景，则给出 `场景推荐方案 + 1 个备选方案`
-- 若仍无法判断，则明确标注：`当前先使用默认 P2 Cool Research，可后续切换`
-- 不因缺少配色而停止生成
-
-#### 情况 2：用户只说“更现代 / 更活泼 / 更自然”
-- 将主观风格映射为最接近的 pastel 方案
-- 必须同时给出具体 token 色与文字强调色，不只停留在形容词
-- 如语义过宽，给一个主推荐和一个备选
-
-#### 情况 3：用户给了参考图但没有说明要不要严格跟随
-- 先提取参考图的 pastel 气质、主色倾向、关键词强调色
-- 若参考图明显偏暖，则优先考虑 `P1` 或 `P3`；若偏冷静研究风，则优先考虑 `P2`
-- 若参考图与本 skill 的现代柔彩风格冲突，要明确说明并给出贴近但更学术化的替代方案
-
-### Step 3: 生成提示词
-
-按下方模板逐层生成。
-
----
-
-## 布局灵活性原则
-
-面板数量和大小**根据内容决定**，不强制对称：
-
-```
-布局 A（参考图常见）：不等大 2×2 或 1+2
-┌────────────────┐  ┌──────────┐
-│  大面板 (主流程)  │  │  面板 2    │
-│                │  │          │
-└────────────────┘  └──────────┘
-       ┌─────────────────────┐
-       │  面板 3 (宽条形)       │
-       └─────────────────────┘
-
-布局 B：3-panel 不对称
-┌──────────┐  ┌────────────────┐
-│  面板 1    │  │  面板 2 (大)     │
-└──────────┘  │                │
-┌──────────┐  │                │
-│  面板 3    │  │                │
-└──────────┘  └────────────────┘
-
-布局 C：横向流水线
-┌──────┐  ┌──────┐  ┌──────┐
-│ 面板1 │  │ 面板2 │  │ 面板3 │
-└──────┘  └──────┘  └──────┘
-
-布局 D：等分 2×2（仅在内容量对称时使用）
-```
-
-**原则**：
-- 面板数量 2-5 个，大小按内容量分配
-- 主流程面板可以更大，细节面板可以更小
-- 不要为了对称而硬凑成 2×2
-- 面板间 ~20px 间距
-
----
-
-## 提示词结构模板
-
-### 层次 1: 全局描述
-
-```
-A richly detailed academic paper [类型] diagram in the modern style of top-tier
-ICLR/NeurIPS 2024-2025 publications. The diagram illustrates [主题概述].
-
-CANVAS: Pure flat white (#FFFFFF). No gradient, no tint, no grey.
-
-PANELS: [N] large rounded-rectangle panels (radius ~20px) with white (#FFFFFF)
-fill and very subtle soft drop-shadow (3px blur, 1px y-offset, rgba(0,0,0,0.06)).
-Panels sit on the white canvas, distinguished only by their barely-perceptible
-shadow.
-
-FONT: Friendly rounded geometric sans-serif (Nunito / Poppins / Quicksand).
-Titles semi-bold to bold (600-700), ~16-18pt. Body regular (400), ~10-11pt.
-Math in italic serif (Computer Modern). The rounded font gives a warm, approachable,
-modern feel.
-
-CONTENT DENSITY: Panels are FILLED with content — tokens, curves, formulas, icons,
-arrows — with consistent 8-12px micro-spacing. "Thoughtfully packed" not "sparse".
-
-NO NESTED BOXES: Elements float directly on white panel surfaces. Only pill-shaped
-labels for concept names.
-
-Arranged as [布局描述].
-```
-
-### 层次 2: 面板描述
-
-使用 `=== PANEL: [名称] ===` 分隔每个面板。
-
-```
-=== PANEL: [名称] ===
-
-White panel, subtle shadow, rounded corners ~20px.
-
-Title: Bold [颜色] rounded font "[标题]" (~18pt).
-
-Content (packed, floating elements):
-  [元素描述...]
-```
-
-每个面板内元素类型：
-
-| 元素 | 描述格式 | 注意 |
-|------|---------|------|
-| **Token 序列** | `3 soft blue #BBDEFB squares with 1px #90CAF9 border, labeled "x  y  z"` | 要写明 border |
-| **Pill 标签** | `a faint green pill badge "Random Forest" in green text` | 有极淡底色 |
-| **彩色标题** | `bold coral #E05555 text "Exciter"` | 直接浮在面板上 |
-| **曲线缩略图** | `a small sigmoid in warm amber #DAA520 line (~30×20px), tiny grey axes` | 直接画在面板上 |
-| **公式** | `italic serif formula: "X_k → f_θ(X_k)"` | 浮在面板上 |
-| **小图标/插画** | `a small satellite schematic in thin grey lines with blue dot trail` | 有细节的插画 |
-| **决策树** | `a binary tree in thin grey lines, leaf nodes as tiny colored circles` | 有多层分支 |
-| **箭头** | `thin 1.5px dark grey #555 arrow with small arrowhead` | 简洁 |
-
-### 层次 3: 风格规格
-
-```
-=== STYLE SPECIFICATIONS ===
-
-Canvas: Pure white #FFFFFF. No gradient.
-Panels: White #FFFFFF, radius ~20px, soft shadow (3px blur, rgba(0,0,0,0.06)).
-Font: Rounded sans-serif (Nunito/Poppins/Quicksand). Titles bold ~16-18pt,
-body regular ~10pt, math italic serif. Warm and friendly, NOT angular Helvetica.
-Density: Panels FILLED with content. 8-12px micro-spacing. No dead space.
-Structure: Floating elements on white panels. No nested boxes.
-
-Token colors (with 1px darker border):
-  - [语义]: [fill] / [border] / [text emphasis]
-  ...
-
-Arrows: 1-1.5px dark grey #555, neat arrowheads. Some curved.
-Pill labels: Faint pastel tint + thin matching border, rounded ~8px.
-Colored text: Concept names in semantic colors (coral, teal, purple, green).
-
-No 3D, no gradients on elements, no heavy shadows. Flat vector.
-Resolution: [宽] × [高] px minimum.
-```
-
----
-
-## 内部元素词汇表
-
-### Token 方块
-
-| 用途 | 描述 |
-|------|------|
-| 状态/输入 | `soft blue #BBDEFB square, 1px #90CAF9 border, "s₁" label` |
-| 动作/预测 | `soft pink #FFD0D0 square, 1px #EF9A9A border, "a₁" label` |
-| 特征/统计 | `soft purple #E1BEE7 square, 1px #CE93D8 border` |
-| 奖励/输出 | `soft green #C8E6C9 square, 1px #A5D6A7 border` |
-| 指标/数学 | `soft amber #FFF3C4 square, 1px #FFE082 border` |
-
-### 曲线与图表
-
-| 类型 | 描述 |
-|------|------|
-| 损失曲线 | `descending curve in coral #E05555 line, tiny grey axes` |
-| sigmoid | `sigmoid curve in warm amber #DAA520 line` |
-| 频谱 | `bar spectrum with 6 bars in soft pink, varying heights` |
-| 概率分布 | `5 colored bar segments of varying widths` |
-| 振荡波 | `oscillating wave in amber line` |
-
-### 插画与图标
-
-| 类型 | 描述 |
-|------|------|
-| 循环流 | `4-node cycle: "A"→"B"→"C"→"D" in tiny colored text with curved arrows` |
-| 网络结构 | `input bars → hidden layers with dot connections → output, thin grey lines` |
-| 决策树 | `binary branching tree, grey lines, colored circle leaf nodes` |
-| 轨迹扇形 | `multiple curves fanning out from a point, solid mean + dashed bounds` |
-| 金字塔 | `3 levels of increasing width, converging to ⊕ fusion` |
-| 压缩漏斗 | `wide dot cluster → converging lines → narrow column of tokens` |
-
----
-
-## 质量检查清单
-
-- [ ] **纯白画布**：canvas = `#FFFFFF`，无渐变、无灰底
-- [ ] **白色面板**：panel fill = `#FFFFFF`，靠 soft shadow 浮起
-- [ ] **圆角字体**：指定 Nunito/Poppins/Quicksand，不是 Helvetica
-- [ ] **排满内容**：每个面板充满元素（token+曲线+公式+图标），无大片空白
-- [ ] **微间距**：元素间 8-12px，不重叠不拥挤
-- [ ] **无嵌套框**：元素浮在面板上，无 box-in-box
-- [ ] **Pill 标签**：概念名用极淡色药丸标签
-- [ ] **彩色文字**：关键词用语义色（coral/teal/purple/green）
-- [ ] **Token 有边框**：小方块 pastel 填充 + 1px 暗边框
-- [ ] **丰富插画**：有曲线、网络图、决策树、轨迹图等，不光是方块
-- [ ] **公式渲染**：italic serif，浮在面板上
-- [ ] **友好现代**：整体像 2024 ICLR oral 的图，温暖可亲
-
----
-
-## 输出格式
-
-```markdown
-### 图 X.Y — [中文图名]
-
-适用类型：[框架图/架构图/模块图/对比图]
-配色方案：[已选方案名]
-推荐分辨率：[宽高比]
-
-#### 信息完整度说明
-- **已分析材料**：[论文、摘要、章节、参考图、用户明确要求]
-- **当前输出类型**：完整提示词 / 阶段性提示词 / 通用骨架提示词
-- **配色来源**：用户指定 / 场景推荐 / 默认柔彩方案
-- **高置信信息**：[已明确出现的模块、流程、术语、风格要求]
-- **待确认信息**：[公式、维度、模块命名、具体配色偏好等]
-- **建议补充材料**：[最值得补充的 1-3 项]
-
-​```
-[完整英文提示词]
-​```
-```
-
----
-
-## 注意事项
-
-1. **提示词语言**：英文（AI 图片工具英文效果最佳），说明用中文
-2. **长度不限**：宁长勿短，细节越多效果越好
-3. **参考图优先**：用户提供参考图时以参考图为准
-4. **字体是灵魂**：务必强调 Nunito/Poppins，这是风格关键
-5. **白底是底线**：画布和面板都是白色，任何灰色填充都是错误
+Stop when the Prompt Package is delivered, or type+subject are both missing.

@@ -1,136 +1,81 @@
 ---
 id: academic-figure-workflow
 name: Academic Figure Workflow Orchestrator
-version: 1.0.0
-description: Use this skill whenever the user wants an end-to-end academic figure workflow, wants to go from a repository or paper to a figure prompt, is unsure which academic-figure skill to start with, or says "帮我从仓库到配图走一遍", "完整论文配图工作流", "academic figure workflow", "end-to-end figure pipeline", "from paper to figure prompt", or "which skill should I use first".
+version: 1.1.0
+description: End-to-end academic figure workflow router — from repo or paper to figure prompt via the minimum sibling skills. Use when the user wants a full pipeline, is unsure which academic-figure skill to start with, or says 完整论文配图工作流 / from paper to figure prompt.
 stages: [research, writing, review]
 tools: [bash]
 ---
 
 # Academic Figure Workflow Orchestrator
 
-Use this skill as the pack entrypoint. Route the task to the minimum set of sibling skills needed to get the user from raw inputs to a usable academic figure prompt.
+Pack entrypoint. Detect stage, load **only** needed sibling skills, carry compact handoffs.
 
-Do not dump every sub-skill at once. Identify the user's current stage, load only the relevant sibling skill files, and move the workflow forward with the fewest necessary steps.
+Shared refs:
 
-## Sibling Skill Routing
+- palettes → `../docs/palettes.md`
+- missing info → `../docs/missing-info-policy.md`
 
-Read the sibling skill files only when their stage is needed:
+## Sibling routing
 
-- `../academic-repo-analyzer/SKILL.md`: Use when the user provides a repository, asks what a codebase does, or needs a quick understanding document before figure planning.
-- `../academic-figure-paper-analyzer/SKILL.md`: Use when the user provides a paper, section draft, abstract, or method description and needs figure planning.
-- `../academic-figure-architecture-extractor/SKILL.md`: Use when the user provides a PDF, wants to extract architecture diagrams, analyze diagram structure, or get color scheme recommendations for existing diagrams.
-- `../academic-figure-color-expert/SKILL.md`: Use when the user asks for palette selection, venue-specific style advice, or accessibility-safe colors.
-- `../academic-figure-prompt/SKILL.md`: Use when the user wants a classic academic figure prompt.
-- `../academic-figure-prompt-pastel/SKILL.md`: Use when the user explicitly wants a modern ML / ICLR / NeurIPS 2024-2025 airy pastel style.
+Read a sibling file only when that stage runs:
 
-## Stage Detection
+| skill | when |
+|-------|------|
+| `../academic-repo-analyzer/SKILL.md` | repository / codebase understanding |
+| `../academic-figure-paper-analyzer/SKILL.md` | paper/section → figure plan |
+| `../academic-figure-architecture-extractor/SKILL.md` | PDF/images → architecture analysis |
+| `../academic-figure-color-expert/SKILL.md` | palette decision |
+| `../academic-figure-prompt/SKILL.md` | classic JSON figure spec |
+| `../academic-figure-prompt-pastel/SKILL.md` | pastel / ICLR airy style |
 
-Classify the request into one of these entry states:
+## Stage detection
 
-1. **Repo-first**
-   The user has a repository or codebase and wants to understand it before planning figures.
-2. **Paper-first**
-   The user has a paper, PDF, outline, or section text and wants figure planning directly.
-3. **Architecture-extraction-first**
-   The user has a PDF and wants to extract architecture diagrams, analyze diagram structure, or get color recommendations for existing diagrams.
-4. **Prompt-first**
-   The user already knows the target figure and wants a prompt now.
-5. **Color-first**
-   The user mainly wants palette selection or venue-specific visual style guidance.
+1. **Repo-first** — codebase before figures  
+2. **Paper-first** — paper/PDF/outline → plan  
+3. **Architecture-extraction-first** — extract/analyze existing diagrams  
+4. **Prompt-first** — figure already known  
+5. **Color-first** — palette only  
 
-If the user is ambiguous, infer the most likely entry state from the artifacts they provided. Ask only for missing information that blocks the next step.
+Infer from artifacts; ask only for blockers.
 
-## Default Workflow
+## Default paths (lightest valid)
 
-Use the lightest valid path:
+- Repo-first → repo-analyzer → (paper-analyzer if planning) → (color if needed) → prompt  
+- Paper-first → paper-analyzer → (color if needed) → prompt  
+- Architecture-first → architecture-extractor → (paper-analyzer if planning) → (color if needed) → prompt  
+- Prompt-first → style choice → min missing details → prompt  
+- Color-first → color-expert → optional prompt  
 
-- **Repo-first**: repo analyzer -> paper analyzer if figure planning is requested -> color expert if palette is unspecified -> prompt skill
-- **Paper-first**: paper analyzer -> color expert if palette is unspecified -> prompt skill
-- **Architecture-extraction-first**: architecture extractor -> paper analyzer if figure planning is requested -> color expert if palette is unspecified -> prompt skill
-- **Prompt-first**: choose prompt style -> collect only the minimum missing figure details -> generate prompt
-- **Color-first**: color expert -> optionally continue into prompt generation
+Never force the full chain for a single-stage ask.
 
-Do not force the full chain when the user wants only one stage.
+## Defaults
 
-## Minimal Input Checklist
+- **Style family** then palette: follow `docs/palettes.md` (classic JSON vs pastel airy; ≥4 modules → Nature Blue; else Okabe-Ito). Always state the branch.  
+- ICLR / NeurIPS / ICML airy / pastel / “现代一点” language → `prompt-pastel` + P1–P3  
+- Otherwise → `prompt` JSON + classic 12 presets  
+- Repo + paper both present → plan from paper; repo fills technical gaps  
+- When user only asks “用什么配色/风格”, load color-expert and the **Scene → palette** section of `docs/palettes.md`
 
-Before generating a final prompt, make sure you know:
 
-- figure type
-- subject or method being visualized
-- target venue or style preference, if any
-- palette choice, or a safe default
-- any mandatory labels, modules, equations, or comparisons
+## Handoffs (carry forward, don't re-narrate)
 
-If one or two details are missing, proceed with explicit assumptions. If core content is missing, ask targeted questions instead of hallucinating the figure structure.
+- **Quick Understanding Doc** — task, stack, modules, flows, figure-worthy innovations  
+- **Figure Plan** — count, types, section map, priorities, visual musts  
+- **Palette Decision** — name, hex, reason, accessibility  
+- **Prompt Package / Figure Spec** — final deliverable + assumptions  
 
-## Default Decisions
+## Output shape
 
-- If no palette is specified, prefer a safe default and say so explicitly. For frameworks with ≥ 4 modules, default to `Nature Blue` monochrome. Otherwise default to `Okabe-Ito`.
-- If the user mentions ICLR / NeurIPS / ICML 2024-2025 airy pastel aesthetics, route to `academic-figure-prompt-pastel`.
-- For complex framework/architecture diagrams with many modules, route to `academic-figure-prompt` and suggest the JSON structured spec format for precise layout/text control.
-- If the user has both a repo and a paper, prioritize the paper for figure planning and use the repo only to fill technical gaps.
+1. Current stage  
+2. Next action  
+3. Result or required clarification  
+4. Handoff artifact or final prompt  
 
-## Handoff Artifacts
+## Stop
 
-When moving between stages, carry forward compact structured artifacts instead of re-explaining everything.
+- requested stage deliverable is done  
+- next step blocked on missing source material  
+- user wants evaluation, not generation  
 
-### Quick Understanding Doc
-
-Include:
-
-- task type
-- model family or method category
-- input/output summary
-- core modules
-- training or inference flow
-- likely figure-worthy innovations
-
-### Figure Plan
-
-Include:
-
-- recommended figure count
-- figure types
-- section-to-figure mapping
-- priority ranking
-- notes on what must appear visually
-
-### Palette Decision
-
-Include:
-
-- selected palette
-- 2-3 core hex colors
-- why it fits the venue or task
-- accessibility notes if relevant
-
-### Prompt Package
-
-Include:
-
-- final English image prompt
-- short Chinese explanation of what the prompt is optimizing for
-- any explicit assumptions made due to missing input
-
-## Output Contract
-
-When acting as the orchestrator, respond in this order:
-
-1. **Current stage**
-2. **Next action**
-3. **Result or required clarification**
-4. **Handoff artifact or final prompt**
-
-Keep the orchestration visible but concise. The user should be able to see where they are in the pipeline without reading an essay.
-
-## Stop Conditions
-
-Stop when one of these is true:
-
-- the user received the requested deliverable for the current stage
-- the next step requires missing source material the user has not provided
-- the user explicitly wants evaluation instead of generation
-
-Do not continue into downstream stages unless the user asked for them or the request clearly implies an end-to-end workflow.
+Do not auto-advance downstream unless the user asked end-to-end or clearly implied it.

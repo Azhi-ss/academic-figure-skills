@@ -1,538 +1,76 @@
 ---
 id: academic-figure-color-expert
 name: Academic Figure Color Expert
-version: 1.2.0
-description: Use this skill whenever the user wants help choosing an academic figure color palette, needs venue-specific or colorblind-safe design advice, wants a paper color scheme recommendation, wants to match a color scheme for extracted architecture diagrams, or says "学术配图配色", "论文配色方案", "色盲友好配色", "学术配色", "架构图配色", "academic color palette", "colorblind safe figure", "paper color scheme", "architecture diagram color matching", "Nature Blue", "单色系". Now 13 preset schemes including the new Nature Blue monochrome, plus monochrome-vs-polychrome philosophy.
+version: 1.3.1
+description: Palette Decision for academic figures — venue-aware style family and colorblind-safe scheme selection with scene recipes. Use when the user needs an academic color palette, classic vs pastel advice, Nature Blue, or architecture-diagram color matching.
 stages: [writing, research]
 tools: [bash]
 ---
 
-# Academic Figure Color Expert — 学术配图配色专家
+# Academic Figure Color Expert
 
-为学术配图提供专业的配色方案建议，包含 9 套预设方案，以及色盲友好设计原则。
+Produce a reusable **Palette Decision**. Hex tables, venue maps, and **scene→style→palette** recipes live in one place:
 
-## 核心理念
+→ Read `../docs/palettes.md` (presets + **Style family** + **Scene → palette decision** + recipes).
 
-学术配色的四大原则：
-1. **功能优先**：颜色服务于信息传达，而非装饰
-2. **克制简约**：最多 3 种彩色 + 灰色系
-3. **可访问性**：确保色盲读者也能清晰理解
-4. **模块多时默认单色系**：≥ 4 个模块的框架图优先用单色相渐变，比多色相更不容易产生杂乱感
+Always decide **style family** (classic vs pastel) before naming a classic preset.
+
+
+## Principles
+
+1. Color carries information, not decoration.
+2. ≤ 3 chromatic colors + neutrals per figure.
+3. Colorblind-safe by default; dual-encode categories.
+4. ≥ 4 modules → monochrome (Nature Blue) beats polychrome busyness.
 
 ## Input Contract
 
-- **优先输入**：投稿 venue、学科领域、图类型、参考图、用户偏好颜色、可访问性要求
-- **最低可用输入**：至少提供 venue、图类型、学科中的任意一项
-- **缺失处理**：上下文不足时仍要给出保守推荐，并明确说明默认依据与可切换方案
+- Prefer: venue, domain, figure type, module count, reference image, accessibility / print constraints
+- Minimum: any one of venue / figure type / domain
+- Missing info: follow `../docs/missing-info-policy.md`; still emit a conservative Palette Decision
 
-## Output Contract
+## Output Contract — Palette Decision
 
-始终输出一个可下游复用的 `Palette Decision`，至少包含：
+Always include:
 
-- 推荐方案与备选方案
-- 主色/辅色/点缀色 hex 值
-- 适用理由
-- 可访问性说明
-- 可直接交给 prompt skill 的配色 handoff
+- recommended palette + one alternate
+- primary / secondary / tertiary (+ neutrals) hex
+- reason (venue / domain / module count)
+- accessibility note
+- handoff block ready for prompt skills
 
----
+## Steps
 
-## 9 套预设配色方案
+### Step 1: Collect constraints
 
-### 方案 1: Okabe-Ito（色盲友好 · 顶会推荐）⭐ 默认
+Done when you have recorded (or marked missing): venue, domain, figure type, module count, colorblind/print needs, user color preference, reference image cues.
 
-**适用场景：** CVPR / NeurIPS / Nature / Science 投稿，色盲安全要求高
+### Step 2: Decide style family + palette
 
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#0072B2` | 主色 — 核心模块边框、节标签 |
-| secondary | `#E69F00` | 辅色 — 次要模块边框、替代高亮 |
-| tertiary | `#009E73` | 点缀色 — 输出/结果模块（极少量） |
-| text | `#333333` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景（纯白） |
-| section_bg | `#F7F7F7` | 区域背景（极浅灰） |
-| border | `#CCCCCC` | 标准边框 |
-| arrow | `#4D4D4D` | 箭头/线条 |
+1. Classic vs pastel — `docs/palettes.md` **Style family first**  
+2. If pastel → hand off scheme P1/P2/P3 to `academic-figure-prompt-pastel` (hex from that skill)  
+3. If classic → apply **Scene → palette decision** (hard constraints → figure type → venue → domain → vibe)  
+4. Name primary + alternate; state branch (`user` / `scene` / `default`)
 
-**特点：**
-- Nature Methods 推荐的色盲友好调色板
-- 对红色盲（deuteranopia）最友好（影响 ~6% 男性）
-- 黑白打印仍清晰可读
-- 顶会论文最常用方案
+Done when: family + primary + alternate are explicit, with the decision checklist fields from `docs/palettes.md`.
 
----
 
-### 方案 2: Blue Monochrome（蓝色单色系 · 灰度兼容）
+### Step 3: Emit hex + handoff
 
-**适用场景：** 单色系期刊、模块详解图、需灰度打印
+Load the chosen preset from `docs/palettes.md`. Output the Palette Decision format.
 
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#1565C0` | 主色 — 核心模块边框 |
-| secondary | `#42A5F5` | 辅色 — 次要模块边框 |
-| tertiary | `#90CAF9` | 点缀色 — 辅助元素 |
-| text | `#212121` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#F5F8FC` | 区域背景（极浅蓝） |
-| border | `#B0BEC5` | 标准边框 |
-| arrow | `#37474F` | 箭头/线条 |
+Done when: every role hex is filled, accessibility stated, and the handoff block is copy-ready for `academic-figure-prompt`.
 
-**特点：**
-- 极度克制、专业感强
-- 黑白打印效果极佳
-- 适合需要大量细节的模块详解图
+## Sparse-input cases
 
----
+| case | action |
+|------|--------|
+| no venue | infer from domain / reference; else Okabe-Ito (or Nature Blue if ≥ 4 modules) |
+| accessibility unspecified | assume colorblind-safe required |
+| only vibe words (“高级/科技/柔和”) | map to 1–2 presets with concrete hex |
+| only reference image | extract hues; academicize if needed (white fill, border color, ≤ 3 chromatics) |
+| figure type unknown | default framework advice; note module-detail vs comparison alternates |
 
-### 方案 3: Warm Earth（暖土色系 · 生物/医学）
+## Stop
 
-**适用场景：** 生物学、生态学、医学影像论文
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#C0392B` | 主色 — 核心模块边框 |
-| secondary | `#E67E22` | 辅色 — 次要模块边框 |
-| tertiary | `#F39C12` | 点缀色 — 输出/结果 |
-| text | `#2C2C2C` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#FDF6EC` | 区域背景（暖奶油色） |
-| border | `#D5C5A1` | 标准边框 |
-| arrow | `#5D4037` | 箭头/线条 |
-
-**特点：**
-- 温暖、有机的视觉感受
-- 适合生物过程、医学影像可视化
-- ⚠️ 非色盲最优，建议配合形状编码
-
----
-
-### 方案 4: Purple-Green（紫绿互补 · 高对比度）
-
-**适用场景：** 数据可视化、对比图、IEEE 期刊
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#6A1B9A` | 主色 — 核心模块边框 |
-| secondary | `#2E7D32` | 辅色 — 次要模块边框 |
-| tertiary | `#AB47BC` | 点缀色 — 第三类元素 |
-| text | `#1A1A1A` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#F8F5FC` | 区域背景（浅薰衣草色） |
-| border | `#CE93D8` | 标准边框 |
-| arrow | `#4A148C` | 箭头/线条 |
-
-**特点：**
-- 紫绿互补，视觉对比度高
-- 适合对比实验、消融研究
-- 数据可视化效果突出
-
----
-
-### 方案 5: Grayscale（纯灰度 · 打印优先）
-
-**适用场景：** 仅黑白打印的期刊、技术报告
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#212121` | 主色 — 核心模块边框 |
-| secondary | `#616161` | 辅色 — 次要模块边框 |
-| tertiary | `#9E9E9E` | 点缀色 — 辅助元素 |
-| text | `#111111` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#F5F5F5` | 区域背景（浅灰） |
-| border | `#BDBDBD` | 标准边框 |
-| arrow | `#424242` | 箭头/线条 |
-
-**特点：**
-- 100% 打印兼容
-- 极度专业、极简风格
-- 必须通过形状/线条粗细区分类别
-
----
-
-### 方案 6: Teal-Coral（青蓝珊瑚 · HCI 现代感）
-
-**适用场景：** HCI / CHI 论文、现代感强的 ML 论文
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#00695C` | 主色 — 核心模块边框 |
-| secondary | `#E64A19` | 辅色 — 次要模块边框 |
-| tertiary | `#26A69A` | 点缀色 — 输出/结果 |
-| text | `#212121` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#F0F9F8` | 区域背景（浅青色调） |
-| border | `#80CBC4` | 标准边框 |
-| arrow | `#004D40` | 箭头/线条 |
-
-**特点：**
-- 现代、活力的视觉风格
-- 冷（青）暖（珊瑚）对比鲜明
-- ⚠️ 对红色盲不够友好，建议配合形状编码
-
----
-
-### 方案 7: ML TopConf Tab10（Matplotlib 默认 · 熟悉感）
-
-**适用场景：** NeurIPS / ICML / ICLR 论文，使用 Matplotlib 默认色
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#1F77B4` | 主色 — 核心模块边框 |
-| secondary | `#FF7F0E` | 辅色 — 次要模块边框 |
-| tertiary | `#2CA02C` | 点缀色 — 输出/结果 |
-| text | `#1F2937` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#F8FAFC` | 区域背景 |
-| border | `#CBD5E1` | 标准边框 |
-| arrow | `#334155` | 箭头/线条 |
-
-**特点：**
-- Matplotlib Tab10 默认色，读者极其熟悉
-- ML 顶会论文最常见配色
-- 与实验图表配色天然一致
-
----
-
-### 方案 8: ML TopConf Colorblind（Seaborn 色盲友好）
-
-**适用场景：** NeurIPS / ICML / ICLR 论文，需色盲安全
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#0173B2` | 主色 — 核心模块边框 |
-| secondary | `#DE8F05` | 辅色 — 次要模块边框 |
-| tertiary | `#029E73` | 点缀色 — 输出/结果 |
-| text | `#1F2937` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#F8FAFC` | 区域背景 |
-| border | `#CBD5E1` | 标准边框 |
-| arrow | `#334155` | 箭头/线条 |
-
-**特点：**
-- Seaborn colorblind 调色板
-- 保持 ML 顶会熟悉感的同时优化色盲可访问性
-- 推荐作为 Tab10 的安全替代
-
----
-
-### 方案 9: ML TopConf Deep（Seaborn Deep · 柔和）
-
-**适用场景：** 多面板消融图、性能对比图
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#4C72B0` | 主色 — 核心模块边框 |
-| secondary | `#DD8452` | 辅色 — 次要模块边框 |
-| tertiary | `#55A868` | 点缀色 — 输出/结果 |
-| text | `#1F2937` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#F8FAFC` | 区域背景 |
-| border | `#CBD5E1` | 标准边框 |
-| arrow | `#334155` | 箭头/线条 |
-
-**特点：**
-- Seaborn deep 调色板
-- 更柔和、不刺眼的色调
-- 适合多面板密集布局
-
----
-
-### 方案 10: 灰度打印友好（完全兼容黑白印刷）⭐ 新增
-
-**适用场景：** 仅黑白印刷的期刊、技术报告、灰度打印优先级高的论文
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#000000` | 主色 — 核心模块边框、节标签 |
-| secondary | `#333333` | 辅色 — 次要模块边框 |
-| tertiary | `#666666` | 点缀色 — 辅助元素 |
-| text | `#333333` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景（纯白） |
-| section_bg | `#F7F7F7` | 区域背景（极浅灰） |
-| border | `#CCCCCC` | 标准边框 |
-| arrow | `#4D4D4D` | 箭头/线条 |
-
-**特点：**
-- 100% 兼容黑白打印，灰度层级区分明显
-- 对比度高，印刷清晰
-- 完全不需要担心色彩在打印时丢失信息
-- IEEE/ACM 期刊灰度印刷推荐方案
-
----
-
-### 方案 11: 学术期刊标准配色（Nature/Science 官方风格）⭐ 新增
-
-**适用场景：** Nature/Science/Cell 等顶刊投稿、需要专业权威视觉风格的论文
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#1F77B4` | 主色 — 核心模型组件边框 |
-| secondary | `#FF7F0E` | 辅色 — 数据/输入输出 |
-| tertiary | `#2CA02C` | 点缀色 — 算法/处理模块 |
-| accent1 | `#D62728` | 强调色 — 损失/输出 |
-| accent2 | `#9467BD` | 特殊模块色 — 注意力/创新点 |
-| accent3 | `#8C564B` | 硬件/系统模块色 |
-| text | `#1F2937` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#F8FAFC` | 区域背景 |
-| border | `#CBD5E1` | 标准边框 |
-| arrow | `#334155` | 箭头/线条 |
-
-**特点：**
-- 完全符合Nature/Science/Cell 等顶刊的图表配色规范
-- 专业、权威、高辨识度
-- 与顶刊实验图表配色天然一致
-- 色盲友好（红绿色盲可区分）
-
----
-
-### 方案 13: Nature Blue / Deep Blue Monochrome（深蓝单色系）⭐ 新增
-
-**适用场景：** Nature/Science 风格材料科学论文、高分子/化学/物理交叉学科、需要专业权威感又不想多色杂乱
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#1B3A5C` | 主色 — 核心模块边框、节标签（最深的 Navy） |
-| secondary | `#2E6B9E` | 辅色 — 次要模块边框（Medium Blue） |
-| tertiary | `#5BA0D0` | 点缀色 — 输出/结果模块（Light Blue） |
-| gray | `#8EAEC4` | 灰蓝 — 辅助模块边框（Steel Gray） |
-| text | `#333333` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#F7F7F7` | 区域背景 |
-| border | `#CCCCCC` | 标准边框 |
-| arrow | `#4D4D4D` | 箭头/线条 |
-
-**特点：**
-- 从深 Navy 到浅 Steel Gray 的单一色相渐变，视觉极度统一
-- 比 Blue Monochrome（方案 2）更深沉、更学术、更 "Nature 期刊风"
-- 四个层级颜色天然对应四个模块（HCEA→CFM→CBSG→DPES 由深到浅）
-- 完全色盲友好（仅靠亮度区分）
-- 黑白打印时色阶区分清晰（深→浅→亮灰→浅灰）
-- **实践验证：单一色系比 3 种不同色相更不容易产生 "杂乱感"**
-
-> **推荐场景：** 当你用 Okabe-Ito 或 Teal-Coral 三色方案仍然觉得图 "太花" 时，切换到单色系是最高效的解法。
-
----
-
-### 配色哲学：单色系 vs 多色系
-
-| | 单色系 (Blue Monochrome / Nature Blue) | 多色系 (Okabe-Ito / Tab10) |
-|---|---|---|
-| **视觉统一感** | 极强，各模块像一家人 | 弱，各模块各说各话 |
-| **模块区分度** | 靠明度差异 + 边框样式 + 标签 | 靠色相差 + 标签 |
-| **适用场景** | 模块多（≥4 个）的框架图 | 模块少（2-3 个）、需强调对比 |
-| **色盲友好** | 天然友好 | 需选对方案 |
-| **黑白打印** | 优秀 | 一般 |
-| **"杂乱感"风险** | 极低 | 中高 |
-
-> **经验法则：** 模块 ≥ 4 个时，默认用单色系。模块 ≤ 3 个时，可用多色系突出对比。不确定时，单色系永远比多色系安全。
-
-## 配色禁忌清单
-
-### ❌ 绝对禁止
-
-| 禁止做法 | 危害 | 替代方案 |
-|---------|------|---------|
-| 彩色背景面板 | 浪费墨、AI 生图感、不专业 | 白色 + 极浅灰分组 |
-| 高饱和度 Header Banner | 廉价感、分散注意力 | 小号 small-caps 文字 + 灰色分割线 |
-| 每个模块不同颜色填充 | 混乱、可读性差 | 纯白填充 + 仅边框用色 |
-| 彩色缩略图 | 信息过载 | 单色灰度或仅 2 色 |
-| 5+ 种颜色同时出现 | 视觉污染 | 最多 3 种色彩 + 灰色系 |
-| 彩虹/渐变效果 | 不专业、打印效果差 | 纯色、扁平、无渐变 |
-| 深色背景 | 与论文版式冲突、浪费墨 | 白色背景（≥70% 面积） |
-
-### ⚠️ 谨慎使用
-
-| 做法 | 注意事项 |
-|-----|---------|
-| 仅用颜色编码类别 | 必须同时使用形状/标签编码 |
-| 红色/绿色组合 | 对红色盲不友好，改用蓝/橙 |
-| 低饱和度色彩 | 确保对比度 ≥4.5:1 |
-| 多面板用不同背景 | 统一使用白色/极浅灰 |
-
----
-
-## 色盲友好设计原则
-
-### 常见色盲类型
-
-| 类型 | 影响人群 | 难以区分 |
-|-----|---------|---------|
-| **Deuteranopia（红色盲）** | ~6% 男性，~0.4% 女性 | 红 ↔ 绿 |
-| **Protanopia（绿色盲）** | ~1% 男性 | 红 ↔ 绿 |
-| **Tritanopia（蓝色盲）** | <0.01% | 蓝 ↔ 黄 |
-
-### 色盲友好检查清单
-
-- [ ] **主色选择**：优先使用 Okabe-Ito 或 ML TopConf Colorblind
-- [ ] **双重编码**：颜色 + 形状/标签/线条样式同时使用
-- [ ] **对比度验证**：文字与背景对比度 ≥4.5:1
-- [ ] **避免组合**：避免红/绿、蓝/黄作为唯一区分方式
-- [ ] **灰度测试**：图片在黑白打印时仍可完整阅读
-- [ ] **关键信息**：不依赖颜色传达关键信息
-
-### 推荐工具
-
-| 工具 | 用途 | 链接 |
-|-----|------|------|
-| ColorBrewer | 学术数据可视化配色 | https://colorbrewer2.org |
-| Viz Palette | 实时模拟色盲效果 | https://projects.susielu.com/viz-palette |
-| WebAIM Contrast | 对比度检查 | https://webaim.org/resources/contrastchecker |
-| Coolors | 随机生成+锁定调整 | https://coolors.co |
-| ColorHunt | 精选高质量色板 | https://colorhunt.co |
-| Adobe Color | 色轮+互补/类比/三分配色 | https://color.adobe.com/create |
-
----
-
-## 按投稿 venue 推荐
-
-### 计算机视觉顶会
-
-| Venue | 推荐方案 | 理由 |
-|------|---------|------|
-| **CVPR / ICCV / ECCV** | Okabe-Ito / ML TopConf Colorblind | 色盲安全、领域标准 |
-| **NeurIPS / ICML / ICLR** | ML TopConf Tab10 / Colorblind / Deep | 读者熟悉、与实验图一致 |
-| **Nature / Science** | Okabe-Ito | 期刊官方推荐 |
-| **IEEE Transactions** | Purple-Green / Blue Monochrome | 高对比度、专业感 |
-
-### 其他领域
-
-| 领域 | 推荐方案 |
-|-----|---------|
-| **HCI / CHI** | Teal-Coral / Okabe-Ito |
-| **生物学 / 医学** | Warm Earth / Okabe-Ito / 生物材料/交叉学科专用配色 |
-| **材料科学/生物材料+AI交叉** | 生物材料/交叉学科专用配色 / Okabe-Ito |
-| **机器人学** | Blue Monochrome / Okabe-Ito |
-| **理论计算机科学** | Grayscale / Blue Monochrome / 灰度打印友好 |
-| **Nature/Science/Cell 顶刊投稿** | 学术期刊标准配色 / Okabe-Ito / **Nature Blue** |
-| **材料科学/化学/物理** | **Nature Blue** / Blue Monochrome / 灰度打印友好 |
-
----
-
-## 自定义配色指南
-
-如果需要自定义配色，请按以下步骤：
-
-### Step 1: 确定主色
-
-选择 1 种主色用于核心模块边框：
-- 推荐从预设方案中选择，或使用 Coolors/ColorHunt 探索
-
-### Step 2: 选择辅色
-
-选择 1-2 种辅色用于次要元素：
-- 与主色形成对比但和谐
-- 避免使用过多色彩
-
-### Step 3: 填充灰色系
-
-按以下格式提供完整配色：
-
-```
-主色：#XXXXXX（核心模块边框/节标签）
-辅色：#XXXXXX（次要模块/强调）
-点缀色：#XXXXXX（输出结果，可选）
-背景：#FFFFFF（必须纯白或近白）
-文字：#333333（建议深色）
-```
-
-### Step 4: 验证可访问性
-
-- [ ] 检查文字对比度 ≥4.5:1
-- [ ] 模拟色盲效果确认可区分
-- [ ] 验证黑白打印可读性
-
----
-
-## 缺信息处理分支
-
-**总原则：** 信息不足时，优先输出“保守但有用”的阶段性结果，而不是停止任务或等待所有条件齐全；配色决策顺序为：`用户指定` → `场景推荐` → `默认安全方案`。任何超出已知条件的判断，都必须明确标注为“推断”或“待确认”。
-
-#### 情况 1：用户没有说明投稿 venue
-- 先尝试从论文领域、会议名、参考图风格、是否需与实验图统一等上下文推断场景
-- 若能判断场景，则优先给出对应的 `场景推荐方案 + 1 个备选方案`
-- 若仍无法判断，则默认优先推荐 `Okabe-Ito`
-- 在输出中明确标注：`venue 未指定；若场景判断不足，则先采用通用安全方案`
-
-#### 情况 2：用户没有说明是否需要色盲友好
-- 默认按“需要色盲友好”处理
-- 优先排除红绿强依赖方案，避免给出高风险建议
-- 在输出中明确标注：`未声明可访问性要求，已按保守标准推荐`
-
-#### 情况 3：用户只说“想要高级感/科技感/柔和一点”
-- 先将主观风格映射为 1-2 套最接近的预设方案
-- 必须给出具体 hex 色值，不能只停留在风格形容词
-- 如语义过于宽泛，同时给一个主推荐和一个备选
-
-#### 情况 4：用户没有说明图类型
-- 先按通用论文框架图场景推荐
-- 若是模块细节图，偏向 Blue Monochrome / Okabe-Ito；若是对比图，可补充 Purple-Green / ML TopConf Deep 作为备选
-- 不要把针对特定图型的建议伪装成通用最佳方案
-
-#### 情况 5：用户只给参考图，没有明确目标
-- 先提取参考图主色、辅色、背景和对比度倾向
-- 再判断其是否满足学术论文的白底、低饱和、可打印要求
-- 如参考图风格不适合论文，应明确指出风险，并给出“保留风格但更学术化”的替代方案
-
-## 输出格式
-
-当用户询问配色建议时，按照以下格式输出：
-
-```markdown
-# 学术配图配色建议
-
-## 信息完整度说明
-- **已分析材料**：[venue / 领域 / 图类型 / 参考图 / 可访问性要求]
-- **当前输出类型**：精准推荐 / 阶段性推荐 / 默认安全推荐
-- **配色来源**：用户指定 / 场景推荐 / 默认安全方案
-- **高置信信息**：[当前主推荐方案及其依据]
-- **待确认信息**：[是否黑白打印、是否需要和实验图统一、是否有品牌色]
-- **建议补充材料**：[最值得补充的条件或参考信息]
-
-## 🎨 推荐方案
-
-### 方案 [编号]: [方案名]
-
-| 角色 | 色值 | 用途 |
-|-----|------|------|
-| primary | `#XXXXXX` | 核心模块边框、节标签 |
-| secondary | `#XXXXXX` | 次要模块边框、替代高亮 |
-| tertiary | `#XXXXXX` | 输出/结果模块（极少量） |
-| text | `#XXXXXX` | 正文字色 |
-| fill | `#FFFFFF` | 画布背景 |
-| section_bg | `#XXXXXX` | 区域背景 |
-| border | `#XXXXXX` | 标准边框 |
-| arrow | `#XXXXXX` | 箭头/线条 |
-
-**适用场景：** [适用的 venue/领域]
-**特点：** [3-5 个关键点]
-**推荐理由：** [为什么该方案最适合当前条件]
-
----
-
-## ✅ 配色检查清单
-
-- [ ] 白色主导（≥70% 面积）
-- [ ] 仅边框用色，模块纯白填充
-- [ ] 最多 3 种彩色 + 灰色系
-- [ ] 无渐变、无阴影、无 3D 效果
-- [ ] 色盲友好（如需要）
-- [ ] 黑白打印仍可读
-
-## 🛠️ 推荐工具
-
-- ColorBrewer — 学术数据可视化配色
-- Viz Palette — 色盲效果模拟
-- WebAIM Contrast — 对比度检查
-```
-
----
-
-## 注意事项
-
-1. **预设优先**：优先推荐 9 套预设方案，而非让用户从零开始
-2. **安全第一**：涉及色盲安全要求时，默认推荐 Okabe-Ito
-3. **领域适配**：根据论文领域和投稿 venue 调整建议
-4. **克制原则**：始终强调"少即是多"的配色理念
-5. **后续衔接**：配色确定后，建议使用「Academic Figure Prompt」技能生成具体提示词
+Stop when the user has a Palette Decision for the current figure, or when zero constraints and zero artifacts exist (then ask for venue / figure type / domain).
