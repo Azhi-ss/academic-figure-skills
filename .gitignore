@@ -21,3 +21,6 @@ Thumbs.db
 .agents/
 skills.json
 
+# Local reference repositories (not committed)
+ref_repos/
+
