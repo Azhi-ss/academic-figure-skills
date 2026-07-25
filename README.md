@@ -2,10 +2,13 @@
 
 ![Version](https://img.shields.io/badge/version-2.8.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
+![Stars](https://img.shields.io/github/stars/Azhi-ss/academic-figure-skills?style=social)
 
-AI 驱动的学术论文配图技能包，适用于 Claude Code / Cursor / Codex / Gemini CLI 等。从代码仓库分析、论文配图规划，到 JSON 配图规范与现代 pastel 提示词。
+**Academic paper figure skills for Claude Code, Cursor, Codex & Gemini CLI.**  
+AI 驱动的学术论文配图技能包：仓库分析 → 配图规划 → 色盲友好配色 → JSON 配图规范 / 现代 pastel 提示词。
 
-**7 skills · 配色 SSOT · classic / pastel 双风格**
+**7 skills · palette SSOT · classic / pastel** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
+
 
 ## 快速开始（30 秒）
 
