@@ -120,7 +120,7 @@ Four layers when JSON is not used:
 1. Global description (type, venue style, layout)
 2. `=== SECTION ===` blocks: panel bg, labels, white boxes with colored borders, sub-structure, optional mono thumbnails, sparse formulas, arrows
 3. Global annotations (dims, skip links, legend)
-4. STYLE SPECIFICATIONS with hex from `docs/palettes.md`
+4. STYLE SPECIFICATIONS with hex from `references/palettes.md`
 
 Every module box has internal content — no empty shells.
 

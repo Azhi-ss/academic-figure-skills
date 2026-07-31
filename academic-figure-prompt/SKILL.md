@@ -64,8 +64,8 @@ Do not maintain a private palette table. This skill is **classic family** only (
 
 1. User-specified palette / hex → use it  
 2. Else existing Palette Decision from color-expert → use it  
-3. Else run `docs/palettes.md` **Scene → palette decision** (hard constraints → type → venue → domain); if still empty, safe default (≥4 modules → Nature Blue; else Okabe-Ito) and say so  
-4. Load hex from `docs/palettes.md`  
+3. Else run `references/palettes.md` **Scene → palette decision** (hard constraints → type → venue → domain); if still empty, safe default (≥4 modules → Nature Blue; else Okabe-Ito) and say so
+4. Load hex from `references/palettes.md`
 5. If user signals airy/pastel, **stop** and route to `academic-figure-prompt-pastel` instead of forcing classic borders
 
 Done when: palette name + hex are fixed, family is classic, and the decision branch is stated.

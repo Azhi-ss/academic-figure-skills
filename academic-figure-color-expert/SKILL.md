@@ -47,17 +47,17 @@ Done when you have recorded (or marked missing): venue, domain, figure type, mod
 
 ### Step 2: Decide style family + palette
 
-1. Classic vs pastel — `docs/palettes.md` **Style family first**  
+1. Classic vs pastel — `references/palettes.md` **Style family first**
 2. If pastel → hand off scheme P1/P2/P3 to `academic-figure-prompt-pastel` (hex from that skill)  
 3. If classic → apply **Scene → palette decision** (hard constraints → figure type → venue → domain → vibe)  
 4. Name primary + alternate; state branch (`user` / `scene` / `default`)
 
-Done when: family + primary + alternate are explicit, with the decision checklist fields from `docs/palettes.md`.
+Done when: family + primary + alternate are explicit, with the decision checklist fields from `references/palettes.md`.
 
 
 ### Step 3: Emit hex + handoff
 
-Load the chosen preset from `docs/palettes.md`. Output the Palette Decision format.
+Load the chosen preset from `references/palettes.md`. Output the Palette Decision format.
 
 Done when: every role hex is filled, accessibility stated, and the handoff block is copy-ready for `academic-figure-prompt`.
 

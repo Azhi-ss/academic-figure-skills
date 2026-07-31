@@ -23,4 +23,4 @@ python3 academic-repo-analyzer/scripts/create_sparse_fixture.py
 python3 academic-repo-analyzer/scripts/run_repo_benchmarks.py --manifest examples/benchmarks/manifest.json
 
 Report: `ref_repos/benchmark-report.md`. Exit code 0 = all checks pass.
-Pinned commits + license per repo: `manifest.json`.
+Repository URLs/licenses: `manifest.json`. Actual fetched commits: `ref_repos/fetch-log.json`; committed golden headers record the derived short SHA.

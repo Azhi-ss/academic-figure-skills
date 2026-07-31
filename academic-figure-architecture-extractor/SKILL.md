@@ -20,7 +20,7 @@ Extractor: → `scripts/extract_pdf_figures.py`
 - Prefer user-supplied figure images when available.
 - PDF extraction is a **real local helper** (pdfimages / PyMuPDF / optional pdftoppm), not a trained detector.
 - Size filter is heuristic only; architecture vs photo/table is **agent judgment**.
-- Palette: recommend **names** from `docs/palettes.md`; hex via color-expert when needed.
+- Palette: recommend **names** from `references/palettes.md`; hex via color-expert when needed.
 
 ## Input Contract
 
@@ -90,7 +90,7 @@ Done when: every kept figure has type + component list + flow summary.
 
 ### Step 4: Palette suggestion + redraw handoff
 
-Map via `docs/palettes.md` (e.g. ≥4-module framework → Nature Blue; module detail → Blue Monochrome; comparison → ML TopConf Deep).
+Map via `references/palettes.md` (e.g. ≥4-module framework → Nature Blue; module detail → Blue Monochrome; comparison → ML TopConf Deep).
 
 ```
 图类型: ...
