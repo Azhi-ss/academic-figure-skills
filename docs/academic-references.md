@@ -15,7 +15,7 @@
 本文提出了一套对色盲友好的配色方案，已成为学术可视化的事实标准。该方案考虑了三种主要色盲类型：
 - Deuteranopia（红色盲，~6% 男性）
 - Protanopia（绿色盲，~1% 男性）
-- Tritanopia（蓝色盲，<0.01%）
+- Tritanopia（蓝黄色盲，<0.01%）
 
 **推荐应用场景：**
 - CVPR、ICCV、ECCV 等计算机视觉会议
@@ -170,3 +170,18 @@ Viridis 是一个感知均匀（perceptually uniform）的连续色图，确保�
 ```
 
 同时请确保引用您实际使用的配色方案的原始文献！
+
+---
+
+## Benchmark repositories
+
+The benchmark suite uses these public repositories as reproducible reference cases:
+
+| Repository | URL | License | Test value |
+|------------|-----|---------|------------|
+| CompVis/stable-diffusion | https://github.com/CompVis/stable-diffusion | CreativeML Open RAIL-M | Diffusion baseline; anchors fictional example 01 |
+| karpathy/nanoGPT | https://github.com/karpathy/nanoGPT | MIT | Minimal transformer layout and module-count detection |
+| facebookresearch/esm | https://github.com/facebookresearch/esm | MIT | Protein classification row |
+| google-deepmind/alphafold | https://github.com/google-deepmind/alphafold | Apache-2.0 | Protein row and non-PyTorch JAX/Haiku stack detection |
+| google-deepmind/graphcast | https://github.com/google-deepmind/graphcast | Apache-2.0 | GNN/weather classification outside the DL taxonomy |
+| huggingface/transformers | https://github.com/huggingface/transformers | Apache-2.0 | Huge-repository sampling cap and no keyword-scan leak |

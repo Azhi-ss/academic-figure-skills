@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 2.9.0
+
+- Real-repo benchmarks: six public repository clones plus the sparse fixture.
+- Vendored `references/` in all skills, fixing broken `../docs/` links after install.
+- Generalized repo-analyzer coverage for AI4Science and research code.
+- Wired `module_count` and `aspect_ratio` end to end.
+- Fixed example and schema drift.
+
 ## [2.8.0] - 2026-07-25
 
 ### Added

@@ -108,6 +108,7 @@ A good skill should include:
 5. **Sparse-input cases** — partial results labeled `推断` / `待确认` (see `docs/missing-info-policy.md`)
 
 Do **not** paste the full palette hex tables into new skills — load `docs/palettes.md`.
+New or edited skills must vendor references/ (palettes + missing-info-policy) and reference them as references/<file>.md — never ../docs/, which does not exist after npx skills install.
 Keep descriptions short: one leading job + distinct trigger branches; no implementation counts (“13 presets”).
 
 ### Trigger Phrases

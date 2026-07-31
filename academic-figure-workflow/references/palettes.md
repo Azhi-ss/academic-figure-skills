@@ -22,8 +22,8 @@ Palette hex is useless until the **drawing style** is fixed. Choose family befor
 
 | Signals from user / venue | Style family | Skill | Look |
 |---------------------------|--------------|-------|------|
-| CVPR / Nature / IEEE / “顶刊经典” / architecture boxes+arrows / JSON spec | **Classic academic** | `academic-figure-prompt` | white fill, **colored borders only**, sans technical, flat vector |
-| ICLR / NeurIPS / ICML “2024–2025 感觉” / pastel / airy / soft / token 流动 / 现代 ML | **Pastel airy** | `academic-figure-prompt-pastel` | white panels + soft shadow, rounded type, pastel **tokens/pills** (not border-only boxes) |
+| NeurIPS / ICML / ICLR diagrams requested as “classic / box-border / JSON spec” | **Classic academic** | `academic-figure-prompt` | white fill, **colored borders only**, sans technical, flat vector |
+| ICLR / NeurIPS / ICML "2024–2025 感觉" / pastel / airy / soft / token 流动 / 现代 ML | **Pastel airy** | `academic-figure-prompt-pastel` | white panels + soft shadow, rounded type, pastel **tokens/pills** (not border-only boxes) |
 | User pastes a reference | Match reference family first | same as above | extract whether borders-or-tokens dominate |
 
 Rules:
