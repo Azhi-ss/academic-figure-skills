@@ -1,7 +1,7 @@
 ---
 id: academic-figure-prompt-pastel
 name: Academic Figure Prompt — Modern ML Airy Style
-version: 4.1.0
+version: 4.1.1
 description: Pastel airy figure prompts for modern ML papers — ICLR/NeurIPS/ICML soft-panel style with tokens, pills, and rounded type. Use when the user wants pastel academic figures, 现代ML论文配图, or 2024-2025 conference airy aesthetics.
 stages: [writing, research, review]
 tools: [bash]

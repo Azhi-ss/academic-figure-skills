@@ -1,7 +1,7 @@
 ---
 id: academic-repo-analyzer
 name: Academic Repo Analyzer
-version: 1.1.0
+version: 1.2.0
 description: Quick-understanding doc for ML/DL, AI4Science, and research codebases — task type, stack, architecture, and figure-worthy innovations. Use when the user wants repo analysis, 仓库分析, or to understand a codebase before figure planning.
 stages: [research, review]
 tools: [bash]

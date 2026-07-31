@@ -39,7 +39,7 @@ Output shape from `academic-figure-paper-analyzer` (Figure Plan). Palette = **na
 
 ### 4. Experiments
 - **Comparison / Ablation** × 1–2（strong）— 样本网格 + 消融多面板  
-- **Data Behavior** × 1（medium）— 可选效率曲线
+- **Data Behavior** × 1（nice）— 可选效率曲线
 
 ## 优先级
 
@@ -58,7 +58,7 @@ venue: NeurIPS
 domain: generative CV
 figure_types: framework, architecture, module, ablation
 module_count_framework: 4+
-hint: prefer ML TopConf Colorblind; alternate Okabe-Ito
+hint: prefer ML TopConf Colorblind; alternate Tab10 / Deep
 ```
 
 ---

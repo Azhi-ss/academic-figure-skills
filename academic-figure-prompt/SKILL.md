@@ -1,7 +1,7 @@
 ---
 id: academic-figure-prompt
 name: Academic Figure Prompt
-version: 1.4.0
+version: 1.5.0
 description: JSON figure spec for academic diagrams — exact_text layout control for framework, architecture, module, and comparison figures. Use when the user wants paper figure prompts, 架构图/框架图 specs, or academic-figure JSON (text prompts only as simple fallback).
 stages: [writing, research, review]
 tools: [bash]

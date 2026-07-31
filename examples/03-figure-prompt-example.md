@@ -31,6 +31,7 @@ accessibility: colorblind-safe
 {
   "diagram_type": "Diffusion Overall Framework",
   "diagram_title_rendering": "None",
+  "aspect_ratio": "16:9",
   "style_and_colors": {
     "background": "White (#FFFFFF)",
     "main_block_color_palette": {
@@ -75,15 +76,13 @@ accessibility: colorblind-safe
           "secondary_note": "backbone"
         },
         "column_2": {
-          "exact_label": "Time Emb",
-          "shape_hint": "Warm Orange border"
+          "exact_text": "Time Emb\nWarm Orange border"
         },
         "column_3": {
-          "exact_label": "Cross-Attn",
-          "shape_hint": "Bluish Green border"
+          "exact_text": "Cross-Attn\nBluish Green border"
         },
-        "badge": {
-          "exact_floating_text": "×50"
+        "repeat_count": {
+          "exact_text": "×50"
         }
       },
       "caption_note": "ε_θ(x_t, t, c) full objective in figure caption",
@@ -108,6 +107,8 @@ accessibility: colorblind-safe
     "Render text ONLY within designated exact_* fields.",
     "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
     "Icons are monochrome thin grey line art.",
+    "Weight status MUST use dashed/solid borders or subtle pill tags ([Fixed] vs [Tune]).",
+    "NO emojis, NO lock/fire/lightning decorative symbols, NO 3D rendering.",
     "Flat vector: no gradients, no 3D.",
     "Canvas is pure white (#FFFFFF)."
   ]

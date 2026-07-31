@@ -1,7 +1,7 @@
 ---
 id: academic-figure-color-expert
 name: Academic Figure Color Expert
-version: 1.3.1
+version: 1.3.2
 description: Palette Decision for academic figures — venue-aware style family and colorblind-safe scheme selection with scene recipes. Use when the user needs an academic color palette, classic vs pastel advice, Nature Blue, or architecture-diagram color matching.
 stages: [writing, research]
 tools: [bash]

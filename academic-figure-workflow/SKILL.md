@@ -1,7 +1,7 @@
 ---
 id: academic-figure-workflow
 name: Academic Figure Workflow Orchestrator
-version: 1.1.0
+version: 1.2.0
 description: End-to-end academic figure workflow router — from repo or paper to figure prompt via the minimum sibling skills. Use when the user wants a full pipeline, is unsure which academic-figure skill to start with, or says 完整论文配图工作流 / from paper to figure prompt.
 stages: [research, writing, review]
 tools: [bash]
@@ -51,11 +51,9 @@ Never force the full chain for a single-stage ask.
 
 ## Defaults
 
-- **Style family** then palette: follow `docs/palettes.md` (classic JSON vs pastel airy; ≥4 modules → Nature Blue; else Okabe-Ito). Always state the branch.  
-- ICLR / NeurIPS / ICML airy / pastel / “现代一点” language → `prompt-pastel` + P1–P3  
-- Otherwise → `prompt` JSON + classic 12 presets  
+- **Style family** then palette: follow `references/palettes.md` (Style family first + Scene → palette decision). Always state the branch.  
 - Repo + paper both present → plan from paper; repo fills technical gaps  
-- When user only asks “用什么配色/风格”, load color-expert and the **Scene → palette** section of `docs/palettes.md`
+- When user only asks “用什么配色/风格”, load color-expert and the **Scene → palette** section of `references/palettes.md`
 
 
 ## Handoffs (carry forward, don't re-narrate)

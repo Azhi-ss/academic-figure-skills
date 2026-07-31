@@ -50,12 +50,14 @@ npx skills add Azhi-ss/academic-figure-skills -l
 </tr>
 </table>
 
+真实仓库基准：[stable-diffusion / nanoGPT / ESM / AlphaFold / GraphCast / transformers + sparse fixture](examples/benchmarks/README.md)
+
 ## 技能列表
 
 | 技能 | 功能 | 触发词示例 |
 |-----|------|-----------|
 | **academic-figure-workflow** | 总入口路由：repo / paper / color / 架构分析 / prompt | 完整论文配图工作流、which skill first |
-| **academic-repo-analyzer** | ML/DL 仓库快速理解文档 | 分析代码仓库、repo analyzer |
+| **academic-repo-analyzer** | ML/DL、AI4Science 与研究代码仓库快速理解文档 | 分析代码仓库、repo analyzer |
 | **academic-figure-paper-analyzer** | 论文配图规划（类型、数量、优先级） | 论文需要哪些图、paper figure planning |
 | **academic-figure-architecture-extractor** | PDF/图结构分析 + 本地提取脚本 | 提取论文架构图、architecture diagram |
 | **academic-figure-color-expert** | 风格族 + 12 套配色 Palette Decision | 学术配图配色、Nature Blue |
@@ -206,12 +208,6 @@ AI:  [academic-figure-prompt-pastel · P2 Cool Research]
 
 ## 常见问题 FAQ
 
-### Q: 怎么装到 Claude Code / Cursor？
-A: `npx skills add Azhi-ss/academic-figure-skills -g --all`。CLI 会检测本机 agent 并写入对应 skills 目录。
-
-### Q: 更新后别人还是旧版？
-A: 用户需执行 `npx skills update Azhi-ss/academic-figure-skills -g -y`，或重新 `add`。分发源是 GitHub `main` 最新提交。
-
 ### Q: 生成的是英文还是中文？
 A: 给图片模型的 JSON / prompt 用英文；对用户的说明可用中文。
 
@@ -223,9 +219,6 @@ A: 框线架构 / 顶刊经典 → classic + 12 套色板。空气感面板 / to
 
 ### Q: 不确定配色怎么办？
 A: `用户指定 → 场景推荐 → 默认安全方案`。不足时会标明使用 Okabe-Ito 或 Nature Blue（≥ 4 模块）。
-
-### Q: 可以只装/只用一个技能吗？
-A: 可以。`-s <skill-name>` 单装；使用时每个 skill 独立，workflow 仅在需要路由时用。
 
 ### Q: 必须按顺序跑完整流水线吗？
 A: 不需要。可直接 prompt / color-expert / repo-analyzer。
