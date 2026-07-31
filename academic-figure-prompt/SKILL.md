@@ -12,8 +12,8 @@ tools: [bash]
 Default deliverable: a **JSON figure spec** (`exact_*` text locks + layout blocks + rendering rules). Text prompts only for simple charts or explicit user request.
 
 Schema and examples: → `json-schema.md`  
-Palettes: → `../docs/palettes.md`  
-Missing info: → `../docs/missing-info-policy.md`
+Palettes: → `references/palettes.md`
+Missing info: → `references/missing-info-policy.md`
 
 ## Text Budget (leading rule)
 

@@ -13,8 +13,8 @@ Pack entrypoint. Detect stage, load **only** needed sibling skills, carry compac
 
 Shared refs:
 
-- palettes → `../docs/palettes.md`
-- missing info → `../docs/missing-info-policy.md`
+- palettes → `references/palettes.md`
+- missing info → `references/missing-info-policy.md`
 
 ## Sibling routing
 

@@ -11,8 +11,8 @@ tools: [bash]
 
 Turn paper PDFs or existing architecture images into a structured **架构图分析结果** that handoffs cleanly to color-expert and prompt skills.
 
-Palettes: → `../docs/palettes.md` (names only)  
-Missing info: → `../docs/missing-info-policy.md`  
+Palettes: → `references/palettes.md` (names only)
+Missing info: → `references/missing-info-policy.md`
 Extractor: → `scripts/extract_pdf_figures.py`
 
 ## Honest scope

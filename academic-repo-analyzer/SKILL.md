@@ -12,7 +12,7 @@ tools: [bash]
 Produce a **仓库快速理解文档** for downstream figure planning.
 
 Keywords: → `keywords.md`  
-Missing info: → `../docs/missing-info-policy.md`
+Missing info: → `references/missing-info-policy.md`
 
 ## Input Contract
 

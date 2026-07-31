@@ -11,7 +11,7 @@ tools: [bash]
 
 Produce a reusable **Palette Decision**. Hex tables, venue maps, and **scene→style→palette** recipes live in one place:
 
-→ Read `../docs/palettes.md` (presets + **Style family** + **Scene → palette decision** + recipes).
+→ Read `references/palettes.md` (presets + **Style family** + **Scene → palette decision** + recipes).
 
 Always decide **style family** (classic vs pastel) before naming a classic preset.
 
@@ -27,7 +27,7 @@ Always decide **style family** (classic vs pastel) before naming a classic prese
 
 - Prefer: venue, domain, figure type, module count, reference image, accessibility / print constraints
 - Minimum: any one of venue / figure type / domain
-- Missing info: follow `../docs/missing-info-policy.md`; still emit a conservative Palette Decision
+- Missing info: follow `references/missing-info-policy.md`; still emit a conservative Palette Decision
 
 ## Output Contract — Palette Decision
 

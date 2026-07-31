@@ -1,4 +1,5 @@
 # 临时文件
+**/handoff-*
 *.pdf
 *.txt
 *.tmp

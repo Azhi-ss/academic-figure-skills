@@ -11,7 +11,7 @@ tools: [bash]
 
 English **image prompts** in the soft pastel style common in recent ICLR / NeurIPS / ICML figures.
 
-Missing info: → `../docs/missing-info-policy.md`  
+Missing info: → `references/missing-info-policy.md`
 Classic JSON specs: use `academic-figure-prompt` instead.
 
 ## Airy rules (all must hold)
@@ -39,7 +39,7 @@ Classic JSON specs: use `academic-figure-prompt` instead.
 | P2 | Cool Research (default) | `#B3E5FC` `#C5CAE9` `#CFD8DC` `#B2DFDB` `#D1C4E9` | `#1565C0` `#3949AB` `#00897B` |
 | P3 | Earthy Warm | `#FFE0B2` `#D7CCC8` `#C8E6C9` `#E0E0E0` `#EFEBE9` | `#6D4C41` `#827717` `#2E7D32` |
 
-Decision: user → scene (modern ML → P2; playful → P1; natural/robotics → P3) → default **P2**. Full classic-vs-pastel and venue recipes: `../docs/palettes.md` (**Style family first** + pastel map). If the user wants box-border Nature/CVPR classic, route to `academic-figure-prompt` instead.
+Decision: user → scene (modern ML → P2; playful → P1; natural/robotics → P3) → default **P2**. Full classic-vs-pastel and venue recipes: `references/palettes.md` (**Style family first** + pastel map). If the user wants box-border Nature/CVPR classic, route to `academic-figure-prompt` instead.
 
 
 ## Input / Output

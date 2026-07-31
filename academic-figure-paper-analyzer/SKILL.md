@@ -11,7 +11,7 @@ tools: [bash]
 
 Produce an executable **Figure Plan**. No palette tables here — hand venue/domain/figure types to color-expert later.
 
-Missing info: → `../docs/missing-info-policy.md`
+Missing info: → `references/missing-info-policy.md`
 
 ## Input Contract
 
@@ -25,7 +25,7 @@ Missing info: → `../docs/missing-info-policy.md`
 - completeness block
 - per-section figure recommendations
 - priority ranking (must / strong / nice)
-- palette: style family hint (classic vs pastel) + venue/domain/module-count — not hex tables; see `../docs/palettes.md`
+- palette: style family hint (classic vs pastel) + venue/domain/module-count — not hex tables; see `references/palettes.md`
 
 ## Steps
 
