@@ -11,7 +11,7 @@ tools: [bash]
 
 English **image prompts** in the soft pastel style common in recent ICLR / NeurIPS / ICML figures.
 
-Missing info: → `references/missing-info-policy.md`
+Missing info: → `references/missing-info-policy.md`  
 Classic JSON specs: use `academic-figure-prompt` instead.
 
 ## Airy rules (all must hold)
