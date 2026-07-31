@@ -1,0 +1,85 @@
+{
+  "_benchmark_golden": {
+    "repository": "google-deepmind/graphcast",
+    "url": "https://github.com/google-deepmind/graphcast.git",
+    "pinned_commit": "08cf7362",
+    "license": "Apache-2.0"
+  },
+  "diagram_type": "Scientific Overall Framework",
+  "diagram_title_rendering": "None",
+  "aspect_ratio": "16:9",
+  "style_and_colors": {
+    "style_family": "Classic academic",
+    "palette": "Okabe-Ito",
+    "background": "White (#FFFFFF)",
+    "main_block_color_palette": [
+      "Blue (#0072B2)",
+      "Orange (#E69F00)",
+      "Green (#009E73)"
+    ],
+    "flow_arrow_colors": {
+      "main_forward_flow": "Dark Grey (#4D4D4D) solid arrows",
+      "feedback_loop": "Dark Grey (#4D4D4D) dashed curved arrow"
+    }
+  },
+  "layout_and_content_blocks": [
+    {
+      "relative_position": "Flow position 1",
+      "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Weather Inputs",
+      "exact_text": "ERA5 history",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 2",
+      "shape": "Rounded rectangle, Orange (#E69F00) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Grid2Mesh",
+      "exact_text": "Grid → mesh",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 3",
+      "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Mesh Processor",
+      "exact_text": "Message passing",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 4",
+      "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Mesh2Grid",
+      "exact_text": "Mesh → grid",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 5",
+      "shape": "Rounded rectangle, Orange (#E69F00) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Weather State",
+      "exact_text": "Next 6 hours",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 6",
+      "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Rollout",
+      "exact_text": "Autoregressive loop"
+    }
+  ],
+  "caption_note": [
+    "Source: google-deepmind/graphcast at pinned commit 08cf7362.",
+    "Long implementation details remain in the figure caption."
+  ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+    "Render text ONLY within designated exact_* fields.",
+    "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+    "Icons are monochrome thin grey line art. No colored icons.",
+    "Weight status MUST use dashed/solid borders or subtle pill tags ([Fixed] vs [Tune]).",
+    "NO emojis, NO lock/fire/lightning decorative symbols, NO 3D rendering.",
+    "Feedback loop arrows are DASHED. Main forward flow arrows are SOLID.",
+    "Flat vector style: no gradients, no 3D, no decorative shadows.",
+    "Canvas is pure white (#FFFFFF)."
+  ]
+}

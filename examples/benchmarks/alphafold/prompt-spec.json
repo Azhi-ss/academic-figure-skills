@@ -1,0 +1,98 @@
+{
+  "_benchmark_golden": {
+    "repository": "google-deepmind/alphafold",
+    "url": "https://github.com/google-deepmind/alphafold.git",
+    "pinned_commit": "c77e5d2a",
+    "license": "Apache-2.0"
+  },
+  "diagram_type": "Scientific Overall Framework",
+  "diagram_title_rendering": "None",
+  "aspect_ratio": "16:9",
+  "style_and_colors": {
+    "style_family": "Classic academic",
+    "palette": "Nature Blue",
+    "background": "White (#FFFFFF)",
+    "main_block_color_palette": [
+      "Dark Navy Blue (#1B3A5C)",
+      "Medium Blue (#2E6B9E)",
+      "Sky Blue (#5BA0D0)"
+    ],
+    "flow_arrow_colors": {
+      "main_forward_flow": "Dark Grey (#4D4D4D) solid arrows",
+      "feedback_loop": "Dark Grey (#4D4D4D) dashed curved arrow"
+    }
+  },
+  "layout_and_content_blocks": [
+    {
+      "relative_position": "Flow position 1",
+      "shape": "Rounded rectangle, Dark Navy Blue (#1B3A5C) 2px solid border, white fill",
+      "exact_title_to_render_inside": "FASTA Input",
+      "exact_text": "Protein sequence",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 2",
+      "shape": "Rounded rectangle, Medium Blue (#2E6B9E) 2px solid border, white fill",
+      "exact_title_to_render_inside": "MSA Search",
+      "exact_text": "Genetic databases",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 3",
+      "shape": "Rounded rectangle, Sky Blue (#5BA0D0) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Template Search",
+      "exact_text": "PDB / mmCIF",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 4",
+      "shape": "Rounded rectangle, Dark Navy Blue (#1B3A5C) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Feature Pipeline",
+      "exact_text": "MSA / pair features",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 5",
+      "shape": "Rounded rectangle, Medium Blue (#2E6B9E) 2px dashed border, white fill",
+      "exact_title_to_render_inside": "Evoformer",
+      "exact_text": "MSA + pair",
+      "exact_status": "[Fixed]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 6",
+      "shape": "Rounded rectangle, Sky Blue (#5BA0D0) 2px dashed border, white fill",
+      "exact_title_to_render_inside": "Structure Module",
+      "exact_text": "Atom coordinates",
+      "exact_status": "[Fixed]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 7",
+      "shape": "Rounded rectangle, Dark Navy Blue (#1B3A5C) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Confidence",
+      "exact_text": "pLDDT / pTM",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 8",
+      "shape": "Rounded rectangle, Medium Blue (#2E6B9E) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Relax & Rank",
+      "exact_text": "PDB outputs"
+    }
+  ],
+  "caption_note": [
+    "Source: google-deepmind/alphafold at pinned commit c77e5d2a.",
+    "Long implementation details remain in the figure caption."
+  ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+    "Render text ONLY within designated exact_* fields.",
+    "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+    "Icons are monochrome thin grey line art. No colored icons.",
+    "Weight status MUST use dashed/solid borders or subtle pill tags ([Fixed] vs [Tune]).",
+    "NO emojis, NO lock/fire/lightning decorative symbols, NO 3D rendering.",
+    "Feedback loop arrows are DASHED. Main forward flow arrows are SOLID.",
+    "Flat vector style: no gradients, no 3D, no decorative shadows.",
+    "Canvas is pure white (#FFFFFF)."
+  ]
+}

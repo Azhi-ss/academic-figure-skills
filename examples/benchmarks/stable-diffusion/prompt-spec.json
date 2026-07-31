@@ -1,0 +1,85 @@
+{
+  "_benchmark_golden": {
+    "repository": "CompVis/stable-diffusion",
+    "url": "https://github.com/CompVis/stable-diffusion.git",
+    "pinned_commit": "21f890f9",
+    "license": "CreativeML Open RAIL-M"
+  },
+  "diagram_type": "Scientific Overall Framework",
+  "diagram_title_rendering": "None",
+  "aspect_ratio": "16:9",
+  "style_and_colors": {
+    "style_family": "Classic academic",
+    "palette": "Nature Blue",
+    "background": "White (#FFFFFF)",
+    "main_block_color_palette": [
+      "Dark Navy Blue (#1B3A5C)",
+      "Medium Blue (#2E6B9E)",
+      "Sky Blue (#5BA0D0)"
+    ],
+    "flow_arrow_colors": {
+      "main_forward_flow": "Dark Grey (#4D4D4D) solid arrows",
+      "feedback_loop": "Dark Grey (#4D4D4D) dashed curved arrow"
+    }
+  },
+  "layout_and_content_blocks": [
+    {
+      "relative_position": "Flow position 1",
+      "shape": "Rounded rectangle, Dark Navy Blue (#1B3A5C) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Text Prompt",
+      "exact_text": "Prompt tokens",
+      "flow": "Horizontal arrow pointing RIGHT to CLIP Encoder"
+    },
+    {
+      "relative_position": "Flow position 2",
+      "shape": "Rounded rectangle, Medium Blue (#2E6B9E) 2px dashed border, white fill",
+      "exact_title_to_render_inside": "CLIP Encoder",
+      "exact_text": "Text context",
+      "exact_status": "[Fixed]",
+      "flow": "Curved arrow pointing RIGHT-DOWN to U-Net Denoiser"
+    },
+    {
+      "relative_position": "Lower Left, parallel input",
+      "shape": "Rounded rectangle, Sky Blue (#5BA0D0) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Latent Noise",
+      "exact_text": "Random latent",
+      "flow": "Horizontal arrow pointing RIGHT to U-Net Denoiser"
+    },
+    {
+      "relative_position": "Flow position 4",
+      "shape": "Rounded rectangle, Dark Navy Blue (#1B3A5C) 2px solid border, white fill",
+      "exact_title_to_render_inside": "U-Net Denoiser",
+      "exact_text": "Cross-attention",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 5",
+      "shape": "Rounded rectangle, Medium Blue (#2E6B9E) 2px dashed border, white fill",
+      "exact_title_to_render_inside": "VAE Decoder",
+      "exact_text": "Pixel image",
+      "exact_status": "[Fixed]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 6",
+      "shape": "Rounded rectangle, Sky Blue (#5BA0D0) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Generated Image",
+      "exact_text": "512 × 512"
+    }
+  ],
+  "caption_note": [
+    "Source: CompVis/stable-diffusion at pinned commit 21f890f9.",
+    "Long implementation details remain in the figure caption."
+  ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+    "Render text ONLY within designated exact_* fields.",
+    "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+    "Icons are monochrome thin grey line art. No colored icons.",
+    "Weight status MUST use dashed/solid borders or subtle pill tags ([Fixed] vs [Tune]).",
+    "NO emojis, NO lock/fire/lightning decorative symbols, NO 3D rendering.",
+    "Feedback loop arrows are DASHED. Main forward flow arrows are SOLID.",
+    "Flat vector style: no gradients, no 3D, no decorative shadows.",
+    "Canvas is pure white (#FFFFFF)."
+  ]
+}

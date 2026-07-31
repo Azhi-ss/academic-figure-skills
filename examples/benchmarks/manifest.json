@@ -1,7 +1,7 @@
 {
   "clone_root": "ref_repos",
   "repos": [
-    {"id": "stable-diffusion", "name": "CompVis/stable-diffusion", "url": "https://github.com/CompVis/stable-diffusion.git", "category": "DL/CV", "license": "MIT", "tests": "ML/CV diffusion baseline; anchors the fictional examples/01 diffusion sample to a real repo"},
+    {"id": "stable-diffusion", "name": "CompVis/stable-diffusion", "url": "https://github.com/CompVis/stable-diffusion.git", "category": "DL/CV", "license": "CreativeML Open RAIL-M", "tests": "ML/CV diffusion baseline; anchors the fictional examples/01 diffusion sample to a real repo"},
     {"id": "nanogpt", "name": "karpathy/nanoGPT", "url": "https://github.com/karpathy/nanoGPT.git", "category": "DL/NLP", "license": "MIT", "tests": "minimal transformer layout; framework + module-count detection"},
     {"id": "esm", "name": "facebookresearch/esm", "url": "https://github.com/facebookresearch/esm.git", "category": "protein/AI4Science", "license": "MIT", "tests": "new protein classification row in keywords.md"},
     {"id": "alphafold", "name": "google-deepmind/alphafold", "url": "https://github.com/google-deepmind/alphafold.git", "category": "protein/AI4Science (JAX)", "license": "Apache-2.0", "tests": "protein row + non-PyTorch stack (JAX/Haiku) detection"},

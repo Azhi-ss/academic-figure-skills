@@ -80,7 +80,7 @@ EXPECTED = {
 }
 
 LICENSE_BY_ID = {
-    "stable-diffusion": "MIT",
+    "stable-diffusion": "CreativeML Open RAIL-M",
     "nanogpt": "MIT",
     "esm": "MIT",
     "alphafold": "Apache",

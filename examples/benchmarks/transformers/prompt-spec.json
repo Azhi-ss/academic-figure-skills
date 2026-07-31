@@ -1,0 +1,97 @@
+{
+  "_benchmark_golden": {
+    "repository": "huggingface/transformers",
+    "url": "https://github.com/huggingface/transformers.git",
+    "pinned_commit": "3717b9cd",
+    "license": "Apache-2.0"
+  },
+  "diagram_type": "Scientific Overall Framework",
+  "diagram_title_rendering": "None",
+  "aspect_ratio": "16:9",
+  "style_and_colors": {
+    "style_family": "Classic academic",
+    "palette": "Nature Blue",
+    "background": "White (#FFFFFF)",
+    "main_block_color_palette": [
+      "Dark Navy Blue (#1B3A5C)",
+      "Medium Blue (#2E6B9E)",
+      "Sky Blue (#5BA0D0)"
+    ],
+    "flow_arrow_colors": {
+      "main_forward_flow": "Dark Grey (#4D4D4D) solid arrows",
+      "feedback_loop": "Dark Grey (#4D4D4D) dashed curved arrow"
+    }
+  },
+  "layout_and_content_blocks": [
+    {
+      "relative_position": "Flow position 1",
+      "shape": "Rounded rectangle, Dark Navy Blue (#1B3A5C) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Hub Checkpoint",
+      "exact_text": "Config + weights",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 2",
+      "shape": "Rounded rectangle, Medium Blue (#2E6B9E) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Processors",
+      "exact_text": "Text / image / audio",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 3",
+      "shape": "Rounded rectangle, Sky Blue (#5BA0D0) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Auto Classes",
+      "exact_text": "Config → model",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 4",
+      "shape": "Rounded rectangle, Dark Navy Blue (#1B3A5C) 2px solid border, white fill",
+      "exact_title_to_render_inside": "PreTrainedModel",
+      "exact_text": "PyTorch families",
+      "exact_status": "[Tune]",
+      "flow": "Branch arrows to Pipeline, Generation, and Trainer"
+    },
+    {
+      "relative_position": "Lower branch 1",
+      "shape": "Rounded rectangle, Medium Blue (#2E6B9E) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Pipeline",
+      "exact_text": "Task inference",
+      "flow": "Horizontal arrow pointing RIGHT to Task Outputs"
+    },
+    {
+      "relative_position": "Lower branch 2",
+      "shape": "Rounded rectangle, Sky Blue (#5BA0D0) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Generation",
+      "exact_text": "Tokens + cache",
+      "flow": "Horizontal arrow pointing RIGHT to Task Outputs"
+    },
+    {
+      "relative_position": "Lower branch 3",
+      "shape": "Rounded rectangle, Dark Navy Blue (#1B3A5C) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Trainer",
+      "exact_text": "Train / evaluate",
+      "flow": "Horizontal arrow pointing RIGHT to Checkpoint or metrics"
+    },
+    {
+      "relative_position": "Far Right, inference outputs",
+      "shape": "Rounded rectangle, Medium Blue (#2E6B9E) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Task Outputs",
+      "exact_text": "Cross-modal results"
+    }
+  ],
+  "caption_note": [
+    "Source: huggingface/transformers at pinned commit 3717b9cd.",
+    "Long implementation details remain in the figure caption."
+  ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+    "Render text ONLY within designated exact_* fields.",
+    "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+    "Icons are monochrome thin grey line art. No colored icons.",
+    "Weight status MUST use dashed/solid borders or subtle pill tags ([Fixed] vs [Tune]).",
+    "NO emojis, NO lock/fire/lightning decorative symbols, NO 3D rendering.",
+    "Feedback loop arrows are DASHED. Main forward flow arrows are SOLID.",
+    "Flat vector style: no gradients, no 3D, no decorative shadows.",
+    "Canvas is pure white (#FFFFFF)."
+  ]
+}
