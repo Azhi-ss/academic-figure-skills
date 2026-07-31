@@ -8,11 +8,14 @@ Load when producing the default JSON output of `academic-figure-prompt`.
 {
   "diagram_type": "string",
   "diagram_title_rendering": "None",
+  "aspect_ratio": "16:9 | 3:2 | 4:3 | 1:1 | None",
   "style_and_colors": {},
   "layout_and_content_blocks": [],
   "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": []
 }
 ```
+
+aspect_ratio is optional; copy it from the Figure Plan when provided, else "None".
 
 ## Block fields
 
@@ -22,7 +25,7 @@ Load when producing the default JSON output of `academic-figure-prompt`.
 | `shape` | border/fill | `"Dark Navy Blue (#1B3A5C) 2px dashed border, white fill"` |
 | `exact_title_to_render_inside` | module title | `"Module A: Name"` |
 | `exact_label` | primary label ≤ 2 words | `"Input"` |
-| `exact_text` / `exact_text_to_render` | locked on-figure text | `"MMPolymer Transformer\\nPredicts Tg"` |
+| `exact_text` | locked on-figure text | `"MMPolymer Transformer\\nPredicts Tg"` |
 | `exact_floating_text` | arrow/side notes | `"Valid linear polymer"` |
 | `secondary_note` | optional smaller text ≤ 2 words | `"(ETKDGv3)"` |
 | `caption_note` | off-figure caption content | full formula / params |
@@ -76,7 +79,7 @@ Do not ask the model to “never render JSON keys” as a primary instruction; i
     {
       "relative_position": "Top Left",
       "shape": "Rounded rectangular box, Light Blue thin border, white fill",
-      "exact_text_to_render": "BRICS Fragment Library\\n→ Initial Population",
+      "exact_text": "BRICS Fragment Library\\n→ Initial Population",
       "flow": "Horizontal arrow pointing RIGHT to Main Module"
     },
     {

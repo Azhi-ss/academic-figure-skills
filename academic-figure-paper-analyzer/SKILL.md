@@ -25,7 +25,8 @@ Missing info: → `references/missing-info-policy.md`
 - completeness block
 - per-section figure recommendations
 - priority ranking (must / strong / nice)
-- palette: style family hint (classic vs pastel) + venue/domain/module-count — not hex tables; see `references/palettes.md`
+- palette: style family hint (classic vs pastel) + venue: <venue or None> + domain: <domain> — not hex tables; see `references/palettes.md`
+- module_count_framework: <int> (carried from repo Handoff when present)
 
 ## Steps
 
@@ -72,6 +73,8 @@ Include per-section: type × count, why, must-appear visual elements, aspect rat
 | Comparison / Ablation | 16:9 | N×M grid, ours highlighted |
 | Data Behavior | 4:3 / 1:1 | multi-panel heatmaps / curves / embeddings |
 
+Emit aspect_ratio per figure in the Figure Plan so prompt skills can copy it into the spec.
+
 Done when: report matches Output Contract and completeness block is honest.
 
 ## Domain packs (optional cues)
@@ -80,6 +83,8 @@ Done when: report matches Output Contract and completeness block is honest.
 - **NLP:** framework + transformer arch + attention module + metrics + embeddings  
 - **RL/Robotics:** state→policy→action loop + networks + trajectories  
 - **Medical:** imaging pipeline + U-Net/ViT + qualitative grid + ROC/features  
+- **Protein / AI4Science:** folding pipeline + Evoformer/module detail + MSA or structure behavior  
+- **GNN / Scientific computing:** message-passing module + encoder-processor-decoder framework + rollout trajectories  
 
 ## Sparse-input cases
 

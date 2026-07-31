@@ -32,6 +32,7 @@ On-figure text is short labels and structure. Formulas, params, and long prose g
 ## Input Contract
 
 - Prefer: figure type, paper/section content, modules, labels, formulas, dims, Palette Decision, reference image
+- aspect_ratio (optional, from Figure Plan)
 - Minimum: figure type + subject/method overview
 - Missing: skeleton spec with placeholders; mark 推断 / 待确认
 
@@ -77,6 +78,7 @@ Load `json-schema.md`. Build `layout_and_content_blocks` with `exact_*` locks fo
 Done when checklist passes:
 
 - [ ] every on-figure string is in an `exact_*` field  
+- [ ] aspect_ratio copied from Figure Plan when present  
 - [ ] Text Budget respected  
 - [ ] white fill / colored borders only  
 - [ ] ≤ 3 chromatics from chosen palette  
