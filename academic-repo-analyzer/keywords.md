@@ -13,6 +13,8 @@ Load when classifying task type, stack, or architecture.
 | Multimodal | image-text, vision-language, clip, multimodal, cross-modal | dual image+text paths |
 | Time series | timeseries, forecast, temporal, sequence, lstm, gru | temporal dims |
 | Generative | gan, diffusion, vae, generative, generation, synthesize | generator / diffusion loop |
+| Protein / AI4Science | protein, esm, alphafold, evoformer, MSA, folding, sequence embedding | pdb/mmCIF inputs; `alphafold/`, `esm/` packages |
+| GNN / Scientific computing | gnn, graph neural, message passing, graphcast, weather, forecast | grid/graph datasets; jax + haiku |
 
 ## Frameworks
 
@@ -20,7 +22,7 @@ Load when classifying task type, stack, or architecture.
 |-----------|------|
 | PyTorch | `import torch`, `nn.Module` |
 | TensorFlow | `import tensorflow`, `tf.keras` |
-| JAX/Flax | `import jax`, flax, haiku, optax |
+| JAX/Flax/Haiku | `import jax`, flax, haiku, optax |
 | MxNet | `import mxnet`, gluon |
 | PaddlePaddle | `import paddle` |
 
