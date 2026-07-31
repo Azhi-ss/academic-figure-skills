@@ -72,13 +72,13 @@
       "shape": "Rounded rectangle, Dark Navy Blue (#1B3A5C) 2px solid border, white fill",
       "exact_title_to_render_inside": "Confidence",
       "exact_text": "pLDDT / pTM",
-      "flow": "Horizontal arrow pointing RIGHT to next block"
+      "flow": "Horizontal arrow pointing RIGHT to Rank & Relax"
     },
     {
       "relative_position": "Flow position 8",
       "shape": "Rounded rectangle, Medium Blue (#2E6B9E) 2px solid border, white fill",
-      "exact_title_to_render_inside": "Relax & Rank",
-      "exact_text": "PDB outputs"
+      "exact_title_to_render_inside": "Rank & Relax",
+      "exact_text": "Rank then relax"
     }
   ],
   "caption_note": [

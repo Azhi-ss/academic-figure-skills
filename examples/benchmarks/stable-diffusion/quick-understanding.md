@@ -19,7 +19,7 @@
 
 - 完整度：高。读取了 `README.md`、`configs/stable-diffusion/v1-inference.yaml`、`ldm/models/diffusion/ddpm.py`、`ldm/modules/diffusionmodules/openaimodel.py` 与 `scripts/txt2img.py`。
 - 仓库同时含训练入口 `main.py` 与多种推理脚本；本分析聚焦 Stable Diffusion v1 文生图主路径。
-- 软件仓库根 `LICENSE` 实为 CreativeML Open RAIL-M，并非 manifest 中标注的 MIT。
+- 软件仓库根 `LICENSE` 与已更正的 benchmark manifest 均记录 CreativeML Open RAIL-M。
 
 ## 技术栈详情
 

@@ -42,14 +42,14 @@
       "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
       "exact_title_to_render_inside": "Lennard-Jones",
       "exact_text": "Potential function",
-      "flow": "Horizontal arrow pointing RIGHT to Integrator Step; proposed relation only"
+      "flow": "None; disconnected component evidence"
     },
     {
-      "relative_position": "Flow position 4",
+      "relative_position": "Lower Center, disconnected evidence group",
       "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
       "exact_title_to_render_inside": "Integrator Step",
       "exact_text": "Position update",
-      "flow": "Horizontal arrow pointing RIGHT to next block"
+      "flow": "None; disconnected component evidence"
     },
     {
       "relative_position": "Flow position 5",

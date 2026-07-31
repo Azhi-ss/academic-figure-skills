@@ -51,7 +51,7 @@
       "exact_title_to_render_inside": "U-Net Denoiser",
       "exact_text": "Cross-attention",
       "exact_status": "[Tune]",
-      "flow": "Horizontal arrow pointing RIGHT to next block"
+      "flow": "SOLID arrow to VAE Decoder plus DASHED iterative denoising loop back to U-Net Denoiser"
     },
     {
       "relative_position": "Flow position 5",

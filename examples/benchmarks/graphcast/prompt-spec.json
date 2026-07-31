@@ -59,13 +59,13 @@
       "shape": "Rounded rectangle, Orange (#E69F00) 2px solid border, white fill",
       "exact_title_to_render_inside": "Weather State",
       "exact_text": "Next 6 hours",
-      "flow": "Horizontal arrow pointing RIGHT to next block"
+      "flow": "Horizontal arrow pointing RIGHT to Rollout"
     },
     {
       "relative_position": "Flow position 6",
       "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
       "exact_title_to_render_inside": "Rollout",
-      "exact_text": "Autoregressive loop"
+      "flow": "DASHED curved feedback arrow to Weather Inputs for the next forecast step"
     }
   ],
   "caption_note": [
