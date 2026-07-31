@@ -1,0 +1,14 @@
+{
+  "clone_root": "ref_repos",
+  "repos": [
+    {"id": "stable-diffusion", "name": "CompVis/stable-diffusion", "url": "https://github.com/CompVis/stable-diffusion.git", "category": "DL/CV", "license": "MIT", "tests": "ML/CV diffusion baseline; anchors the fictional examples/01 diffusion sample to a real repo"},
+    {"id": "nanogpt", "name": "karpathy/nanoGPT", "url": "https://github.com/karpathy/nanoGPT.git", "category": "DL/NLP", "license": "MIT", "tests": "minimal transformer layout; framework + module-count detection"},
+    {"id": "esm", "name": "facebookresearch/esm", "url": "https://github.com/facebookresearch/esm.git", "category": "protein/AI4Science", "license": "MIT", "tests": "new protein classification row in keywords.md"},
+    {"id": "alphafold", "name": "google-deepmind/alphafold", "url": "https://github.com/google-deepmind/alphafold.git", "category": "protein/AI4Science (JAX)", "license": "Apache-2.0", "tests": "protein row + non-PyTorch stack (JAX/Haiku) detection"},
+    {"id": "graphcast", "name": "google-deepmind/graphcast", "url": "https://github.com/google-deepmind/graphcast.git", "category": "GNN/scientific computing (JAX)", "license": "Apache-2.0", "tests": "new scientific-computing row; GNN/weather outside DL taxonomy"},
+    {"id": "transformers", "name": "huggingface/transformers", "url": "https://github.com/huggingface/transformers.git", "category": "huge-repo", "license": "Apache-2.0", "tests": "sampling cap pressure test; keyword-scan not mentioned in limited-sample line"}
+  ],
+  "synthetic_fixtures": [
+    {"id": "fixture-sparse", "kind": "synthetic", "category": "sparse-input", "tests": "simulate.py entry discovery, no neural-net model files, evidence-insufficient degrade path, module-count independence from keyword scan"}
+  ]
+}
