@@ -1,0 +1,86 @@
+{
+  "_benchmark_golden": {
+    "repository": "junyanz/pytorch-CycleGAN-and-pix2pix",
+    "url": "https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix.git",
+    "pinned_commit": "2a7afba2",
+    "license": "BSD-3-Clause"
+  },
+  "diagram_type": "Scientific Overall Framework",
+  "diagram_title_rendering": "None",
+  "aspect_ratio": "16:9",
+  "style_and_colors": {
+    "style_family": "Classic academic",
+    "palette": "Okabe-Ito",
+    "background": "White (#FFFFFF)",
+    "main_block_color_palette": [
+      "Blue (#0072B2)",
+      "Orange (#E69F00)",
+      "Green (#009E73)"
+    ],
+    "flow_arrow_colors": {
+      "main_forward_flow": "Dark Grey (#4D4D4D) solid arrows",
+      "feedback_loop": "Dark Grey (#4D4D4D) dashed curved arrow"
+    }
+  },
+  "layout_and_content_blocks": [
+    {
+      "relative_position": "Flow position 1",
+      "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Domain A Images",
+      "exact_text": "real_A (unaligned)",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 2",
+      "shape": "Rounded rectangle, Orange (#E69F00) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Generator G_A",
+      "exact_text": "ResNet 9-block, InstanceNorm",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 3",
+      "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Generator G_B",
+      "exact_text": "Cycle reconstruction rec_A",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 4",
+      "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Discriminators D_A / D_B",
+      "exact_text": "PatchGAN 70x70",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 5",
+      "shape": "Rounded rectangle, Orange (#E69F00) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Cycle-Consistency Loss",
+      "exact_text": "L1 rec_A vs real_A",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 6",
+      "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
+      "exact_title_to_render_inside": "LSGAN + Identity Loss",
+      "exact_text": "Adversarial + optional idt",
+      "flow": "Dashed curved feedback arrow back to Generator G_A and Generator G_B"
+    }
+  ],
+  "caption_note": [
+    "Source: junyanz/pytorch-CycleGAN-and-pix2pix at pinned commit 2a7afba2.",
+    "Dual-generator CycleGAN with ResNet 9-block and PatchGAN discriminators."
+  ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+    "Render text ONLY within designated exact_* fields.",
+    "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+    "Icons are monochrome thin grey line art. No colored icons.",
+    "Weight status MUST use dashed/solid borders or subtle pill tags ([Fixed] vs [Tune]).",
+    "NO emojis, NO lock/fire/lightning decorative symbols, NO 3D rendering.",
+    "Feedback loop arrows are DASHED. Main forward flow arrows are SOLID.",
+    "Flat vector style: no gradients, no 3D, no decorative shadows.",
+    "Canvas is pure white (#FFFFFF)."
+  ]
+}

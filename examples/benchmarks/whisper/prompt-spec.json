@@ -1,0 +1,85 @@
+{
+  "_benchmark_golden": {
+    "repository": "openai/whisper",
+    "url": "https://github.com/openai/whisper.git",
+    "pinned_commit": "5f86d1d8",
+    "license": "MIT"
+  },
+  "diagram_type": "Scientific Overall Framework",
+  "diagram_title_rendering": "None",
+  "aspect_ratio": "16:9",
+  "style_and_colors": {
+    "style_family": "Classic academic",
+    "palette": "Okabe-Ito",
+    "background": "White (#FFFFFF)",
+    "main_block_color_palette": [
+      "Blue (#0072B2)",
+      "Orange (#E69F00)",
+      "Green (#009E73)"
+    ],
+    "flow_arrow_colors": {
+      "main_forward_flow": "Dark Grey (#4D4D4D) solid arrows",
+      "feedback_loop": "Dark Grey (#4D4D4D) dashed curved arrow"
+    }
+  },
+  "layout_and_content_blocks": [
+    {
+      "relative_position": "Flow position 1",
+      "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Audio Waveform",
+      "exact_text": "ffmpeg load, pad/trim 30s",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 2",
+      "shape": "Rounded rectangle, Orange (#E69F00) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Log-Mel Spectrogram",
+      "exact_text": "80-bin mel from STFT",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 3",
+      "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Conv1d Front-End",
+      "exact_text": "conv1 + conv2 stride 2, GELU",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 4",
+      "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Audio Encoder",
+      "exact_text": "Transformer + sinusoidal pos emb",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 5",
+      "shape": "Rounded rectangle, Orange (#E69F00) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Text Decoder",
+      "exact_text": "Masked self-attn + cross-attn",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 6",
+      "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Tokenizer & Text",
+      "exact_text": "tiktoken multilingual decode",
+      "flow": "Dashed curved feedback arrow back to Text Decoder"
+    }
+  ],
+  "caption_note": [
+    "Source: openai/whisper at pinned commit 5f86d1d8.",
+    "Encoder-decoder Transformer for multilingual ASR and translation."
+  ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+    "Render text ONLY within designated exact_* fields.",
+    "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+    "Icons are monochrome thin grey line art. No colored icons.",
+    "Weight status MUST use dashed/solid borders or subtle pill tags ([Fixed] vs [Tune]).",
+    "NO emojis, NO lock/fire/lightning decorative symbols, NO 3D rendering.",
+    "Feedback loop arrows are DASHED. Main forward flow arrows are SOLID.",
+    "Flat vector style: no gradients, no 3D, no decorative shadows.",
+    "Canvas is pure white (#FFFFFF)."
+  ]
+}

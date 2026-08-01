@@ -1,0 +1,92 @@
+{
+  "_benchmark_golden": {
+    "repository": "bmild/nerf",
+    "url": "https://github.com/bmild/nerf.git",
+    "pinned_commit": "14c55567",
+    "license": "MIT"
+  },
+  "diagram_type": "Scientific Overall Framework",
+  "diagram_title_rendering": "None",
+  "aspect_ratio": "16:9",
+  "style_and_colors": {
+    "style_family": "Classic academic",
+    "palette": "Okabe-Ito",
+    "background": "White (#FFFFFF)",
+    "main_block_color_palette": [
+      "Blue (#0072B2)",
+      "Orange (#E69F00)",
+      "Green (#009E73)"
+    ],
+    "flow_arrow_colors": {
+      "main_forward_flow": "Dark Grey (#4D4D4D) solid arrows",
+      "feedback_loop": "Dark Grey (#4D4D4D) dashed curved arrow"
+    }
+  },
+  "layout_and_content_blocks": [
+    {
+      "relative_position": "Flow position 1",
+      "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Input Poses & Images",
+      "exact_text": "LLFF / Blender data",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 2",
+      "shape": "Rounded rectangle, Orange (#E69F00) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Ray Generation",
+      "exact_text": "get_rays(H, W, focal, c2w)",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 3",
+      "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Coarse NeRF MLP",
+      "exact_text": "D=8 W=256, skip=[4]",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 4",
+      "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Hierarchical Sampling",
+      "exact_text": "sample_pdf over coarse weights",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 5",
+      "shape": "Rounded rectangle, Orange (#E69F00) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Fine NeRF MLP",
+      "exact_text": "Refined samples, RGB + sigma",
+      "exact_status": "[Tune]",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 6",
+      "shape": "Rounded rectangle, Green (#009E73) 2px solid border, white fill",
+      "exact_title_to_render_inside": "Volume Rendering",
+      "exact_text": "alpha-compositing rgb_map",
+      "flow": "Horizontal arrow pointing RIGHT to next block"
+    },
+    {
+      "relative_position": "Flow position 7",
+      "shape": "Rounded rectangle, Blue (#0072B2) 2px solid border, white fill",
+      "exact_title_to_render_inside": "MSE Loss & Adam",
+      "exact_text": "coarse + fine MSE",
+      "flow": "Dashed curved feedback arrow back to Coarse NeRF MLP and Fine NeRF MLP"
+    }
+  ],
+  "caption_note": [
+    "Source: bmild/nerf at pinned commit 14c55567.",
+    "Positional-encoded MLP with coarse/fine hierarchical volume rendering."
+  ],
+  "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": [
+    "Render text ONLY within designated exact_* fields.",
+    "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+    "Icons are monochrome thin grey line art. No colored icons.",
+    "Weight status MUST use dashed/solid borders or subtle pill tags ([Fixed] vs [Tune]).",
+    "NO emojis, NO lock/fire/lightning decorative symbols, NO 3D rendering.",
+    "Feedback loop arrows are DASHED. Main forward flow arrows are SOLID.",
+    "Flat vector style: no gradients, no 3D, no decorative shadows.",
+    "Canvas is pure white (#FFFFFF)."
+  ]
+}

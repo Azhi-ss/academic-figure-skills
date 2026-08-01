@@ -77,6 +77,42 @@ EXPECTED = {
         "completeness_block": True,
         "figure_suggestions": True,
     },
+    "cyclegan": {
+        "framework": ["PyTorch"],
+        "task_any": ["GAN", "image translation", "image-to-image", "unpaired"],
+        "paths_any": ["models/", "data/"],
+        "architecture_any": ["generator", "discriminator", "PatchGAN", "ResNet", "cycle"],
+        "module_count": {"source": ["top_level_dirs"], "value_min": 4},
+        "completeness_block": True,
+        "figure_suggestions": True,
+    },
+    "nerf": {
+        "framework_any": ["TensorFlow", "tensorflow"],
+        "task_any": ["NeRF", "neural radiance", "volume rendering", "3D", "view synthesis"],
+        "paths_any": ["run_nerf.py", "run_nerf_helpers.py"],
+        "architecture_any": ["MLP", "positional encoding", "ray", "volume rendering", "render_rays"],
+        "module_count": {"source": ["component_scan"], "value_min": 3},
+        "completeness_block": True,
+        "figure_suggestions": True,
+    },
+    "detr": {
+        "framework": ["PyTorch"],
+        "task_any": ["detection", "object detection", "DETR", "transformer"],
+        "paths_any": ["models/", "datasets/", "engine.py", "main.py"],
+        "architecture_any": ["transformer", "backbone", "object quer", "bipartite", "Hungarian", "matcher", "encoder", "decoder"],
+        "module_count": {"source": ["top_level_dirs"], "value_min": 4},
+        "completeness_block": True,
+        "figure_suggestions": True,
+    },
+    "whisper": {
+        "framework": ["PyTorch"],
+        "task_any": ["speech", "ASR", "transcrib", "audio", "Whisper"],
+        "paths_any": ["whisper/", "whisper/model.py", "whisper/audio.py", "whisper/decoding.py"],
+        "architecture_any": ["encoder", "decoder", "transformer", "attention", "mel", "convolution"],
+        "module_count": {"source": ["top_level_dirs"], "value_min": 1},
+        "completeness_block": True,
+        "figure_suggestions": True,
+    },
 }
 
 LICENSE_BY_ID = {
@@ -87,6 +123,10 @@ LICENSE_BY_ID = {
     "graphcast": "Apache",
     "transformers": "Apache",
     "fixture-sparse": None,
+    "cyclegan": "Redistribution",
+    "nerf": "MIT",
+    "detr": "Apache",
+    "whisper": "MIT",
 }
 
 

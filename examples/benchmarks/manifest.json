@@ -6,7 +6,11 @@
     {"id": "esm", "name": "facebookresearch/esm", "url": "https://github.com/facebookresearch/esm.git", "category": "protein/AI4Science", "license": "MIT", "tests": "new protein classification row in keywords.md"},
     {"id": "alphafold", "name": "google-deepmind/alphafold", "url": "https://github.com/google-deepmind/alphafold.git", "category": "protein/AI4Science (JAX)", "license": "Apache-2.0", "tests": "protein row + non-PyTorch stack (JAX/Haiku) detection"},
     {"id": "graphcast", "name": "google-deepmind/graphcast", "url": "https://github.com/google-deepmind/graphcast.git", "category": "GNN/scientific computing (JAX)", "license": "Apache-2.0", "tests": "new scientific-computing row; GNN/weather outside DL taxonomy"},
-    {"id": "transformers", "name": "huggingface/transformers", "url": "https://github.com/huggingface/transformers.git", "category": "huge-repo", "license": "Apache-2.0", "tests": "sampling cap pressure test; keyword-scan not mentioned in limited-sample line"}
+    {"id": "transformers", "name": "huggingface/transformers", "url": "https://github.com/huggingface/transformers.git", "category": "huge-repo", "license": "Apache-2.0", "tests": "sampling cap pressure test; keyword-scan not mentioned in limited-sample line"},
+    {"id": "cyclegan", "name": "junyanz/pytorch-CycleGAN-and-pix2pix", "url": "https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix.git", "category": "GAN/image translation", "license": "see clone LICENSE", "tests": "GAN dual generator/discriminator; paired vs unpaired translation flow"},
+    {"id": "nerf", "name": "bmild/nerf", "url": "https://github.com/bmild/nerf.git", "category": "3D neural rendering", "license": "MIT", "tests": "MLP + ray sampling; non-CV-classic architecture; minimal repo layout"},
+    {"id": "detr", "name": "facebookresearch/detr", "url": "https://github.com/facebookresearch/detr.git", "category": "object detection", "license": "Apache-2.0", "tests": "Transformer detection; set prediction; bipartite matching"},
+    {"id": "whisper", "name": "openai/whisper", "url": "https://github.com/openai/whisper.git", "category": "speech/ASR", "license": "MIT", "tests": "encoder-decoder audio modality; mel spectrogram front-end"}
   ],
   "synthetic_fixtures": [
     {"id": "fixture-sparse", "kind": "synthetic", "category": "sparse-input", "tests": "simulate.py entry discovery, no neural-net model files, evidence-insufficient degrade path, module-count independence from keyword scan"}
