@@ -13,8 +13,11 @@ Default deliverable: a **JSON figure spec** (`exact_*` text locks + layout block
 
 Schema and examples: → `json-schema.md`  
 Palettes: → `references/palettes.md`  
-Missing info: → `references/missing-info-policy.md`  
-
+Image prompt writing: → `references/image-prompt-guide.md`  
+Icon vocabulary: → `references/architecture-icons.md`  
+Prompt templates: → `references/prompt-templates.md`  
+JSON→prompt conversion: → `references/json-to-prompt.md`  
+Missing info: → `references/missing-info-policy.md`
 ## Text Budget (leading rule)
 
 On-figure text is short labels and structure. Formulas, params, and long prose go to **Figure Caption**.
@@ -36,13 +39,12 @@ On-figure text is short labels and structure. Formulas, params, and long prose g
 - Minimum: figure type + subject/method overview
 - Missing: skeleton spec with placeholders; mark 推断 / 待确认
 
-## Output Contract — Figure Spec Package
-
 - Chinese figure name + type
-- JSON spec (default) **or** text prompt (fallback)
+- JSON spec (structured intermediate)
+- **Image prompt** (200-400 word English visual brief for the image model)
 - palette name + hex used
 - caption reserve list
-- completeness block (see missing-info policy)
+- completeness block (see missing info policy)
 
 ## Steps
 
@@ -84,13 +86,31 @@ Done when checklist passes:
 - [ ] ≤ 3 chromatics from chosen palette  
 - [ ] caption reserve lists off-figure content  
 - [ ] no empty module shells  
+- [ ] **every major block has an icon or visual anchor** (see `references/architecture-icons.md`)  
 - [ ] weight status (frozen vs trainable) uses non-emoji pattern (dashed/solid borders, hatching, or pills)  
-- [ ] explicit negative instructions included: `NO emojis, NO lock/fire/lightning icons, NO 3D rendering`  
+- [ ] explicit negative instructions included: `NO emojis, NO lock/fire/lightning icons, NO 3D rendering`
 
-### Step 5: Fallback text prompt (rare)
+### Step 5: Write image prompt
+
+Read `references/image-prompt-guide.md` and `references/json-to-prompt.md`. Convert the JSON spec into a 200-400 word English image prompt following the 8-slot structure:
+
+1. Image type (lead with this)
+2. Core subject (one sentence)
+3. Composition/layout (spatial arrangement, flow, grouping)
+4. Supporting modules (icons from `architecture-icons.md`, dimension labels, formulas, token pills, legends)
+5. Visual tone (concrete descriptors, not vague words)
+6. Material/texture (border width, fills, corner radius)
+7. Typography (font, sizes, hierarchy)
+8. Aspect ratio (last)
+
+Use `references/prompt-templates.md` for the template matching the figure type. Every major block must have a visual anchor (icon, thumbnail, or geometric marker). Parameters and long formulas go in caption_note, not on the figure.
+
+Done when: prompt is 200-400 words, all 8 slots present, every JSON block translated to spatial prose (not listed mechanically), and supporting modules included.
+
+### Step 6: Fallback text prompt (rare)
 
 Only if ≤ 3 modules without branches, pure data chart, or user demands prose prompt. Use four-layer skeleton in `json-schema.md` (Global Context → Section/Column Encapsulation → Annotations & Links → Style Specifications with hex & negative constraints).
 
 ## Stop
 
-Stop when the Figure Spec Package for the requested figure(s) is delivered, or when figure type and subject are both missing (ask for those two only).
+Stop when the Figure Spec Package (JSON spec + image prompt) for the requested figure(s) is delivered, or when figure type and subject are both missing (ask for those two only).
