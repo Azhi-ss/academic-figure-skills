@@ -8,6 +8,7 @@ Load when classifying task type, stack, or architecture.
 |------|----------|-----------|
 | CV | image, cv2, PIL, resnet, vit, unet, detection, segmentation, classification | image datasets; torchvision, mmcv |
 | NLP | text, token, bert, gpt, transformer, llm, sentence, corpus | transformers, datasets, tokenizers |
+| Speech/Audio | asr, speech, audio, transcription, whisper, tts, mel-spectrogram, voice | audio.py, mel filters, ffmpeg, decoder |
 | RL | policy, agent, environment, reward, ppo, dqn, sac, gym, env | env loop; reward fn |
 | Robotics | robot, kinematics, dynamics, simulation, gazebo, ros, control | physics sim; robot models |
 | Multimodal | image-text, vision-language, clip, multimodal, cross-modal | dual image+text paths |
@@ -30,6 +31,7 @@ Load when classifying task type, stack, or architecture.
 
 - CV: torchvision, mmcv, detectron2, albumentations
 - NLP: transformers, datasets, tokenizers, nltk, spacy
+- Speech: librosa, torchaudio, ffmpeg, tiktoken
 - RL: gym, stable-baselines3, ray[rllib]
 - Science: numpy, scipy, pandas, matplotlib
 - Tracking: wandb, mlflow, tensorboard
