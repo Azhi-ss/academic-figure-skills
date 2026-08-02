@@ -1,13 +1,15 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-2.8.0-blue)
+![Version](https://img.shields.io/badge/version-3.0.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Stars](https://img.shields.io/github/stars/Azhi-ss/academic-figure-skills?style=social)
 
 **Academic paper figure skills for Claude Code, Cursor, Codex & Gemini CLI.**  
 AI 驱动的学术论文配图技能包：仓库分析 → 配图规划 → 色盲友好配色 → JSON 配图规范 / 现代 pastel 提示词。
 
-**7 skills · palette SSOT · classic / pastel** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
+> **是什么？** 7 个可独立安装的 agent skill，覆盖「分析代码仓库/论文 → 规划配图 → 选配色 → 生成图片 prompt → 调用生图模型」全链路。支持 classic 框线学术图（CVPR/Nature）和 pastel 柔彩图（ICLR/NeurIPS 2024-2025）两种风格。10 个真实仓库基准验证。
+
+**7 skills · palette SSOT · classic / pastel · 10 real-repo benchmarks** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
 
 
 ## 快速开始（30 秒）
@@ -50,7 +52,7 @@ npx skills add Azhi-ss/academic-figure-skills -l
 </tr>
 </table>
 
-真实仓库基准：[stable-diffusion / nanoGPT / ESM / AlphaFold / GraphCast / transformers + sparse fixture](examples/benchmarks/README.md)
+真实仓库基准：[stable-diffusion / nanoGPT / ESM / AlphaFold / GraphCast / transformers / CycleGAN / NeRF / DETR / Whisper + sparse fixture](examples/benchmarks/README.md)（10 个真实仓库 + 1 个合成夹具，每个含分析文档、配图规划、JSON spec）
 
 ## 技能列表
 
@@ -222,6 +224,23 @@ A: `用户指定 → 场景推荐 → 默认安全方案`。不足时会标明�
 
 ### Q: 必须按顺序跑完整流水线吗？
 A: 不需要。可直接 prompt / color-expert / repo-analyzer。
+
+### Q: 工作流版本 3.0 有什么变化？
+A: 从 3.0 起，workflow 变为会话式助手：分析 → 展示 Figure Plan 让用户确认 → 生成 prompt 再确认 → 调用生图模型（或交付 prompt）。两个确认 gate 确保用户控制出图内容。
+
+## 引用
+
+如果本技能包帮助了你的工作，可以这样引用：
+
+```bibtex
+@software{academic-figure-skills,
+  author = {Azhi-ss},
+  title = {Academic Figure Skills: AI-powered academic figure generation skill pack},
+  year = {2026},
+  url = {https://github.com/Azhi-ss/academic-figure-skills},
+  version = {3.0.0}
+}
+```
 
 ## 许可证
 
