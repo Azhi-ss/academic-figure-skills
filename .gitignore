@@ -20,7 +20,9 @@ Thumbs.db
 
 # Local agent/harness path configs (machine-specific)
 .agents/
+.claude/
 skills.json
+skills-lock.json
 
 # Local reference repositories (not committed)
 ref_repos/
