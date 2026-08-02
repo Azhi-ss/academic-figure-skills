@@ -19,9 +19,9 @@ Classic JSON specs: use `academic-figure-prompt` instead.
 1. **White canvas + white panels + soft shadow**  
    Canvas `#FFFFFF`. Panels `#FFFFFF`, ~20px radius, shadow `3px blur / 1px y / rgba(0,0,0,0.06)`. Separation by shadow only — no grey panel fills, no gradient canvas.
 
-2. **Rounded geometric sans**  
-   Nunito / Poppins / Quicksand / Comfortaa. Titles 600–700 ~16–18pt; body 400 ~10–11pt; math italic serif.
-
+2. **Rounded geometric sans with typography hierarchy**  
+   Nunito / Poppins / Quicksand / Comfortaa. Titles 600–700 ~14–16pt; primary labels 400 ~10–11pt; secondary/tensor shapes 400 ~7–8pt monospace/italic; math italic serif.  
+   Physical sizing: single column 89mm (3.35 in) or double column 183mm (7.0 in).
 3. **Packed, not sparse**  
    Panels filled with tokens, curves, formulas, icons; 8–12px micro-gaps; ordered density without overlap or text walls.
 
@@ -89,6 +89,8 @@ Color carriers:
 Done when checklist passes:
 
 - [ ] pure white canvas and panels  
+- [ ] physical size specified (89mm single column / 183mm double column)  
+- [ ] typography hierarchy specified (titles 14-16pt bold, labels 10-11pt, tensor shapes 7-8pt)  
 - [ ] rounded font named  
 - [ ] packed micro-spacing (8-12px)  
 - [ ] soft panel shadows (`rgba(0,0,0,0.05)`)  

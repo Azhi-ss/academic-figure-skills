@@ -41,6 +41,21 @@ Rules:
 | user gives pastel reference | nearest of P1–P3 | state “matched reference” |
 
 ---
+## Semantic Color Binding Contract (Cross-Figure Consistency)
+
+To minimize cognitive load across multi-panel or paper-wide diagrams (Figure 1 to Figure N), map functional domain roles to consistent semantic colors regardless of palette family:
+
+| Functional Role | Classic Family (Border / Line) | Pastel Family (Token / Accent Fill) |
+|---|---|---|
+| **Input / Token / Data** | Soft Sky Blue (`#4285F4` / `#1B3A5C`) | Soft Blue Pill (`#E8F0FE` / `#BBDEFB`) |
+| **Backbone / Core Model / Encoder-Decoder** | Soft Indigo / Purple (`#6A5ACD` / `#7B1FA2`) | Soft Lavender Pill (`#F3E8FF` / `#D1C4E9`) |
+| **Loss / Supervision / Feedback** | Soft Coral / Red (`#D95F02` / `#E05555`) | Soft Coral Badge (`#FEE2E2` / `#FFD0D0`) |
+| **Output / Target / Prediction** | Soft Mint / Emerald (`#1B9E77` / `#2E7D32`) | Soft Mint Badge (`#DCFCE7` / `#C8E6C9`) |
+| **Frozen / Pretrained / Adapter (LoRA)** | Neutral Slate Gray (`#7570B3` / `#616161`) | Neutral Gray Badge (`#F3F4F6` / `#E0E0E0`) |
+
+Rule: When emitting a Palette Decision or Figure Spec, state the semantic binding so all modules across the paper retain identical color roles.
+
+---
 
 ## Scene → palette decision (classic family)
 

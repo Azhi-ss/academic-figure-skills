@@ -75,12 +75,13 @@ Done when: palette name + hex are fixed, family is classic, and the decision bra
 
 ### Step 4: Emit JSON spec
 
-Load `json-schema.md`. Build `layout_and_content_blocks` with `exact_*` locks for every visible word. White fill + colored borders. Attach rendering rules and caption_note list.
+Load `json-schema.md`. Build `layout_and_content_blocks` with `exact_*` locks for every visible word. Include `physical_spec_and_typography` (canvas 89mm/183mm, font hierarchy 10pt/8pt/6pt, stroke hierarchy 1.5pt/1.0pt). White fill + colored borders. Attach rendering rules and caption_note list.
 
 Done when checklist passes:
 
 - [ ] every on-figure string is in an `exact_*` field  
 - [ ] aspect_ratio copied from Figure Plan when present  
+- [ ] `physical_spec_and_typography` block present (89mm/183mm width, font 10pt/8pt/6pt, stroke 1.5pt/1.0pt)  
 - [ ] Text Budget respected  
 - [ ] white fill / colored borders only  
 - [ ] ≤ 3 chromatics from chosen palette  
@@ -89,7 +90,6 @@ Done when checklist passes:
 - [ ] **every major block has an icon or visual anchor** (see `references/architecture-icons.md`)  
 - [ ] weight status (frozen vs trainable) uses non-emoji pattern (dashed/solid borders, hatching, or pills)  
 - [ ] explicit negative instructions included: `NO emojis, NO lock/fire/lightning icons, NO 3D rendering`
-
 ### Step 5: Write image prompt
 
 Read `references/image-prompt-guide.md` and `references/json-to-prompt.md`. Convert the JSON spec into a 200-400 word English image prompt following the 8-slot structure:
@@ -100,7 +100,7 @@ Read `references/image-prompt-guide.md` and `references/json-to-prompt.md`. Conv
 4. Supporting modules (icons from `architecture-icons.md`, dimension labels, formulas, token pills, legends)
 5. Visual tone (concrete descriptors, not vague words)
 6. Material/texture (border width, fills, corner radius)
-7. Typography (font, sizes, hierarchy)
+7. Typography & Physical Specs (font hierarchy: title 10-12pt bold, label 8-9pt, tensor 6-7pt; column width: 89mm single / 183mm double; stroke width: 1.5pt borders, 1.0pt dividers)
 8. Aspect ratio (last)
 
 Use `references/prompt-templates.md` for the template matching the figure type. Every major block must have a visual anchor (icon, thumbnail, or geometric marker). Parameters and long formulas go in caption_note, not on the figure.

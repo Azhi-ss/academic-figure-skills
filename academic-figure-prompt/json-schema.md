@@ -9,6 +9,22 @@ Load when producing the default JSON output of `academic-figure-prompt`.
   "diagram_type": "string",
   "diagram_title_rendering": "None",
   "aspect_ratio": "16:9 | 3:2 | 4:3 | 1:1 | None",
+  "physical_spec_and_typography": {
+    "canvas_width": "89mm (single column) | 183mm (double column)",
+    "font_family": "Arial, Helvetica, sans-serif",
+    "font_hierarchy": {
+      "title": "10-12pt bold",
+      "primary_label": "8-9pt regular",
+      "secondary_note": "7-8pt regular",
+      "tensor_shape": "6-7pt monospace/italic"
+    },
+    "stroke_hierarchy": {
+      "container_border": "1.5pt solid",
+      "internal_divider": "1.0pt solid",
+      "flow_arrow": "1.5pt solid with 4px head",
+      "feedback_arrow": "1.0pt dashed"
+    }
+  },
   "style_and_colors": {},
   "layout_and_content_blocks": [],
   "RENDERING_RULES_AND_NEGATIVE_PROMPT_INSTRUCTIONS": []
@@ -47,6 +63,8 @@ aspect_ratio is optional; copy it from the Figure Plan when provided, else "None
 [
   "Render text ONLY within designated exact_* fields.",
   "All container boxes use WHITE (#FFFFFF) fill with COLORED BORDERS ONLY.",
+  "Adhere to typography hierarchy: titles 10-12pt bold, labels 8-9pt, tensor shapes 6-7pt.",
+  "Adhere to stroke hierarchy: containers 1.5pt, dividers 1.0pt, arrows 1.5pt.",
   "Icons are monochrome thin grey line art. No colored icons.",
   "Weight status MUST use dashed/solid borders or subtle pill tags ([Fixed] vs [Tune]).",
   "NO emojis, NO lock/fire/lightning decorative symbols, NO 3D rendering.",

@@ -35,10 +35,10 @@ Always include:
 
 - recommended palette + one alternate
 - primary / secondary / tertiary (+ neutrals) hex
+- **semantic color binding** (Data/Input, Backbone, Loss, Output, Frozen roles mapped to consistent hex)
 - reason (venue / domain / module count)
 - accessibility note
 - handoff block ready for prompt skills
-
 ## Steps
 
 ### Step 1: Collect constraints
@@ -57,10 +57,9 @@ Done when: family + primary + alternate are explicit, with the decision checklis
 
 ### Step 3: Emit hex + handoff
 
-Load the chosen preset from `references/palettes.md`. Output the Palette Decision format.
+Load the chosen preset from `references/palettes.md`. Apply the **Semantic Color Binding Contract** to map structural domain roles (Data, Backbone, Loss, Output, Frozen) to consistent hex values across all paper panels. Output the Palette Decision format.
 
-Done when: every role hex is filled, accessibility stated, and the handoff block is copy-ready for `academic-figure-prompt`.
-
+Done when: every role hex is filled, semantic binding stated, accessibility stated, and the handoff block is copy-ready for `academic-figure-prompt`.
 ## Sparse-input cases
 
 | case | action |
