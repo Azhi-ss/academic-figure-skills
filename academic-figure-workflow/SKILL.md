@@ -1,42 +1,124 @@
 ---
 id: academic-figure-workflow
 name: Academic Figure Workflow Orchestrator
-version: 1.3.0
-description: Entry-point router for the academic-figure skill pack. Use this skill whenever the user wants to generate academic figures, paper diagrams, or architecture visualizations and is unsure where to start — including "帮我从仓库到配图走一遍", "完整论文配图工作流", "which skill should I use first", or any end-to-end request involving code/paper analysis followed by figure generation. Routes between repo-first (code analysis) and paper-first (document/PDF analysis) paths that converge only at color and prompt stages.
+version: 1.4.0
+description: Entry-point assistant for academic figure generation. Use this skill whenever the user wants to generate academic figures, paper diagrams, or architecture visualizations — including "帮我画图", "从仓库到配图走一遍", "完整论文配图工作流", "帮我分析这个仓库然后出图", or any end-to-end request from code/paper to figure. The assistant analyzes the input, presents a Figure Plan for user confirmation, then generates colors, prompts, and (when an image model is available) the final image. Routes repo-first (code) or paper-first (document/PDF) inputs.
 stages: [research, writing, review]
 tools: [bash]
 ---
 
 # Academic Figure Workflow Orchestrator
 
-Pack entrypoint. Detect which input the user has, route to the right skill, and **stop at each stage unless the user explicitly asks to continue**. Do not force the full chain.
+## Role
+
+对话式配图助手。用户启动本 skill 后，助手分析输入、与用户 plan 对齐、确认后执行完整链路并出图（或交付 prompt）。Never run the full chain silently — **two confirmation gates are mandatory**.
 
 Shared refs:
 
 - palettes → `references/palettes.md`
 - missing info → `references/missing-info-policy.md`
 
-## Two independent entry paths
+## Session protocol
+
+### Phase 0 — Input detection
+
+Determine input type from what the user provided:
+
+- Repo path/URL → Path A (repo-first)
+- PDF / paper text / outline / existing figure → Path B (paper-first)
+- Neither → ask for ONE input only (repo path or paper material). Do not ask for anything else.
+
+### Phase 1 — Analyze (automatic, no gate)
+
+- **Path A**: read `../academic-repo-analyzer/SKILL.md`, produce Quick Understanding Doc + Handoff (module_count, domain, figure_types, evidence). Show a ≤10-line summary to the user.
+- **Path B with PDF/figure**: read `../academic-figure-architecture-extractor/SKILL.md` first, then `../academic-figure-paper-analyzer/SKILL.md`. Path B with text: paper-analyzer only.
+- If input is unusable (no repo, no paper), stop and list minimum materials per `references/missing-info-policy.md`.
+
+### GATE 1 — Figure Plan confirmation (mandatory)
+
+Present a compact plan and WAIT for user response:
+
+```
+基于分析，建议画这张图：
+- 图类型: <controlled type, e.g. Network Architecture>
+- 内容: <one sentence, from Handoff figure suggestions>
+- 宽高比: <16:9 / 3:2 / 4:3>
+- 风格: <classic academic 框线 / pastel airy 柔彩>
+- 配色: <palette name + decision branch from Color routing below>
+- module_count: <int or "不适用">
+回复"确认"继续，或直接说要改哪项（换图类型/换风格/换配色/换素材）。
+```
+
+Rules:
+
+- Do not proceed past this gate without an explicit 确认/OK/可以/continue.
+- If user requests changes, update the plan, re-present, wait again.
+- If the reply is unrelated chit-chat, treat as confirmation and continue — unless it clearly requests a plan change.
+- Classic vs pastel choice follows the Style family table below.
+- Palette choice follows the Color routing table below.
+
+### Phase 2 — Generate spec + prompt (automatic, no gate)
+
+- **Classic** → read `../academic-figure-prompt/SKILL.md`, follow its Steps 1–5: JSON spec + 200-400 word image prompt.
+- **Pastel** → read `../academic-figure-prompt-pastel/SKILL.md`: layered English prompt.
+- If color-expert input is needed and not already in plan, read `../academic-figure-color-expert/SKILL.md` to produce a formal Palette Decision.
+
+### GATE 2 — Prompt confirmation (mandatory)
+
+Present the final image prompt in full and WAIT:
+
+```
+这是将要发给生图模型的 prompt：
+<full prompt text; for classic, also offer the pasteable JSON spec>
+回复"确认"开始生图，或直接说怎么改。
+```
+
+### Phase 3 — Image generation (conditional)
+
+Check for an available image generation backend, in this order:
+
+1. **gpt-image-generation skill** — if `~/.omp/agent/skills/gpt-image-generation/scripts/generate.js` exists, run:
+   ```bash
+   node ~/.omp/agent/skills/gpt-image-generation/scripts/generate.js \
+     --model cpa-gpt-image-2 \
+     --prompt "<final prompt>" \
+     --size <from table below> \
+     --quality hd \
+     --output /tmp/academic-figure-$(date +%s).png
+   ```
+   Success when stdout contains `IMAGE_GENERATED_SUCCESS:<path>`.
+
+2. **sensenova MCP** — call `mcp__sensenova_image_generate_image` with the same prompt.
+
+3. **Neither available** → do NOT fake generation. Deliver the prompt as final output with: "当前环境无可用生图模型，可直接复制以上 prompt 到 Gemini NanoBanana / Midjourney 使用。"
+
+On success, embed: `![figure](file:///path.png)`
+
+On API error, show the error verbatim + the prompt. Do not retry more than once.
+
+**Size mapping:**
+
+| aspect_ratio | gpt-image-2 `--size` |
+|--------------|----------------------|
+| 16:9 | 1792x1024 |
+| 3:2 | 1536x1024 (fallback 1792x1024) |
+| 4:3 | 1344x1024 (fallback 1792x1024) |
+| 1:1 | 1024x1024 |
+
+Fallback: if `cpa-gpt-image-2` returns a 404/unsupported error, retry once with `--model gpt-image-2`; if that also fails, use the prompt-delivery branch.
+
+## Entry paths (unchanged contracts)
 
 ### Path A — Repo-first (code input)
 
-User gives a repository path or URL. The goal is understanding **what the code actually does**.
+User gives a repository path or URL.
 
-```
-repo-analyzer
-  → Quick Understanding Doc + Handoff
-  → STOP. Ask: analyze only, or plan figures?
-    → if plan figures: figure type selection (from repo Handoff)
-      → STOP. Ask: proceed to color + prompt?
-        → color-expert → figure-prompt → image
-```
-
-| Stage | Skill | Output | Can stop here? |
-|-------|-------|--------|----------------|
-| Analyze code | `repo-analyzer` | Quick Understanding Doc + Handoff (module_count, domain, figure_types, evidence) | Yes |
-| Select figures | `repo-analyzer` Handoff → choose 1–2 types | Figure type + aspect ratio | Yes |
-| Pick colors | `color-expert` | Palette Decision (hex) | Yes |
-| Generate spec | `figure-prompt` / `figure-prompt-pastel` | JSON figure spec or prompt | Yes |
+| Stage | Skill | Output |
+|-------|-------|--------|
+| Analyze code | `repo-analyzer` | Quick Understanding Doc + Handoff (module_count, domain, figure_types, evidence) |
+| GATE 1 | (this skill) | Confirmed Figure Plan |
+| Generate spec | `figure-prompt` / `figure-prompt-pastel` | JSON spec + image prompt |
+| GATE 2 | (this skill) | Confirmed prompt → Phase 3 |
 
 **Repo path characteristics:**
 - module_count comes from real code structure (drives Nature Blue vs Okabe-Ito)
@@ -45,23 +127,15 @@ repo-analyzer
 
 ### Path B — Paper-first (document input)
 
-User gives a PDF, paper text, outline, or existing figure. The goal is understanding **what the paper says and what figures it needs**.
+User gives a PDF, paper text, outline, or existing figure.
 
-```
-PDF / existing figure?
-  → yes: architecture-extractor (extract structure)
-  → no:  paper-analyzer directly
-    → Figure Plan (count, types, priorities, aspect ratios)
-    → STOP. Ask: plan only, or generate figures?
-      → color-expert → figure-prompt → image
-```
-
-| Stage | Skill | Output | Can stop here? |
-|-------|-------|--------|----------------|
-| Extract from PDF/image | `architecture-extractor` | Extracted structure + redraw params | Yes |
-| Analyze paper | `paper-analyzer` | Figure Plan (section → figure map, priorities) | Yes |
-| Pick colors | `color-expert` | Palette Decision (hex) | Yes |
-| Generate spec | `figure-prompt` / `figure-prompt-pastel` | JSON figure spec or prompt | Yes |
+| Stage | Skill | Output |
+|-------|-------|--------|
+| Extract from PDF/image | `architecture-extractor` | Extracted structure + redraw params |
+| Analyze paper | `paper-analyzer` | Figure Plan (section → figure map, priorities) |
+| GATE 1 | (this skill) | Confirmed Figure Plan |
+| Generate spec | `figure-prompt` / `figure-prompt-pastel` | JSON spec + image prompt |
+| GATE 2 | (this skill) | Confirmed prompt → Phase 3 |
 
 **Paper path characteristics:**
 - no module_count unless a repo is also provided
@@ -114,17 +188,8 @@ Before picking any palette, decide **classic vs pastel** based on user language:
 - **Repo path:** Quick Understanding Doc → Handoff (module_count, domain, figure_types, evidence) → Palette Decision → Figure Spec
 - **Paper path:** Figure Plan (types, counts, priorities, aspect ratios, venue) → Palette Decision → Figure Spec
 
-## Output shape
-
-1. Which path (repo / paper / direct)
-2. Current stage result
-3. Next action or stop point
-4. Handoff artifact or final deliverable
-
 ## Stop rules
 
-- Stop after each stage and state what the user can do next
-- Do not auto-advance: analysis → plan → color → prompt requires explicit user intent
-- If user only asked "what does this repo do", stop after repo-analyzer
-- If user only asked "what figures should my paper have", stop after paper-analyzer
-- If user only asked "what palette", stop after color-expert
+- Always stop at GATE 1 and GATE 2 until the user confirms.
+- After Phase 3 (image delivered or prompt delivered), stop. Do not suggest further figures unless the user asks.
+- If user only asked for analysis, stop after Phase 1 (no gates needed — the gates only exist on the figure-generation path).

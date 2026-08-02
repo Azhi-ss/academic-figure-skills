@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## 3.0.0
+
+- Workflow redesigned as conversational figure assistant: two mandatory confirmation gates (Figure Plan → prompt) before image generation.
+- Phase 3 image generation: calls `gpt-image-generation` skill (cpa-gpt-image-2) or sensenova MCP when available; falls back to delivering the structured prompt when no image model is reachable.
+- Workflow version 1.3.0 → 1.4.0; pack version 2.9.0 → 3.0.0.
+
 ## 2.9.0
 
 - Real-repo benchmarks: six public repository clones plus the sparse fixture.
