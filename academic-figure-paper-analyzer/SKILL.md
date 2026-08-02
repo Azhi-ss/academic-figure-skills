@@ -2,7 +2,7 @@
 id: academic-figure-paper-analyzer
 name: Academic Paper Analyzer & Figure Planner
 version: 1.2.0
-description: Figure plan for academic papers — section-to-figure mapping, types, counts, and priority. Use when the user wants paper figure planning, 论文配图规划, or which figures a paper needs.
+description: Plan figures for an academic paper or document — map sections to figure types, count, priority, and aspect ratios. Use this skill whenever the user provides paper text, a PDF, an outline, section drafts, or asks what figures their paper needs, including "论文需要哪些图", "论文配图规划", "paper figure planning", "which figures should my paper have", "帮我规划配图". Produces a Figure Plan with must/strong/nice priorities and per-figure visual elements.
 stages: [research, review]
 tools: [bash]
 ---

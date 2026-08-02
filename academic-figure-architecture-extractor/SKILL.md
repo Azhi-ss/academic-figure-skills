@@ -2,7 +2,7 @@
 id: academic-figure-architecture-extractor
 name: Academic Figure Architecture Extractor & Analyzer
 version: 1.2.1
-description: Architecture diagram analysis for academic PDFs or images — structure, components, and redraw parameters for prompt skills. Use when the user wants 架构图分析, extract figures from PDF, or architecture diagram breakdown.
+description: Extract and analyze architecture diagrams from academic PDFs or existing figure images. Use this skill whenever the user provides a PDF or image containing an architecture diagram and wants to extract, analyze, or redraw it — including "从PDF提取架构图", "架构图分析", "extract figures from pdf", "architecture diagram extraction", "analyze this diagram". Runs a local PDF extraction script and produces structured redraw parameters for downstream prompt skills.
 stages: [research, writing]
 tools: [bash]
 ---

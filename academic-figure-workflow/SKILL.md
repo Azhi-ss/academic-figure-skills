@@ -2,7 +2,7 @@
 id: academic-figure-workflow
 name: Academic Figure Workflow Orchestrator
 version: 1.3.0
-description: Entry-point router for academic figure generation. Two independent entry paths — repository analysis (code-first) or paper analysis (document-first) — that converge only at the color/prompt stage. Use when unsure which skill to start with, or for a full pipeline.
+description: Entry-point router for the academic-figure skill pack. Use this skill whenever the user wants to generate academic figures, paper diagrams, or architecture visualizations and is unsure where to start — including "帮我从仓库到配图走一遍", "完整论文配图工作流", "which skill should I use first", or any end-to-end request involving code/paper analysis followed by figure generation. Routes between repo-first (code analysis) and paper-first (document/PDF analysis) paths that converge only at color and prompt stages.
 stages: [research, writing, review]
 tools: [bash]
 ---

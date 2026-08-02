@@ -2,7 +2,7 @@
 id: academic-figure-prompt
 name: Academic Figure Prompt
 version: 1.5.0
-description: JSON figure spec for academic diagrams — exact_text layout control for framework, architecture, module, and comparison figures. Use when the user wants paper figure prompts, 架构图/框架图 specs, or academic-figure JSON (text prompts only as simple fallback).
+description: Generate publication-ready figure prompts for image models (GPT-Image-2, Gemini NanoBanana, etc.) in the classic academic style. Use this skill whenever the user wants a box-border architecture diagram, framework/network/module figure, or JSON figure spec — including "生成框架图", "画架构图", "JSON配图规范", "academic figure prompt", "框架图JSON". Produces a structured JSON spec AND a 200-400 word English image prompt with icons, dimension labels, and panel grouping. For pastel/airy ICLR-style figures, route to academic-figure-prompt-pastel instead.
 stages: [writing, research, review]
 tools: [bash]
 ---

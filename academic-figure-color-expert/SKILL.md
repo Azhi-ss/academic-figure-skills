@@ -2,7 +2,7 @@
 id: academic-figure-color-expert
 name: Academic Figure Color Expert
 version: 1.3.2
-description: Palette Decision for academic figures — venue-aware style family and colorblind-safe scheme selection with scene recipes. Use when the user needs an academic color palette, classic vs pastel advice, Nature Blue, or architecture-diagram color matching.
+description: Make palette decisions for academic figures — choose between classic and pastel style families, then recommend a colorblind-safe scheme with exact hex values based on venue, domain, figure type, and module count. Use this skill whenever the user asks about colors, palettes, style for a figure, including "用什么配色", "推荐配色", "what palette for NeurIPS", "Nature Blue", "classic vs pastel", "色盲友好配色", or any color-related question about academic diagrams.
 stages: [writing, research]
 tools: [bash]
 ---
