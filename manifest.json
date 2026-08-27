@@ -9,7 +9,7 @@
     {
       "id": "academic-figure-workflow",
       "name": "Academic Figure Workflow",
-      "version": "1.5.0",
+      "version": "1.6.0",
       "description": "Plan, generate, inspect, and refine academic figures from repositories, papers, paper URLs, PDFs, or reference images, with conditional review and native image-tool routing.",
       "path": "./academic-figure-workflow",
       "trigger_phrases": [
@@ -26,7 +26,7 @@
     {
       "id": "academic-repo-analyzer",
       "name": "Academic Repo Analyzer",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "description": "Evidence-backed semantic architecture analysis for ML, AI4Science, and research repositories without treating directory counts as visual modules.",
       "path": "./academic-repo-analyzer",
       "trigger_phrases": [
@@ -39,19 +39,19 @@
       "tags": ["academic", "repository", "analysis", "deep-learning", "machine-learning", "code"]
     },
     {
-      "id": "academic-figure-paper-analyzer",
-      "name": "Academic Paper Analyzer & Figure Planner",
-      "version": "1.3.0",
-      "description": "Evidence-backed Figure Plan v1 generation from manuscripts, outlines, PDFs, paper webpages, repositories, and reference figures.",
-      "path": "./academic-figure-paper-analyzer",
+      "id": "academic-figure-draft-analyzer",
+      "name": "Academic Draft & Paper Analyzer (Figure Planner)",
+      "version": "1.4.0",
+      "description": "Evidence-backed Figure Plan v1 generation with fast-track Draft-to-Figure support for Markdown notes and outlines, as well as comprehensive planning for full manuscripts.",
+      "path": "./academic-figure-draft-analyzer",
       "trigger_phrases": [
-        "分析论文配图需求", "论文需要哪些图", "论文配图规划",
-        "paper figure planning", "analyze paper for figures",
-        "which figures does my paper need"
+        "分析草稿配图", "草稿画图", "Markdown画架构图", "分析论文配图需求",
+        "论文需要哪些图", "论文配图规划", "paper figure planning",
+        "draft to figure", "analyze draft for figures"
       ],
       "stages": ["research", "review"],
       "tools": ["bash"],
-      "tags": ["academic", "paper", "analysis", "planning", "figure"]
+      "tags": ["academic", "draft", "paper", "analysis", "planning", "figure", "markdown"]
     },
     {
       "id": "academic-figure-architecture-extractor",
@@ -69,31 +69,15 @@
       "tags": ["academic", "architecture", "diagram", "extraction", "pdf", "analysis"]
     },
     {
-      "id": "academic-figure-color-expert",
-      "name": "Academic Figure Color Expert",
-      "version": "1.4.0",
-      "description": "Choose reference-aware, accessible color and surface systems for technical, airy, and illustrated-modular academic figures.",
-      "path": "./academic-figure-color-expert",
+      "id": "academic-figure-designer",
+      "name": "Academic Figure Designer & Spec Engine",
+      "version": "2.1.0",
+      "description": "Unified academic figure designer, semantic color & surface decision engine, and FigureSpec v1 compiler for classic-technical, pastel-airy-ui, illustrated-modular, and reference-led styles.",
+      "path": "./academic-figure-designer",
       "trigger_phrases": [
-        "学术配图配色", "论文配色方案", "色盲友好配色",
-        "学术配色", "架构图配色", "academic color palette",
-        "colorblind safe figure", "paper color scheme",
-        "architecture diagram color matching",
-        "Nature Blue", "单色系", "配图风格选择"
-      ],
-      "stages": ["writing", "research"],
-      "tools": ["bash"],
-      "tags": ["academic", "color", "palette", "colorblind", "accessibility", "style-library"]
-    },
-    {
-      "id": "academic-figure-prompt",
-      "name": "Academic Figure Spec and Prompt Engine",
-      "version": "2.0.0",
-      "description": "Build evidence-grounded FigureSpec v1 artifacts and normalized structured rendering briefs for all academic figure styles (classic-technical, pastel-airy-ui, illustrated-modular, and reference-led).",
-      "path": "./academic-figure-prompt",
-      "trigger_phrases": [
-        "论文配图", "生成论文配图", "学术论文生图",
-        "架构图", "框架图", "顶会风格配图",
+        "设计论文配图", "论文配图", "生成论文配图", "学术论文生图",
+        "架构图", "框架图", "顶会风格配图", "学术配图配色",
+        "论文配色方案", "色盲友好配色", "配图风格选择",
         "CVPR 风格图", "NeurIPS 风格图", "ICLR 风格图",
         "pastel风格论文配图", "现代ML论文配图", "编辑手绘模块风",
         "有色语义分区图示风", "illustrated modular figure",
@@ -103,7 +87,7 @@
       ],
       "stages": ["writing", "research", "review"],
       "tools": ["bash"],
-      "tags": ["academic", "figure", "prompt", "paper", "figure-spec", "technical-vector", "pastel", "illustrated-modular", "reference-aware"]
+      "tags": ["academic", "designer", "figure", "spec", "color", "palette", "figure-spec", "technical-vector", "pastel", "illustrated-modular", "reference-aware"]
     }
   ]
 }

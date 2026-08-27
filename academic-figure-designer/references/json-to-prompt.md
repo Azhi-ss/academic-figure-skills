@@ -26,17 +26,23 @@ Do not mechanically list JSON order. Preserve explicit gaps and unconnected regi
 
 ### 2.1 Scientific Visual Metaphor Compilation (Preventing Text Dumps)
 
-When components represent numerical fitting, observations, tabular shortlists,
-or physical steps, prefer a sourced visual schematic over a text dump. Do not
-infer that an experiment is physical, wet-lab, automated, or internally
-executed from a generic word such as “validation.”
+When components represent structured computation, representations, or experiments, prefer a sourced visual schematic over a text dump. Select archetypes compatible with the paper's actual modality:
 
-- **Surrogate / GP Fit**: describe as a `mini 2D coordinate plot with black x/y axes, solid blue fitted mean curve, dashed blue confidence interval bounds, shaded light-blue uncertainty ribbon, and orange circular scatter points`.
-- **Initial Observations**: describe as a `2D Cartesian coordinate plot with circular observations along a curve`; use the sourced observation count and encoding.
-- **Candidate Pool / Shortlist**: describe as a `compact structured candidate grid with an abstract header band and the sourced number of rows`; include field names, ranks, variables, and values only when they are present in `visible_text`.
-- **Experimental Validation**: select apparatus only from sourced modality and execution evidence; for a lookup, simulation, or external evaluation, use a bounded table, simulator, or external-boundary mark instead of wet-lab glassware.
-- **LLM / Decision Agents**: use a compact decision/reasoning glyph in the selected illustration language; use a robot embodiment only when the user, source, or reference explicitly requests it.
-- **Memory Systems**: distinguish declared memory types with consistent, reference-compatible shapes; do not invent memory categories, labels, colors, or laboratory metaphors.
+- **Neural & Representation Components**:
+  - *Feature / Tensor Blocks*: 3D orthogonal colored tensor blocks or stacked 2D feature slices with dimension annotations (e.g. `$B \times C \times H \times W$`).
+  - *Attention / Cross-Modal Matrix*: multi-layer square heatmap grid with diverging color intensity or bipartite connecting lines.
+  - *Loss / Objective Constraint*: mathematical minimization formula block with dashed purple bounding box.
+- **Pipeline & Stage Flows**:
+  - *Sequential Stages*: discrete rounded container cards with stage header pills and bold primary process icons.
+  - *Data Stream / Token Sequence*: horizontal array of rounded pills with clear left-to-right flow arrows.
+- **Systems, Data & Memory**:
+  - *Storage / Memory Buffer*: clean cylinder database glyph or node-edge episodic graph.
+  - *Queue / Buffer / Scheduler*: partitioned horizontal stack with incoming/outgoing directional arrows.
+- **Optimization & Decision Components**:
+  - *Surrogate / Function Fitting*: mini 2D coordinate plot with black x/y axes, solid blue fitted mean curve, dashed confidence bounds, shaded light-blue uncertainty ribbon, and orange scatter points.
+  - *Candidate Pool / Shortlist*: compact structured table with header band and sourced rows.
+  - *Decision / Policy Module*: compact decision/reasoning glyph or structured badge; avoid robot characters unless explicitly requested.
+  - *Experimental Evaluation*: bounded evaluation table, simulator block, or benchmark metric bar chart based on sourced modality.
 
 ### 3. State topology as a closed list
 

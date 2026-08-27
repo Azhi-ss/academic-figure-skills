@@ -32,10 +32,10 @@ Palette values only make sense with a surface and line treatment. Select a profi
 
 | Signals | Profile | Primary skill | Visual grammar |
 |---|---|---|---|
-| technical stack, compact network, classic vector, strict print | **`classic-technical`** | `academic-figure-prompt` | restrained geometry, fine borders, white or near-white modules, compact sans labels |
-| airy, token flow, interface-like, soft cards | **`pastel-airy-ui`** | `academic-figure-prompt` | white cards, subtle border/shadow, floating pills and tokens, generous whitespace |
-| hand-drawn academic infographic, modular narrative, agent/scientific workflow, tinted zones | **`illustrated-modular`** | `academic-figure-prompt` | asymmetric hero layout, soft semantic-zone fills, strong same-hue outlines, no shadow, one-level subcards, controlled line illustrations |
-| supplied reference does not fit one preset | **`reference-led`** | `academic-figure-prompt` | override defaults with observed grammar; do not assume an illustrated surface |
+| technical stack, compact network, classic vector, strict print | **`classic-technical`** | `academic-figure-designer` | restrained geometry, fine borders, white or near-white modules, compact sans labels |
+| airy, token flow, interface-like, soft cards | **`pastel-airy-ui`** | `academic-figure-designer` | white cards, subtle border/shadow, floating pills and tokens, generous whitespace |
+| hand-drawn academic infographic, modular narrative, agent/scientific workflow, tinted zones | **`illustrated-modular`** | `academic-figure-designer` | asymmetric hero layout, soft semantic-zone fills, strong same-hue outlines, no shadow, one-level subcards, controlled line illustrations |
+| supplied reference does not fit one preset | **`reference-led`** | `academic-figure-designer` | override defaults with observed grammar; do not assume an illustrated surface |
 
 Do not force a supplied reference into a binary classic/pastel label. A coherent figure may combine a classic flat canvas, tinted modular zones, and hand-drawn illustrations. State the observed properties so the combination is intentional rather than a style-word mixture.
 
@@ -71,19 +71,38 @@ Recommended material treatment: white canvas; 1.5–2.5px zone outlines; 6–14p
 
 ## Semantic color binding contract
 
-Bind tokens to the roles present in the current paper and retain those bindings across its figures. The mappings below are defaults, not a universal ontology.
+Bind tokens to the roles present in the current paper and retain those bindings across its figures. The mappings below are customizable defaults across different scientific domains:
 
-| Semantic role | Suggested illustrated token | Classic/airy adaptation |
+### 1) Standard Multi-Stage Pipeline & Modular Systems
+| Domain Role / Stage | Suggested Illustrated Token | Classic/Airy Adaptation |
 |---|---|---|
-| **Reasoning / planning / agent policy** | I1 Blue | blue outline or blue heading/token |
-| **Evidence / context / scoped input** | I1 Green | green accent plus document/data shape |
-| **Deterministic execution / harness / core operation** | I1 Peach | orange-brown outline plus solid process shape |
-| **Advisory / council / alternative / uncertainty** | I1 Purple | purple dashed edge or optional pill |
-| **Memory / provenance / recovery** | I1 Cyan | cyan accent plus storage/checkpoint icon |
-| **Output / report / accepted result** | I1 Gold | gold heading plus terminal/output shape |
-| **Exception / stop / failure** | I1 Coral | coral accent plus distinct edge/shape; use sparsely |
+| **Stage 1: Input / Raw Data / Context** | I1 Green (`#F3FBF0` / `#3B7D23`) | Green accent / data pill |
+| **Stage 2: Representation / Encoders** | I1 Blue (`#EDF4FB` / `#194166`) | Blue outline / primary container |
+| **Stage 3: Core Mechanism / Transformation** | I1 Peach (`#FBE3D6` / `#A94417`) | Orange/peach hero zone |
+| **Stage 4: Optimization / Supervision / Loss** | I1 Purple (`#F5ECF5` / `#77206E`) | Purple accent / dashed constraint |
+| **Stage 5: Output / Evaluation / Benchmark** | I1 Gold (`#FBF1D1` / `#856B1B`) | Gold heading / output badge |
 
-For neural-network figures, map input/data, model core, supervision, and output to the nearest meaningful tokens instead of injecting every role. Repeated roles reuse a token; adjacent unrelated zones should also differ by label, geometry, or line style.
+### 2) Deep Learning & Neural Architectures
+| Architecture Component | Suggested Illustrated Token | Visual Metaphor / Shape |
+|---|---|---|
+| **Raw Input / Embeddings / Tokens** | I1 Green | Structured grid, token pill, or feature map |
+| **Backbone / Feature Extractor** | I1 Blue | Layered orthogonal blocks or stacked cards |
+| **Cross-Modal Fusion / Attention Core** | I1 Peach | Heatmap matrix or bipartite connection web |
+| **Loss Function / Objective / Regularizer** | I1 Purple | Mathematical constraint box or curve |
+| **Prediction Head / Downstream Task** | I1 Gold | Terminal prediction pill or task badge |
+
+### 3) Agentic & Scientific Interactive Loops
+| Agentic Role | Suggested Illustrated Token | Visual Metaphor / Shape |
+|---|---|---|
+| **Reasoning / Policy / Planner** | I1 Blue | Decision glyph, thought bubble, or planning box |
+| **Evidence / Context / Observation** | I1 Green | Document icon, coordinate plot, or context card |
+| **Deterministic Harness / Tool Execution**| I1 Peach | Solid process container or simulation box |
+| **Advisory / Feedback / Uncertainty** | I1 Purple | Dashed feedback arrow or advisory pill |
+| **Memory / Storage / Provenance** | I1 Cyan | Network graph or database/checkpoint cylinder |
+| **Final Output / Report** | I1 Gold | Formatted report card or badge |
+| **Exception / Guardrail / Stop** | I1 Coral | Warning badge or coral STOP boundary |
+
+Repeated roles reuse a token; adjacent unrelated zones should also differ by label, geometry, or line style.
 
 ---
 

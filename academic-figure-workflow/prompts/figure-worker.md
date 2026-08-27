@@ -46,7 +46,7 @@ Execution contract
    job to requested. If waived, omit the hash and never expose the prompt.
 7. Treat the trusted workspace root as runtime authority. The declared root must
    match it but cannot establish or widen it. Immediately before rendering, run:
-   python3 academic-figure-prompt/scripts/validate_figure_spec.py --strict-v1 --render-ready --workspace-root <trusted-actual-root> <spec.json>
+   python3 academic-figure-designer/scripts/validate_figure_spec.py --strict-v1 --render-ready --workspace-root <trusted-actual-root> <spec.json>
    Stop when validation fails.
 8. Verify every local reference exists, is a regular file, and is not a symlink.
    Mark conversation-only references transient and materialize them when possible.

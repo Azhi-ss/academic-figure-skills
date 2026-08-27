@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VALIDATOR_DIR = ROOT / "academic-figure-prompt" / "scripts"
+VALIDATOR_DIR = ROOT / "academic-figure-designer" / "scripts"
 sys.path.insert(0, str(VALIDATOR_DIR))
 
 from validate_figure_spec import main, validate_path, validate_spec  # noqa: E402

@@ -7,9 +7,9 @@
 **Academic paper figure skills for Claude Code, Cursor, Codex & Gemini CLI.**  
 AI 驱动的学术论文配图技能包：证据分析 → FigurePlan v1 → FigureSpec v1 → 原生生图 → RenderAudit v1 → 定向修图。
 
-> **是什么？** 6 个可独立安装的 agent skill，覆盖仓库/论文/参考图分析、可追溯配图规划、结构化规范、Codex 原生直接生图和生成后视觉审计。skill 定义可复用流程，不等于常驻子智能体；仅端到端 workflow 会在任务可独立拆分时临时派发 figure worker。三个 surface profile 是 `modern-technical-vector`、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是保留参考图真实语法的覆盖模式，不等同于手绘柔彩风。色板是风格下的可选变量，不再由代码目录数决定。
+> **是什么？** 5 个可独立安装的 agent skill，覆盖仓库/论文/草稿/参考图分析、可追溯配图规划、统一风格与色彩设计、结构化规范、Codex 原生直接生图和生成后视觉审计。skill 定义可复用流程，不等于常驻子智能体；仅端到端 workflow 会在任务可独立拆分时临时派发 figure worker。三个 surface profile 是 `classic-technical`（现代前沿技术框线/经典矢量）、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是保留参考图真实语法的覆盖模式，不等同于手绘柔彩风。色板是风格下的可选变量，不再由代码目录数决定。
 
-**6 skills · 3 core style profiles · native Codex rendering · reference-aware revision** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
+**5 skills · 3 core style profiles · native Codex rendering · reference-aware revision** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
 
 
 ## 快速开始（30 秒）
@@ -85,11 +85,10 @@ npx skills add Azhi-ss/academic-figure-skills -l
 | 技能 | 功能 | 触发词示例 |
 |-----|------|-----------|
 | **academic-figure-workflow** | 端到端编排：分析、条件式 review、原生生图、审图与定向修订 | 完整论文配图工作流、帮我画图、which skill first |
-| **academic-repo-analyzer** | 从代码证据生成语义架构图，而不是按目录数猜模块 | 分析代码仓库、repo analyzer |
-| **academic-figure-paper-analyzer** | 将论文 claim 映射为 FigurePlan v1 和出版约束 | 论文需要哪些图、paper figure planning |
-| **academic-figure-architecture-extractor** | 从 PDF、论文 URL 或图片抽取结构与可迁移 style grammar | 提取论文架构图、reference figure |
-| **academic-figure-color-expert** | 参考图优先的 surface、语义色彩与无障碍决策 | 学术配图配色、推荐风格 |
-| **academic-figure-prompt** | 统一 FigureSpec v1 生成与结构化提示词编译（涵盖现代前沿技术框线、现代柔彩空气、编辑手绘/有色分区、参考图驱动） | 学术配图 JSON、Visual Brief、编辑手绘模块风、现代ML论文配图 |
+| **academic-repo-analyzer** | 从代码证据提取语义事实，辅助参数与维度核验，不干预论文高层叙事 | 分析代码仓库、repo analyzer |
+| **academic-figure-draft-analyzer** | 草稿与论文配图规划（支持 Markdown 提纲直出 Figure 1 与完整多图规划） | 分析草稿配图、草稿画图、论文需要哪些图、paper figure planning |
+| **academic-figure-architecture-extractor** | 从 PDF、论文 URL 或图片抽取可迁移 style grammar | 提取论文架构图、reference figure |
+| **academic-figure-designer** | 统一配图设计与规范引擎：风格选择、语义配色与无障碍、构图布局、FigureSpec v1 与生图 Prompt 编译 | 设计论文配图、学术配图配色、论文配色方案、顶会风格配图、编辑手绘模块风 |
 
 ## 完整工作流
 
@@ -150,14 +149,14 @@ view_image(original) → RenderAudit v1 → 最多两次有缺陷依据的 targe
 仓库已公开，`npx skills` 从 GitHub 拉取；**push 到 `main` 即更新分发**，无需 npm publish。
 
 ```bash
-# 全局安装全部 6 个 skill
+# 全局安装全部 5 个 skill
 npx skills add Azhi-ss/academic-figure-skills -g --all
 
 # 仅列出仓库内 skill（不安装）
 npx skills add Azhi-ss/academic-figure-skills -l
 
 # 只装其中一个
-npx skills add Azhi-ss/academic-figure-skills -g -s academic-figure-prompt -y
+npx skills add Azhi-ss/academic-figure-skills -g -s academic-figure-designer -y
 
 # 更新到 main 最新
 npx skills update Azhi-ss/academic-figure-skills -g -y
@@ -179,7 +178,7 @@ npx skills add https://github.com/Azhi-ss/academic-figure-skills -g --all
 ```bash
 git clone https://github.com/Azhi-ss/academic-figure-skills.git
 # 将各个 skill 目录链到 agent skills 路径，例如：
-# ln -s "$PWD/academic-figure-prompt" ~/.claude/skills/academic-figure-prompt
+# ln -s "$PWD/academic-figure-designer" ~/.claude/skills/academic-figure-designer
 ```
 
 更推荐始终用 `npx skills add`，避免把整个 monorepo 误拷进 skills 目录。

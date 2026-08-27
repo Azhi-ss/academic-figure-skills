@@ -27,23 +27,21 @@ EXPECTED_SKILL_IDS = frozenset(
     {
         "academic-figure-workflow",
         "academic-repo-analyzer",
-        "academic-figure-paper-analyzer",
+        "academic-figure-draft-analyzer",
         "academic-figure-architecture-extractor",
-        "academic-figure-color-expert",
-        "academic-figure-prompt",
+        "academic-figure-designer",
     }
 )
 RENDER_AUDIT_SKILLS = frozenset(
     {
         "academic-figure-workflow",
-        "academic-figure-prompt",
+        "academic-figure-designer",
     }
 )
 STYLE_LIBRARY_SKILLS = frozenset(
     {
         "academic-figure-workflow",
-        "academic-figure-color-expert",
-        "academic-figure-prompt",
+        "academic-figure-designer",
     }
 )
 
@@ -197,7 +195,7 @@ def build_sync_plan(root: Path) -> list[SyncItem]:
 
     root = root.resolve()
     skill_paths = load_skill_paths(root)
-    # Keep all seven shipped skill directories synchronized even while a manifest
+    # Keep all shipped skill directories synchronized even while a manifest
     # edit is in progress.  A missing manifest entry must not leave a stale
     # standalone installation behind.
     for skill_id in EXPECTED_SKILL_IDS:

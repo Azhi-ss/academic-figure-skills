@@ -1,20 +1,29 @@
 ---
 name: academic-repo-analyzer
-description: Analyze ML, AI4Science, and research repositories into an evidence-backed semantic architecture graph for paper figure planning. Use for repository understanding or repo-to-figure tasks; do not use directory counts as visual modules or palette signals.
+description: Analyze ML, AI4Science, Systems, and research repositories into an evidence-backed semantic architecture graph for paper figure planning. Code serves as supporting evidence; paper narrative and user intent remain the primary source of truth.
 metadata:
-  version: "1.4.0"
+  version: "1.5.0"
   stages: [research, review]
 ---
 
 # Academic Repo Analyzer
 
-Produce a concise repository understanding document plus a machine-readable **Semantic Architecture Handoff v1**. The handoff describes scientific roles and executable relationships, not the repository's folder layout.
+Produce a concise repository understanding document plus a machine-readable **Semantic Architecture Handoff v1**. The handoff describes scientific roles and executable relationships, not the repository's folder layout or engineering boilerplate.
 
 Read `keywords.md` only when task or framework classification is uncertain. Read `references/missing-info-policy.md` when evidence is sparse.
+
+## Core Principle: Narrative Priority & Non-Intrusive Extraction
+
+1. **Paper & User Narrative > Code Implementation**:
+   - A paper figure depicts the **scientific contribution and conceptual data flow**, not the full software engineering artifact.
+   - Omit engineering plumbing (such as `DataLoader`, `Trainer`, `Logger`, `ConfigParser`, `DeviceManager`, or `Optimizer` setup) unless the paper specifically contributes a training algorithm or infrastructure system.
+2. **Fact-Checking & Parameter Grounding**:
+   - When a paper draft or user architecture is already present, the repo analyzer acts as a **supporting fact-checker** (verifying tensor dimensions, loss formulas, exact module names, and execution directions) rather than re-inventing the architecture.
 
 ## Input contract
 
 - Prefer: repository path, README, dependencies, entry points, core model/algorithm files, configs, and tests that establish behavior.
+- Accept: partial repository, isolated model files, core algorithm script.
 - Minimum: one README, entry point, or core implementation file.
 - Record the source revision when Git metadata is available.
 - Treat names and README claims as leads; verify figure-critical claims in code or tests.
@@ -28,16 +37,14 @@ Keep the human summary to roughly 30–70 lines, then emit the handoff block bel
 3. Semantic components and their responsibilities.
 4. Executed/advisory/feedback/persistence connections.
 5. Authority or trust boundaries when agents, tools, evaluators, or external systems are involved.
-6. Two to four figure suggestions using the controlled types.
+6. Figure suggestions (Overall Framework, Network Architecture, Module Detail, Concept/Motivation, Protocol/Sequence).
 7. `Semantic Architecture Handoff v1`.
-
-Controlled figure types: `Overall Framework`, `Network Architecture`, `Module Detail`, `Comparison/Ablation`, `Data Behavior`.
 
 ## Workflow
 
 ### 1. Locate evidence
 
-Find the README, dependency files, entry scripts (`train`, `main`, `eval`, `inference`, `predict`, `run`, `simulate`, `benchmark`, `demo`, `app`, `serve`), configs, core packages, and relevant tests. Top-level directories are discovery cues only; they are never counted as architecture modules.
+Find the README, dependency files, entry scripts (`train`, `main`, `eval`, `inference`, `predict`, `run`, `simulate`, `benchmark`), configs, and core algorithm files. Top-level directories are discovery cues only; they are never counted as architecture modules.
 
 For a large repository, inspect the top level and a justified sample of core files. State the sampling boundary. Do not claim full coverage from keyword hits.
 
@@ -52,14 +59,15 @@ Create one component only when it has a distinct scientific or execution respons
 For every component record:
 
 - stable `id` and short display `label`;
-- `role`: `input`, `reasoning`, `decision`, `model`, `deterministic_execution`, `observation`, `memory`, `persistence`, `output`, `exception`, or `other`;
+- `role`:
+  - **General ML / Deep Learning**: `input_data`, `encoder_backbone`, `fusion_interaction`, `loss_objective`, `task_head`, `model`, `output`;
+  - **Agentic / Interactive**: `reasoning`, `decision`, `deterministic_execution`, `observation`, `memory`, `persistence`, `advisory`, `exception`;
+  - **Systems / Modular**: `source`, `scheduler`, `processor`, `storage`, `sink`, `other`;
 - `figure_importance`: `primary` or `secondary`;
 - evidence pointers such as `path:line`, class, function, test, or config key;
 - one-sentence responsibility and explicit non-authority when scientifically important.
 
 Record connections separately. Use `executed`, `advisory`, `feedback`, `persistence`, or `exception` as the connection kind. Do not infer an edge solely because two files import each other.
-
-For agentic systems, identify who may propose, compute, commit observations, update state, stop, or call an external system. These authority boundaries are often more figure-worthy than package boundaries.
 
 ### 4. Derive visual groups
 
@@ -69,11 +77,9 @@ Group related components by responsibility or narrative stage. Report:
 - `visual_group_count`: number of meaningful regions in the proposed figure;
 - `peer_module_count`: largest set of genuinely equivalent sibling components.
 
-These counts help layout planning. **None of them selects a palette by itself.** A four-stage timeline, four peer encoders, and four authority domains require different visual treatment.
+These counts help layout planning. None of them selects a palette by itself.
 
 ### 5. Emit the handoff
-
-Use JSON so downstream skills do not reinterpret free-form Markdown:
 
 ```json
 {
@@ -83,35 +89,33 @@ Use JSON so downstream skills do not reinterpret free-form Markdown:
   "evidence_level": "high|partial|sparse",
   "components": [
     {
-      "id": "policy",
-      "label": "Typed Policy",
-      "role": "decision",
+      "id": "backbone",
+      "label": "Encoder Backbone",
+      "role": "encoder_backbone",
       "figure_importance": "primary",
-      "responsibility": "Proposes the next typed action.",
-      "evidence": ["path/to/file.py:ClassName"]
+      "responsibility": "Extracts multi-scale feature representations.",
+      "evidence": ["models/backbone.py:ResNet"]
     }
   ],
   "connections": [
     {
-      "from": "policy",
-      "to": "harness",
-      "kind": "advisory",
-      "label": "typed proposal",
-      "evidence": ["path/to/controller.py:function"]
+      "from": "input_data",
+      "to": "backbone",
+      "kind": "executed",
+      "label": "raw inputs",
+      "evidence": ["models/pipeline.py:forward"]
     }
   ],
-  "authority_boundaries": ["<short evidence-backed statement>"],
-  "semantic_component_count": 0,
-  "visual_group_count": 0,
+  "authority_boundaries": [],
+  "semantic_component_count": 1,
+  "visual_group_count": 1,
   "peer_module_count": 0,
   "figure_types": ["Overall Framework"],
   "forbidden_claims": ["<claims the figure must not imply>"]
 }
 ```
 
-Controlled domain: `CV`, `NLP`, `Speech/Audio`, `RL`, `Robotics`, `Multimodal`, `TimeSeries`, `Generative`, `Protein/AI4Science`, `GNN/ScientificComputing`, `ScientificComputing(non-ML)`, or `Other`.
-
-The example is structural, not content to copy. Populate only evidence-backed values; do not leave fabricated sample components in the final handoff.
+Controlled domain: `CV`, `NLP`, `Speech/Audio`, `RL`, `Robotics`, `Multimodal`, `TimeSeries`, `Generative`, `Protein/AI4Science`, `GNN/ScientificComputing`, `Systems/Infrastructure`, `ScientificComputing(non-ML)`, or `Other`.
 
 ## Sparse evidence
 

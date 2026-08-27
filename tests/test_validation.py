@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-sys.path.insert(0, str(ROOT / "academic-figure-prompt" / "scripts"))
+sys.path.insert(0, str(ROOT / "academic-figure-designer" / "scripts"))
 
 from sync_shared_refs import SyncItem, synchronize  # noqa: E402
 from validate_figure_spec import validate_spec  # noqa: E402
@@ -326,7 +326,7 @@ metadata:
             )
             skill_ids = [
                 "academic-figure-workflow",
-                "academic-figure-prompt",
+                "academic-figure-designer",
                 "other-skill",
             ]
             manifest = {"skills": []}
@@ -351,7 +351,7 @@ metadata:
             self.assertFalse((root / "other-skill" / "references" / "render-audit.md").exists())
             for skill_id in (
                 "academic-figure-workflow",
-                "academic-figure-prompt",
+                "academic-figure-designer",
             ):
                 self.assertEqual(
                     "illustrated style\n",

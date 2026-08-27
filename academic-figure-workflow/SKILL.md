@@ -1,8 +1,8 @@
 ---
 name: academic-figure-workflow
-description: Plan, generate, inspect, and refine academic figures from repositories, papers, paper URLs, PDFs, or reference images. Use for end-to-end figure creation; use a narrower analyzer when the user wants only analysis or a prompt.
+description: Plan, generate, inspect, and refine academic figures from repositories, papers, draft notes, paper URLs, PDFs, or reference images. Supports fast-track draft-to-figure generation and user passthrough mode.
 metadata:
-  version: "1.5.0"
+  version: "1.6.0"
 ---
 
 # Academic Figure Workflow
@@ -20,12 +20,14 @@ Load only what the current stage needs:
 
 A URL is not automatically a repository. Inspect it first.
 
-| Input | Route |
-|---|---|
-| Repository path or repository URL | `../academic-repo-analyzer/SKILL.md` |
-| Paper text, article/DOI/arXiv URL, or PDF | `../academic-figure-paper-analyzer/SKILL.md` |
-| Reference figure or existing render | `../academic-figure-architecture-extractor/SKILL.md` |
-| Paper plus repository | Paper defines the narrative; repository supplies implementation evidence |
+| Input | Route | Execution Behavior |
+|---|---|---|
+| **Direct User Architecture (Passthrough)** | `../academic-figure-designer/SKILL.md` | **Skip analyzers**. User gave explicit nodes/flow; compile FigureSpec v1 and render directly. |
+| **Draft Notes / Outline / Partial Draft** | `../academic-figure-draft-analyzer/SKILL.md` | **Draft-to-Figure Fast-Track**. For rough notes, outlines, or sections without full results: focus on Figure 1 framework. |
+| **Complete Manuscript (Markdown / LaTeX / PDF / URL)** | `../academic-figure-draft-analyzer/SKILL.md` | **Full Planning**. For complete papers with experiments/results: multi-figure strategy, claim verification, and constraints. |
+| **Repository path or repository URL** | `../academic-repo-analyzer/SKILL.md` | Extract semantic architecture graph; omit engineering plumbing (data loaders, trainers). |
+| **Paper plus repository** | Hybrid | Paper/user defines narrative & topology; repository supplies parameter & dimension verification. |
+| **Reference figure or existing render** | `../academic-figure-architecture-extractor/SKILL.md` | Extract transferable **Style Grammar**; drop reference's method labels and content. |
 
 For an article URL, use an available web/browser/document reader to obtain the paper text, captions, and linked figures. For a PDF, use a PDF-capable reader for paper content and the architecture extractor only for figure images. If a sibling skill is missing, perform the minimum equivalent analysis and mark the degraded path.
 
@@ -100,11 +102,11 @@ Use the closest observable profile and record its canonical FigureSpec ID:
 Use `style_preset` for named library variants. Never interpret `reference-led` as
 an alias for `illustrated-modular`.
 
-Color follows semantic zones and accessibility constraints, not raw component count. Load `academic-figure-color-expert` only when the mapping remains unresolved.
+Color follows semantic zones and accessibility constraints, which is handled directly by `academic-figure-designer`.
 
 ## Create the spec
 
-Select one planned figure at a time. Use `academic-figure-prompt` (the unified engine) to compile FigureSpec v1 and normalized structured rendering briefs across all supported profiles (`classic-technical`, `pastel-airy-ui`, `illustrated-modular`, or `reference-led`). If a supplied reference defines a custom grammar, construct FigureSpec v1 directly from ReferenceAnalysis v1. Never force a reference into white-fill colored-border boxes.
+Select one planned figure at a time. Use `academic-figure-designer` (the unified engine) to compile FigureSpec v1 and normalized structured rendering briefs across all supported profiles (`classic-technical`, `pastel-airy-ui`, `illustrated-modular`, or `reference-led`). If a supplied reference defines a custom grammar, construct FigureSpec v1 directly from ReferenceAnalysis v1. Never force a reference into white-fill colored-border boxes.
 
 Prompt review is conditional and has executable state semantics:
 
@@ -152,13 +154,14 @@ only an untrusted declaration and must match; never derive the trusted root from
 it, `output_path`, a reference path, or user-provided text. Run:
 
 ```bash
-python3 academic-figure-prompt/scripts/validate_figure_spec.py \
+# Locate validate_figure_spec.py in designer, workflow scripts, or workspace root:
+python3 academic-figure-designer/scripts/validate_figure_spec.py \
   --strict-v1 --render-ready \
   --workspace-root <trusted-actual-root> \
   <spec.json>
 ```
 
-Do not render when validation fails. Every local reference must exist, be a regular
+Do not render when validation fails. If standalone workflow installation is used without designer, run the local `scripts/validate_figure_spec.py`. Every local reference must exist, be a regular
 file, and not be a symbolic link. Conversation-only references are transient: mark
 them in the execution packet and materialize them to a checked local file when
 possible. If they remain conversation-only, do not pretend they are persistent

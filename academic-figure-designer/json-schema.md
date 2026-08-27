@@ -209,7 +209,7 @@ legibility after scaling to the intended width.
 Run:
 
 ```bash
-python3 academic-figure-prompt/scripts/validate_figure_spec.py \
+python3 academic-figure-designer/scripts/validate_figure_spec.py \
   --strict-v1 --render-ready \
   --workspace-root <trusted-actual-root> \
   <spec.json>

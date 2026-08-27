@@ -22,7 +22,7 @@ from typing import Any, Iterable
 
 PACK_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(PACK_ROOT / "academic-figure-prompt" / "scripts"))
+sys.path.insert(0, str(PACK_ROOT / "academic-figure-designer" / "scripts"))
 
 from sync_shared_refs import (  # noqa: E402
     SyncItem,
@@ -450,7 +450,7 @@ def validate_shared_refs(root: Path, report: PackReport) -> None:
 
 
 def validate_schema_file(root: Path, report: PackReport) -> None:
-    path = root / "academic-figure-prompt" / "figure-spec.schema.json"
+    path = root / "academic-figure-designer" / "figure-spec.schema.json"
     try:
         schema = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
