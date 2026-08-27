@@ -7,9 +7,9 @@
 **Academic paper figure skills for Claude Code, Cursor, Codex & Gemini CLI.**  
 AI 驱动的学术论文配图技能包：证据分析 → FigurePlan v1 → FigureSpec v1 → 原生生图 → RenderAudit v1 → 定向修图。
 
-> **是什么？** 7 个可独立安装的 agent skill，覆盖仓库/论文/参考图分析、可追溯配图规划、结构化规范、新风格制作与注册、Codex 原生直接生图和生成后视觉审计。skill 定义可复用流程，不等于常驻子智能体；仅端到端 workflow 会在任务可独立拆分时临时派发 figure worker。三个 surface profile 是 `modern-technical-vector`、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是保留参考图真实语法的覆盖模式，不等同于手绘柔彩风。色板是风格下的可选变量，不再由代码目录数决定。
+> **是什么？** 6 个可独立安装的 agent skill，覆盖仓库/论文/参考图分析、可追溯配图规划、结构化规范、Codex 原生直接生图和生成后视觉审计。skill 定义可复用流程，不等于常驻子智能体；仅端到端 workflow 会在任务可独立拆分时临时派发 figure worker。三个 surface profile 是 `modern-technical-vector`、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是保留参考图真实语法的覆盖模式，不等同于手绘柔彩风。色板是风格下的可选变量，不再由代码目录数决定。
 
-**7 skills · 3 core style profiles · native Codex rendering · reference-aware revision** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
+**6 skills · 3 core style profiles · native Codex rendering · reference-aware revision** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
 
 
 ## 快速开始（30 秒）
@@ -218,7 +218,7 @@ AI:  [view_image(original) → RenderAudit v1 → 当前最佳图作第一引用
 |--------|--------|---------|---|
 | **modern-technical-vector**<br>*(alias: classic-technical)* | 深度学习大模型架构、算法张量流、精确技术拓扑与顶会工程架构 | 彩色张量条、多层注意力热力图、门控概率柱状图、正交微米走线 | **DeepSeek-V3** (2024) Fig 2<br>**DiT** (ICCV 2023) Fig 2<br>**Mamba** (ICML 2024) Fig 1 |
 | **illustrated-modular** | 科学工作流、AI4Science、多智能体闭环、需要图示化叙事 | 柔彩语义分区、手绘深色描边、非对称模块编排、实线执行/虚线反馈与闭环恢复叙事 | **MLEvolve** (2026) Fig 1–2（风格参考）<br>**Agentic-MatriBO** Fig 1 |
-| **pastel-airy-ui** | LLM Token 流、Agent 交互界面、概念决策循环 | 纯白浮动卡片、悬浮柔彩 Token/Pill、高留白比率 | **ReAct** (ICLR 2023) Fig 1<br>**Reflexion** (NeurIPS 2023) Fig 1 |
+| **pastel-airy-ui** | LLM Token 流、Agent 交互界面、概念决策循环 | 纯白浮动卡片、CLI 终端仿真视窗、悬浮柔彩 Token/Pill、高留白比率 | **SWE-agent** (ICML 2024) Fig 2<br>**ReAct** (ICLR 2023) Fig 1<br>**Reflexion** (NeurIPS 2023) Fig 1 |
 | **reference-led** | 用户给出参考图且其语法不应被 preset 覆盖 | 如实继承观察到的 surface/composition，不自动转成手绘柔彩 | 用户提供的任意顶刊/顶会论文原图 |
 
 内容关系、用户偏好、参考图、可访问性与黑白印刷配方见 `docs/palettes.md` 的 **Scene → palette decision** 与 **Worked decision recipes**。venue/domain 名称本身不选择颜色。
