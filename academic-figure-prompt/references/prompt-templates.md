@@ -1,96 +1,69 @@
-# Prompt Templates for Academic Figures
+# Prompt Scaffolds for Academic Figures
 
-Fill-in-the-blank templates for each figure type. Replace `[bracketed]` values with content from the analysis. All templates follow the 8-slot structure from `image-prompt-guide.md`.
+Use these as adaptable scaffolds, not universal layouts. Fill only evidence-backed content from FigurePlan v1 and FigureSpec v1. A scaffold must never add dimensions, formulas, icons, or modules that are absent from the source artifacts.
 
-## Template 1: Overall Framework (end-to-end pipeline)
+## Choose composition before a scaffold
 
-```
-Flat vector academic architecture diagram showing [system name] overall framework on a pure white #FFFFFF canvas, 16:9. [brief one-sentence description of what the system does].
+| Scientific story | Prefer |
+|---|---|
+| Repeated research/optimization cycle | hero loop or circular storyboard |
+| Distinct responsibility or authority domains | asymmetric modular collage or layered boundary diagram |
+| Strictly sequential executed stages | pipeline |
+| One central mechanism with context | central hero with satellites |
+| Alternative methods or interventions | comparison grid |
+| Quantitative behavior | deterministic plot, not an image-model illustration |
 
-Horizontal left-to-right flow, [N] main stages connected by solid dark grey #4D4D4D arrows: [stage 1] → [stage 2] → [stage 3] → [stage 4]. Each stage is a rounded rectangle (6px corner radius, 2px colored border, white fill) with a [monochrome line art icon] inside, title in bold 14pt sans-serif, and [short label] below.
+Do not flatten every Overall Framework into equal left-to-right boxes. Reserve 35–50% of visual attention for the actual contribution or control loop.
 
-Supporting elements: [dashed feedback arrow from X back to Y labeled "loss"], [dimension labels "(B,N,D)" in 9pt grey beneath relevant blocks], [legend at bottom explaining border styles].
+## Overall Framework — illustrated modular
 
-Color palette: [primary #hex, secondary #hex, tertiary #hex], ≤3 chromatics. Panels grouped by very light tinted backgrounds (#F0F4FF for [group A], #F5F5F5 for [group B]).
+```text
+Illustrated academic systems framework on an opaque white canvas, [aspect ratio]. It explains [communication goal] without implying [forbidden claims].
 
-Style: clean sans-serif (Helvetica/Arial), thin 1.5-2px outlines, no gradients, no shadows, no 3D, no emojis, no decorative elements. All text in designated label areas. Aspect ratio 16:9.
-```
+Composition: [hero loop/mechanism] occupies [region and approximate share]. Around it, [the declared semantic regions] form an asymmetric but balanced modular collage. Use one level of rounded subcards where needed. Required executed flow: [exact node/edge sequence]. Advisory, feedback, persistence, and exception connections use distinct line styles from FigureSpec; do not invent any other connection.
 
-## Template 2: Network Architecture (internal structure)
+Visual grammar: low-saturation semantic panel fills paired with darker same-hue outlines and titles; bold rounded or hand-lettered display headings; readable dark body labels; editorial scientific line illustrations; no SaaS shadows, gradients, photorealism, branding, or emoji glyphs. Use a hero illustration and only a few supporting anchors.
 
-```
-Flat vector academic network architecture diagram of [network name] on a pure white #FFFFFF canvas, 16:9. [one sentence: e.g., "Decoder-only Transformer with token and position embeddings, N repeated blocks, and weight-tied language model head."]
-
-[Vertical bottom-to-top / two-column left-right] layout. Main structure is a large rounded container with [2.5px primary color border] titled "[Container Name]", containing [N] vertically stacked sub-blocks:
-- [sub-block 1]: [shape/color], icon: [icon phrase from architecture-icons.md], label "[name]"
-- [sub-block 2]: ...
-- residual connections: [two curved solid dark grey arrows on the right side, bypassing sub-blocks 1+2 and 3+4]
-
-[Outside/above/below the container]: [input/output blocks with icons].
-[Dashed curved arrow describing skip/weight-typing connection].
-
-Supporting elements: dimension labels "(B,N,D)" in 9pt grey, [model size variants in right margin: "124M / 350M / 774M / 1558M"], [formula ≤1 line if core: "x = x + attn(LN(x))"].
-
-Color palette: Nature Blue monochrome — dark #1B3A5C, medium #2E6B9E, light #5BA0D0, pale #8EAEC4, grey #4D4D4D for arrows. White fills, colored borders only. Font: Helvetica/Arial 12-14pt. No gradients, no shadows, no 3D. Aspect ratio 16:9.
+Visible text is limited to [exact list]. Preserve the supplied reference image's composition, stroke, fill, typography, spacing, and illustration language while replacing all source-specific content with the target method. [semantic color tokens]. [aspect ratio]
 ```
 
-## Template 3: Module Detail (mechanism zoom-in)
+## Overall Framework — technical vector
 
-```
-Flat vector academic module detail diagram showing [mechanism name] on a pure white #FFFFFF canvas, 4:3. [one sentence describing the mechanism and its role in the larger system].
+```text
+Technical academic framework diagram on an opaque white canvas, [aspect ratio], showing [communication goal]. Choose [pipeline/layered boundary/loop/central mechanism] because [narrative reason].
 
-Central composition: [large central block] showing [internal operation], with [inputs arriving from left/top] and [outputs exiting right/bottom]. The central mechanism is rendered as [specific visual: e.g., "a stack of layers with Q/K/V projections shown as three diverging arrows merging into attention weights"].
+Place [required groups] at [relative positions and proportions]. Draw only the required nodes and typed connections from FigureSpec. Solid arrows mean executed transitions; [other line semantics]. Use compact short labels and reserve implementation detail for the caption.
 
-Surrounding annotations: [formula in italic serif: "Attention(Q,K,V) = softmax(QK^T/√d)V"], [dimension labels], [arrow labels "Q" "K" "V" in 10pt], [small inset showing the module's position in the full architecture with a highlighted region].
-
-Supporting modules: [legend explaining color coding], [caption note area at bottom marked "see caption" for long formulas].
-
-Color palette: [≤2 chromatics from selected palette], dark grey for text and arrows. Thin 1.5px outlines, 4px rounded corners, white fills. Monochrome icons in block border color. No gradients, no shadows, no 3D. Font: sans-serif titles 16pt, body 11pt, math in serif italic. Aspect ratio 4:3.
+Visual grammar: flat vector marks, restrained region tints or white modules according to the confirmed style profile, consistent 1–2px-equivalent strokes, square or modestly rounded geometry, clean sans-serif type, no gradients or 3D. Add a visual anchor only where it explains a mechanism or role. [semantic color tokens]. [aspect ratio]
 ```
 
-## Template 4: Comparison / Ablation
+## Network Architecture
 
-```
-Flat vector academic comparison diagram on a pure white #FFFFFF canvas, 16:9. [N] variants of [system/module] shown side-by-side in a grid.
-
-[N×M grid] with equal-sized panels, each panel has:
-- title in bold 14pt: "[variant name]"
-- simplified architecture thumbnail showing [the key difference]
-- [metric or label] below in 11pt
-- highlighted difference using [accent color #hex]
-
-Ours panel: [thicker 2.5px border in accent color], small "ours" pill tag.
-Baseline panels: [1px grey border].
-
-Supporting modules: [arrow or bracket indicating the axis of variation], [shared legend], [horizontal axis label].
-
-Color palette: primarily grey #CCCCCC for baselines, one accent [primary #hex] for ours, white fills. Clean sans-serif, thin outlines, no shadows or 3D. Aspect ratio 16:9.
+```text
+Academic network architecture of [network], [aspect ratio]. The dominant structure is [stack/encoder-decoder/graph/multi-branch topology], not a generic four-step pipeline. Show [required layers and repeated groups] with explicit residual, skip, or cross-branch connections from FigureSpec. Place input/output and tensor dimensions only where sourced and necessary. Encode fixed/trainable status using [confirmed non-color cue]. Use [confirmed style grammar, palette tokens, and typography]. No invented layers, sizes, legends, or model variants.
 ```
 
-## Template 5: Data Behavior (curves / heatmaps / embeddings)
+## Module Detail
 
-```
-Flat vector academic data behavior figure on a pure white #FFFFFF canvas, 4:3. [What data is shown: e.g., "Training and validation loss curves", "Cross-attention alignment heatmap", "t-SNE embedding clusters"].
-
-Main plot area centered, [axes with labels in 11pt], [data rendered as curves/heatmap/scatter in palette colors]:
-- [series 1]: [color, line style, label]
-- [series 2]: ...
-- [annotations: peak, convergence point, or highlighted region with arrow]
-
-Supporting modules: legend at [top/right], axis labels "[X axis]" and "[Y axis]", [small schematic inset showing data source], [confidence interval shading if applicable].
-
-Color palette: [≤3 chromatics], data lines 1.5-2px, grid lines 0.5px light grey. No chart junk, no 3D pie charts. Font: sans-serif 10-12pt. Aspect ratio 4:3.
+```text
+Academic mechanism diagram for [mechanism], [aspect ratio]. Center the actual operation [brief visual description]. Route [inputs] through [sourced operations] to [outputs]. Include only the one core formula or dimension that is essential at thumbnail scale; move all parameters to the caption. Use a small context inset only if FigurePlan requests it. Follow [confirmed visual grammar and semantic colors].
 ```
 
-## Quick fill checklist
+## Comparison/Ablation
 
-Before finalizing any prompt, verify all 8 slots are present:
+```text
+Academic comparison figure for [question], [aspect ratio]. Arrange [variants/interventions] in the reading order [order]. Keep shared structure visually constant and change only [controlled differences]. Highlight the focal condition with a redundant cue such as outline + label, not color alone. Render measured values with a deterministic plotting tool when data are available; do not ask an image model to fabricate charts or numbers.
+```
 
-- [ ] Image type stated first ("flat vector academic ... diagram")
-- [ ] Core subject named in one sentence
-- [ ] Composition described (flow direction, grouping, hierarchy, connections)
-- [ ] ≥2 supporting modules (icons, dimensions, formulas, pills, legend)
-- [ ] Visual tone concretized (no "professional" without specifics)
-- [ ] Material/texture specified (border width, fill, corner radius)
-- [ ] Typography specified (font family, size, hierarchy)
-- [ ] Aspect ratio stated last
+## Data Behavior
+
+Use a plotting or vector tool from the underlying data whenever possible. Specify axes, units, uncertainty, aggregation, sample size, color/line encodings, and panel order. Image generation is suitable only for a surrounding conceptual illustration, never for inventing quantitative curves, heatmaps, or values.
+
+## Pre-render check
+
+- Composition follows the communication goal rather than a default grid.
+- Every node, edge, formula, number, and label is sourced.
+- The reference transfers style grammar, not scientific content or branding.
+- The prompt names which text is visible and which detail stays in the caption.
+- Typography and stroke guidance are relative to final legibility; physical export width is metadata.
+- The planned RenderAudit can identify missing/extra nodes, wrong endpoints, garbled labels, overlap, background, and style drift.

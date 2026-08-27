@@ -1,29 +1,35 @@
-# 临时文件
+# 临时与缓存文件
 **/handoff-*
 *.pdf
-*.txt
 *.tmp
 *.log
+__pycache__/
+*.py[cod]
+.pytest_cache/
 
-# IDE文件
+# 提示词文件例外（保留 docs/prompts/*.txt）
+*.txt
+!docs/prompts/*.txt
+
+# IDE与编辑器文件
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS文件
+# OS与系统文件
 .DS_Store
 Thumbs.db
 .omx/
 .codex
 
-# Local agent/harness path configs (machine-specific)
+# 本地 Agent / Harness 配置（机器特定）
 .agents/
 .claude/
 skills.json
 skills-lock.json
 
-# Local reference repositories (not committed)
+# 本地参考大仓（不提交）
 ref_repos/
 

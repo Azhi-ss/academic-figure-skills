@@ -1,0 +1,35 @@
+Figure Type and Communication Goal:
+Modern pastel airy UI academic architecture diagram on pure white canvas (#FFFFFF), aspect ratio 16:9, ICML/NeurIPS AI Agent interaction style, illustrating the software engineering autonomous agent framework of SWE-agent and Voyager (arXiv:2405.15793 Figure 2). No top title banner across the canvas.
+
+Composition and Layout Proportions:
+Three floating rounded white cards side-by-side filling 100% of the canvas height with generous negative space. Left Card (Task & Issue Environment, 28% width), Center Hero Card (Agent-Computer Interface ACI Loop, 44% width), Right Card (Evaluation & Git Patch Synthesis, 28% width).
+
+Structured Panels and SVMC Visual Metaphors:
+1. Left Card (Task & Issue Environment, Pure white card #FFFFFF, Soft Ice-Blue pill header #E0F2FE, Dark Navy title #0369A1): Vertical flow contains 'GitHub Issue Ingestion' card with an issue tag '#1248 Fix NullPointer', downward arrow into 'Repo File Tree Browser' with a mini file hierarchy tree icon, and 'Environment State' badge with green pill 'Status: Active Container'.
+2. Center Hero Card (Agent-Computer Interface Loop, Pure white card #FFFFFF, Soft Purple pill header #F3E8FF, Deep Purple title #6B21A8): Top shows 'LLM Thought & Strategy' floating bubble with light-purple token pill 'Chain-of-Thought Plan'. Middle shows 'Interactive Terminal Shell' styled as a sleek dark-slate CLI terminal window with macOS top-left dots showing '$ search_code_symbol(AST)' and 'Tool Invocation' pill badge. Bottom shows curved forward arrow 'Execute Bash Action' leading to 'Environment Observation Window' with mint-green output pill 'File Diff Generated (+14, -3)', and curved upward feedback arrow 'Observation Feedback' updating LLM strategy.
+3. Right Card (Evaluation & Git Patch, Pure white card #FFFFFF, Soft Amber pill header #FEF3C7, Dark Amber title #92400E): Vertical flow contains 'Automated Regression Test Suite' card with green checkmark badge 'Tests: 12 Passed', downward arrow into 'Git Patch Submission' with a diff branch symbol, and downward arrow into 'Verified Solution Trajectory' with an amber star badge.
+
+Topology and Typed Connections:
+GitHub Issue -> Repo File Tree -> Environment State (solid downward executed flow).
+Environment State -> LLM Thought (context feeding lateral bridge).
+LLM Thought -> Terminal Shell (executed tool dispatch).
+Terminal Shell -> Environment Observation (execute action forward arrow).
+Environment Observation -> LLM Thought (observation feedback upward curved loop).
+LLM Trajectory -> Automated Regression Tests -> Git Patch Submission -> Verified Solution (solid downward verification chain).
+Draw no other inter-module connections.
+
+Visible Text Closed List:
+Panel 1: 'Task & Issue Environment', 'GitHub Issue Ingestion', '#1248 Fix NullPointer', 'Repo File Tree Browser', 'Environment State', 'Status: Active Container'.
+Panel 2: 'Agent-Computer Interface (ACI) Loop', 'LLM Thought & Strategy', 'Chain-of-Thought Plan', 'Interactive Terminal Shell', '$ search_code_symbol(AST)', 'Tool Invocation', 'Execute Bash Action', 'Environment Observation Window', 'File Diff Generated (+14, -3)', 'Observation Feedback'.
+Panel 3: 'Evaluation & Git Patch', 'Automated Regression Test Suite', 'Tests: 12 Passed', 'Git Patch Submission', 'Verified Solution Trajectory'.
+
+Style Grammar and Paired Color Tokens:
+Surface profile: pastel-airy-ui.
+Card Backgrounds: #FFFFFF with subtle soft drop-shadow.
+Panel 1 Accent Pill: Fill #E0F2FE, Title #0369A1.
+Panel 2 Accent Pill: Fill #F3E8FF, Title #6B21A8, Terminal Window #1E293B.
+Panel 3 Accent Pill: Fill #FEF3C7, Title #92400E, Green Badge #DCFCE7.
+Typography: Elegant modern sans-serif (Inter/Nunito), dark slate body text (#0F172A), monospace CLI commands.
+
+Negative Constraints and Exclusions:
+No overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No heavy dark canvas background. No heavy black cartoon strokes. No 3D chrome. No photorealism. Aspect ratio 16:9.

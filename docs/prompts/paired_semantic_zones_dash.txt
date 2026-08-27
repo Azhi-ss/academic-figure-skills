@@ -1,0 +1,31 @@
+Figure Type and Communication Goal:
+Modular scientific infographic with paired semantic color zones on pure white canvas (#FFFFFF), aspect ratio 16:9, illustrating the modular paired token color system of DASH (arXiv:2608.00641 Figure 1). No top title banner across the canvas.
+
+Composition and Layout Proportions:
+Three side-by-side rounded semantic functional panels filling 100% of the canvas height with crisp 2px colored outlines and soft pastel fills. Left Panel (Representation Zone - Peach, 28% width), Center Hero Panel (Optimization Core Zone - Mint, 44% width), Right Panel (Evaluation & Memory Zone - Lavender, 28% width).
+
+Structured Panels and SVMC Visual Metaphors:
+1. Left Panel (Representation Zone, Peach fill #FFF7ED, Dark Orange 2px outline #C2410C): Top inner pill header 'Input & Representation Zone' (Dark Orange title #9A3412). Inside contains structured cards for Molecule Graph Embedding, Feature Tokenizer, and Domain Prior Knowledge with clean line-art icons.
+2. Center Hero Panel (Optimization Core Zone, Mint-Green fill #F0FDF4, Dark Green 2px outline #15803D): Top inner pill header 'Active Optimization Core' (Dark Green title #166534). Inside contains Surrogate Model Gaussian Process fit with confidence ribbon, Acquisition Function Pareto Frontier, and Multi-Objective Candidate Generator with an embedded 2D coordinate plot and candidate table.
+3. Right Panel (Evaluation & Memory Zone, Lavender fill #F5F3FF, Dark Purple 2px outline #6D28D9): Top inner pill header 'Evaluation & Memory Zone' (Dark Purple title #5B21B6). Inside contains Automated Assay Feedback with line-art test tubes, Episodic Replay Buffer, and Global Knowledge Graph with interconnected nodes.
+
+Topology and Typed Connections:
+Representation Zone -> Active Optimization Core -> Candidate Generator (solid forward data flow).
+Candidate Generator -> Automated Assay Feedback (solid execution bridge).
+Automated Assay Feedback -> Episodic Replay Buffer -> Optimization Core (dashed feedback loop).
+Draw no other inter-module connections.
+
+Visible Text Closed List:
+Panel 1: 'Input & Representation Zone', 'Molecule Graph Embedding', 'Feature Tokenizer', 'Domain Prior Knowledge'.
+Panel 2: 'Active Optimization Core', 'Surrogate Model GP', 'Confidence ribbon', 'Acquisition Pareto Frontier', 'Candidate Generator'.
+Panel 3: 'Evaluation & Memory Zone', 'Automated Assay Feedback', 'Episodic Replay Buffer', 'Global Knowledge Graph'.
+
+Style Grammar and Paired Color Tokens:
+Surface profile: illustrated-modular (Paired Semantic Color Zones).
+Zone 1 (Peach): Fill #FFF7ED, Outline #C2410C, Title #9A3412, Icon Accent #EA580C.
+Zone 2 (Mint): Fill #F0FDF4, Outline #15803D, Title #166534, Icon Accent #16A34A.
+Zone 3 (Lavender): Fill #F5F3FF, Outline #6D28D9, Title #5B21B6, Icon Accent #7C3AED.
+Typography: Clean legible sans-serif body text, dark readable titles with publication-grade contrast.
+
+Negative Constraints and Exclusions:
+No overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No drop shadows. No 3D chrome. No dark canvas background. No transparent background. Aspect ratio 16:9.

@@ -1,0 +1,154 @@
+{
+  "schema": "academic-figure/FigureSpec@1",
+  "figure_id": "deepseek_v3_fig2_mla",
+  "plan_revision": "plan-1",
+  "sources": [
+    {
+      "kind": "paper",
+      "uri_or_path": "https://arxiv.org/abs/2412.19437",
+      "revision_or_page": "Figure 2",
+      "evidence": "DeepSeek-V3 Multi-Head Latent Attention (MLA) and DeepSeekMoE architecture overview"
+    }
+  ],
+  "prompt": "Technical vector AI architecture diagram on pure white canvas (#FFFFFF), aspect ratio 16:9, illustrating the Multi-Head Latent Attention (MLA) and DeepSeekMoE dynamic routing framework of DeepSeek-V3 (arXiv:2412.19437 Figure 2). No top title banner across the canvas.\n\nComposition and Layout Proportions:\nThree structured rectangular panels side-by-side filling 100% of the canvas height. Left Panel (Low-Rank KV Compression, 28% width), Center Hero Panel (Multi-Head Latent Attention Core, 44% width), Right Panel (DeepSeekMoE Dynamic Routing, 28% width).\n\nStructured Panels and SVMC Visual Metaphors:\n1. Left Panel (Low-Rank KV Compression, Soft Ice-Blue tint #F0F9FF, Navy outline #0284C7): Top inner pill header 'Low-Rank KV Compression'. Inside shows token input vector bar Input h_t (d=7168) in cobalt blue passing downward through down-projection matrix W_DKV into an emerald-green compressed latent bar c_t^KV (dim d_c=512). The latent bar splits into two branches: Decompressed Key k_t^C + RoPE Key k_t^R (amber bar with [R] badge) and Decompressed Value v_t^C (cyan bar).\n2. Center Hero Panel (Multi-Head Latent Attention, Soft Slate tint #F8FAFC, Dark Slate outline #334155): Top inner pill header 'Multi-Head Latent Attention (MLA)'. Top shows Query vector q_t split into content q_t^C and RoPE q_t^R. Middle shows Decoupled Multi-Head Attention computation with a square matrix heatmap grid [Softmax(Q · K^T / sqrt(d))] displaying diagonal attention weights and dimension tags d_h=128, n_heads=128. Bottom shows down-arrow into Multi-Head Concatenation & Out-Projection W_O leading to output representation.\n3. Right Panel (DeepSeekMoE Dynamic Routing, Soft Lavender tint #FAF5FF, Deep Purple outline #9333EA): Top inner pill header 'DeepSeekMoE Dynamic Routing'. Top shows representation entering a Softmax Gating Router with a mini horizontal probability bar chart showing top-8 selected scores. Middle shows 8 parallel vertical expert modules (Expert 1 to Expert 8) alongside a distinct green Shared Expert block. Bottom shows element-wise summation circle [⊕] combining expert outputs with a clean residual bypass line.\n\nTopology and Typed Connections:\nInput h_t -> W_DKV -> c_t^KV (solid executed arrow).\nc_t^KV -> k_t^C, k_t^R, v_t^C (branching solid arrows).\nq_t, k_t, v_t -> Multi-Head Attention Heatmap Matrix (solid converging arrows).\nAttention Heatmap -> W_O -> MoE Router (solid executed arrow).\nMoE Router -> Parallel Experts 1-8 and Shared Expert (gated routing lines).\nExperts -> Element-wise Summation [⊕] -> Output (converging solid arrows with residual bypass).\nDraw no other inter-module connections.\n\nVisible Text Closed List:\nPanel 1: 'Low-Rank KV Compression', 'Input h_t (d=7168)', 'Down-Projection W_DKV', 'Latent c_t^KV (d_c=512)', 'Key k_t^C', 'RoPE Key k_t^R', 'Value v_t^C'.\nPanel 2: 'Multi-Head Latent Attention (MLA)', 'Query q_t', 'Content q_t^C', 'RoPE q_t^R', 'Softmax(Q · K^T / sqrt(d))', 'd_h=128, n_heads=128', 'Out-Projection W_O'.\nPanel 3: 'DeepSeekMoE Dynamic Routing', 'Softmax Gating Router', 'Top-8 Gated Scores', 'Expert 1', 'Expert 2', 'Expert 3', 'Expert 8', 'Shared Expert', 'Residual Bypass'.\n\nStyle Grammar and Paired Color Tokens:\nSurface profile: modern-technical-vector.\nPanel 1: Fill #F0F9FF, Outline #0284C7, Accent #0284C7.\nPanel 2: Fill #F8FAFC, Outline #334155, Accent #475569.\nPanel 3: Fill #FAF5FF, Outline #9333EA, Accent #9333EA.\nTypography: Clean mathematical sans-serif (Inter/Helvetica), bold pill titles, monospace tensor dimensions.\n\nNegative Constraints and Exclusions:\nNo overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No SaaS drop shadows. No 3D rendering. No transparent background. No floating labels outside containers. No dark canvas background. Aspect ratio 16:9.",
+  "aspect_ratio": "16:9",
+  "final_width_mm": 183,
+  "visible_text": [
+    "Low-Rank KV Compression",
+    "Input h_t (d=7168)",
+    "Down-Projection W_DKV",
+    "Latent c_t^KV (d_c=512)",
+    "Key k_t^C",
+    "RoPE Key k_t^R",
+    "Value v_t^C",
+    "Multi-Head Latent Attention (MLA)",
+    "Query q_t",
+    "Content q_t^C",
+    "RoPE q_t^R",
+    "Softmax(Q · K^T / sqrt(d))",
+    "d_h=128, n_heads=128",
+    "Out-Projection W_O",
+    "DeepSeekMoE Dynamic Routing",
+    "Softmax Gating Router",
+    "Top-8 Gated Scores",
+    "Expert 1",
+    "Expert 2",
+    "Expert 3",
+    "Expert 8",
+    "Shared Expert",
+    "Residual Bypass"
+  ],
+  "topology": {
+    "components": [
+      {"id": "input_token", "label": "Input h_t (d=7168)", "role": "input"},
+      {"id": "down_proj_kv", "label": "Down-Projection W_DKV", "role": "projection"},
+      {"id": "latent_kv", "label": "Latent c_t^KV (d_c=512)", "role": "latent"},
+      {"id": "decomp_key", "label": "Key k_t^C", "role": "key"},
+      {"id": "rope_key", "label": "RoPE Key k_t^R", "role": "rope"},
+      {"id": "decomp_val", "label": "Value v_t^C", "role": "value"},
+      {"id": "query_q", "label": "Query q_t", "role": "query"},
+      {"id": "attn_heatmap", "label": "Softmax(Q · K^T / sqrt(d))", "role": "attention_core"},
+      {"id": "out_proj", "label": "Out-Projection W_O", "role": "projection"},
+      {"id": "moe_router", "label": "Softmax Gating Router", "role": "router"},
+      {"id": "experts_routed", "label": "Routed Experts 1-8", "role": "expert_pool"},
+      {"id": "expert_shared", "label": "Shared Expert", "role": "shared_expert"},
+      {"id": "sum_out", "label": "Element-wise Summation [⊕]", "role": "output"}
+    ],
+    "connections": [
+      {"id": "e1", "from": "input_token", "to": "down_proj_kv", "kind": "executed", "direction": "forward"},
+      {"id": "e2", "from": "down_proj_kv", "to": "latent_kv", "kind": "executed", "direction": "forward"},
+      {"id": "e3", "from": "latent_kv", "to": "decomp_key", "kind": "executed", "direction": "forward"},
+      {"id": "e4", "from": "latent_kv", "to": "rope_key", "kind": "executed", "direction": "forward"},
+      {"id": "e5", "from": "latent_kv", "to": "decomp_val", "kind": "executed", "direction": "forward"},
+      {"id": "e6", "from": "decomp_key", "to": "attn_heatmap", "kind": "executed", "direction": "forward"},
+      {"id": "e7", "from": "decomp_val", "to": "attn_heatmap", "kind": "executed", "direction": "forward"},
+      {"id": "e8", "from": "query_q", "to": "attn_heatmap", "kind": "executed", "direction": "forward"},
+      {"id": "e9", "from": "attn_heatmap", "to": "out_proj", "kind": "executed", "direction": "forward"},
+      {"id": "e10", "from": "out_proj", "to": "moe_router", "kind": "executed", "direction": "forward"},
+      {"id": "e11", "from": "moe_router", "to": "experts_routed", "kind": "executed", "direction": "forward"},
+      {"id": "e12", "from": "out_proj", "to": "expert_shared", "kind": "executed", "direction": "forward"},
+      {"id": "e13", "from": "experts_routed", "to": "sum_out", "kind": "executed", "direction": "forward"},
+      {"id": "e14", "from": "expert_shared", "to": "sum_out", "kind": "executed", "direction": "forward"}
+    ],
+    "groups": [
+      {
+        "id": "panel_kv",
+        "label": "Low-Rank KV Compression",
+        "component_ids": ["input_token", "down_proj_kv", "latent_kv", "decomp_key", "rope_key", "decomp_val"]
+      },
+      {
+        "id": "panel_mla",
+        "label": "Multi-Head Latent Attention (MLA)",
+        "component_ids": ["query_q", "attn_heatmap", "out_proj"]
+      },
+      {
+        "id": "panel_moe",
+        "label": "DeepSeekMoE Dynamic Routing",
+        "component_ids": ["moe_router", "experts_routed", "expert_shared", "sum_out"]
+      }
+    ],
+    "authority_boundaries": []
+  },
+  "layout": {
+    "composition": "pipeline",
+    "hero": "panel_mla",
+    "reading_order": [
+      "input_token", "down_proj_kv", "latent_kv", "decomp_key", "rope_key", "decomp_val",
+      "query_q", "attn_heatmap", "out_proj",
+      "moe_router", "experts_routed", "expert_shared", "sum_out"
+    ],
+    "group_regions": {
+      "panel_kv": "left 28%",
+      "panel_mla": "center 44%",
+      "panel_moe": "right 28%"
+    },
+    "nesting_depth": 1,
+    "whitespace": "balanced",
+    "routing_notes": ["Zero external floating titles", "Orthogonal tensor bus connections"]
+  },
+  "style_profile": "classic-technical",
+  "style_preset": "现代前沿技术框线风",
+  "style_source": "reference",
+  "style_grammar": {
+    "marks": "precise 2D tensor bars, heatmaps, and orthogonal micro-lines",
+    "fills": "opaque white canvas with pale icy-blue, slate, and lavender grouping tints",
+    "strokes": "1.5px-equivalent dark technical outlines",
+    "typography": "clean sans-serif (Inter/Helvetica) with monospace tensor shapes",
+    "shadow": "none",
+    "density": "high"
+  },
+  "semantic_color_roles": {
+    "panel_kv": {
+      "fill": "#F0F9FF",
+      "outline": "#0284C7",
+      "title": "#0369A1",
+      "icon_accent": "#0284C7"
+    },
+    "panel_mla": {
+      "fill": "#F8FAFC",
+      "outline": "#334155",
+      "title": "#0F172A",
+      "icon_accent": "#475569"
+    },
+    "panel_moe": {
+      "fill": "#FAF5FF",
+      "outline": "#9333EA",
+      "title": "#7E22CE",
+      "icon_accent": "#A855F7"
+    }
+  },
+  "reference_images": [],
+  "must_not_claim": ["untested hardware acceleration claims"],
+  "forbidden_connections": ["latent_kv -> sum_out"],
+  "negative_constraints": [
+    "no overall top title banner across canvas",
+    "no markdown formatting symbols (#, **, -, |)",
+    "no SaaS drop shadows",
+    "no 3D rendering",
+    "no dark canvas background",
+    "no transparent background"
+  ],
+  "prompt_review": "waived",
+  "workspace_root": "/home/dministrator/Lab/clones/academic-figure-skills",
+  "output_path": "/home/dministrator/Lab/clones/academic-figure-skills/docs/gallery/modern_technical_vector_deepseek_mla.jpg"
+}

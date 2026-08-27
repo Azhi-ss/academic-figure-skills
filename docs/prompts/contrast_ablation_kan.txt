@@ -1,0 +1,29 @@
+Figure Type and Communication Goal:
+Academic architecture comparison and ablation diagram on pure white canvas (#FFFFFF), aspect ratio 16:9, ICLR/NeurIPS 2024/2025 presentation style, illustrating the fundamental architectural comparison between Multi-Layer Perceptrons (MLP, Baseline) and Kolmogorov-Arnold Networks (KAN, Ours, arXiv:2404.19756 Figure 0.1 & Figure 2.2). No top title banner across the canvas.
+
+Composition and Layout Proportions:
+Two side-by-side comparison panels with a central 'VS' bridge on pure white background (#FFFFFF) filling 100% of the canvas height. Left Panel (Multi-Layer Perceptron MLP Baseline, 46% width), Central Bridge ('VS', 8% width), Right Panel (Kolmogorov-Arnold Network KAN Ours, 46% width).
+
+Structured Panels and SVMC Visual Metaphors:
+1. Left Panel (Multi-Layer Perceptron MLP - Baseline, Soft purple container #FAF5FF, Purple outline #7C3AED): Top inner pill header 'Multi-Layer Perceptron (MLP) - Baseline'. Top sub-pill 'Fixed activations on nodes, linear weights on edges'. Inside neural computational graph: Input nodes (x1, x2) connect via straight gray linear weight edges labeled w11, w21 into hidden neurons shown as circular white nodes containing fixed activation glyph (σ), which then sum into output node y. Bottom metric card shows 'Drawbacks: Uninterpretable black-box weights W, slow neural scaling laws'.
+2. Central Bridge (8% width): Minimalist clean circular badge 'VS' with dual horizontal comparison arrows.
+3. Right Panel (Kolmogorov-Arnold Network KAN - Ours, Soft mint/emerald container #F0FDF4, Emerald Green outline #059669): Top inner pill header 'Kolmogorov-Arnold Network (KAN) - Ours'. Top sub-pill 'Learnable 1D B-splines on edges, sum on nodes'. Inside neural computational graph: Input nodes (x1, x2) connect into hidden neurons shown as circular white nodes containing summation symbol (∑). Crucially, every connecting edge features an embedded colorful 1D B-spline curve plot φ11(x), φ21(x) in vivid cyan, orange, and emerald gradients, showing non-linear learnable spline functions. Bottom metric card with emerald badge shows 'Advantages: 100x Parameter Efficiency, Faster Scaling Laws, Highly Interpretable'.
+
+Topology and Typed Connections:
+Input nodes x1, x2 -> Linear Weights W -> Fixed Activation Nodes (σ) -> Output y (Left panel MLP flow).
+Input nodes x1, x2 -> Learnable 1D B-spline Functions φ(x) -> Summation Nodes (∑) -> Output y (Right panel KAN flow).
+Draw no other inter-module connections.
+
+Visible Text Closed List:
+Panel 1: 'Multi-Layer Perceptron (MLP) - Baseline', 'Fixed activations on nodes, linear weights on edges', 'x1', 'x2', 'w11', 'w21', 'σ', 'y', 'Drawbacks: Uninterpretable black-box weights W, slow neural scaling laws'.
+Central Bridge: 'VS'.
+Panel 2: 'Kolmogorov-Arnold Network (KAN) - Ours', 'Learnable 1D B-splines on edges, sum on nodes', 'x1', 'x2', 'φ11(x)', 'φ21(x)', '∑', 'y', 'Advantages: 100x Parameter Efficiency, Faster Scaling Laws, Highly Interpretable'.
+
+Style Grammar and Paired Color Tokens:
+Surface profile: classic-technical (Purple-Green Contrast & Ablation).
+Baseline Panel: Fill #FAF5FF, Outline #7C3AED, Primary #7C3AED (Deep Purple), Accent #A855F7.
+Ours Panel: Fill #F0FDF4, Outline #059669, Primary #059669 (Emerald Green), Accent #10B981.
+Typography: Sharp technical sans-serif (Inter/Helvetica) with italic LaTeX math notations (x1, x2, σ, ∑, φ(x)).
+
+Negative Constraints and Exclusions:
+No overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No SaaS drop shadows. No 3D chrome. No dark background. No transparent background. Aspect ratio 16:9.

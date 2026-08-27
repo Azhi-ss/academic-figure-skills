@@ -1,0 +1,121 @@
+{
+  "schema": "academic-figure/FigureSpec@1",
+  "figure_id": "kan_fig1_mlp_vs_kan",
+  "plan_revision": "plan-1",
+  "sources": [
+    {
+      "kind": "paper",
+      "uri_or_path": "https://arxiv.org/abs/2404.19756",
+      "revision_or_page": "Figure 0.1 and Figure 2.2",
+      "evidence": "Kolmogorov-Arnold Networks (KAN) vs Multi-Layer Perceptrons (MLP) fundamental architectural comparison: node activations vs learnable edge B-spline curves"
+    }
+  ],
+  "prompt": "Figure Type and Communication Goal:\nAcademic architecture comparison and ablation diagram on pure white canvas (#FFFFFF), aspect ratio 16:9, ICLR/NeurIPS 2024/2025 presentation style, illustrating the fundamental architectural comparison between Multi-Layer Perceptrons (MLP, Baseline) and Kolmogorov-Arnold Networks (KAN, Ours, arXiv:2404.19756 Figure 0.1 & Figure 2.2). No top title banner across the canvas.\n\nComposition and Layout Proportions:\nTwo side-by-side comparison panels with a central 'VS' bridge on pure white background (#FFFFFF) filling 100% of the canvas height. Left Panel (Multi-Layer Perceptron MLP Baseline, 46% width), Central Bridge ('VS', 8% width), Right Panel (Kolmogorov-Arnold Network KAN Ours, 46% width).\n\nStructured Panels and SVMC Visual Metaphors:\n1. Left Panel (Multi-Layer Perceptron MLP - Baseline, Soft purple container #FAF5FF, Purple outline #7C3AED): Top inner pill header 'Multi-Layer Perceptron (MLP) - Baseline'. Top sub-pill 'Fixed activations on nodes, linear weights on edges'. Inside neural computational graph: Input nodes (x1, x2) connect via straight gray linear weight edges labeled w11, w21 into hidden neurons shown as circular white nodes containing fixed activation glyph (σ), which then sum into output node y. Bottom metric card shows 'Drawbacks: Uninterpretable black-box weights W, slow neural scaling laws'.\n2. Central Bridge (8% width): Minimalist clean circular badge 'VS' with dual horizontal comparison arrows.\n3. Right Panel (Kolmogorov-Arnold Network KAN - Ours, Soft mint/emerald container #F0FDF4, Emerald Green outline #059669): Top inner pill header 'Kolmogorov-Arnold Network (KAN) - Ours'. Top sub-pill 'Learnable 1D B-splines on edges, sum on nodes'. Inside neural computational graph: Input nodes (x1, x2) connect into hidden neurons shown as circular white nodes containing summation symbol (∑). Crucially, every connecting edge features an embedded colorful 1D B-spline curve plot φ11(x), φ21(x) in vivid cyan, orange, and emerald gradients, showing non-linear learnable spline functions. Bottom metric card with emerald badge shows 'Advantages: 100x Parameter Efficiency, Faster Scaling Laws, Highly Interpretable'.\n\nTopology and Typed Connections:\nInput nodes x1, x2 -> Linear Weights W -> Fixed Activation Nodes (σ) -> Output y (Left panel MLP flow).\nInput nodes x1, x2 -> Learnable 1D B-spline Functions φ(x) -> Summation Nodes (∑) -> Output y (Right panel KAN flow).\nDraw no other inter-module connections.\n\nVisible Text Closed List:\nPanel 1: 'Multi-Layer Perceptron (MLP) - Baseline', 'Fixed activations on nodes, linear weights on edges', 'x1', 'x2', 'w11', 'w21', 'σ', 'y', 'Drawbacks: Uninterpretable black-box weights W, slow neural scaling laws'.\nCentral Bridge: 'VS'.\nPanel 2: 'Kolmogorov-Arnold Network (KAN) - Ours', 'Learnable 1D B-splines on edges, sum on nodes', 'x1', 'x2', 'φ11(x)', 'φ21(x)', '∑', 'y', 'Advantages: 100x Parameter Efficiency, Faster Scaling Laws, Highly Interpretable'.\n\nStyle Grammar and Paired Color Tokens:\nSurface profile: classic-technical (Purple-Green Contrast & Ablation).\nBaseline Panel: Fill #FAF5FF, Outline #7C3AED, Primary #7C3AED (Deep Purple), Accent #A855F7.\nOurs Panel: Fill #F0FDF4, Outline #059669, Primary #059669 (Emerald Green), Accent #10B981.\nTypography: Sharp technical sans-serif (Inter/Helvetica) with italic LaTeX math notations (x1, x2, σ, ∑, φ(x)).\n\nNegative Constraints and Exclusions:\nNo overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No SaaS drop shadows. No 3D chrome. No dark background. No transparent background. Aspect ratio 16:9.",
+  "aspect_ratio": "16:9",
+  "final_width_mm": 183,
+  "visible_text": [
+    "Multi-Layer Perceptron (MLP) - Baseline",
+    "Fixed activations on nodes, linear weights on edges",
+    "x1",
+    "x2",
+    "w11",
+    "w21",
+    "σ",
+    "y",
+    "Drawbacks: Uninterpretable black-box weights W, slow neural scaling laws",
+    "VS",
+    "Kolmogorov-Arnold Network (KAN) - Ours",
+    "Learnable 1D B-splines on edges, sum on nodes",
+    "φ11(x)",
+    "φ21(x)",
+    "∑",
+    "Advantages: 100x Parameter Efficiency, Faster Scaling Laws, Highly Interpretable"
+  ],
+  "topology": {
+    "components": [
+      {"id": "mlp_inputs", "label": "MLP Inputs (x1, x2)", "role": "input"},
+      {"id": "mlp_weights", "label": "Linear Weights W", "role": "linear_layer"},
+      {"id": "mlp_act_nodes", "label": "Fixed Activation Nodes (σ)", "role": "activation"},
+      {"id": "mlp_output", "label": "Output y", "role": "output"},
+      {"id": "kan_inputs", "label": "KAN Inputs (x1, x2)", "role": "input"},
+      {"id": "kan_spline_edges", "label": "Learnable 1D B-spline Functions φ(x)", "role": "learnable_splines"},
+      {"id": "kan_sum_nodes", "label": "Summation Nodes (∑)", "role": "summation"},
+      {"id": "kan_output", "label": "Output y", "role": "output"}
+    ],
+    "connections": [
+      {"id": "m1", "from": "mlp_inputs", "to": "mlp_weights", "kind": "executed", "direction": "forward"},
+      {"id": "m2", "from": "mlp_weights", "to": "mlp_act_nodes", "kind": "executed", "direction": "forward"},
+      {"id": "m3", "from": "mlp_act_nodes", "to": "mlp_output", "kind": "executed", "direction": "forward"},
+      {"id": "k1", "from": "kan_inputs", "to": "kan_spline_edges", "kind": "executed", "direction": "forward"},
+      {"id": "k2", "from": "kan_spline_edges", "to": "kan_sum_nodes", "kind": "executed", "direction": "forward"},
+      {"id": "k3", "from": "kan_sum_nodes", "to": "kan_output", "kind": "executed", "direction": "forward"}
+    ],
+    "groups": [
+      {
+        "id": "panel_mlp",
+        "label": "Multi-Layer Perceptron (MLP) - Baseline",
+        "component_ids": ["mlp_inputs", "mlp_weights", "mlp_act_nodes", "mlp_output"]
+      },
+      {
+        "id": "panel_kan",
+        "label": "Kolmogorov-Arnold Network (KAN) - Ours",
+        "component_ids": ["kan_inputs", "kan_spline_edges", "kan_sum_nodes", "kan_output"]
+      }
+    ],
+    "authority_boundaries": []
+  },
+  "layout": {
+    "composition": "comparison_grid",
+    "hero": "panel_kan",
+    "reading_order": [
+      "mlp_inputs", "mlp_weights", "mlp_act_nodes", "mlp_output",
+      "kan_inputs", "kan_spline_edges", "kan_sum_nodes", "kan_output"
+    ],
+    "group_regions": {
+      "panel_mlp": "left 46%",
+      "panel_kan": "right 46%"
+    },
+    "nesting_depth": 1,
+    "whitespace": "balanced",
+    "routing_notes": ["High-contrast categorical purple vs green split", "Embedded 1D spline curve plots on edges"]
+  },
+  "style_profile": "classic-technical",
+  "style_preset": "对比消融实验风",
+  "style_source": "scene",
+  "style_grammar": {
+    "marks": "neural node glyphs (σ, ∑), linear edges with weight labels vs spline edges with 1D curve graphs",
+    "fills": "opaque white canvas with soft purple and emerald-green tinted panels",
+    "strokes": "1.5px-equivalent purple and emerald-green outlines",
+    "typography": "clean technical sans-serif with italic LaTeX math notations",
+    "shadow": "none",
+    "density": "balanced"
+  },
+  "semantic_color_roles": {
+    "panel_mlp": {
+      "fill": "#FAF5FF",
+      "outline": "#7C3AED",
+      "title": "#6D28D9",
+      "icon_accent": "#7C3AED"
+    },
+    "panel_kan": {
+      "fill": "#F0FDF4",
+      "outline": "#059669",
+      "title": "#047857",
+      "icon_accent": "#059669"
+    }
+  },
+  "reference_images": [],
+  "must_not_claim": ["obsoletion of all MLPs without task-specific evaluation"],
+  "forbidden_connections": ["mlp_weights -> kan_sum_nodes"],
+  "negative_constraints": [
+    "no overall top title banner across canvas",
+    "no markdown formatting symbols (#, **, -, |)",
+    "no SaaS drop shadows",
+    "no 3D chrome",
+    "no dark background",
+    "no transparent background"
+  ],
+  "prompt_review": "waived",
+  "workspace_root": "/home/dministrator/Lab/clones/academic-figure-skills",
+  "output_path": "/home/dministrator/Lab/clones/academic-figure-skills/docs/gallery/contrast_ablation_kan.jpg"
+}

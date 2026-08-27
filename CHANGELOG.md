@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2026-08-27
+
+### Added
+
+- Direct Codex `image_gen.imagegen` generation and reference-image editing before compatible skill/MCP fallbacks; internal prompts are not returned when review is waived.
+- Reference-aware article, DOI, arXiv, PDF, and figure routing; architecture extraction now records transferable style grammar separately from source-paper content.
+- Versioned `FigurePlan@1`, `FigureSpec@1`, `ReferenceAnalysis@1`, and `RenderAudit@1` handoffs.
+- Post-generation original-detail inspection with the best current render as the first edit reference, at most two defect-driven targeted edits, preserved revisions, and stable absolute workspace output paths.
+- Three canonical surface profiles (`classic-technical`, `pastel-airy-ui`, `illustrated-modular`) plus a separate `reference-led` override mode.
+- A formal FigureSpec schema and standard-library validator covering evidence sources, semantic safeguards, connection direction, canonical style profiles, local or recent-conversation references, prompt-review state/hash, trusted-workspace render readiness, symlink-safe references, and workspace-contained outputs.
+- Shared-reference synchronization and pack-level validation for frontmatter, manifest versions, style-library copies, and legacy-spec migration warnings.
+
+### Changed
+
+- Replaced mandatory plan/style/prompt gates with conditional review. Explicit direct-generation requests waive prompt review while retaining semantic and render audits.
+- Removed module-count-driven palette selection from the workflow; reference grammar, production constraints, and semantic roles now drive visual decisions.
+- Prompt transport must use structured tool arguments, standard input, or prompt files rather than shell interpolation.
+- Reclassified the legacy real-repository benchmark as a structural/keyword smoke test; it is not evidence of semantic accuracy, render quality, or reference fidelity.
+- Reclassified named style files into surface, composition, color/material, accessibility, and print layers; removed venue/domain-to-palette shortcuts and content-inventing decoration defaults.
+- Consolidated `academic-figure-prompt-pastel` into the unified `academic-figure-prompt` (v2.0.0) covering all canonical styles (`classic-technical`, `pastel-airy-ui`, `illustrated-modular`, and `reference-led`).
+- Standardized all image prompt outputs into **Strict Prose Normalization (Zero Markdown Syntax)** to completely eliminate markdown symbols and floating title banners leaking into diffusion image renders.
+- Synchronized published skill metadata: workflow 1.5.0, repo analyzer 1.4.0, paper analyzer 1.3.0, architecture extractor 1.3.0, color expert 1.4.0, unified prompt engine 2.0.0.
+
 
 ## 3.0.0
 

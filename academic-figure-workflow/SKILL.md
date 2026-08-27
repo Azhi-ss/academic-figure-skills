@@ -1,195 +1,207 @@
 ---
-id: academic-figure-workflow
-name: Academic Figure Workflow Orchestrator
-version: 1.4.0
-description: Entry-point assistant for academic figure generation. Use this skill whenever the user wants to generate academic figures, paper diagrams, or architecture visualizations — including "帮我画图", "从仓库到配图走一遍", "完整论文配图工作流", "帮我分析这个仓库然后出图", or any end-to-end request from code/paper to figure. The assistant analyzes the input, presents a Figure Plan for user confirmation, then generates colors, prompts, and (when an image model is available) the final image. Routes repo-first (code) or paper-first (document/PDF) inputs.
-stages: [research, writing, review]
-tools: [bash]
+name: academic-figure-workflow
+description: Plan, generate, inspect, and refine academic figures from repositories, papers, paper URLs, PDFs, or reference images. Use for end-to-end figure creation; use a narrower analyzer when the user wants only analysis or a prompt.
+metadata:
+  version: "1.5.0"
 ---
 
-# Academic Figure Workflow Orchestrator
+# Academic Figure Workflow
 
-## Role
+Produce a grounded academic figure and a stable local artifact. Preserve the user's chosen backend, reference assets, style direction, review preference, and output scope.
 
-对话式配图助手。用户启动本 skill 后，助手分析输入、与用户 plan 对齐、确认后执行完整链路并出图（或交付 prompt）。Never run the full chain silently — **two confirmation gates are mandatory**.
+Load only what the current stage needs:
 
-Shared refs:
+- missing evidence → `references/missing-info-policy.md`
+- palette/style fallback → `references/palettes.md` and, when installed, `references/styles/`
+- Codex native image execution → `references/codex-image-workflow.md`
+- render inspection → `references/render-audit.md` when present
 
-- palettes → `references/palettes.md`
-- missing info → `references/missing-info-policy.md`
+## Route inputs by inspected content
 
-## Session protocol
+A URL is not automatically a repository. Inspect it first.
 
-### Phase 0 — Input detection
+| Input | Route |
+|---|---|
+| Repository path or repository URL | `../academic-repo-analyzer/SKILL.md` |
+| Paper text, article/DOI/arXiv URL, or PDF | `../academic-figure-paper-analyzer/SKILL.md` |
+| Reference figure or existing render | `../academic-figure-architecture-extractor/SKILL.md` |
+| Paper plus repository | Paper defines the narrative; repository supplies implementation evidence |
 
-Determine input type from what the user provided:
+For an article URL, use an available web/browser/document reader to obtain the paper text, captions, and linked figures. For a PDF, use a PDF-capable reader for paper content and the architecture extractor only for figure images. If a sibling skill is missing, perform the minimum equivalent analysis and mark the degraded path.
 
-- Repo path/URL → Path A (repo-first)
-- PDF / paper text / outline / existing figure → Path B (paper-first)
-- Neither → ask for ONE input only (repo path or paper material). Do not ask for anything else.
+## Keep versioned internal artifacts
 
-### Phase 1 — Analyze (automatic, no gate)
+Store these as JSON-compatible objects. Do not make the user read them unless requested.
 
-- **Path A**: read `../academic-repo-analyzer/SKILL.md`, produce Quick Understanding Doc + Handoff (module_count, domain, figure_types, evidence). Show a ≤10-line summary to the user.
-- **Path B with PDF/figure**: read `../academic-figure-architecture-extractor/SKILL.md` first, then `../academic-figure-paper-analyzer/SKILL.md`. Path B with text: paper-analyzer only.
-- If input is unusable (no repo, no paper), stop and list minimum materials per `references/missing-info-policy.md`.
+### FigurePlan v1
 
-### GATE 1 — Figure Plan confirmation (mandatory)
-
-Present a compact plan and WAIT for user response:
-
-```
-基于分析，建议画这张图：
-- 图类型: <controlled type, e.g. Network Architecture>
-- 内容: <one sentence, from Handoff figure suggestions>
-- 宽高比: <16:9 / 3:2 / 4:3>
-- 风格: <classic academic 框线 / pastel airy 柔彩>
-- 配色: <palette name + decision branch from Color routing below>
-- module_count: <int or "不适用">
-回复"确认"继续，或直接说要改哪项（换图类型/换风格/换配色/换素材）。
-```
-
-Rules:
-
-- Do not proceed past this gate without an explicit 确认/OK/可以/continue.
-- If user requests changes, update the plan, re-present, wait again.
-- If the reply is unrelated chit-chat, treat as confirmation and continue — unless it clearly requests a plan change.
-- Classic vs pastel choice follows the Style family table below.
-- Palette choice follows the Color routing table below.
-
-### Phase 2 — Generate spec + prompt (automatic, no gate)
-
-- **Classic** → read `../academic-figure-prompt/SKILL.md`, follow its Steps 1–5: JSON spec + 200-400 word image prompt.
-- **Pastel** → read `../academic-figure-prompt-pastel/SKILL.md`: layered English prompt.
-- If color-expert input is needed and not already in plan, read `../academic-figure-color-expert/SKILL.md` to produce a formal Palette Decision.
-
-### GATE 2 — Prompt confirmation (mandatory)
-
-Present the final image prompt in full and WAIT:
-
-```
-这是将要发给生图模型的 prompt：
-<full prompt text; for classic, also offer the pasteable JSON spec>
-回复"确认"开始生图，或直接说怎么改。
+```text
+schema: academic-figure/FigurePlan@1
+source_revision, venue
+sources[]: {kind, uri_or_absolute_path, revision_or_page, evidence}
+figures[]: {
+  figure_id, figure_type, priority, communication_goal, claim_scope[], hero_element,
+  required_nodes[], required_connections[], authority_boundaries[], secondary_context[],
+  forbidden_claims[], forbidden_connections[], aspect_ratio, final_width_mm,
+  style_profile_hint, reference_assets[],
+  open_questions[], confidence, review_status: pending|confirmed|waived
+}
 ```
 
-### Phase 3 — Image generation (conditional)
+Components and connections are semantic and evidence-backed. A code directory count is not a figure hierarchy or palette decision.
 
-Check for an available image generation backend, in this order:
+### FigureSpec v1
 
-1. **gpt-image-generation skill** — if `~/.omp/agent/skills/gpt-image-generation/scripts/generate.js` exists, run:
-   ```bash
-   node ~/.omp/agent/skills/gpt-image-generation/scripts/generate.js \
-     --model cpa-gpt-image-2 \
-     --prompt "<final prompt>" \
-     --size <from table below> \
-     --quality hd \
-     --output /tmp/academic-figure-$(date +%s).png
-   ```
-   Success when stdout contains `IMAGE_GENERATED_SUCCESS:<path>`.
+```text
+schema: academic-figure/FigureSpec@1
+figure_id, plan_revision, sources[], prompt (internal), aspect_ratio, final_width_mm
+topology: {components[], connections[], groups[], authority_boundaries[]}
+visible_text[], caption_notes[], layout
+style_profile: classic-technical|pastel-airy-ui|illustrated-modular|reference-led
+style_preset, style_source, style_grammar, semantic_color_roles
+reference_images[]: checked absolute local paths or recent-conversation descriptors
+conversation-reference transient status stays in the execution packet
+must_not_claim[], forbidden_connections[], negative_constraints[]
+prompt_review: requested|confirmed|waived
+prompt_reviewed_sha256: required only when prompt_review is confirmed
+workspace_root: absolute declaration that must match the runtime-trusted root
+output_path: absolute path inside that root
+```
 
-2. **sensenova MCP** — call `mcp__sensenova_image_generate_image` with the same prompt.
+The internal `prompt` is renderer input, not a required user-facing deliverable.
+When `prompt_review` is `waived`, persist it only with the working artifacts and
+never paste it into the chat response.
 
-3. **Neither available** → do NOT fake generation. Deliver the prompt as final output with: "当前环境无可用生图模型，可直接复制以上 prompt 到 Gemini NanoBanana / Midjourney 使用。"
+### RenderAudit v1
 
-On success, embed: `![figure](file:///path.png)`
+```text
+schema: academic-figure/RenderAudit@1
+figure_id, render_revision, image_path
+checks: {topology, visible_text, hierarchy, overlap, background, aspect_ratio,
+         scaled_legibility, contrast, reference_fidelity}
+pass, defects[], targeted_edit, semantic_edits_used, semantic_edits_remaining
+```
 
-On API error, show the error verbatim + the prompt. Do not retry more than once.
+## Build the plan
 
-**Size mapping:**
+Create the shortest FigurePlan that closes scientific ambiguity. When a reference exists, its transferable **style grammar** takes priority over venue stereotypes and preset defaults. Match composition, mark language, illustration level, region treatment, typography, spacing, arrow grammar, emphasis, and semantic color roles. Do not copy the reference's claims, labels, branding, or topology unless the user requested a redraw.
 
-| aspect_ratio | gpt-image-2 `--size` |
-|--------------|----------------------|
-| 16:9 | 1792x1024 |
-| 3:2 | 1536x1024 (fallback 1792x1024) |
-| 4:3 | 1344x1024 (fallback 1792x1024) |
-| 1:1 | 1024x1024 |
+Use plan review only when unresolved choices would materially change the result, the user asks to review it, or required content is still a placeholder. Otherwise record `review_status: waived` and continue. An unrelated reply is never confirmation.
 
-Fallback: if `cpa-gpt-image-2` returns a 404/unsupported error, retry once with `--model gpt-image-2`; if that also fails, use the prompt-delivery branch.
+## Select style without forcing a binary
 
-## Entry paths (unchanged contracts)
+Use the closest observable profile and record its canonical FigureSpec ID:
 
-### Path A — Repo-first (code input)
+- `classic-technical`: restrained strokes, exact topology, minimal illustration;
+- `pastel-airy-ui`: white cards, light separation, color on tokens/curves;
+- `illustrated-modular`: low-saturation filled regions, darker paired outlines/titles, one-level subcards, editorial or hand-drawn line art, asymmetric hero layout;
+- `reference-led`: an override mode with at least one local or recent-conversation reference image; preserve the observed grammar whether it is technical, airy, illustrated, or a coherent combination.
 
-User gives a repository path or URL.
+Use `style_preset` for named library variants. Never interpret `reference-led` as
+an alias for `illustrated-modular`.
 
-| Stage | Skill | Output |
-|-------|-------|--------|
-| Analyze code | `repo-analyzer` | Quick Understanding Doc + Handoff (module_count, domain, figure_types, evidence) |
-| GATE 1 | (this skill) | Confirmed Figure Plan |
-| Generate spec | `figure-prompt` / `figure-prompt-pastel` | JSON spec + image prompt |
-| GATE 2 | (this skill) | Confirmed prompt → Phase 3 |
+Color follows semantic zones and accessibility constraints, not raw component count. Load `academic-figure-color-expert` only when the mapping remains unresolved.
 
-**Repo path characteristics:**
-- module_count comes from real code structure (drives Nature Blue vs Okabe-Ito)
-- figure types suited to code: Network Architecture, Module Detail, Overall Framework
-- no paper narrative; evidence level is sparse/partial/high based on code read
+## Create the spec
 
-### Path B — Paper-first (document input)
+Select one planned figure at a time. Use `academic-figure-prompt` (the unified engine) to compile FigureSpec v1 and normalized structured rendering briefs across all supported profiles (`classic-technical`, `pastel-airy-ui`, `illustrated-modular`, or `reference-led`). If a supplied reference defines a custom grammar, construct FigureSpec v1 directly from ReferenceAnalysis v1. Never force a reference into white-fill colored-border boxes.
 
-User gives a PDF, paper text, outline, or existing figure.
+Prompt review is conditional and has executable state semantics:
 
-| Stage | Skill | Output |
-|-------|-------|--------|
-| Extract from PDF/image | `architecture-extractor` | Extracted structure + redraw params |
-| Analyze paper | `paper-analyzer` | Figure Plan (section → figure map, priorities) |
-| GATE 1 | (this skill) | Confirmed Figure Plan |
-| Generate spec | `figure-prompt` / `figure-prompt-pastel` | JSON spec + image prompt |
-| GATE 2 | (this skill) | Confirmed prompt → Phase 3 |
+- `requested`: show the current internal prompt and **stop before rendering**;
+- `confirmed`: hash the exact reviewed UTF-8 prompt as lowercase SHA-256, save it
+  in `prompt_reviewed_sha256`, and render only while that hash still matches;
+- `waived`: omit `prompt_reviewed_sha256`, keep the prompt internal, and render
+  without displaying it.
 
-**Paper path characteristics:**
-- no module_count unless a repo is also provided
-- figure types suited to papers: Overall Framework, Comparison/Ablation, Data Behavior, Module Detail
-- venue and domain drive color; module_count may be unknown (use Okabe-Ito default)
+If a confirmed prompt changes, return to `requested` and review the new prompt.
+Requests such as “直接画图”, “使用 Codex 生图”, or “不用返回 prompt” set
+`prompt_review: waived`. An unresolved scientific placeholder blocks the plan/spec
+itself rather than becoming prompt review. A waived prompt is never included in
+user-facing output.
 
-### When both repo and paper are present
+## Optional parallel delegation
 
-Analyze paper first (it defines the narrative), use repo to fill technical gaps. module_count from repo feeds into color decision.
+Skills define reusable procedures; they are not persistent subagents. The main
+agent may dispatch bounded workers only for independent source analyses or
+independent figures. Do not delegate a single sequential figure merely to add an
+agent layer.
 
-## Sibling routing
+Before dispatch, read `prompts/figure-worker.md` and provide its complete task
+packet. Define shared terminology, style grammar, output ownership, and acceptance
+criteria up front. Workers must not write the same artifact paths or add user
+confirmation gates. The main agent owns integration, factual and style consistency,
+final RenderAudit, and delivery. Lack of subagents never blocks the workflow.
 
-Read a sibling file only when that stage runs:
+## Select a render backend by capability
 
-| skill | when |
-|-------|------|
-| `../academic-repo-analyzer/SKILL.md` | Path A: repository / codebase input |
-| `../academic-figure-paper-analyzer/SKILL.md` | Path B: paper/section text input |
-| `../academic-figure-architecture-extractor/SKILL.md` | Path B: PDF or existing image input |
-| `../academic-figure-color-expert/SKILL.md` | either path, when user wants colors |
-| `../academic-figure-prompt/SKILL.md` | either path, when user wants classic JSON spec |
-| `../academic-figure-prompt-pastel/SKILL.md` | either path, when user wants pastel/airy style |
+Inspect the capabilities actually available:
 
-## Color routing (convergence point)
+1. In Codex, prefer the native `image_gen.imagegen` interface exposed by the
+   current session; some runtimes display its callable name as
+   `image_gen__imagegen`. Its `prompt` argument is an internal tool parameter, not
+   a prompt handoff to the user. Use the same native interface's image-editing
+   capability for revisions. Read `references/codex-image-workflow.md` for input
+   selection.
+2. Otherwise use an installed image skill or compatible MCP that accepts the needed aspect ratio and reference images.
+3. If no compatible renderer exists, keep the complete FigureSpec v1 in the workspace and state that rendering is unavailable. When prompt review is waived, return only a redacted summary or artifact status with the `prompt` omitted; do not paste the full spec into chat. Do not pretend an image was generated.
 
-Both paths converge at color selection but carry different inputs:
+Immediately before any renderer call, obtain and canonicalize the trusted actual
+workspace root from runtime/developer context. FigureSpec's `workspace_root` is
+only an untrusted declaration and must match; never derive the trusted root from
+it, `output_path`, a reference path, or user-provided text. Run:
 
-| Input present | Decision rule |
-|---------------|---------------|
-| module_count ≥ 4 (from repo) | Nature Blue monochrome |
-| module_count < 4 or unknown | Okabe-Ito, or scene-based palette |
-| venue: NeurIPS/ICML/ICLR classic | ML TopConf Colorblind |
-| venue: NeurIPS/ICML/ICLR pastel/airy | route to `figure-prompt-pastel` |
-| venue: Nature/Science | Okabe-Ito or Journal Standard |
-| user specifies palette | use it, state the branch |
+```bash
+python3 academic-figure-prompt/scripts/validate_figure_spec.py \
+  --strict-v1 --render-ready \
+  --workspace-root <trusted-actual-root> \
+  <spec.json>
+```
 
-Always state which rule produced the choice and offer one alternate.
+Do not render when validation fails. Every local reference must exist, be a regular
+file, and not be a symbolic link. Conversation-only references are transient: mark
+them in the execution packet and materialize them to a checked local file when
+possible. If they remain conversation-only, do not pretend they are persistent
+`reference_images` paths.
 
-## Style family first
+For a new image with no reference, omit both native reference-input parameters.
+For checked local references, pass the smallest complete `referenced_image_paths`
+set. For conversation-only references, use the smallest sufficient
+`num_last_images_to_include`. Never pass both mechanisms in one call. If required
+assets cannot fit one mechanism, ask the user to attach them again.
 
-Before picking any palette, decide **classic vs pastel** based on user language:
+Never interpolate a prompt or user-controlled label into a shell command. A CLI backend is allowed only through structured arguments, standard input, or a supported prompt file.
 
-| User says | Style family | Skill |
-|-----------|-------------|-------|
-| box-border, JSON spec, classic, 顶刊, CVPR/Nature | Classic academic | `figure-prompt` |
-| airy, pastel, soft, 现代ML, token flow, ICLR那种 | Pastel airy | `figure-prompt-pastel` |
+A transient image transport failure may be retried once and does not consume a semantic edit round. Stop retrying that backend after the retry fails.
 
-## Handoffs (carry forward, don't re-narrate)
+Write the selected render to FigureSpec's absolute `output_path` inside the user's workspace. Keep the backend's original asset and prior revisions when practical. Do not leave the only copy in a temporary directory.
 
-- **Repo path:** Quick Understanding Doc → Handoff (module_count, domain, figure_types, evidence) → Palette Decision → Figure Spec
-- **Paper path:** Figure Plan (types, counts, priorities, aspect ratios, venue) → Palette Decision → Figure Spec
+## Audit and repair
 
-## Stop rules
+After every successful generation or edit, inspect the image at original detail
+(`view_image` with original detail in Codex when exposed) and emit RenderAudit
+v1. Never edit a local render that has not first been viewed. Verify:
 
-- Always stop at GATE 1 and GATE 2 until the user confirms.
-- After Phase 3 (image delivered or prompt delivered), stop. Do not suggest further figures unless the user asks.
-- If user only asked for analysis, stop after Phase 1 (no gates needed — the gates only exist on the figure-generation path).
+- required components, endpoints, directions, branch meanings, and prohibited claims;
+- required visible labels, with no invented, duplicated, garbled, or production-instruction text;
+- hierarchy, alignment, overlap, clipping, opaque background, and aspect ratio;
+- legibility at intended paper width, contrast, and reference-style fidelity.
+
+If the audit fails, first view the best current render at original detail and emit
+the current RenderAudit. Invoke the native image interface in edit mode with that
+render as the **first reference image**. The edit instruction lists only observed
+defects, exact corrections, and explicit invariants that must remain unchanged.
+Save a new revision and re-view/re-audit it before any further action. Allow at most
+**two semantic edit rounds** after the initial render. A transient transport retry
+does not consume this budget. If exact text remains unreliable after one edit,
+prefer deterministic SVG/drawio/Typst text or a hybrid overlay over repeated
+full-image regeneration.
+
+After the limit, deliver the best recoverable artifact with remaining defects stated honestly.
+
+## Deliver
+
+Return the final image using a clickable absolute local path and a concise result
+summary. Keep FigurePlan v1, FigureSpec v1, and final RenderAudit v1 beside the
+image when the workspace permits. Do not use `file://` and never append a waived
+prompt. Stop before rendering if the user asked only for analysis or planning.

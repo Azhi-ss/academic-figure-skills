@@ -1,0 +1,34 @@
+Figure Type and Communication Goal:
+Technical vector AI architecture diagram on pure white canvas (#FFFFFF), aspect ratio 16:9, illustrating the Multi-Head Latent Attention (MLA) and DeepSeekMoE dynamic routing framework of DeepSeek-V3 (arXiv:2412.19437 Figure 2). No top title banner across the canvas.
+
+Composition and Layout Proportions:
+Three structured rectangular panels side-by-side filling 100% of the canvas height. Left Panel (Low-Rank KV Compression, 28% width), Center Hero Panel (Multi-Head Latent Attention Core, 44% width), Right Panel (DeepSeekMoE Dynamic Routing, 28% width).
+
+Structured Panels and SVMC Visual Metaphors:
+1. Left Panel (Low-Rank KV Compression, Soft Ice-Blue tint #F0F9FF, Navy outline #0284C7): Top inner pill header 'Low-Rank KV Compression'. Inside shows token input vector bar Input h_t (d=7168) in cobalt blue passing downward through down-projection matrix W_DKV into an emerald-green compressed latent bar c_t^KV (dim d_c=512). The latent bar splits into two branches: Decompressed Key k_t^C + RoPE Key k_t^R (amber bar with [R] badge) and Decompressed Value v_t^C (cyan bar).
+2. Center Hero Panel (Multi-Head Latent Attention, Soft Slate tint #F8FAFC, Dark Slate outline #334155): Top inner pill header 'Multi-Head Latent Attention (MLA)'. Top shows Query vector q_t split into content q_t^C and RoPE q_t^R. Middle shows Decoupled Multi-Head Attention computation with a square matrix heatmap grid [Softmax(Q · K^T / sqrt(d))] displaying diagonal attention weights and dimension tags d_h=128, n_heads=128. Bottom shows down-arrow into Multi-Head Concatenation & Out-Projection W_O leading to output representation.
+3. Right Panel (DeepSeekMoE Dynamic Routing, Soft Lavender tint #FAF5FF, Deep Purple outline #9333EA): Top inner pill header 'DeepSeekMoE Dynamic Routing'. Top shows representation entering a Softmax Gating Router with a mini horizontal probability bar chart showing top-8 selected scores. Middle shows 8 parallel vertical expert modules (Expert 1 to Expert 8) alongside a distinct green Shared Expert block. Bottom shows element-wise summation circle [⊕] combining expert outputs with a clean residual bypass line.
+
+Topology and Typed Connections:
+Input h_t -> W_DKV -> c_t^KV (solid executed arrow).
+c_t^KV -> k_t^C, k_t^R, v_t^C (branching solid arrows).
+q_t, k_t, v_t -> Multi-Head Attention Heatmap Matrix (solid converging arrows).
+Attention Heatmap -> W_O -> MoE Router (solid executed arrow).
+MoE Router -> Parallel Experts 1-8 and Shared Expert (gated routing lines).
+Experts -> Element-wise Summation [⊕] -> Output (converging solid arrows with residual bypass).
+Draw no other inter-module connections.
+
+Visible Text Closed List:
+Panel 1: 'Low-Rank KV Compression', 'Input h_t (d=7168)', 'Down-Projection W_DKV', 'Latent c_t^KV (d_c=512)', 'Key k_t^C', 'RoPE Key k_t^R', 'Value v_t^C'.
+Panel 2: 'Multi-Head Latent Attention (MLA)', 'Query q_t', 'Content q_t^C', 'RoPE q_t^R', 'Softmax(Q · K^T / sqrt(d))', 'd_h=128, n_heads=128', 'Out-Projection W_O'.
+Panel 3: 'DeepSeekMoE Dynamic Routing', 'Softmax Gating Router', 'Top-8 Gated Scores', 'Expert 1', 'Expert 2', 'Expert 3', 'Expert 8', 'Shared Expert', 'Residual Bypass'.
+
+Style Grammar and Paired Color Tokens:
+Surface profile: modern-technical-vector.
+Panel 1: Fill #F0F9FF, Outline #0284C7, Accent #0284C7.
+Panel 2: Fill #F8FAFC, Outline #334155, Accent #475569.
+Panel 3: Fill #FAF5FF, Outline #9333EA, Accent #9333EA.
+Typography: Clean mathematical sans-serif (Inter/Helvetica), bold pill titles, monospace tensor dimensions.
+
+Negative Constraints and Exclusions:
+No overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No SaaS drop shadows. No 3D rendering. No transparent background. No floating labels outside containers. No dark canvas background. Aspect ratio 16:9.

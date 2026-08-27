@@ -54,9 +54,10 @@ Please follow these steps to have your contribution considered:
 1. Fork the repo and create your branch from `main`
 2. If you've added code that should be tested, add tests
 3. If you've changed APIs, update the documentation
-4. Ensure the test suite passes
-5. Make sure your code lints
-6. Issue that pull request!
+4. Synchronize vendored references and run the validation commands below
+5. Ensure the test suite passes
+6. Make sure your code lints
+7. Issue that pull request!
 
 ## Skill Development Guide
 
@@ -69,14 +70,17 @@ To add a new skill to the pack:
 
 ```yaml
 ---
-id: your-new-skill
-name: Your Skill Name
-version: 1.0.0
-description: When to trigger this skill, including trigger keywords
-stages: [writing, research, review]
-tools: [bash, glob, read, write]
+name: your-new-skill
+description: Describe the job and the situations that should trigger this skill.
+metadata:
+  version: "1.0.0"
 ---
 ```
+
+Codex-compatible top-level fields are `name`, `description`, `license`,
+`compatibility`, `metadata`, and `allowed-tools`. Keep pack-specific fields such
+as display name, trigger phrases, stages, tags, and tool hints in
+`manifest.json`; do not add them as unsupported top-level SKILL.md fields.
 
 3. Add your skill to `manifest.json`:
 
@@ -94,8 +98,13 @@ tools: [bash, glob, read, write]
 }
 ```
 
-4. Update the README.md to include your new skill in the skill list
-5. Add an entry to CHANGELOG.md
+4. Add the skill id to `EXPECTED_SKILL_IDS` in
+   `scripts/sync_shared_refs.py`, and to the relevant shared-reference groups if
+   it consumes styles, RenderAudit, or the Codex image workflow
+5. Run `python3 scripts/sync_shared_refs.py` to create self-contained vendored
+   references; do not copy or symlink them manually
+6. Update the README.md to include your new skill in the skill list
+7. Add an entry to CHANGELOG.md
 
 ### Skill Structure Best Practices
 
@@ -107,9 +116,37 @@ A good skill should include:
 4. **Stop conditions** — when to halt vs continue downstream
 5. **Sparse-input cases** — partial results labeled `推断` / `待确认` (see `docs/missing-info-policy.md`)
 
-Do **not** paste the full palette hex tables into new skills — load `docs/palettes.md`.
-New or edited skills must vendor references/ (palettes + missing-info-policy) and reference them as references/<file>.md — never ../docs/, which does not exist after npx skills install.
+Do **not** paste the full palette hex tables into new skills. The canonical
+copies live under `docs/`; installable skills consume synchronized files under
+their own `references/` directory. Never link to `../docs/`, which does not
+exist after a standalone `npx skills` installation.
 Keep descriptions short: one leading job + distinct trigger branches; no implementation counts (“13 presets”).
+
+For rendering skills, preserve the execution contract:
+
+- build and validate FigureSpec v1 before rendering;
+- call Codex's native `image_gen.imagegen` capability directly when it is
+  available instead of returning a prompt for the user to run;
+- keep the prompt internal when `prompt_review` is `waived`;
+- inspect the initial render, record RenderAudit v1, and use the current best
+  image as the first reference for a bounded targeted edit;
+- preserve revision files and audit every edit.
+
+### Validation before a pull request
+
+Run from the repository root:
+
+```bash
+python3 scripts/sync_shared_refs.py
+python3 scripts/sync_shared_refs.py --check
+python3 -B -m unittest discover -s tests -v
+python3 scripts/validate_skill_pack.py
+```
+
+When changing FigureSpec, update the formal schema, the standard-library
+validator, the prose contract, and tests together. A render-capable caller must
+also run strict render-ready validation with its trusted workspace root before
+calling an image model.
 
 ### Trigger Phrases
 

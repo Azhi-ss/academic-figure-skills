@@ -1,0 +1,142 @@
+{
+  "schema": "academic-figure/FigureSpec@1",
+  "figure_id": "swe_agent_fig2_aci",
+  "plan_revision": "plan-1",
+  "sources": [
+    {
+      "kind": "paper",
+      "uri_or_path": "https://arxiv.org/abs/2405.15793",
+      "revision_or_page": "Figure 2",
+      "evidence": "SWE-agent Agent-Computer Interface (ACI) architecture with interactive terminal, issue ingestion, and trajectory evaluation"
+    }
+  ],
+  "prompt": "Figure Type and Communication Goal:\nModern pastel airy UI academic architecture diagram on pure white canvas (#FFFFFF), aspect ratio 16:9, ICML/NeurIPS AI Agent interaction style, illustrating the software engineering autonomous agent framework of SWE-agent and Voyager (arXiv:2405.15793 Figure 2). No top title banner across the canvas.\n\nComposition and Layout Proportions:\nThree floating rounded white cards side-by-side filling 100% of the canvas height with generous negative space. Left Card (Task & Issue Environment, 28% width), Center Hero Card (Agent-Computer Interface ACI Loop, 44% width), Right Card (Evaluation & Git Patch Synthesis, 28% width).\n\nStructured Panels and SVMC Visual Metaphors:\n1. Left Card (Task & Issue Environment, Pure white card #FFFFFF, Soft Ice-Blue pill header #E0F2FE, Dark Navy title #0369A1): Vertical flow contains 'GitHub Issue Ingestion' card with an issue tag '#1248 Fix NullPointer', downward arrow into 'Repo File Tree Browser' with a mini file hierarchy tree icon, and 'Environment State' badge with green pill 'Status: Active Container'.\n2. Center Hero Card (Agent-Computer Interface Loop, Pure white card #FFFFFF, Soft Purple pill header #F3E8FF, Deep Purple title #6B21A8): Top shows 'LLM Thought & Strategy' floating bubble with light-purple token pill 'Chain-of-Thought Plan'. Middle shows 'Interactive Terminal Shell' styled as a sleek dark-slate CLI terminal window with macOS top-left dots showing '$ search_code_symbol(AST)' and 'Tool Invocation' pill badge. Bottom shows curved forward arrow 'Execute Bash Action' leading to 'Environment Observation Window' with mint-green output pill 'File Diff Generated (+14, -3)', and curved upward feedback arrow 'Observation Feedback' updating LLM strategy.\n3. Right Card (Evaluation & Git Patch, Pure white card #FFFFFF, Soft Amber pill header #FEF3C7, Dark Amber title #92400E): Vertical flow contains 'Automated Regression Test Suite' card with green checkmark badge 'Tests: 12 Passed', downward arrow into 'Git Patch Submission' with a diff branch symbol, and downward arrow into 'Verified Solution Trajectory' with an amber star badge.\n\nTopology and Typed Connections:\nGitHub Issue -> Repo File Tree -> Environment State (solid downward executed flow).\nEnvironment State -> LLM Thought (context feeding lateral bridge).\nLLM Thought -> Terminal Shell (executed tool dispatch).\nTerminal Shell -> Environment Observation (execute action forward arrow).\nEnvironment Observation -> LLM Thought (observation feedback upward curved loop).\nLLM Trajectory -> Automated Regression Tests -> Git Patch Submission -> Verified Solution (solid downward verification chain).\nDraw no other inter-module connections.\n\nVisible Text Closed List:\nPanel 1: 'Task & Issue Environment', 'GitHub Issue Ingestion', '#1248 Fix NullPointer', 'Repo File Tree Browser', 'Environment State', 'Status: Active Container'.\nPanel 2: 'Agent-Computer Interface (ACI) Loop', 'LLM Thought & Strategy', 'Chain-of-Thought Plan', 'Interactive Terminal Shell', '$ search_code_symbol(AST)', 'Tool Invocation', 'Execute Bash Action', 'Environment Observation Window', 'File Diff Generated (+14, -3)', 'Observation Feedback'.\nPanel 3: 'Evaluation & Git Patch', 'Automated Regression Test Suite', 'Tests: 12 Passed', 'Git Patch Submission', 'Verified Solution Trajectory'.\n\nStyle Grammar and Paired Color Tokens:\nSurface profile: pastel-airy-ui.\nCard Backgrounds: #FFFFFF with subtle soft drop-shadow.\nPanel 1 Accent Pill: Fill #E0F2FE, Title #0369A1.\nPanel 2 Accent Pill: Fill #F3E8FF, Title #6B21A8, Terminal Window #1E293B.\nPanel 3 Accent Pill: Fill #FEF3C7, Title #92400E, Green Badge #DCFCE7.\nTypography: Elegant modern sans-serif (Inter/Nunito), dark slate body text (#0F172A), monospace CLI commands.\n\nNegative Constraints and Exclusions:\nNo overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No heavy dark canvas background. No heavy black cartoon strokes. No 3D chrome. No photorealism. Aspect ratio 16:9.",
+  "aspect_ratio": "16:9",
+  "final_width_mm": 183,
+  "visible_text": [
+    "Task & Issue Environment",
+    "GitHub Issue Ingestion",
+    "#1248 Fix NullPointer",
+    "Repo File Tree Browser",
+    "Environment State",
+    "Status: Active Container",
+    "Agent-Computer Interface (ACI) Loop",
+    "LLM Thought & Strategy",
+    "Chain-of-Thought Plan",
+    "Interactive Terminal Shell",
+    "$ search_code_symbol(AST)",
+    "Tool Invocation",
+    "Execute Bash Action",
+    "Environment Observation Window",
+    "File Diff Generated (+14, -3)",
+    "Observation Feedback",
+    "Evaluation & Git Patch",
+    "Automated Regression Test Suite",
+    "Tests: 12 Passed",
+    "Git Patch Submission",
+    "Verified Solution Trajectory"
+  ],
+  "topology": {
+    "components": [
+      {"id": "issue_ingest", "label": "GitHub Issue Ingestion", "role": "input"},
+      {"id": "file_browser", "label": "Repo File Tree Browser", "role": "context"},
+      {"id": "env_state", "label": "Environment State", "role": "state"},
+      {"id": "llm_thought", "label": "LLM Thought & Strategy", "role": "reasoning"},
+      {"id": "terminal_shell", "label": "Interactive Terminal Shell", "role": "tool_execution"},
+      {"id": "env_obs", "label": "Environment Observation Window", "role": "observation"},
+      {"id": "test_suite", "label": "Automated Regression Test Suite", "role": "evaluator"},
+      {"id": "git_patch", "label": "Git Patch Submission", "role": "output"},
+      {"id": "verified_traj", "label": "Verified Solution Trajectory", "role": "final"}
+    ],
+    "connections": [
+      {"id": "s1", "from": "issue_ingest", "to": "file_browser", "kind": "executed", "direction": "forward"},
+      {"id": "s2", "from": "file_browser", "to": "env_state", "kind": "executed", "direction": "forward"},
+      {"id": "s3", "from": "env_state", "to": "llm_thought", "kind": "executed", "direction": "forward"},
+      {"id": "s4", "from": "llm_thought", "to": "terminal_shell", "kind": "executed", "direction": "forward"},
+      {"id": "s5", "from": "terminal_shell", "to": "env_obs", "kind": "executed", "direction": "forward"},
+      {"id": "s6", "from": "env_obs", "to": "llm_thought", "kind": "feedback", "direction": "forward", "line": "dashed"},
+      {"id": "s7", "from": "env_obs", "to": "test_suite", "kind": "executed", "direction": "forward"},
+      {"id": "s8", "from": "test_suite", "to": "git_patch", "kind": "executed", "direction": "forward"},
+      {"id": "s9", "from": "git_patch", "to": "verified_traj", "kind": "executed", "direction": "forward"}
+    ],
+    "groups": [
+      {
+        "id": "card_context",
+        "label": "Task & Issue Environment",
+        "component_ids": ["issue_ingest", "file_browser", "env_state"]
+      },
+      {
+        "id": "card_aci",
+        "label": "Agent-Computer Interface (ACI) Loop",
+        "component_ids": ["llm_thought", "terminal_shell", "env_obs"]
+      },
+      {
+        "id": "card_eval",
+        "label": "Evaluation & Git Patch",
+        "component_ids": ["test_suite", "git_patch", "verified_traj"]
+      }
+    ],
+    "authority_boundaries": []
+  },
+  "layout": {
+    "composition": "loop",
+    "hero": "card_aci",
+    "reading_order": [
+      "issue_ingest", "file_browser", "env_state",
+      "llm_thought", "terminal_shell", "env_obs",
+      "test_suite", "git_patch", "verified_traj"
+    ],
+    "group_regions": {
+      "card_context": "left 28%",
+      "card_aci": "center 44%",
+      "card_eval": "right 28%"
+    },
+    "nesting_depth": 1,
+    "whitespace": "open",
+    "routing_notes": ["Generous whitespace", "Floating white panels"]
+  },
+  "style_profile": "pastel-airy-ui",
+  "style_preset": "现代柔彩空气风",
+  "style_source": "scene",
+  "style_grammar": {
+    "marks": "clean floating UI cards with soft pastel status pills and terminal preview",
+    "fills": "opaque white background with pure white floating cards and soft color pill accents",
+    "strokes": "subtle 1px border with delicate elevation shadow",
+    "typography": "modern clean sans-serif (Inter/Nunito) with monospace CLI tokens",
+    "shadow": "soft",
+    "density": "balanced"
+  },
+  "semantic_color_roles": {
+    "card_context": {
+      "fill": "#FFFFFF",
+      "outline": "#E2E8F0",
+      "title": "#0369A1",
+      "icon_accent": "#E0F2FE"
+    },
+    "card_aci": {
+      "fill": "#FFFFFF",
+      "outline": "#E2E8F0",
+      "title": "#6B21A8",
+      "icon_accent": "#F3E8FF"
+    },
+    "card_eval": {
+      "fill": "#FFFFFF",
+      "outline": "#E2E8F0",
+      "title": "#92400E",
+      "icon_accent": "#FEF3C7"
+    }
+  },
+  "reference_images": [],
+  "must_not_claim": ["untested human equivalence in software engineering"],
+  "forbidden_connections": ["issue_ingest -> git_patch"],
+  "negative_constraints": [
+    "no overall top title banner across canvas",
+    "no markdown formatting symbols (#, **, -, |)",
+    "no heavy dark background",
+    "no heavy black cartoon outlines",
+    "no 3D chrome"
+  ],
+  "prompt_review": "waived",
+  "workspace_root": "/home/dministrator/Lab/clones/academic-figure-skills",
+  "output_path": "/home/dministrator/Lab/clones/academic-figure-skills/docs/gallery/pastel_airy_ui_swe_agent.jpg"
+}

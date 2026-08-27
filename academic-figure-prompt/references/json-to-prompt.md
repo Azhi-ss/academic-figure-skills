@@ -1,117 +1,89 @@
-# JSON to Image Prompt Conversion
+# FigureSpec to Image Prompt Compilation
 
-How to convert a JSON figure spec into a descriptive image prompt that image generation models can follow.
+Compile FigureSpec v1 into natural-language rendering instructions without changing its scientific content. The prompt is a backend adapter, not a second design stage.
 
-The JSON spec is structured for agents; image models need natural language. Do NOT dump JSON at the model. Translate it using these rules.
+## Invariants
 
-## Conversion process
+1. Preserve every component ID and every connection endpoint.
+2. Do not add dimensions, formulas, model variants, legends, icons, or side notes absent from FigureSpec.
+3. Do not convert style tokens into visible words such as `WHITE FILL`, `300 DPI`, hex codes, or stroke widths.
+4. Only values in `visible_text` and explicit block label fields may be rendered as text.
+5. `caption_note`, evidence pointers, JSON keys, and production metadata are never visible.
+6. Reference images remain structured image inputs when the backend supports them; prose is not a replacement for reference conditioning.
+7. **Strict Prose Normalization (Zero Markdown Syntax)**: Prompts must be clean structured natural language prose. Never use Markdown formatting symbols (such as `#`, `**`, `*`, `- `, backticks, or `|---|` tables) inside the prompt sent to the image model. Models frequently paint Markdown syntax tokens as visual text artifacts on the canvas.
 
-### 1. Extract image type from `diagram_type`
+## Compilation order
 
-| JSON value | Prompt opening |
-|------------|---------------|
-| `*Overall Framework*` | "Flat vector academic architecture diagram showing [system] overall framework" |
-| `*Network Architecture*` | "Flat vector academic network architecture diagram of [network]" |
-| `*Module Detail*` | "Flat vector academic module detail diagram showing [mechanism]" |
-| `*Comparison*` | "Flat vector academic comparison diagram" |
-| `*Data Behavior*` | "Flat vector academic data visualization figure" |
+### 1. Lead with figure purpose and style grammar
 
-### 2. Convert `style_and_colors` to material instructions
+Name the figure type, communication goal, aspect ratio, canvas, and selected style profile. Describe observable grammar—composition, marks, fills, stroke character, typography, spacing, and illustration level—rather than relying on venue names or vague words such as “professional.” Default to no canvas title because the figure title normally belongs in the external caption. If the user, FigureSpec, or supplied reference explicitly includes a title, compile that exact string once as a short non-banner heading with reserved whitespace.
 
-```json
-"main_block_color_palette": ["#0072B2", "#E69F00", "#009E73"]
-```
-→ "Color palette: primary #0072B2, secondary #E69F00, tertiary #009E73. All boxes white fill with 2px colored borders and 6px corner radius."
+### 2. Describe composition by visual hierarchy
 
-```json
-"flow_arrow_colors": {"main_forward_flow": "...solid arrows", "feedback_loop": "...dashed curved arrow"}
-```
-→ "Forward flow arrows solid dark grey #4D4D4D. Feedback/skip arrows dashed curved."
+Start with the hero element and major semantic regions. For each region state its approximate position/proportion, fill/outline token, and permitted nesting depth. Then describe primary components in reading order and secondary context last.
 
-If palette is monochrome (Nature Blue): state "Nature Blue monochrome: dark #1B3A5C, medium #2E6B9E, light #5BA0D0, pale #8EAEC4" and use these for border hierarchy.
+Do not mechanically list JSON order. Preserve explicit gaps and unconnected regions.
 
-### 3. Convert `layout_and_content_blocks` to spatial prose
+### 2.1 Scientific Visual Metaphor Compilation (Preventing Text Dumps)
 
-Do NOT list blocks in JSON order. Group them by spatial relationship first.
+When components represent numerical fitting, observations, tabular shortlists,
+or physical steps, prefer a sourced visual schematic over a text dump. Do not
+infer that an experiment is physical, wet-lab, automated, or internally
+executed from a generic word such as “validation.”
 
-**For each block, extract and translate:**
+- **Surrogate / GP Fit**: describe as a `mini 2D coordinate plot with black x/y axes, solid blue fitted mean curve, dashed blue confidence interval bounds, shaded light-blue uncertainty ribbon, and orange circular scatter points`.
+- **Initial Observations**: describe as a `2D Cartesian coordinate plot with circular observations along a curve`; use the sourced observation count and encoding.
+- **Candidate Pool / Shortlist**: describe as a `compact structured candidate grid with an abstract header band and the sourced number of rows`; include field names, ranks, variables, and values only when they are present in `visible_text`.
+- **Experimental Validation**: select apparatus only from sourced modality and execution evidence; for a lookup, simulation, or external evaluation, use a bounded table, simulator, or external-boundary mark instead of wet-lab glassware.
+- **LLM / Decision Agents**: use a compact decision/reasoning glyph in the selected illustration language; use a robot embodiment only when the user, source, or reference explicitly requests it.
+- **Memory Systems**: distinguish declared memory types with consistent, reference-compatible shapes; do not invent memory categories, labels, colors, or laboratory metaphors.
 
-| JSON field | Prompt translation |
-|-----------|-------------------|
-| `relative_position` | spatial positioning ("at bottom center", "in the large central container", "on the left side") |
-| `shape` | visual description ("rounded rectangle, 2.5px dark navy border, white fill") |
-| `exact_title_to_render_inside` | block title, rendered as bold label |
-| `exact_text` | secondary text inside block (keep ≤5 words per line) |
-| `exact_label` | primary short label |
-| `icon` | translate using `architecture-icons.md` vocabulary |
-| `internal_content.layout` | describe internal arrangement ("vertical stack of 4 sub-blocks inside") |
-| `internal_content.row_*` / `column_*` | describe each sub-element with its text and shape |
-| `flow` | arrow connection, translate direction into natural language |
-| `exact_status` | render as pill tag ("[Tune]" in accent color, "[Fixed]" in grey) |
+### 3. State topology as a closed list
 
-**Group blocks by panel/section:**
-- Blocks sharing a container → describe the container first, then its contents
-- Sequential blocks → describe in flow order with arrows
-- Parallel columns → "left column: ..., right column: ..."
-- Disconnected blocks → explicitly state "separated by a gap, no connecting arrow"
+Translate each connection exactly once:
 
-### 4. Add supporting modules not in JSON
-
-After describing all blocks, add:
-- Dimension labels: infer from architecture (e.g., "(B,N,D)") and place in 9pt grey
-- Token/pill representations where data flows
-- A legend if border styles encode meaning
-- Small icons for each major block (from architecture-icons.md)
-- Side margin notes for model variants or sizes
-
-### 5. Convert RENDERING_RULES to visual constraints
-
-Take each rule and make it concrete:
-
-```
-"All container boxes use WHITE fill with COLORED BORDERS ONLY"
-→ "All boxes white fill, no colored fills, 1.5-2px colored borders, 4-6px rounded corners"
-
-"Icons are monochrome thin grey line art"
-→ "Icons rendered as monochrome line art in the block's border color, no filled icons"
-
-"Weight status MUST use dashed/solid borders or pill tags"
-→ "Trainable modules solid borders with [Tune] pill; frozen modules dashed borders with [Fixed] pill"
-
-"NO emojis, NO lock/fire/lightning decorative symbols, NO 3D"
-→ "No emojis, no decorative icons, no gradients, no drop shadows, no 3D effects"
+```text
+[from label] → [to label], [executed/advisory/feedback/persistence/exception],
+[solid/dashed/dotted], optional visible label "..."
 ```
 
-### 6. Add typography and closing
+Add: “Draw no other inter-module connections.” This reduces invented shortcuts. Do not infer an edge from spatial proximity.
 
-End with:
-- "Font: clean sans-serif (Helvetica/Arial/Inter), titles 14-16pt bold, labels 11-12pt, dimension notes 9pt grey."
-- "Aspect ratio [value from aspect_ratio field]."
+### 4. Lock visible text
 
-## What NOT to do
+Provide a compact closed list of exact visible strings, grouped by region. Say that no other words, JSON keys, production terms, or placeholder text may appear. This is an intent constraint, not a guarantee; RenderAudit must still inspect the resulting image.
 
-1. **Do not include JSON in the prompt** — translate every field
-2. **Do not list blocks mechanically** — describe spatial relationships and hierarchy
-3. **Do not put long text on figure** — `caption_note` content stays off-figure; add "parameters and full formulas in figure caption, not rendered"
-4. **Do not forget icons** — every major block needs a visual anchor
-5. **Do not use vague style words** — "professional", "clean", "modern" must be followed by concrete instructions
-6. **Do not exceed 400 words** — image prompts should be dense but not overwhelming
+### 5. Describe semantic color tokens
 
-## Example conversion
+For each semantic zone provide paired tokens:
 
-JSON block:
-```json
-{
-  "relative_position": "Center (large vertical container)",
-  "shape": "Rounded rectangle, #1B3A5C 2.5px border, white fill",
-  "exact_title_to_render_inside": "N x Block",
-  "internal_content": {
-    "row_1": {"exact_text": "LayerNorm"},
-    "row_2": {"exact_text": "Causal Self-Attention", "secondary_note": "[Tune]"}
-  },
-  "flow": "Vertical arrow UP to Final LayerNorm"
-}
+```text
+zone: soft fill #..., dark outline/title #..., optional icon accent #...
 ```
 
-Prompt translation:
-> "Center: a large rounded rectangle container with 2.5px dark navy #1B3A5C border and white fill, titled 'N × Block' in bold. Inside, a vertical stack of sub-blocks: pale blue #8EAEC4 'LayerNorm', medium blue #2E6B9E 'Causal Self-Attention' with a small [Tune] pill and a tiny attention-heatmap icon, another 'LayerNorm', and 'MLP (4×)' with a small fan-out-fan-in icon. Two curved solid arrows run along the container's right edge, bypassing the first two and last two sub-blocks as residual connections."
+State non-color encodings for advisory, exception, fixed/trainable, or other distinctions. Do not substitute a single palette name for role mapping.
+
+### 6. End with negative constraints and geometry
+
+Use a short defect-oriented list: no unintended or duplicated title banner, no extra modules or edges, no garbled text, no transparent/dark background, no clipping or overlap, no gradients/3D/branding, and any style-specific exclusions. State the aspect ratio last.
+
+## Prompt length
+
+Use the shortest prompt that preserves the spec. Roughly 180–450 English words is usually sufficient, but topology correctness has priority over a fixed word count. Long visible-text inventories belong in a deterministic SVG/drawio/Typst workflow rather than an ever-longer image prompt.
+
+## Backend suitability
+
+- **Image generation/editing:** conceptual, illustrated, or low-text frameworks where visual language matters.
+- **Deterministic vector renderer:** text-heavy architectures, exact mathematical notation, dense legends, or strict topology.
+- **Hybrid:** image-generated illustration or background plus deterministic text/vector overlay.
+
+When the selected backend cannot plausibly satisfy the text/topology contract, return the spec or switch to a compatible deterministic renderer instead of claiming exact control.
+
+## Preflight
+
+- Every prompt component maps to one FigureSpec component.
+- Every prompt connection maps to one FigureSpec connection.
+- No content was inferred during compilation.
+- Exact visible strings are separated from production instructions.
+- Style reference paths remain available to the renderer.
+- RenderAudit has an objective checklist for the output.

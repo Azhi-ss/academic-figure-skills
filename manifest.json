@@ -1,32 +1,33 @@
 {
-  "$schema": "https://raw.githubusercontent.com/anthropics/skills/main/schema.json",
   "name": "academic-figure-skills",
-  "version": "3.0.0",
-  "description": "AI-powered academic figure generation skill pack — parse papers, analyze code repos, plan figures, generate publication-quality prompts with colorblind-safe palettes",
+  "version": "3.1.0",
+  "description": "Reference-aware academic figure workflow for evidence-backed planning, FigureSpec generation, native Codex rendering, visual audit, and targeted image revision.",
   "author": "Azhi-ss",
   "repository": "https://github.com/Azhi-ss/academic-figure-skills",
   "license": "MIT",
   "skills": [
     {
       "id": "academic-figure-workflow",
-      "name": "Academic Figure Workflow Orchestrator",
-      "version": "1.4.0",
-      "description": "Entry-point assistant for academic figure generation — analyzes input, presents a Figure Plan for confirmation, then generates colors, prompts, and the final image when an image model is available.",
+      "name": "Academic Figure Workflow",
+      "version": "1.5.0",
+      "description": "Plan, generate, inspect, and refine academic figures from repositories, papers, paper URLs, PDFs, or reference images, with conditional review and native image-tool routing.",
       "path": "./academic-figure-workflow",
       "trigger_phrases": [
         "帮我从仓库到配图走一遍", "完整论文配图工作流", "academic figure workflow",
         "end-to-end figure pipeline", "from paper to figure prompt",
+        "直接生成论文配图", "使用 Codex 生图", "不用返回 prompt",
+        "draw this academic figure",
         "which skill should I use first"
       ],
       "stages": ["research", "writing", "review"],
-      "tools": ["bash"],
-      "tags": ["academic", "workflow", "orchestration", "figure", "prompt", "planning"]
+      "tools": ["bash", "image_gen", "view_image"],
+      "tags": ["academic", "workflow", "orchestration", "figure", "prompt", "planning", "style-library"]
     },
     {
       "id": "academic-repo-analyzer",
       "name": "Academic Repo Analyzer",
-      "version": "1.2.0",
-      "description": "Quick-understanding doc for ML/DL, AI4Science, and research codebases — task type, stack, architecture, and figure-worthy innovations. Use when the user wants repo analysis, 仓库分析, or to understand a codebase before figure planning.",
+      "version": "1.4.0",
+      "description": "Evidence-backed semantic architecture analysis for ML, AI4Science, and research repositories without treating directory counts as visual modules.",
       "path": "./academic-repo-analyzer",
       "trigger_phrases": [
         "分析代码仓库", "仓库分析", "repo analyzer",
@@ -38,42 +39,10 @@
       "tags": ["academic", "repository", "analysis", "deep-learning", "machine-learning", "code"]
     },
     {
-      "id": "academic-figure-prompt",
-      "name": "Academic Figure Prompt",
-      "version": "1.5.0",
-      "description": "JSON figure spec for academic diagrams — exact_text layout control for framework, architecture, module, and comparison figures.",
-      "path": "./academic-figure-prompt",
-      "trigger_phrases": [
-        "论文配图", "生成论文配图", "学术论文生图",
-        "架构图", "框架图", "顶会风格配图",
-        "CVPR 风格图", "NeurIPS 风格图",
-        "paper figure", "academic figure", "academic diagram",
-        "学术配图JSON"
-      ],
-      "stages": ["writing", "research", "review"],
-      "tools": ["bash"],
-      "tags": ["academic", "figure", "prompt", "paper", "cvpr", "neurips"]
-    },
-    {
-      "id": "academic-figure-prompt-pastel",
-      "name": "Academic Figure Prompt — Modern ML Airy Style",
-      "version": "4.1.1",
-      "description": "Pastel airy figure prompts for modern ML papers — ICLR/NeurIPS/ICML soft-panel style.",
-      "path": "./academic-figure-prompt-pastel",
-      "trigger_phrases": [
-        "pastel风格论文配图", "现代ML论文配图",
-        "modern ML figure prompt", "pastel academic figure",
-        "ICLR 2024 风格图", "NeurIPS 2025 风格图"
-      ],
-      "stages": ["writing", "research", "review"],
-      "tools": ["bash"],
-      "tags": ["academic", "figure", "prompt", "pastel", "modern-ml", "iclr"]
-    },
-    {
       "id": "academic-figure-paper-analyzer",
       "name": "Academic Paper Analyzer & Figure Planner",
-      "version": "1.2.0",
-      "description": "Figure plan for academic papers — section-to-figure mapping, types, counts, and priority.",
+      "version": "1.3.0",
+      "description": "Evidence-backed Figure Plan v1 generation from manuscripts, outlines, PDFs, paper webpages, repositories, and reference figures.",
       "path": "./academic-figure-paper-analyzer",
       "trigger_phrases": [
         "分析论文配图需求", "论文需要哪些图", "论文配图规划",
@@ -86,9 +55,9 @@
     },
     {
       "id": "academic-figure-architecture-extractor",
-      "name": "Academic Figure Architecture Extractor & Analyzer",
-      "version": "1.2.1",
-      "description": "Architecture diagram analysis for academic PDFs or images — structure, components, redraw parameters; includes local PDF extract helper.",
+      "name": "Academic Figure Architecture Extractor",
+      "version": "1.3.0",
+      "description": "Extract semantic structure and transferable style grammar from figures, PDFs, and paper or figure URLs for redraws and reference-conditioned generation.",
       "path": "./academic-figure-architecture-extractor",
       "trigger_phrases": [
         "提取论文架构图", "架构图分析", "从PDF提取图表",
@@ -102,19 +71,39 @@
     {
       "id": "academic-figure-color-expert",
       "name": "Academic Figure Color Expert",
-      "version": "1.3.2",
-      "description": "Palette Decision for academic figures — classic vs pastel style family, venue-aware colorblind-safe schemes, scene recipes.",
+      "version": "1.4.0",
+      "description": "Choose reference-aware, accessible color and surface systems for technical, airy, and illustrated-modular academic figures.",
       "path": "./academic-figure-color-expert",
       "trigger_phrases": [
         "学术配图配色", "论文配色方案", "色盲友好配色",
         "学术配色", "架构图配色", "academic color palette",
         "colorblind safe figure", "paper color scheme",
         "architecture diagram color matching",
-        "Nature Blue", "单色系"
+        "Nature Blue", "单色系", "配图风格选择"
       ],
       "stages": ["writing", "research"],
       "tools": ["bash"],
-      "tags": ["academic", "color", "palette", "colorblind", "accessibility"]
+      "tags": ["academic", "color", "palette", "colorblind", "accessibility", "style-library"]
+    },
+    {
+      "id": "academic-figure-prompt",
+      "name": "Academic Figure Spec and Prompt Engine",
+      "version": "2.0.0",
+      "description": "Build evidence-grounded FigureSpec v1 artifacts and normalized structured rendering briefs for all academic figure styles (classic-technical, pastel-airy-ui, illustrated-modular, and reference-led).",
+      "path": "./academic-figure-prompt",
+      "trigger_phrases": [
+        "论文配图", "生成论文配图", "学术论文生图",
+        "架构图", "框架图", "顶会风格配图",
+        "CVPR 风格图", "NeurIPS 风格图", "ICLR 风格图",
+        "pastel风格论文配图", "现代ML论文配图", "编辑手绘模块风",
+        "有色语义分区图示风", "illustrated modular figure",
+        "reference-led academic figure", "airy figure prompt",
+        "paper figure", "academic figure", "academic diagram",
+        "学术配图JSON", "Visual Brief"
+      ],
+      "stages": ["writing", "research", "review"],
+      "tools": ["bash"],
+      "tags": ["academic", "figure", "prompt", "paper", "figure-spec", "technical-vector", "pastel", "illustrated-modular", "reference-aware"]
     }
   ]
 }

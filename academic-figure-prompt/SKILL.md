@@ -1,116 +1,108 @@
 ---
-id: academic-figure-prompt
-name: Academic Figure Prompt
-version: 1.5.0
-description: Generate publication-ready figure prompts for image models (GPT-Image-2, Gemini NanoBanana, etc.) in the classic academic style. Use this skill whenever the user wants a box-border architecture diagram, framework/network/module figure, or JSON figure spec — including "生成框架图", "画架构图", "JSON配图规范", "academic figure prompt", "框架图JSON". Produces a structured JSON spec AND a 200-400 word English image prompt with icons, dimension labels, and panel grouping. For pastel/airy ICLR-style figures, route to academic-figure-prompt-pastel instead.
-stages: [writing, research, review]
-tools: [bash]
+name: academic-figure-prompt
+description: Build evidence-grounded FigureSpec v1 artifacts and normalized structured rendering briefs for all academic figure styles (classic-technical, pastel-airy-ui, illustrated-modular, and reference-led).
+metadata:
+  version: "2.0.0"
+  stages: [writing, research, review]
 ---
 
-# Academic Figure Prompt
+# Academic Figure Spec and Prompt (Unified Engine)
 
-Default deliverable: a **JSON figure spec** (`exact_*` text locks + layout blocks + rendering rules). Text prompts only for simple charts or explicit user request.
+Create a structured `academic-figure/FigureSpec@1` first, then compile a normalized structured rendering brief in natural language. This skill serves as the single authoritative prompt compiler for all figure styles.
 
-Schema and examples: → `json-schema.md`  
-Palettes: → `references/palettes.md`  
-Image prompt writing: → `references/image-prompt-guide.md`  
-Icon vocabulary: → `references/architecture-icons.md`  
-Prompt templates: → `references/prompt-templates.md`  
-JSON→prompt conversion: → `references/json-to-prompt.md`  
-Missing info: → `references/missing-info-policy.md`
-## Text Budget (leading rule)
+Load only as needed:
 
-On-figure text is short labels and structure. Formulas, params, and long prose go to **Figure Caption**.
+- spec contract → `json-schema.md` and `figure-spec.schema.json`
+- prompt compilation → `references/json-to-prompt.md`
+- visual brief guidance → `references/image-prompt-guide.md`
+- composition scaffolds → `references/prompt-templates.md`
+- visual anchors & SVMC → `references/architecture-icons.md`
+- palette/style fallback → `references/palettes.md` and optional `references/styles/`
+- missing evidence → `references/missing-info-policy.md`
 
-| element | limit |
-|---------|-------|
-| module title | ≤ 5 words |
-| subcomponent | ≤ 3 words |
-| pipeline step | ≤ 2 words primary + ≤ 2 secondary |
-| formula on figure | ≤ 1 line core only |
-| arrow label | ≤ 3 words |
+## Supported Style Profiles
 
-**Label hierarchy:** Primary (must read at a glance) → Secondary (drop first under space pressure) → Caption (never on figure).
+Select one canonical `style_profile` (or compose with layer overlays from `docs/styles/`):
 
-## Input Contract
+1. **`classic-technical` (经典学术框线风)**:
+   - Clean white background, thin 1.5pt crisp outlines, restrained subtle tints.
+   - High contrast, orthogonal alignment, strict box/arrow engineering topology.
+   - High-density tabular parameters and formal sans-serif typography (Helvetica/Inter).
+2. **`pastel-airy-ui` (现代柔彩空气风)**:
+   - White canvas with floating white cards and faint borders.
+   - Generous negative space, floating pills/tokens, and lightweight curves.
+   - Interface-like feel without multi-level nested boxes.
+3. **`illustrated-modular` (编辑手绘模块风 / 有色语义分区图示风)**:
+   - White canvas with content-driven soft-tinted semantic zones.
+   - Strong same-hue 1.5–2.5px dark outlines and **no drop shadows**.
+   - Asymmetric hero region (~35–55% visual focus) with supporting modules arranged by real semantics.
+   - Content-grounded editorial line art tied to declared semantics, such as documents, graphs, gears, databases, decision badges, or other sourced visual anchors.
+4. **`reference-led` (参考图驱动自由风格)**:
+   - Extracts observable visual grammar (composition, marks, stroke, typography, illustration level) directly from a user-supplied reference image without copying proprietary content or topology.
 
-- Prefer: figure type, paper/section content, modules, labels, formulas, dims, Palette Decision, reference image
-- aspect_ratio (optional, from Figure Plan)
-- Minimum: figure type + subject/method overview
-- Missing: skeleton spec with placeholders; mark 推断 / 待确认
+## Strict Prompt Formatting Standard (Prose Normalization)
 
-- Chinese figure name + type
-- JSON spec (structured intermediate)
-- **Image prompt** (200-400 word English visual brief for the image model)
-- palette name + hex used
-- caption reserve list
-- completeness block (see missing info policy)
+All generated image prompts **MUST be compiled as normalized structured natural language (Compact Prose)**:
 
-## Steps
+> [!IMPORTANT]
+> **Zero Markdown Syntax in Image Prompts**:
+> Never use Markdown formatting symbols (such as `#` headers, `**bold**`, `*italic*`, markdown bullet lists `- item`, backticks, or ASCII markdown tables `| --- |`) inside the prompt string sent to diffusion/image models. Image models frequently hallucinate and render Markdown syntax tokens as literal text on the canvas.
+> Use clean, comma-and-sentence structured prose grouped by numbered container blocks or semantic zones.
 
-### Step 1: Ground content
+### Canonical Prompt Structure
 
-Read available paper/section material. Extract modules, dataflow, symbols, dims.
+1. **Lead & Purpose**: High-level figure goal, aspect ratio, canvas background (pure white `#FFFFFF`), and style profile. Default to an external paper caption with no canvas title. If the user, FigureSpec, or supplied reference explicitly requires a title, lock exactly one short non-banner title and reserve whitespace for it.
+2. **Layout & Hero Focus**: Numbered container panels and proportions (e.g. 3-column sandwich layout, central hero region).
+3. **Semantic Container Blocks**: For each container, describe inner title pill, sub-cards, data flow, and scientific visual metaphors (SVMC: GP curves, candidate tables, apparatus, memory graphs).
+4. **Topology & Connections**: Explicit source -> destination connections, line styles (solid for forward, dashed for feedback/advisory), and edge labels.
+5. **Visual Constraints**: Negative defect constraints (*No unintended or duplicated title banner, no floating text, no gradients, no 3D chrome, no photorealism, no shadows*).
 
-Done when: every claimed module has a source span or is marked placeholder.
+## Text Budget
 
-### Step 2: Reference image (if any)
+Visible text must remain structural and publication-legible:
 
-Extract palette, layout flow, box style, annotation density, special links.
+| Element | Guideline |
+|---|---|
+| Region or module title | usually no more than 5 words |
+| Short label | usually no more than 3 words |
+| Arrow label | usually no more than 3 words |
+| Core formula | at most one short sourced line |
+| Parameters, evidence, caveats | caption only |
 
-Done when: reference constraints are listed or “no reference” is explicit.
+Drop secondary labels before reducing them below readable final-paper size.
 
-### Step 3: Palette
+## Workflow
 
-Do not maintain a private palette table. This skill is **classic family** only (pastel → other skill).
+### 1. Close the Semantic Graph
+Copy component IDs, labels, groups, and typed connections from upstream analysis. Every component and edge needs evidence or an explicit user instruction. Carry `must_not_claim`, `forbidden_connections`, and authority boundaries into the spec.
 
-1. User-specified palette / hex → use it  
-2. Else existing Palette Decision from color-expert → use it  
-3. Else run `references/palettes.md` **Scene → palette decision** (hard constraints → type → venue → domain); if still empty, safe default (≥4 modules → Nature Blue; else Okabe-Ito) and say so
-4. Load hex from `references/palettes.md`
-5. If user signals airy/pastel, **stop** and route to `academic-figure-prompt-pastel` instead of forcing classic borders
+### 2. Choose Composition & Visual Metaphor (SVMC)
+Select composition from scientific narrative (pipeline, loop, asymmetric collage, sandwich, comparison grid). Apply **Scientific Visual Metaphor Compilation (SVMC)**:
+- Surrogate/GP: embedded 2D coordinate plot with blue mean curve, dashed confidence bounds, light-blue shaded ribbon, orange scatter points.
+- Candidate Pool: compact structured grid/table with header band and sourced rows.
+- Experiment: laboratory test-tube rack or simulation block based on sourced evidence.
+- Decision Agents: friendly line-art robot glyph or decision badge.
+- Memory: node-edge network graph or episodic timeline.
 
-Done when: palette name + hex are fixed, family is classic, and the decision branch is stated.
+### 3. Bind Style & Color Tokens Semantically
+Bind paired tokens to semantic regions: background, soft fill, dark outline/title, optional icon accent, and exception color from `docs/palettes.md`.
 
+### 4. Emit FigureSpec v1
+Conform to `figure-spec.schema.json`. Required features include:
+- `style_profile`: `classic-technical`, `pastel-airy-ui`, `illustrated-modular`, or `reference-led`.
+- unique component IDs, closed visible-text list, sources, typed connections with valid endpoints.
+- `prompt_review: requested|confirmed|waived` and conditional `prompt_reviewed_sha256`.
+- declared absolute `workspace_root` and `output_path`.
 
-### Step 4: Emit JSON spec
+### 5. Validate FigureSpec v1
+Immediately before every render or edit, run:
 
-Load `json-schema.md`. Build `layout_and_content_blocks` with `exact_*` locks for every visible word. Include `physical_spec_and_typography` (canvas 89mm/183mm, font hierarchy 10pt/8pt/6pt, stroke hierarchy 1.5pt/1.0pt). White fill + colored borders. Attach rendering rules and caption_note list.
+```bash
+python3 academic-figure-prompt/scripts/validate_figure_spec.py \
+  --strict-v1 --render-ready \
+  --workspace-root <trusted-actual-root> \
+  <spec.json>
+```
 
-Done when checklist passes:
-
-- [ ] every on-figure string is in an `exact_*` field  
-- [ ] aspect_ratio copied from Figure Plan when present  
-- [ ] `physical_spec_and_typography` block present (89mm/183mm width, font 10pt/8pt/6pt, stroke 1.5pt/1.0pt)  
-- [ ] Text Budget respected  
-- [ ] white fill / colored borders only  
-- [ ] ≤ 3 chromatics from chosen palette  
-- [ ] caption reserve lists off-figure content  
-- [ ] no empty module shells  
-- [ ] **every major block has an icon or visual anchor** (see `references/architecture-icons.md`)  
-- [ ] weight status (frozen vs trainable) uses non-emoji pattern (dashed/solid borders, hatching, or pills)  
-- [ ] explicit negative instructions included: `NO emojis, NO lock/fire/lightning icons, NO 3D rendering`
-### Step 5: Write image prompt
-
-Read `references/image-prompt-guide.md` and `references/json-to-prompt.md`. Convert the JSON spec into a 200-400 word English image prompt following the 8-slot structure:
-
-1. Image type (lead with this)
-2. Core subject (one sentence)
-3. Composition/layout (spatial arrangement, flow, grouping)
-4. Supporting modules (icons from `architecture-icons.md`, dimension labels, formulas, token pills, legends)
-5. Visual tone (concrete descriptors, not vague words)
-6. Material/texture (border width, fills, corner radius)
-7. Typography & Physical Specs (font hierarchy: title 10-12pt bold, label 8-9pt, tensor 6-7pt; column width: 89mm single / 183mm double; stroke width: 1.5pt borders, 1.0pt dividers)
-8. Aspect ratio (last)
-
-Use `references/prompt-templates.md` for the template matching the figure type. Every major block must have a visual anchor (icon, thumbnail, or geometric marker). Parameters and long formulas go in caption_note, not on the figure.
-
-Done when: prompt is 200-400 words, all 8 slots present, every JSON block translated to spatial prose (not listed mechanically), and supporting modules included.
-
-### Step 6: Fallback text prompt (rare)
-
-Only if ≤ 3 modules without branches, pure data chart, or user demands prose prompt. Use four-layer skeleton in `json-schema.md` (Global Context → Section/Column Encapsulation → Annotations & Links → Style Specifications with hex & negative constraints).
-
-## Stop
-
-Stop when the Figure Spec Package (JSON spec + image prompt) for the requested figure(s) is delivered, or when figure type and subject are both missing (ask for those two only).
+### 6. Hand off for Rendering & Repair
+When called from `academic-figure-workflow`, pass the validated rendering package forward. Use the current session's native `image_gen.imagegen` interface. If prompt review is `waived`, keep prompt internal as a tool parameter and deliver the rendered image directly.

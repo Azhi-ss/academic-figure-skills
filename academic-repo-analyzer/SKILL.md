@@ -1,124 +1,125 @@
 ---
-id: academic-repo-analyzer
-name: Academic Repo Analyzer
-version: 1.3.0
-description: Quick-understanding doc for ML/DL, AI4Science, and research codebases — task type, stack, architecture, and figure-worthy innovations. Use when the user wants repo analysis, 仓库分析, or to understand a codebase before figure planning.
-stages: [research, review]
-tools: [bash]
+name: academic-repo-analyzer
+description: Analyze ML, AI4Science, and research repositories into an evidence-backed semantic architecture graph for paper figure planning. Use for repository understanding or repo-to-figure tasks; do not use directory counts as visual modules or palette signals.
+metadata:
+  version: "1.4.0"
+  stages: [research, review]
 ---
 
 # Academic Repo Analyzer
 
-Produce a concise **仓库快速理解文档** for downstream figure planning.
+Produce a concise repository understanding document plus a machine-readable **Semantic Architecture Handoff v1**. The handoff describes scientific roles and executable relationships, not the repository's folder layout.
 
-Keywords: → `keywords.md`  
-Missing info: → `references/missing-info-policy.md`
+Read `keywords.md` only when task or framework classification is uncertain. Read `references/missing-info-policy.md` when evidence is sparse.
 
-## Input Contract
+## Input contract
 
-- Prefer: repo path, README, deps, entry scripts, model files, configs
-- Minimum: any one of README / entry script / model file
-- Missing: partial analysis with 推断 / 待确认
+- Prefer: repository path, README, dependencies, entry points, core model/algorithm files, configs, and tests that establish behavior.
+- Minimum: one README, entry point, or core implementation file.
+- Record the source revision when Git metadata is available.
+- Treat names and README claims as leads; verify figure-critical claims in code or tests.
 
-## Output Contract — Quick Understanding Doc
+## Output contract
 
-- **Length: 30–60 lines.** Be concise. This is a summary for figure planning, not a code audit.
-- overview (name, task, framework, architecture one-liner)
-- completeness block (evidence level + what was read)
-- stack details (table, ≤8 rows)
-- architecture analysis (numbered, cite file/class names)
-- workflow (train/inference flow, or "evidence insufficient")
-- figure suggestions (2–4 concrete figures with type labels)
-- Handoff block
+Keep the human summary to roughly 30–70 lines, then emit the handoff block below.
 
-## Steps
+1. Repository overview and scientific task.
+2. Evidence/completeness statement listing what was inspected.
+3. Semantic components and their responsibilities.
+4. Executed/advisory/feedback/persistence connections.
+5. Authority or trust boundaries when agents, tools, evaluators, or external systems are involved.
+6. Two to four figure suggestions using the controlled types.
+7. `Semantic Architecture Handoff v1`.
 
-### Step 1: Scan structure
+Controlled figure types: `Overall Framework`, `Network Architecture`, `Module Detail`, `Comparison/Ablation`, `Data Behavior`.
 
-Locate README, dependency files, entry scripts (`train|main|eval|inference|predict|run|simulate|benchmark|demo|app|serve`), `configs/`, `models|networks|src/`, data loaders. Notebooks (`*.ipynb`) count as entry evidence when no scripts exist.
+## Workflow
 
-For huge repos, sampling is top-level + 3–5 core files ONLY; never run broad keyword scans; state "抽样 / limited sample" in the completeness block.
+### 1. Locate evidence
 
-Done when: tree of key paths exists and each must-read class is read **or** marked missing.
+Find the README, dependency files, entry scripts (`train`, `main`, `eval`, `inference`, `predict`, `run`, `simulate`, `benchmark`, `demo`, `app`, `serve`), configs, core packages, and relevant tests. Top-level directories are discovery cues only; they are never counted as architecture modules.
 
-### Step 2: Task + stack
+For a large repository, inspect the top level and a justified sample of core files. State the sampling boundary. Do not claim full coverage from keyword hits.
 
-Use `keywords.md`. Classify task type and framework from imports, deps, and paths.
+### 2. Classify task and implementation stack
 
-Done when: task type + primary framework are stated with file evidence.
+Identify the scientific objective, primary framework, data/experiment interface, and main execution path with file or symbol evidence. Mark unsupported inferences explicitly.
 
-### Step 3: Architecture + algorithms
+### 3. Build the semantic graph
 
-From model files: backbone family, key modules, losses, training tricks. Prefer evidence over naming guesses.
+Create one component only when it has a distinct scientific or execution responsibility that belongs in a paper figure. A component may span several files, and one file may implement several components.
 
-Done when: architecture summary cites concrete classes/files, or is marked 推断.
+For every component record:
 
-### Step 3.5: Module inventory & count
+- stable `id` and short display `label`;
+- `role`: `input`, `reasoning`, `decision`, `model`, `deterministic_execution`, `observation`, `memory`, `persistence`, `output`, `exception`, or `other`;
+- `figure_importance`: `primary` or `secondary`;
+- evidence pointers such as `path:line`, class, function, test, or config key;
+- one-sentence responsibility and explicit non-authority when scientifically important.
 
-Count **architectural modules** — the major named components that would appear as boxes in a figure. Use this decision order:
+Record connections separately. Use `executed`, `advisory`, `feedback`, `persistence`, or `exception` as the connection kind. Do not infer an edge solely because two files import each other.
 
-1. **`top_level_dirs`** — count top-level Python package directories that contain model/algorithm code (e.g. `models/`, `ldm/`, `whisper/`, `datasets/`). Do NOT count: `tests/`, `docs/`, `scripts/`, `configs/`, `data/` download helpers, `assets/`, `.github/`.
-   - Example: nanoGPT is flat (no package dirs) → do NOT use top_level_dirs.
-   - Example: Whisper has one package `whisper/` → top_level_dirs = 1.
-   - Example: CycleGAN has `models/`, `data/`, `util/`, `options/`, `datasets/` → top_level_dirs = 5 (count only architecture-relevant dirs).
+For agentic systems, identify who may propose, compute, commit observations, update state, stop, or call an external system. These authority boundaries are often more figure-worthy than package boundaries.
 
-2. **`component_scan`** — use ONLY when there are no architecture package dirs (flat repo). Count **named functional components** that a figure would show as boxes:
-   - Count: distinct model/algorithm components (e.g. "Coarse NeRF MLP", "Fine NeRF MLP", "Ray sampler", "Volume renderer").
-   - Do NOT count: every `nn.Module` class (LayerNorm is not a figure box), data loader scripts, config files, utility scripts, test files.
-   - Do NOT count files — count the functional components those files implement.
-   - A single `model.py` containing one neural network = 1 component, even if it defines 5 helper classes.
+### 4. Derive visual groups
 
-- `value`: integer count. Never infer from keyword matches alone.
-- State the counting rationale in one line after the Handoff block.
+Group related components by responsibility or narrative stage. Report:
 
-### Step 4: Emit quick-understanding doc
+- `semantic_component_count`: number of evidence-backed components;
+- `visual_group_count`: number of meaningful regions in the proposed figure;
+- `peer_module_count`: largest set of genuinely equivalent sibling components.
 
-```markdown
-# 仓库快速理解文档
-## 仓库概览
-| 项目 | 内容 |
-| 仓库名称 / 任务类型 / 核心框架 / 主要架构 / 一句话描述 | ... |
-## 信息完整度说明
-## 技术栈详情
-## 模型架构分析
-## 工作流程
-## 配图建议（→ paper-analyzer）
-## Handoff (→ paper-analyzer)
-module_count: source: top_level_dirs|component_scan; value: <int>
-domain: <controlled_enum>
-figure_types: <controlled_figure_types>
-evidence: <high|partial|sparse>
+These counts help layout planning. **None of them selects a palette by itself.** A four-stage timeline, four peer encoders, and four authority domains require different visual treatment.
+
+### 5. Emit the handoff
+
+Use JSON so downstream skills do not reinterpret free-form Markdown:
+
+```json
+{
+  "schema": "academic-figure/SemanticArchitecture@1",
+  "source_revision": "<commit-or-unknown>",
+  "domain": "<controlled-domain>",
+  "evidence_level": "high|partial|sparse",
+  "components": [
+    {
+      "id": "policy",
+      "label": "Typed Policy",
+      "role": "decision",
+      "figure_importance": "primary",
+      "responsibility": "Proposes the next typed action.",
+      "evidence": ["path/to/file.py:ClassName"]
+    }
+  ],
+  "connections": [
+    {
+      "from": "policy",
+      "to": "harness",
+      "kind": "advisory",
+      "label": "typed proposal",
+      "evidence": ["path/to/controller.py:function"]
+    }
+  ],
+  "authority_boundaries": ["<short evidence-backed statement>"],
+  "semantic_component_count": 0,
+  "visual_group_count": 0,
+  "peer_module_count": 0,
+  "figure_types": ["Overall Framework"],
+  "forbidden_claims": ["<claims the figure must not imply>"]
+}
 ```
 
-**Controlled domain enum** (pick exactly one):
-`CV`, `NLP`, `Speech/Audio`, `RL`, `Robotics`, `Multimodal`, `TimeSeries`, `Generative`, `Protein/AI4Science`, `GNN/ScientificComputing`, `ScientificComputing(non-ML)`, `Other`
+Controlled domain: `CV`, `NLP`, `Speech/Audio`, `RL`, `Robotics`, `Multimodal`, `TimeSeries`, `Generative`, `Protein/AI4Science`, `GNN/ScientificComputing`, `ScientificComputing(non-ML)`, or `Other`.
 
-**Controlled figure_types** (pick 2–4 from this list, comma-separated):
-`Overall Framework`, `Network Architecture`, `Module Detail`, `Comparison/Ablation`, `Data Behavior`
+The example is structural, not content to copy. Populate only evidence-backed values; do not leave fabricated sample components in the final handoff.
 
-- **Overall Framework** — end-to-end pipeline / data flow between components
-- **Network Architecture** — internal layer structure, module hierarchy, skip connections
-- **Module Detail** — zoom into one mechanism (attention, loss, sampling)
-- **Comparison/Ablation** — variants, baselines, result grids
-- **Data Behavior** — curves, heatmaps, embeddings, qualitative results
+## Sparse evidence
 
-Done when: Output Contract fields are filled; figure suggestions use controlled type names and explain what each figure shows.
-
-## Sparse-input cases
-
-| gap | action |
-|-----|--------|
-| no README | infer from code; label as structure-inferred |
-| no entry scripts | module-level understanding only |
-| no model files | stack/task only; soft architecture language |
-| huge repo | sample top-level + 3–5 core files ONLY; never run broad keyword scans; state 抽样 / limited sample in the completeness block |
-| non-ML / scientific code | use entry scripts + component_scan; architecture language soft; flows marked 证据不足 / evidence insufficient when no train/inference loop exists |
-| almost nothing | pre-analysis + minimum materials list (README → deps → entry → model → config) |
-
-## Tooling cues
-
-Prefer the environment's file/search tools. Typical digs: dependency files, `class.*Model|Network|Transformer`, `loss|criterion`, model package entrypoints.
+- No README: infer cautiously from code and label the inference.
+- No entry point: limit the result to component-level structure.
+- No core implementation: report task/stack only and omit unsupported edges.
+- Almost empty repository: provide the minimum missing materials instead of inventing an architecture.
 
 ## Stop
 
-Stop when the quick-understanding doc is delivered. Suggest paper-analyzer only if the user wants figure planning next.
+Stop when the human summary and valid handoff are delivered. Suggest figure planning only when the user wants the next stage.

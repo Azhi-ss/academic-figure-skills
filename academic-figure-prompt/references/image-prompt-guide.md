@@ -1,103 +1,109 @@
-# Image Prompt Guide for Academic Architecture Diagrams
+# Image Prompt Guide for Academic Figures
 
-How to turn a JSON figure spec into a production-grade image prompt for GPT-Image-2, Gemini NanoBanana, or similar models.
+An image prompt is a rendering adapter for FigureSpec v1. It should preserve evidence-backed topology and a concrete visual grammar while avoiding production instructions that the model may draw as text.
 
-Adapted from the 8-slot structure of `gpt-image-2-prompting`: a strong prompt reads like a visual brief, not a pile of style words.
+## Before writing
 
-## The 8 slots, in order
+Confirm:
 
-1. **Image type** — always lead with this
-2. **Core subject** — what architecture/system is shown
-3. **Composition / layout** — spatial arrangement, flow direction, grouping
-4. **Supporting modules** — icons, formulas, dimension labels, legends, token pills
-5. **Visual tone** — concrete descriptors, not vague taste words
-6. **Material / texture** — line weight, panel fills, border style
-7. **Typography / labeling** — font family, size hierarchy, label placement
-8. **Aspect ratio** — always last
+- the figure's communication goal and hero element;
+- the closed component and connection lists;
+- exact visible strings and caption-only material;
+- the selected style profile or extracted reference grammar;
+- backend suitability for text density and topology complexity.
 
-## Slot-by-slot guidance
+If the user supplied a reference image, pass that image directly to a capable renderer. The prose prompt describes what to transfer—composition, stroke, fill, typography, spacing, illustration level—and what not to copy—scientific content, labels, branding, or method topology.
 
-### 1. Image type
+## Prompt structure
 
-Start with the exact format. For academic figures:
+Use this order when it helps; omit slots that add no information.
 
-- `flat vector academic architecture diagram`
-- `scientific infographic, architecture overview`
-- `academic network architecture diagram with panel grouping`
-- `module detail diagram with formula annotations`
+1. **Image type and communication goal**
+2. **Hero composition and semantic regions**
+3. **Required components and typed connections**
+4. **Visible-text closed list**
+5. **Style grammar and semantic color tokens**
+6. **Typography, spacing, and publication-scale legibility**
+7. **Observed-defect-oriented negative constraints**
+8. **Aspect ratio**
 
-Do NOT start with style words ("professional", "beautiful"). The image type comes first.
+### Image type and goal
 
-### 2. Core subject
+Prefer precise descriptions:
 
-One sentence naming the system and its key contribution:
+- `illustrated modular academic systems framework`
+- `technical vector network architecture`
+- `editorial scientific mechanism infographic`
+- `comparison figure with deterministic plots and a conceptual inset`
 
-> "Decoder-only Transformer (nanoGPT/GPT-2 architecture) showing token embeddings through N repeated blocks to language model head."
+Do not lead with unsupported venue stereotypes such as “Nature style” or vague taste words such as “premium.” Default to no global canvas title because the figure title normally belongs in the paper's external caption. If the user, FigureSpec, or supplied reference explicitly requires one, render exactly one short title with reserved whitespace and never turn it into a full-width banner.
 
-> "Neural radiance field (NeRF) MLP with positional encoding, coarse-to-fine hierarchical sampling, and volume rendering."
+### Composition
 
-### 3. Composition / layout
+Describe proportions, hierarchy, and reading order:
 
-Describe the spatial arrangement concretely:
+- `a research loop occupies the left 40%; two supporting regions stack on the right`;
+- `a central mechanism is twice the visual weight of the context panels`;
+- `three responsibility zones are separated by a labeled authority boundary`.
 
-- Flow direction: `vertical bottom-to-top`, `horizontal left-to-right`, `two-column with encoder on left and decoder on right`
-- Grouping: `grouped into colored panels`, `nested inside a large container`
-- Visual hierarchy: `largest element is the central transformer stack`, `side panel shows GPT-2 size comparison`
-- Connections: `residual arrows curve around the right edge`, `dashed weight-tying arrow loops from output back to embeddings`, `cross-attention arrows bridge horizontally between columns`
+Use pipelines only for genuinely sequential executed flows. Loops, storyboards, asymmetric modular collages, layered boundaries, and central mechanisms are first-class layouts. Allow one level of nested subcards when the scientific hierarchy needs it.
 
-### 4. Supporting modules
+### Components and topology
 
-This is what separates a diagram from a bunch of labeled boxes. Include:
+Describe only FigureSpec components. State connection endpoints and line semantics exactly, then say that no other inter-module connections should appear. Keep exception and no-budget branches visibly distinct from normal execution.
 
-| module | when to use | example prompt phrase |
-|--------|-------------|----------------------|
-| dimension labels | always | `small grey text "(B,N,D)" beneath each block` |
-| formula | when ≤1 line core formula | `formula "x = x + attn(LN(x))" inside the residual arrow` |
-| token/pill | data tokens, status tags | `black rounded pill "CLS", grey pills "SEP" "PAD", blue pill "[Tune]"` |
-| icon/thumbnail | every major module | `small monochrome neural network node icon inside the embedding block` |
-| legend | when colors encode meaning | `legend at bottom: blue=dashed=frozen, orange=solid=trainable` |
-| parameter panel | side information | `right margin: small borderless text listing model sizes "124M / 350M / 774M / 1558M"` |
-| data thumbnail | data types | `tiny mel spectrogram thumbnail`, `small attention heatmap grid`, `mini token sequence bar chart` |
+### Supporting visuals
 
-### 5. Visual tone
+Use an icon, mini-plot, token, formula, dimension, badge, or legend only when it explains sourced content. They are not mandatory decorations.
 
-Translate vague words into concrete instructions:
+| Visual | Use when |
+|---|---|
+| Hero illustration | It communicates the main mechanism or loop faster than boxes |
+| Line-art anchor | It disambiguates a major semantic role |
+| Formula/dimension | It is essential, sourced, and readable at final scale |
+| Legend | Two or more non-obvious encodings require decoding |
+| Status pill or hatch | A state such as fixed/trainable or advisory/executed must be dual-encoded |
 
-| vague | concrete |
-|-------|----------|
-| professional | clean grid alignment, consistent border radius, no overlapping elements |
-| academic/scientific | thin 1.5px outlines, muted palette, sans-serif labels, generous but not empty spacing |
-| publication-ready | 300dpi equivalent sharpness, no anti-aliasing artifacts, text readable at thumbnail size |
-| modern | rounded 4-8px corners, subtle panel separation, grouped color coding |
-| clean | no decorative elements, no gradients, no 3D, no shadows except panel grouping |
+### Style grammar
 
-### 6. Material / texture
+Specify observable decisions instead of a palette name alone:
 
-Specify exactly:
+- composition and permitted nesting;
+- flat/tinted/white fills and shadow policy;
+- stroke weight, curvature, joins, and arrowheads;
+- technical, rounded, or hand-drawn typography character;
+- monochrome, limited-accent, or illustrated line art;
+- paired region tokens: soft fill, dark outline/title, optional icon accent.
 
-- `all boxes: white (#FFFFFF) fill with 1.5-2px colored borders, 4-6px corner radius`
-- `panels: very light tinted fill (#F0F4FF or #F5F5F5) with 1px same-hue darker border`
-- `arrows: dark grey (#4D4D4D), solid for forward flow, dashed for feedback/skip`
-- `icons: monochrome line art in the block's border color, no filled color icons`
-- `NO gradients, NO drop shadows on individual boxes, NO 3D effects`
+Examples:
 
-### 7. Typography / labeling
+- `illustrated modular: low-saturation region fills, 3px-equivalent same-hue dark outlines, rounded hand-lettered headings, no shadows`;
+- `technical vector: mostly white modules, restrained tints for groups, 1.5px-equivalent strokes, neutral sans-serif labels`;
+- `airy UI: white floating panels, restrained soft shadow, color carried by pills and curves`.
 
-- Font: `clean sans-serif (Helvetica/Arial/Inter), labels 12-14pt, titles 16-18pt semibold`
-- Module titles inside boxes: ≤5 words
-- Secondary labels (dimensions, notes): 9-10pt grey
-- Every visible text string must be specified verbatim in the prompt
-- Caption material (long formulas, parameter lists) should be noted as "not rendered — see caption"
+### Typography
 
-### 8. Aspect ratio
+Use a relative hierarchy and final-scale constraint instead of conflicting absolute point sizes:
 
-Always end with: `Aspect ratio 16:9.` or `4:3.` etc.
+- region headings clearly dominant;
+- module labels readable at the intended 89 mm or 183 mm width;
+- secondary notes omitted before they become sub-7pt equivalent;
+- exact visible strings explicitly listed;
+- no JSON keys, hex values, `WHITE FILL`, `300 DPI`, or production notes rendered.
 
-## Common mistakes to avoid
+An image model cannot guarantee exact text. RenderAudit must inspect it; text-heavy figures should use deterministic vector text or a hybrid overlay.
 
-1. **Listing boxes without layout** — "Box A, Box B, arrow" tells the model nothing about spatial arrangement
-2. **Too much on-figure text** — parameters like `D=8 W=256 skip=[4]` go in caption, not on the figure
-3. **No visual anchors** — every major block needs an icon, thumbnail, or distinct shape, not just a title
-4. **Forgetting supporting modules** — dimension labels, legends, and token pills make the figure feel designed
-5. **Vague style words** — "professional", "clean", "modern" must be translated to concrete visual instructions
-6. **Nested box-in-box** — use panel backgrounds + grouped elements instead of one box containing another box containing another
+## Common failures
+
+1. Equal-weight boxes erase the scientific focal point.
+2. Directory order or JSON order is mistaken for narrative order.
+3. Style is reduced to hex values while composition and marks remain generic.
+4. Decorative icons, dimensions, legends, and formulas are added without evidence.
+5. A reference image is summarized in prose but not supplied to the image tool.
+6. Production instructions leak into visible labels.
+7. Successful API return is mistaken for publication readiness.
+8. An unintended, duplicated, or full-width title banner wastes vertical figure height or conflicts with the paper's LaTeX caption.
+
+## Completion
+
+A prompt is ready when it is the shortest lossless rendering brief for FigureSpec, the reference assets are attached appropriately, and RenderAudit has objective checks for topology, text, layout, background, accessibility, and style fidelity.

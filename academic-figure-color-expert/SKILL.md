@@ -1,75 +1,101 @@
 ---
-id: academic-figure-color-expert
-name: Academic Figure Color Expert
-version: 1.3.2
-description: Make palette decisions for academic figures — choose between classic and pastel style families, then recommend a colorblind-safe scheme with exact hex values based on venue, domain, figure type, and module count. Use this skill whenever the user asks about colors, palettes, style for a figure, including "用什么配色", "推荐配色", "what palette for NeurIPS", "Nature Blue", "classic vs pastel", "色盲友好配色", or any color-related question about academic diagrams.
-stages: [writing, research]
-tools: [bash]
+name: academic-figure-color-expert
+description: Choose a reference-aware, accessible color and surface system for academic figures. Use for palette, visual-style, semantic-zone, print, or colorblind questions about classic technical diagrams, airy UI-like figures, and illustrated modular academic infographics.
+metadata:
+  version: "1.4.0"
 ---
 
 # Academic Figure Color Expert
 
-Produce a reusable **Palette Decision**. Hex tables, venue maps, and **scene→style→palette** recipes live in one place:
+Produce a reusable **Palette Decision**. Read `references/palettes.md` for style profiles, paired semantic-zone tokens, classic presets, and scene recipes.
 
-→ Read `references/palettes.md` (presets + **Style family** + **Scene → palette decision** + recipes).
+## Decision priorities
 
-Always decide **style family** (classic vs pastel) before naming a classic preset.
+Apply these in order:
 
+1. Explicit user requirements, including requested colors, style, print mode, or accessibility constraints.
+2. A supplied reference image's **visual grammar**. Extract its composition, panel surfaces, outline strength, shadow treatment, typography character, icon style, nesting depth, density, arrow grammar, and fill/outline pairings. Match the grammar, not the reference's labels, branded assets, or method content.
+3. Hard production constraints such as grayscale printing and text contrast.
+4. Figure semantics and the number of distinct visual zones.
+5. An existing paper-wide visual system or explicit submission rule.
+6. A conservative default when no stronger evidence exists.
+
+`module_count` is a density hint, not a palette switch. Do not choose monochrome merely because a repository exposes many modules.
+
+## Style profiles
+
+- **`classic-technical`**: restrained vector geometry, usually white or near-white modules, fine borders, compact technical labels.
+- **`pastel-airy-ui`**: white cards, subtle separation, floating tokens and pills, generous whitespace.
+- **`illustrated-modular`**: soft tinted semantic zones, strong same-hue outlines, no shadow, an asymmetric hero region, one-level subcards, controlled hand-drawn line icons, and rounded display headings with readable body text.
+- **`reference-led`**: override defaults with observed reference grammar; this may remain technical, airy, illustrated, or mixed and must not default to hand-drawn panels.
+
+Profiles are composable when a reference clearly combines their properties. Avoid accidental mixtures; state which properties came from the reference and which are defaults.
 
 ## Principles
 
-1. Color carries information, not decoration.
-2. ≤ 3 chromatic colors + neutrals per figure.
-3. Colorblind-safe by default; dual-encode categories.
-4. ≥ 4 modules → monochrome (Nature Blue) beats polychrome busyness.
+1. Bind color to stable meaning rather than module order.
+2. Use only as many chromatic zones as the figure needs; repeat colors for repeated roles.
+3. Pair every colored zone with shape, label, border style, or iconography so meaning survives grayscale and color-vision differences.
+4. Specify each illustrated zone as `{soft_fill, dark_outline, title_text, icon_accent}` rather than a bare list of hex values.
+5. Keep small body text neutral (`#24323D` or another validated dark neutral). Reserve colored text for headings or validate it at the actual size and background.
 
-## Input Contract
+## Input contract
 
-- Prefer: venue, domain, figure type, module count, reference image, accessibility / print constraints
-- Minimum: any one of venue / figure type / domain
-- Missing info: follow `references/missing-info-policy.md`; still emit a conservative Palette Decision
+- Prefer: reference image, explicit visual preference, figure type, semantic zones, existing paper-wide colors, and print/accessibility constraints.
+- Treat module count only as a layout-density signal.
+- Minimum: any one of reference image, visual preference, figure type, or concrete production constraint. Venue/domain names without a real constraint do not choose a palette.
+- If information is missing, follow `references/missing-info-policy.md` and still emit a conservative decision.
 
-## Output Contract — Palette Decision
+## Output contract — Palette Decision
 
 Always include:
 
-- recommended palette + one alternate
-- primary / secondary / tertiary (+ neutrals) hex
-- **semantic color binding** (Data/Input, Backbone, Loss, Output, Frozen roles mapped to consistent hex)
-- reason (venue / domain / module count)
-- accessibility note
-- handoff block ready for prompt skills
-## Steps
+- canonical style profile, optional named `style_preset`/layer, and decision branch (`user`, `reference`, `scene`, or `default`)
+- a short reference-grammar summary, or `no reference supplied`
+- recommended palette/token set and one alternate
+- canvas, body text, arrow, and neutral-divider colors
+- semantic-zone bindings using paired tokens when zones are tinted
+- accessibility and grayscale notes
+- a copy-ready handoff for the prompt skill
 
-### Step 1: Collect constraints
+## Workflow
 
-Done when you have recorded (or marked missing): venue, domain, figure type, module count, colorblind/print needs, user color preference, reference image cues.
+### 1. Record constraints and visual grammar
 
-### Step 2: Decide style family + palette
+Record explicit user requirements first. If a reference exists, describe its observable grammar without copying its content. Do not seek or invent venue/domain stereotypes; record only concrete submission or paper-wide constraints.
 
-1. Classic vs pastel — `references/palettes.md` **Style family first**
-2. If pastel → hand off scheme P1/P2/P3 to `academic-figure-prompt-pastel` (hex from that skill)  
-3. If classic → apply **Scene → palette decision** (hard constraints → figure type → venue → domain → vibe)  
-4. Name primary + alternate; state branch (`user` / `scene` / `default`)
+### 2. Select profile and palette
 
-Done when: family + primary + alternate are explicit, with the decision checklist fields from `references/palettes.md`.
+Use `references/palettes.md`:
 
+- `classic-technical` → choose a classic preset or a custom restrained set
+- `pastel-airy-ui` → choose P1/P2/P3 or reference-derived token colors
+- `illustrated-modular` → choose paired semantic-zone tokens, starting from I1 when no reference colors are available
+- `reference-led` → derive the actual surface/composition grammar first, then choose only compatible tokens
 
-### Step 3: Emit hex + handoff
+Monochrome is appropriate when hierarchy is the main distinction, grayscale reproduction dominates, or the user/reference asks for it. Multiple low-saturation zones are appropriate when distinct subsystems must be scanned quickly.
 
-Load the chosen preset from `references/palettes.md`. Apply the **Semantic Color Binding Contract** to map structural domain roles (Data, Backbone, Loss, Output, Frozen) to consistent hex values across all paper panels. Output the Palette Decision format.
+### 3. Bind semantic zones
 
-Done when: every role hex is filled, semantic binding stated, accessibility stated, and the handoff block is copy-ready for `academic-figure-prompt`.
+Map colors to the figure's actual roles. For agentic science, typical roles include reasoning/planning, evidence/context, deterministic execution, advisory/uncertainty, memory/provenance/recovery, output/report, and exception/stop. Do not force neural-network roles such as Backbone or Loss onto an agent workflow.
+
+### 4. Emit the handoff
+
+Include exact paired tokens, the intended carrier for each color (panel fill, outline, title, icon, arrow), contrast notes, and any reference-derived exceptions.
+
 ## Sparse-input cases
 
-| case | action |
-|------|--------|
-| no venue | infer from domain / reference; else Okabe-Ito (or Nature Blue if ≥ 4 modules) |
-| accessibility unspecified | assume colorblind-safe required |
-| only vibe words (“高级/科技/柔和”) | map to 1–2 presets with concrete hex |
-| only reference image | extract hues; academicize if needed (white fill, border color, ≤ 3 chromatics) |
-| figure type unknown | default framework advice; note module-detail vs comparison alternates |
+| Case | Action |
+|---|---|
+| No reference/style cue | Use figure semantics; otherwise choose Okabe-Ito for classic, P2 for airy UI, or I1 for illustrated modular |
+| Accessibility unspecified | Use colorblind-aware dual encoding, validate text and graphical contrast, and inspect the rendered output |
+| Only vibe words | Map to one or two profiles and explain the concrete surface/outline differences |
+| Only reference image | Derive grammar and paired tokens from it; preserve academic legibility rather than forcing white modules |
+| Figure type unknown | Offer a framework-oriented decision and identify what would change for a detail or comparison figure |
 
 ## Stop
 
-Stop when the user has a Palette Decision for the current figure, or when zero constraints and zero artifacts exist (then ask for venue / figure type / domain).
+Stop when the user has a complete Palette Decision, or when no constraint and no
+artifact exists; in that case ask only for a reference, figure type/content
+relationship, or concrete production/accessibility constraint. A domain name by
+itself is not enough to choose color.

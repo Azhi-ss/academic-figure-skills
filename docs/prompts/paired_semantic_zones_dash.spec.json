@@ -1,0 +1,135 @@
+{
+  "schema": "academic-figure/FigureSpec@1",
+  "figure_id": "dash_fig1_semantic_zones",
+  "plan_revision": "plan-1",
+  "sources": [
+    {
+      "kind": "paper",
+      "uri_or_path": "https://arxiv.org/abs/2608.00641",
+      "revision_or_page": "Figure 1",
+      "evidence": "DASH paired semantic color zones for modular AI4Science scientific pipelines"
+    }
+  ],
+  "prompt": "Figure Type and Communication Goal:\nModular scientific infographic with paired semantic color zones on pure white canvas (#FFFFFF), aspect ratio 16:9, illustrating the modular paired token color system of DASH (arXiv:2608.00641 Figure 1). No top title banner across the canvas.\n\nComposition and Layout Proportions:\nThree side-by-side rounded semantic functional panels filling 100% of the canvas height with crisp 2px colored outlines and soft pastel fills. Left Panel (Representation Zone - Peach, 28% width), Center Hero Panel (Optimization Core Zone - Mint, 44% width), Right Panel (Evaluation & Memory Zone - Lavender, 28% width).\n\nStructured Panels and SVMC Visual Metaphors:\n1. Left Panel (Representation Zone, Peach fill #FFF7ED, Dark Orange 2px outline #C2410C): Top inner pill header 'Input & Representation Zone' (Dark Orange title #9A3412). Inside contains structured cards for Molecule Graph Embedding, Feature Tokenizer, and Domain Prior Knowledge with clean line-art icons.\n2. Center Hero Panel (Optimization Core Zone, Mint-Green fill #F0FDF4, Dark Green 2px outline #15803D): Top inner pill header 'Active Optimization Core' (Dark Green title #166534). Inside contains Surrogate Model Gaussian Process fit with confidence ribbon, Acquisition Function Pareto Frontier, and Multi-Objective Candidate Generator with an embedded 2D coordinate plot and candidate table.\n3. Right Panel (Evaluation & Memory Zone, Lavender fill #F5F3FF, Dark Purple 2px outline #6D28D9): Top inner pill header 'Evaluation & Memory Zone' (Dark Purple title #5B21B6). Inside contains Automated Assay Feedback with line-art test tubes, Episodic Replay Buffer, and Global Knowledge Graph with interconnected nodes.\n\nTopology and Typed Connections:\nRepresentation Zone -> Active Optimization Core -> Candidate Generator (solid forward data flow).\nCandidate Generator -> Automated Assay Feedback (solid execution bridge).\nAutomated Assay Feedback -> Episodic Replay Buffer -> Optimization Core (dashed feedback loop).\nDraw no other inter-module connections.\n\nVisible Text Closed List:\nPanel 1: 'Input & Representation Zone', 'Molecule Graph Embedding', 'Feature Tokenizer', 'Domain Prior Knowledge'.\nPanel 2: 'Active Optimization Core', 'Surrogate Model GP', 'Confidence ribbon', 'Acquisition Pareto Frontier', 'Candidate Generator'.\nPanel 3: 'Evaluation & Memory Zone', 'Automated Assay Feedback', 'Episodic Replay Buffer', 'Global Knowledge Graph'.\n\nStyle Grammar and Paired Color Tokens:\nSurface profile: illustrated-modular (Paired Semantic Color Zones).\nZone 1 (Peach): Fill #FFF7ED, Outline #C2410C, Title #9A3412, Icon Accent #EA580C.\nZone 2 (Mint): Fill #F0FDF4, Outline #15803D, Title #166534, Icon Accent #16A34A.\nZone 3 (Lavender): Fill #F5F3FF, Outline #6D28D9, Title #5B21B6, Icon Accent #7C3AED.\nTypography: Clean legible sans-serif body text, dark readable titles with publication-grade contrast.\n\nNegative Constraints and Exclusions:\nNo overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No drop shadows. No 3D chrome. No dark canvas background. No transparent background. Aspect ratio 16:9.",
+  "aspect_ratio": "16:9",
+  "final_width_mm": 183,
+  "visible_text": [
+    "Input & Representation Zone",
+    "Molecule Graph Embedding",
+    "Feature Tokenizer",
+    "Domain Prior Knowledge",
+    "Active Optimization Core",
+    "Surrogate Model GP",
+    "Confidence ribbon",
+    "Acquisition Pareto Frontier",
+    "Candidate Generator",
+    "Evaluation & Memory Zone",
+    "Automated Assay Feedback",
+    "Episodic Replay Buffer",
+    "Global Knowledge Graph"
+  ],
+  "topology": {
+    "components": [
+      {"id": "mol_embed", "label": "Molecule Graph Embedding", "role": "input"},
+      {"id": "feat_tok", "label": "Feature Tokenizer", "role": "representation"},
+      {"id": "domain_prior", "label": "Domain Prior Knowledge", "role": "prior"},
+      {"id": "surrogate_gp", "label": "Surrogate Model GP", "role": "model"},
+      {"id": "acq_pareto", "label": "Acquisition Pareto Frontier", "role": "acquisition"},
+      {"id": "cand_gen", "label": "Candidate Generator", "role": "proposal"},
+      {"id": "assay_feedback", "label": "Automated Assay Feedback", "role": "experiment"},
+      {"id": "replay_buffer", "label": "Episodic Replay Buffer", "role": "memory"},
+      {"id": "know_graph", "label": "Global Knowledge Graph", "role": "knowledge"}
+    ],
+    "connections": [
+      {"id": "p1", "from": "mol_embed", "to": "feat_tok", "kind": "executed", "direction": "forward"},
+      {"id": "p2", "from": "feat_tok", "to": "surrogate_gp", "kind": "executed", "direction": "forward"},
+      {"id": "p3", "from": "domain_prior", "to": "surrogate_gp", "kind": "executed", "direction": "forward"},
+      {"id": "p4", "from": "surrogate_gp", "to": "acq_pareto", "kind": "executed", "direction": "forward"},
+      {"id": "p5", "from": "acq_pareto", "to": "cand_gen", "kind": "executed", "direction": "forward"},
+      {"id": "p6", "from": "cand_gen", "to": "assay_feedback", "kind": "executed", "direction": "forward"},
+      {"id": "p7", "from": "assay_feedback", "to": "replay_buffer", "kind": "executed", "direction": "forward"},
+      {"id": "p8", "from": "replay_buffer", "to": "know_graph", "kind": "executed", "direction": "forward"},
+      {"id": "p9", "from": "replay_buffer", "to": "surrogate_gp", "kind": "feedback", "direction": "forward", "line": "dashed"}
+    ],
+    "groups": [
+      {
+        "id": "zone_rep",
+        "label": "Input & Representation Zone",
+        "component_ids": ["mol_embed", "feat_tok", "domain_prior"]
+      },
+      {
+        "id": "zone_opt",
+        "label": "Active Optimization Core",
+        "component_ids": ["surrogate_gp", "acq_pareto", "cand_gen"]
+      },
+      {
+        "id": "zone_eval",
+        "label": "Evaluation & Memory Zone",
+        "component_ids": ["assay_feedback", "replay_buffer", "know_graph"]
+      }
+    ],
+    "authority_boundaries": []
+  },
+  "layout": {
+    "composition": "pipeline",
+    "hero": "zone_opt",
+    "reading_order": [
+      "mol_embed", "feat_tok", "domain_prior",
+      "surrogate_gp", "acq_pareto", "cand_gen",
+      "assay_feedback", "replay_buffer", "know_graph"
+    ],
+    "group_regions": {
+      "zone_rep": "left 28%",
+      "zone_opt": "center 44%",
+      "zone_eval": "right 28%"
+    },
+    "nesting_depth": 1,
+    "whitespace": "balanced",
+    "routing_notes": ["Paired semantic color zones (Peach, Mint, Lavender)", "2px crisp dark borders"]
+  },
+  "style_profile": "illustrated-modular",
+  "style_preset": "有色语义分区图示风",
+  "style_source": "scene",
+  "style_grammar": {
+    "marks": "distinct semantic zones with paired fill and dark matching outlines",
+    "fills": "opaque white background with soft pastel tinted zone containers",
+    "strokes": "2px-equivalent matching dark zone borders",
+    "typography": "clean legible sans-serif with strong title contrast",
+    "shadow": "none",
+    "density": "balanced"
+  },
+  "semantic_color_roles": {
+    "zone_rep": {
+      "fill": "#FFF7ED",
+      "outline": "#C2410C",
+      "title": "#9A3412",
+      "icon_accent": "#EA580C"
+    },
+    "zone_opt": {
+      "fill": "#F0FDF4",
+      "outline": "#15803D",
+      "title": "#166534",
+      "icon_accent": "#16A34A"
+    },
+    "zone_eval": {
+      "fill": "#F5F3FF",
+      "outline": "#6D28D9",
+      "title": "#5B21B6",
+      "icon_accent": "#7C3AED"
+    }
+  },
+  "reference_images": [],
+  "must_not_claim": ["automatic wet-lab synthesis verification"],
+  "forbidden_connections": ["mol_embed -> assay_feedback"],
+  "negative_constraints": [
+    "no overall top title banner across canvas",
+    "no markdown formatting symbols (#, **, -, |)",
+    "no drop shadows",
+    "no 3D chrome",
+    "no dark canvas background",
+    "no transparent background"
+  ],
+  "prompt_review": "waived",
+  "workspace_root": "/home/dministrator/Lab/clones/academic-figure-skills",
+  "output_path": "/home/dministrator/Lab/clones/academic-figure-skills/docs/gallery/paired_semantic_zones_dash.jpg"
+}

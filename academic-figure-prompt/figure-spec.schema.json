@@ -1,0 +1,298 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Azhi-ss/academic-figure-skills/schemas/figure-spec-v1.json",
+  "title": "Academic FigureSpec v1",
+  "description": "Machine-checkable handoff from figure planning to rendering. Cross-reference constraints such as unique component ids and valid connection endpoints are enforced by validate_figure_spec.py.",
+  "type": "object",
+  "required": [
+    "schema",
+    "figure_id",
+    "plan_revision",
+    "sources",
+    "prompt",
+    "aspect_ratio",
+    "final_width_mm",
+    "visible_text",
+    "layout",
+    "topology",
+    "style_profile",
+    "style_grammar",
+    "semantic_color_roles",
+    "reference_images",
+    "must_not_claim",
+    "forbidden_connections",
+    "negative_constraints",
+    "prompt_review",
+    "workspace_root",
+    "output_path"
+  ],
+  "properties": {
+    "schema": {
+      "const": "academic-figure/FigureSpec@1"
+    },
+    "figure_id": {
+      "$ref": "#/$defs/id"
+    },
+    "plan_revision": {
+      "oneOf": [
+        {"type": "string", "minLength": 1},
+        {"type": "integer", "minimum": 0}
+      ]
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/source"}
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aspect_ratio": {
+      "enum": ["16:9", "3:2", "4:3", "1:1"]
+    },
+    "final_width_mm": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "visible_text": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {"type": "string", "minLength": 1},
+          {
+            "type": "object",
+            "required": ["text"],
+            "properties": {
+              "text": {"type": "string", "minLength": 1},
+              "component_id": {"$ref": "#/$defs/id"},
+              "priority": {"enum": ["primary", "secondary", "optional"]}
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
+    },
+    "layout": {
+      "type": "object",
+      "required": ["composition", "hero", "reading_order"],
+      "properties": {
+        "composition": {
+          "enum": [
+            "pipeline",
+            "loop",
+            "storyboard",
+            "layered_boundary",
+            "central_mechanism",
+            "modular_collage",
+            "comparison_grid",
+            "custom"
+          ]
+        },
+        "hero": {"$ref": "#/$defs/id"},
+        "reading_order": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/id"}
+        },
+        "group_regions": {"type": "object"},
+        "nesting_depth": {"type": "integer", "minimum": 0},
+        "whitespace": {"enum": ["compact", "balanced", "open"]},
+        "routing_notes": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": true
+    },
+    "topology": {
+      "type": "object",
+      "required": ["components", "connections"],
+      "properties": {
+        "components": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/component"}
+        },
+        "connections": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/connection"}
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "component_ids"],
+            "properties": {
+              "id": {"$ref": "#/$defs/id"},
+              "label": {"type": "string"},
+              "component_ids": {
+                "type": "array",
+                "items": {"$ref": "#/$defs/id"}
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "authority_boundaries": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": true
+    },
+    "style_profile": {
+      "oneOf": [
+        {"$ref": "#/$defs/styleProfileId"},
+        {
+          "type": "object",
+          "required": ["id"],
+          "properties": {
+            "id": {"$ref": "#/$defs/styleProfileId"},
+            "display_name": {"type": "string"},
+            "source": {"type": "string"}
+          },
+          "additionalProperties": true
+        }
+      ]
+    },
+    "style_preset": {
+      "type": ["string", "null"]
+    },
+    "style_source": {
+      "enum": ["user", "reference", "scene", "default"]
+    },
+    "style_grammar": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "semantic_color_roles": {
+      "type": "object"
+    },
+    "reference_images": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/referenceImage"}
+    },
+    "must_not_claim": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "forbidden_connections": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "negative_constraints": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "prompt_review": {
+      "description": "requested blocks rendering until review; confirmed or waived permit rendering. This never disables RenderAudit.",
+      "enum": ["requested", "confirmed", "waived"]
+    },
+    "prompt_reviewed_sha256": {
+      "description": "Lowercase SHA-256 hex digest of the exact UTF-8 prompt that was confirmed. Optional in the document shape and required by render-ready validation when prompt_review is confirmed.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "workspace_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "output_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "caption_notes": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "required": ["kind", "uri_or_path", "evidence"],
+      "properties": {
+        "kind": {"type": "string", "minLength": 1},
+        "uri_or_path": {"type": "string", "minLength": 1},
+        "revision_or_page": {"type": ["string", "number", "null"]},
+        "evidence": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "referenceImage": {
+      "oneOf": [
+        {"type": "string", "minLength": 1},
+        {
+          "type": "object",
+          "required": ["kind", "path"],
+          "properties": {
+            "kind": {"const": "local_path"},
+            "path": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["kind", "ordinal_from_latest"],
+          "properties": {
+            "kind": {"const": "recent_conversation"},
+            "ordinal_from_latest": {"type": "integer", "minimum": 1, "maximum": 5}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9._-]*$"
+    },
+    "styleProfileId": {
+      "enum": [
+        "classic-technical",
+        "modern-technical-vector",
+        "pastel-airy-ui",
+        "illustrated-modular",
+        "reference-led"
+      ]
+    },
+    "component": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"type": "string", "minLength": 1},
+        "role": {"type": "string"},
+        "group_id": {"$ref": "#/$defs/id"},
+        "visual_anchor": {"type": "string"},
+        "visible_text": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "evidence": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": true
+    },
+    "connection": {
+      "type": "object",
+      "required": ["from", "to", "kind", "direction"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "from": {"$ref": "#/$defs/id"},
+        "to": {"$ref": "#/$defs/id"},
+        "kind": {"type": "string", "minLength": 1},
+        "direction": {"enum": ["forward", "backward", "bidirectional"]},
+        "label": {"type": "string"},
+        "budget_effect": {"type": "string"},
+        "evidence": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

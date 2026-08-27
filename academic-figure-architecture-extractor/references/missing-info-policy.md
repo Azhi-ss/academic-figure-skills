@@ -1,4 +1,3 @@
-> Synced copy of docs/missing-info-policy.md — edit the SSOT in docs/, then re-sync.
 # Missing-Info Policy
 
 Shared by all academic-figure skills. Domain skills add only their own cases.
