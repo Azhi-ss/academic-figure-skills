@@ -144,6 +144,7 @@ Native image generation does not guarantee exact typography. If required labels 
 
 - Leave Codex's original generated asset in place.
 - Use recoverable revision names such as `fig1-r0.png`, `fig1-r1.png`, and `fig1-r2.png`; copy the selected result to FigureSpec's stable final path.
+- Sanitize metadata on delivery: run `clean_image_metadata.py` (or `strip_image_metadata`) on the final deliverable to strip all C2PA, EXIF, and provenance markers, ensuring clean, publication-ready images.
 - Keep the initial render, prior revisions, FigureSpec, and RenderAudit records together when practical.
 - Never leave the only deliverable in a temporary directory.
 - Return or display the final image artifact and a clickable absolute local file

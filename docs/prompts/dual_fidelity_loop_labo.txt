@@ -1,0 +1,41 @@
+Figure Type and Communication Goal:
+Two-tier structured academic workflow diagram with dual-fidelity paired color system on pure white canvas (#FFFFFF), aspect ratio 16:9, illustrating the prior-guided initialization and dual-fidelity Bayesian optimization loop of LABO (arXiv:2605.22054 Figure 1). No top title banner across the canvas.
+
+Composition and Layout Proportions:
+Two stacked rounded macro-containers filling 100% of the canvas height with subtle slate dashed borders. Top container (Prior-Guided Initialization, 32% canvas height) contains three horizontal white sub-cards from left to right: Prior Knowledge, LLM Reasoning, and Warm Starts. Bottom container (Optimization Loop, 68% canvas height) contains a multi-fidelity cyclic workflow: Top-Right Surrogate Model GP Mesh, Bottom-Right Candidates Selection curve, Bottom-Center LLM-Fidelity Estimation, Bottom-Left Gating Criterion decision diamond, and Middle-Left Real-Fidelity Experiments card.
+
+Structured Panels and SVMC Visual Metaphors:
+1. Top Container Header: Tagged with a small lightbulb icon and title 'Prior-Guided Initialization'.
+   - Left Card (Prior Knowledge, Slate fill #F9FAFB, Slate outline #9CA3AF): Three micro-diagrams showing Literature Insights with stacked book icon, Experimental Data with coordinate scatter curve, and Physical Feasibility Constraints with shaded 2D boundary box.
+   - Middle Card (LLM Reasoning, Slate Blue tint #EBF5FF, Blue outline #2563EB): Electronic brain chip diagram surrounded by two quote dialogue bubbles reading 'Propose a set of high-potential candidates for initial real-fidelity experiment' and 'Predict the performance of candidates based on prior knowledge'.
+   - Right Card (Warm Starts, Slate fill #F9FAFB, Slate outline #9CA3AF): Two rows displaying Real-Fidelity Evaluation with laboratory microscope icon and LLM-Fidelity Exploration with 2D surrogate colormap.
+2. Bottom Container Header: Tagged with a magnifying search loop icon and title 'Optimization Loop'.
+   - Top-Right Hero Area (Surrogate Model): 3D Gaussian Process response surface with blue-to-red elevation mesh. A red highlighted elliptical region marked 'Focused Region X_R*' contains sampled scatter points with label 'Discrepancy Refinement y_R(x) - y_L(x)'. Below is 'LLM Global Guidance y_L(x)'. Mathematical formula card on the right states delta(x) ~ GP(0, k_delta), f_R(x) = rho * f_L(x) + delta(x), and f_L(x) ~ GP(0, k_L).
+   - Bottom-Right Area (Candidates Selection): 1D acquisition function curve plot with sampling points and a prominent red peak point marked 'x* = arg max a_t(x)' with a magnifying glass pointer.
+   - Bottom-Center Area (LLM-Fidelity Estimation): Brain icon with thinking bubble 'Predict selectivity for candidate x with prior knowledge', paired with a half-circle uncertainty gauge meter and mini prediction data table.
+   - Bottom-Left Area (Gating Criterion): Decision diamond asking 'p_Delta(x*) < tau? Is LLM-fidelity reliable enough?'. Branches downward to Yes (Blue checkmark badge 'LLM-Fidelity Loop') and No (Red cross badge 'Real-Fidelity Loop').
+   - Middle-Left Area (Real-fidelity Experiments): Chemistry laboratory glassware (beakers, flask, microscope) and a computer monitor showing real measurement curves.
+
+Topology and Typed Connections:
+Prior Knowledge -> LLM Reasoning -> Warm Starts (wide smooth grey forward arrows).
+Warm Starts -> Optimization Loop Surrogate Model (downward curving grey arrow).
+Surrogate Model -> Candidates Selection -> LLM-Fidelity Estimation -> Gating Criterion (smooth clockwise grey flow arrows).
+Gating Criterion No branch -> Real-fidelity Experiments (red solid flow arrow).
+Real-fidelity Experiments -> Surrogate Model (wide curved red feedback arrow labeled Real-Fidelity Loop).
+Gating Criterion Yes branch -> Surrogate Model (wide curved blue feedback arrow labeled LLM Global Guidance Loop).
+Draw no other inter-module connections.
+
+Visible Text Closed List:
+Top Container: 'Prior-Guided Initialization', 'Prior Knowledge', 'Literature Insights', 'Experimental Data', 'Physical Constraints', 'LLM Reasoning', 'Warm Starts', 'Real-Fidelity Evaluation', 'LLM-Fidelity Exploration'.
+Bottom Container: 'Optimization Loop', 'Surrogate model', 'Focused Region X_R*', 'Discrepancy Refinement y_R(x) - y_L(x)', 'LLM Global Guidance y_L(x)', 'delta(x) ~ GP(0, k_delta)', 'f_R(x) = rho f_L(x) + delta(x)', 'f_L(x) ~ GP(0, k_L)', 'Candidates Selection', 'x* = arg max a_t(x)', 'LLM-Fidelity Estimation', 'LLM Query', 'Uncertainty', 'Prediction', 'Gating Criterion', 'p_Delta(x*) < tau?', 'Real-Fidelity Experiments', 'Experiment', 'Result', 'Real-Fidelity Loop', 'LLM-Fidelity Loop'.
+
+Style Grammar and Paired Color Tokens:
+Surface profile: dual-fidelity-loop (Two-tier nested containers with dual-fidelity paired color system).
+High-Fidelity / Real Experiment: Coral Red #E76F51 / #DC2626, soft fill #FEE2E2.
+Low-Fidelity / LLM Surrogate: Slate Blue #4A90E2 / #2563EB, soft fill #EBF5FF.
+Structural Containers: Neutral Slate Grey #4B5563 / #9CA3AF, soft fill #F9FAFB.
+Decision Badges: Green Yes Checkmark #16A34A, Red No Cross #DC2626.
+Typography: Clean Latin Modern math symbols, elegant sans-serif labels, crisp readable titles.
+
+Negative Constraints and Exclusions:
+No overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No dark canvas background. No heavy 3D skeuomorphism. Aspect ratio 16:9.

@@ -76,6 +76,7 @@ it damages interpretation and minor only when the FigureSpec marks it optional.
   inter-panel pixels are opaque `#FFFFFF`, not transparent, gray, or black.
 - No accidental alpha channel, crop, border, compression damage, checkerboard,
   watermark, or model signature is present.
+- Metadata and provenance cleanliness: sanitize and strip all C2PA manifests, JUMBF markers, EXIF, and AI generation metadata using `clean_image_metadata.py` before final delivery.
 - The file extension matches the encoded media type and the image opens normally.
 
 A transparent/black background, wrong crop, or wrong aspect ratio is a major

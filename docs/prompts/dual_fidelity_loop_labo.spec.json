@@ -1,0 +1,142 @@
+{
+  "schema": "academic-figure/FigureSpec@1",
+  "figure_id": "labo_fig1_dual_fidelity_loop",
+  "plan_revision": "plan-1",
+  "sources": [
+    {
+      "kind": "paper",
+      "uri_or_path": "https://arxiv.org/abs/2605.22054",
+      "revision_or_page": "Figure 1",
+      "evidence": "LABO Prior-Guided Initialization and Optimization Loop workflow"
+    }
+  ],
+  "prompt": "Figure Type and Communication Goal:\nTwo-tier structured academic workflow diagram with dual-fidelity paired color system on pure white canvas (#FFFFFF), aspect ratio 16:9, illustrating the prior-guided initialization and dual-fidelity Bayesian optimization loop of LABO (arXiv:2605.22054 Figure 1). No top title banner across the canvas.\n\nComposition and Layout Proportions:\nTwo stacked rounded macro-containers filling 100% of the canvas height with subtle slate dashed borders. Top container (Prior-Guided Initialization, 32% canvas height) contains three horizontal white sub-cards from left to right: Prior Knowledge, LLM Reasoning, and Warm Starts. Bottom container (Optimization Loop, 68% canvas height) contains a multi-fidelity cyclic workflow: Top-Right Surrogate Model GP Mesh, Bottom-Right Candidates Selection curve, Bottom-Center LLM-Fidelity Estimation, Bottom-Left Gating Criterion decision diamond, and Middle-Left Real-Fidelity Experiments card.\n\nStructured Panels and SVMC Visual Metaphors:\n1. Top Container Header: Tagged with a small lightbulb icon and title 'Prior-Guided Initialization'.\n   - Left Card (Prior Knowledge, Slate fill #F9FAFB, Slate outline #9CA3AF): Three micro-diagrams showing Literature Insights with stacked book icon, Experimental Data with coordinate scatter curve, and Physical Feasibility Constraints with shaded 2D boundary box.\n   - Middle Card (LLM Reasoning, Slate Blue tint #EBF5FF, Blue outline #2563EB): Electronic brain chip diagram surrounded by two quote dialogue bubbles reading 'Propose a set of high-potential candidates for initial real-fidelity experiment' and 'Predict the performance of candidates based on prior knowledge'.\n   - Right Card (Warm Starts, Slate fill #F9FAFB, Slate outline #9CA3AF): Two rows displaying Real-Fidelity Evaluation with laboratory microscope icon and LLM-Fidelity Exploration with 2D surrogate colormap.\n2. Bottom Container Header: Tagged with a magnifying search loop icon and title 'Optimization Loop'.\n   - Top-Right Hero Area (Surrogate Model): 3D Gaussian Process response surface with blue-to-red elevation mesh. A red highlighted elliptical region marked 'Focused Region X_R*' contains sampled scatter points with label 'Discrepancy Refinement y_R(x) - y_L(x)'. Below is 'LLM Global Guidance y_L(x)'. Mathematical formula card on the right states delta(x) ~ GP(0, k_delta), f_R(x) = rho * f_L(x) + delta(x), and f_L(x) ~ GP(0, k_L).\n   - Bottom-Right Area (Candidates Selection): 1D acquisition function curve plot with sampling points and a prominent red peak point marked 'x* = arg max a_t(x)' with a magnifying glass pointer.\n   - Bottom-Center Area (LLM-Fidelity Estimation): Brain icon with thinking bubble 'Predict selectivity for candidate x with prior knowledge', paired with a half-circle uncertainty gauge meter and mini prediction data table.\n   - Bottom-Left Area (Gating Criterion): Decision diamond asking 'p_Delta(x*) < tau? Is LLM-fidelity reliable enough?'. Branches downward to Yes (Blue checkmark badge 'LLM-Fidelity Loop') and No (Red cross badge 'Real-Fidelity Loop').\n   - Middle-Left Area (Real-fidelity Experiments): Chemistry laboratory glassware (beakers, flask, microscope) and a computer monitor showing real measurement curves.\n\nTopology and Typed Connections:\nPrior Knowledge -> LLM Reasoning -> Warm Starts (wide smooth grey forward arrows).\nWarm Starts -> Optimization Loop Surrogate Model (downward curving grey arrow).\nSurrogate Model -> Candidates Selection -> LLM-Fidelity Estimation -> Gating Criterion (smooth clockwise grey flow arrows).\nGating Criterion No branch -> Real-fidelity Experiments (red solid flow arrow).\nReal-fidelity Experiments -> Surrogate Model (wide curved red feedback arrow labeled Real-Fidelity Loop).\nGating Criterion Yes branch -> Surrogate Model (wide curved blue feedback arrow labeled LLM Global Guidance Loop).\nDraw no other inter-module connections.\n\nVisible Text Closed List:\nTop Container: 'Prior-Guided Initialization', 'Prior Knowledge', 'Literature Insights', 'Experimental Data', 'Physical Constraints', 'LLM Reasoning', 'Warm Starts', 'Real-Fidelity Evaluation', 'LLM-Fidelity Exploration'.\nBottom Container: 'Optimization Loop', 'Surrogate model', 'Focused Region X_R*', 'Discrepancy Refinement y_R(x) - y_L(x)', 'LLM Global Guidance y_L(x)', 'delta(x) ~ GP(0, k_delta)', 'f_R(x) = rho f_L(x) + delta(x)', 'f_L(x) ~ GP(0, k_L)', 'Candidates Selection', 'x* = arg max a_t(x)', 'LLM-Fidelity Estimation', 'LLM Query', 'Uncertainty', 'Prediction', 'Gating Criterion', 'p_Delta(x*) < tau?', 'Real-Fidelity Experiments', 'Experiment', 'Result', 'Real-Fidelity Loop', 'LLM-Fidelity Loop'.\n\nStyle Grammar and Paired Color Tokens:\nSurface profile: dual-fidelity-loop (Two-tier nested containers with dual-fidelity paired color system).\nHigh-Fidelity / Real Experiment: Coral Red #E76F51 / #DC2626, soft fill #FEE2E2.\nLow-Fidelity / LLM Surrogate: Slate Blue #4A90E2 / #2563EB, soft fill #EBF5FF.\nStructural Containers: Neutral Slate Grey #4B5563 / #9CA3AF, soft fill #F9FAFB.\nDecision Badges: Green Yes Checkmark #16A34A, Red No Cross #DC2626.\nTypography: Clean Latin Modern math symbols, elegant sans-serif labels, crisp readable titles.\n\nNegative Constraints and Exclusions:\nNo overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No dark canvas background. No heavy 3D skeuomorphism. Aspect ratio 16:9.",
+  "aspect_ratio": "16:9",
+  "final_width_mm": 183,
+  "visible_text": [
+    "Prior-Guided Initialization",
+    "Prior Knowledge",
+    "Literature Insights",
+    "Experimental Data",
+    "Physical Constraints",
+    "LLM Reasoning",
+    "Warm Starts",
+    "Real-Fidelity Evaluation",
+    "LLM-Fidelity Exploration",
+    "Optimization Loop",
+    "Surrogate model",
+    "Focused Region X_R*",
+    "Discrepancy Refinement y_R(x) - y_L(x)",
+    "LLM Global Guidance y_L(x)",
+    "delta(x) ~ GP(0, k_delta)",
+    "f_R(x) = rho f_L(x) + delta(x)",
+    "f_L(x) ~ GP(0, k_L)",
+    "Candidates Selection",
+    "x* = arg max a_t(x)",
+    "LLM-Fidelity Estimation",
+    "LLM Query",
+    "Uncertainty",
+    "Prediction",
+    "Gating Criterion",
+    "p_Delta(x*) < tau?",
+    "Real-Fidelity Experiments",
+    "Experiment",
+    "Result",
+    "Real-Fidelity Loop",
+    "LLM-Fidelity Loop"
+  ],
+  "topology": {
+    "components": [
+      {"id": "prior_knowledge", "label": "Prior Knowledge", "role": "input"},
+      {"id": "llm_reasoning", "label": "LLM Reasoning", "role": "reasoning"},
+      {"id": "warm_starts", "label": "Warm Starts", "role": "initialization"},
+      {"id": "surrogate_model", "label": "Surrogate model", "role": "surrogate"},
+      {"id": "cand_selection", "label": "Candidates Selection", "role": "acquisition"},
+      {"id": "llm_fidelity_est", "label": "LLM-Fidelity Estimation", "role": "estimation"},
+      {"id": "gating_criterion", "label": "Gating Criterion", "role": "decision"},
+      {"id": "real_experiments", "label": "Real-fidelity Experiments", "role": "experiment"}
+    ],
+    "connections": [
+      {"id": "c1", "from": "prior_knowledge", "to": "llm_reasoning", "kind": "executed", "direction": "forward"},
+      {"id": "c2", "from": "llm_reasoning", "to": "warm_starts", "kind": "executed", "direction": "forward"},
+      {"id": "c3", "from": "warm_starts", "to": "surrogate_model", "kind": "executed", "direction": "forward"},
+      {"id": "c4", "from": "surrogate_model", "to": "cand_selection", "kind": "executed", "direction": "forward"},
+      {"id": "c5", "from": "cand_selection", "to": "llm_fidelity_est", "kind": "executed", "direction": "forward"},
+      {"id": "c6", "from": "llm_fidelity_est", "to": "gating_criterion", "kind": "executed", "direction": "forward"},
+      {"id": "c7", "from": "gating_criterion", "to": "real_experiments", "kind": "executed", "direction": "forward", "label": "No (p_Delta >= tau)"},
+      {"id": "c8", "from": "real_experiments", "to": "surrogate_model", "kind": "feedback", "direction": "forward", "label": "Real-Fidelity Loop"},
+      {"id": "c9", "from": "gating_criterion", "to": "surrogate_model", "kind": "feedback", "direction": "forward", "label": "LLM-Fidelity Loop (Yes)"}
+    ],
+    "groups": [
+      {
+        "id": "container_init",
+        "label": "Prior-Guided Initialization",
+        "component_ids": ["prior_knowledge", "llm_reasoning", "warm_starts"]
+      },
+      {
+        "id": "container_loop",
+        "label": "Optimization Loop",
+        "component_ids": [
+          "surrogate_model",
+          "cand_selection",
+          "llm_fidelity_est",
+          "gating_criterion",
+          "real_experiments"
+        ]
+      }
+    ],
+    "authority_boundaries": []
+  },
+  "layout": {
+    "composition": "loop",
+    "hero": "container_loop",
+    "reading_order": [
+      "prior_knowledge", "llm_reasoning", "warm_starts",
+      "surrogate_model", "cand_selection", "llm_fidelity_est",
+      "gating_criterion", "real_experiments"
+    ],
+    "group_regions": {
+      "container_init": "top 32%",
+      "container_loop": "bottom 68%"
+    },
+    "nesting_depth": 1,
+    "whitespace": "balanced",
+    "routing_notes": [
+      "Top container holds 3 horizontal cards",
+      "Bottom container holds cyclic loop connecting surrogate, candidates, LLM estimation, gating diamond, and real experiments"
+    ]
+  },
+  "style_profile": "illustrated-modular",
+  "style_preset": "双保真度引导闭环风",
+  "style_source": "reference",
+  "style_grammar": {
+    "marks": "distinct semantic zones with paired fill and dark matching outlines",
+    "fills": "opaque white background with soft pastel tinted zone containers",
+    "strokes": "1.5px to 2px matching zone borders",
+    "typography": "clean legible sans-serif and mathematical Latin Modern formulas",
+    "shadow": "none",
+    "density": "balanced"
+  },
+  "semantic_color_roles": {
+    "real_experiments": "#DC2626",
+    "surrogate_model": "#2563EB",
+    "llm_fidelity_est": "#2563EB",
+    "cand_selection": "#4B5563",
+    "gating_criterion": "#16A34A"
+  },
+  "reference_images": [],
+  "must_not_claim": [
+    "Fully automated physical wet lab without human supervision"
+  ],
+  "forbidden_connections": [
+    "prior_knowledge -> real_experiments"
+  ],
+  "negative_constraints": [
+    "no overall top title banner across canvas",
+    "no markdown formatting symbols in output image",
+    "no dark background"
+  ],
+  "prompt_review": "waived",
+  "workspace_root": "/home/dministrator/Lab/clones/academic-figure-skills",
+  "output_path": "/home/dministrator/Lab/clones/academic-figure-skills/docs/gallery/dual_fidelity_loop_labo.jpg"
+}

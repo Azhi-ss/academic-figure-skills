@@ -19,6 +19,7 @@
 | **有色语义分区图示风** | `color_material_layer` | **DASH** (arXiv:2608.00641) Fig 1<br>**Agentic-MatriBO** Fig 1 | paired semantic tokens；柔彩 fill、深同色 outline、可读 title、受控 icon accent |
 | **现代柔彩空气风** | `surface_profile` | **SWE-agent** (ICML 2024) Fig 2<br>**Voyager** (NeurIPS 2023) Fig 1<br>**ReAct** (ICLR 2023) Fig 1 | airy UI：纯白浮动卡片、CLI 终端仿真视窗、floating tokens/pills、大比率优雅留白 |
 | **对比消融实验风** | `composition_variant` | **KAN** (arXiv:2404.19756) Fig 1<br>**SimPO** (arXiv:2405.14734) Fig 1 | 左右高对比分栏、Baseline 固定权重 vs Ours 边上可学习 B-样条非线性曲线 $\phi(x)$ 与节点纯求和 $\sum$ |
+| **双保真度引导闭环风** | `surface_profile` / `composition_variant` | **LABO** (arXiv:2605.22054) Fig 1 | 上下双宏观容器、双保真度配对色彩（珊瑚红真机实验/残差 vs 板岩蓝大模型代理）、门禁判定菱形 $p_\Delta(x^*) < \tau?$、3D 高斯过程响应曲面与极值搜索闭环 |
 
 `surface_profile` 决定画布、面板、描边、字体和插画语言；
 `composition_variant` 只改变叙事布局；`color_material_layer` 叠加在前两者之上，不得覆盖参考图的 surface grammar。
@@ -37,6 +38,7 @@
 - [有色语义分区图示风.md](styles/有色语义分区图示风.md)
 - [现代柔彩空气风.md](styles/现代柔彩空气风.md)
 - [对比消融实验风.md](styles/对比消融实验风.md)
+- [双保真度引导闭环风.md](styles/双保真度引导闭环风.md)
 
 ## Codex 定向编辑提示
 

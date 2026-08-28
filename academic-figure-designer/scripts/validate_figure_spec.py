@@ -72,6 +72,9 @@ STYLE_PROFILE_ALIASES = {
     "通用色盲友好风": "classic-technical",
     "对比消融实验风": "classic-technical",
     "严谨黑白印刷风": "classic-technical",
+    "双保真度引导闭环风": "illustrated-modular",
+    "dual-fidelity-loop": "illustrated-modular",
+    "Dual fidelity loop": "illustrated-modular",
     "Classic academic": "classic-technical",
     "Pastel airy": "pastel-airy-ui",
 }

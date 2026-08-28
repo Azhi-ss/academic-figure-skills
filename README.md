@@ -68,12 +68,19 @@ npx skills add Azhi-ss/academic-figure-skills -l
 </td>
 </tr>
 <tr>
-<td align="center" colspan="2">
-<img src="docs/gallery/paired_semantic_zones_dash.jpg" alt="有色语义分区图示风" style="max-width: 60%;" />
+<td align="center" width="50%">
+<img src="docs/gallery/paired_semantic_zones_dash.jpg" alt="有色语义分区图示风" />
 <br/><b>有色语义分区图示风 (Paired Semantic Zones)</b>
 <br/><sub><b>对标论文：</b><a href="https://arxiv.org/abs/2608.00641">DASH (arXiv:2608.00641)</a> Fig 1 / Agentic-MatriBO Fig 1</sub>
 <br/><sub><b>核心特征：</b>蜜桃/薄荷/薰衣草 Paired Tokens、2px 同色暗边框、清晰色区语义绑定与闭环数据流</sub>
 <br/><sub><a href="docs/prompts/paired_semantic_zones_dash.txt">📄 查看实测 Prose 提示词</a></sub>
+</td>
+<td align="center" width="50%">
+<img src="docs/gallery/dual_fidelity_loop_labo.jpg" alt="双保真度引导闭环风" />
+<br/><b>双保真度引导闭环风 (Dual-Fidelity Loop & Bayesian Optimization)</b>
+<br/><sub><b>对标论文：</b><a href="https://arxiv.org/abs/2605.22054">LABO (arXiv:2605.22054)</a> Fig 1 Prior-Guided Initialization & Optimization Loop</sub>
+<br/><sub><b>核心特征：</b>上下双宏观容器、双保真度色彩配对（珊瑚红真机实验/残差 vs 板岩蓝大模型代理）、门禁判定菱形 $p_\Delta(x^*) < \tau?$、3D 高斯过程响应曲面与极值搜索闭环</sub>
+<br/><sub><a href="docs/prompts/dual_fidelity_loop_labo.txt">📄 查看实测 Prose 提示词</a></sub>
 </td>
 </tr>
 </table>

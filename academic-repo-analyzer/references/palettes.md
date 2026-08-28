@@ -102,6 +102,15 @@ Bind tokens to the roles present in the current paper and retain those bindings 
 | **Final Output / Report** | I1 Gold | Formatted report card or badge |
 | **Exception / Guardrail / Stop** | I1 Coral | Warning badge or coral STOP boundary |
 
+### 4) Dual-Fidelity & Bayesian Optimization Loops
+| Optimization Role | Suggested Illustrated Token | Visual Metaphor / Shape |
+|---|---|---|
+| **High-Fidelity / Real-World Experiment / Discrepancy** | I1 Coral (`#FDE8E5` / `#B83A2F`) | Laboratory glassware, oscilloscope/monitor, focused residual peak $\mathcal{X}_R^*$ |
+| **Low-Fidelity / LLM Prior / Global Surrogate** | I1 Blue (`#EDF4FB` / `#194166`) | Electronic brain, prompt balloon, 3D smooth GP surface |
+| **Candidate Selection / Acquisition Function** | I1 Peach (`#FBE3D6` / `#A94417`) | 1D search curve, peak marker $x^*$, candidate generator table |
+| **Gating Criterion / Adaptive Decision** | Decision Diamond (Neutral/Red/Green) | Diamond node $p_\Delta < \tau$, green checkmark / red cross status badges |
+| **Prior Domain Knowledge / Constraints** | I1 Green / Slate (`#F3FBF0` / `#3B7D23`) | Literature stack, coordinate scatter plot, constraint box |
+
 Repeated roles reuse a token; adjacent unrelated zones should also differ by label, geometry, or line style.
 
 ---
