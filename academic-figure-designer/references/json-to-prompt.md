@@ -18,16 +18,31 @@ Compile FigureSpec v1 into natural-language rendering instructions without chang
 
 Name the figure type, communication goal, aspect ratio, canvas, and selected style profile. Describe observable grammar—composition, marks, fills, stroke character, typography, spacing, and illustration level—rather than relying on venue names or vague words such as “professional.” Default to no canvas title because the figure title normally belongs in the external caption. If the user, FigureSpec, or supplied reference explicitly includes a title, compile that exact string once as a short non-banner heading with reserved whitespace.
 
-### 2. Describe composition by visual hierarchy
+### 2. Describe composition by visual hierarchy and spatial proportions
 
-Start with the hero element and major semantic regions. For each region state its approximate position/proportion, fill/outline token, and permitted nesting depth. Then describe primary components in reading order and secondary context last.
+Start with macro-containers, layout proportions, and spatial division across the canvas:
 
-Do not mechanically list JSON order. Preserve explicit gaps and unconnected regions.
+- **Macro-to-Micro Container Allocation**: Express spatial division explicitly by height/width percentage (e.g. `Top container: 30-35% height`, `Bottom container: 65-70% height`). This prevents the image model from clustering components into a corner or leaving massive empty dead space.
+- **Nested Card Architecture**: Use outer macro-containers with subtle dashed or light borders, and nest structured solid white sub-cards inside. This creates depth and multi-level organization without relying on drop shadows.
+- **Hero Focal Region**: Allocate 35–50% of visual attention to the central contribution (e.g., 3D response surface, complex policy loop, or multi-branch neural mechanism) and surround it with supporting context modules.
 
-### 2.1 Scientific Visual Metaphor Compilation (Preventing Text Dumps)
+Do not mechanically list JSON order. Preserve explicit spatial gaps and reading directions.
 
-When components represent structured computation, representations, or experiments, prefer a sourced visual schematic over a text dump. Select archetypes compatible with the paper's actual modality:
+### 2.1 Scientific Visual Metaphor Compilation (SVMC: Preventing Text Dumps & Empty Boxes)
 
+When components represent structured computation, representations, or experiments, never output generic empty text boxes. Inject the **Micro-Visual Trinity** for each key node:
+1. **Header Tag / Icon Badge**: Leading domain glyph (e.g. 💡 idea bulb, 🔬 microscope, 🔍 search loop).
+2. **Concrete Scientific Schematic**: Actual plot or geometric visualization (e.g. 3D GP mesh, 1D multi-peak curve, tensor block, heatmap, state graph).
+3. **Micro Mathematical/Data Card**: Core equation, uncertainty gauge, dialogue bubble, or bounded data table.
+
+Select archetypes compatible with the paper's actual modality:
+
+- **Optimization & Active Learning Components**:
+  - *3D Gaussian Process / Response Surface*: 3D elevation mesh with diverging color gradients, highlighted elliptical focused regions ($\mathcal{X}_R^*$), and a mathematical coupling formula card ($f_R(x) = \rho f_L(x) + \delta(x)$).
+  - *1D Acquisition Function*: 1D curve with coordinate axes, observation dots, and a prominent red peak marker ($x^* = \arg\max \alpha_t(x)$) with a magnifying glass pointer.
+  - *Gating & Decision*: Decision diamond asking a threshold condition ($p_\Delta(x^*) < \tau?$) with branching checkmark (Yes) and cross (No) badges.
+  - *Cognitive Reasoning & Uncertainty*: Brain/chip glyph with quoted natural-language dialogue bubbles, paired with a half-circle uncertainty gauge meter and mini prediction table.
+  - *Physical / Wet-Lab Experiments*: Laboratory apparatus (glassware, beakers, microscope) paired with a computer monitor showing measurement curves.
 - **Neural & Representation Components**:
   - *Feature / Tensor Blocks*: 3D orthogonal colored tensor blocks or stacked 2D feature slices with dimension annotations (e.g. `$B \times C \times H \times W$`).
   - *Attention / Cross-Modal Matrix*: multi-layer square heatmap grid with diverging color intensity or bipartite connecting lines.
@@ -36,13 +51,8 @@ When components represent structured computation, representations, or experiment
   - *Sequential Stages*: discrete rounded container cards with stage header pills and bold primary process icons.
   - *Data Stream / Token Sequence*: horizontal array of rounded pills with clear left-to-right flow arrows.
 - **Systems, Data & Memory**:
-  - *Storage / Memory Buffer*: clean cylinder database glyph or node-edge episodic graph.
+  - *Storage / Memory Buffer*: clean cylinder database glyph or node-edge episodic graph (EventGraph).
   - *Queue / Buffer / Scheduler*: partitioned horizontal stack with incoming/outgoing directional arrows.
-- **Optimization & Decision Components**:
-  - *Surrogate / Function Fitting*: mini 2D coordinate plot with black x/y axes, solid blue fitted mean curve, dashed confidence bounds, shaded light-blue uncertainty ribbon, and orange scatter points.
-  - *Candidate Pool / Shortlist*: compact structured table with header band and sourced rows.
-  - *Decision / Policy Module*: compact decision/reasoning glyph or structured badge; avoid robot characters unless explicitly requested.
-  - *Experimental Evaluation*: bounded evaluation table, simulator block, or benchmark metric bar chart based on sourced modality.
 
 ### 3. State topology as a closed list
 

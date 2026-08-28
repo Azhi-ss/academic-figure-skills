@@ -27,6 +27,46 @@ Visual grammar: low-saturation semantic panel fills paired with darker same-hue 
 Visible text is limited to [exact list]. Preserve the supplied reference image's composition, stroke, fill, typography, spacing, and illustration language while replacing all source-specific content with the target method. [semantic color tokens]. [aspect ratio]
 ```
 
+## Multi-Tier Closed-Loop Optimization & Scientific Discovery (Dual-Fidelity / Active Learning)
+
+```text
+Figure Type and Communication Goal:
+[Two-tier/Three-tier] structured academic workflow diagram with dual-fidelity paired color system on pure white canvas (#FFFFFF), [aspect ratio], illustrating [communication goal, e.g. prior-guided initialization and active learning loop]. No top title banner across canvas.
+
+Composition and Layout Proportions:
+Stacked rounded macro-containers filling 100% canvas height with subtle dashed borders. Top container ([Initialization stage], ~30-35% height) contains [N] horizontal white sub-cards: [Card 1], [Card 2], [Card 3]. Bottom container ([Optimization Loop], ~65-70% height) contains a multi-fidelity cyclic workflow: Top-Right Hero Area ([3D GP Response surface mesh / central model]), Bottom-Right Area ([1D acquisition function curve]), Bottom-Center Area ([Estimation / uncertainty gauge]), Bottom-Left Area ([Gating Criterion decision diamond]), and Middle-Left Area ([Real Experiments / environment]).
+
+Structured Panels and SVMC Visual Metaphors:
+1. Top Container: Tagged with [leading icon] and title '[Stage 1 Name]'.
+   - [Sub-card 1]: [Micro-diagram description, e.g. literature stacked books, experimental scatter curve, physical boundary box].
+   - [Sub-card 2]: [Micro-diagram description, e.g. brain chip glyph with quoted dialogue bubbles: "..."].
+2. Bottom Container: Tagged with [leading icon] and title '[Stage 2 Name]'.
+   - Hero Area: [Detailed scientific plot, e.g. 3D elevation mesh with highlighted discrepancy region and math coupling formula card].
+   - Search Area: [1D curve plot with peak marker x* and magnifying glass pointer].
+   - Gating Decision: [Decision diamond with condition formula, branching to checkmark (Yes) and cross (No) badges].
+   - Physical / Execution Card: [Laboratory glassware / system apparatus with monitor measurement curves].
+
+Topology and Typed Connections:
+[Node A] -> [Node B] -> [Node C] (smooth grey forward arrows).
+[Loop Entry] -> [Hero Model] -> [Search] -> [Estimation] -> [Gating] (clockwise flow arrows).
+Gating [Branch 1] -> [Execution Card] -> [Hero Model] (wide curved feedback ribbon labeled [Loop 1 Name]).
+Gating [Branch 2] -> [Hero Model] (wide curved feedback ribbon labeled [Loop 2 Name]).
+Draw no other inter-module connections.
+
+Visible Text Closed List:
+[List of exact strings grouped by container].
+
+Style Grammar and Paired Color Tokens:
+Surface profile: dual-fidelity-loop / illustrated-modular.
+High-Fidelity / Real Experiment: [Coral Red #..., soft fill #...].
+Low-Fidelity / Surrogate: [Slate Blue #..., soft fill #...].
+Structural Containers: [Neutral Slate Grey #..., soft fill #...].
+Typography: Clean Latin Modern math symbols and sans-serif labels.
+
+Negative Constraints:
+No overall top title banner. No markdown formatting symbols (#, **, -, |). No dark canvas background. Aspect ratio [aspect ratio].
+```
+
 ## Overall Framework — technical vector
 
 ```text

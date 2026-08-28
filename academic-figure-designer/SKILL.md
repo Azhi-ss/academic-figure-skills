@@ -124,11 +124,16 @@ Emit a structured **Palette Decision** and stop:
 ### 2. Close the Semantic Graph & Geometry
 Copy component IDs, labels, groups, and typed connections from upstream analysis or direct user input. Carry `must_not_claim`, `forbidden_connections`, and authority boundaries into the spec.
 
-### 3. Choose Composition & Visual Metaphor (SVMC)
-Select composition from scientific narrative (pipeline, loop, asymmetric collage, sandwich, comparison grid). Apply **Scientific Visual Metaphor Compilation (SVMC)** from `references/json-to-prompt.md`.
+### 3. Choose Composition & Visual Metaphor (SVMC & Spatial Blueprints)
+- **Spatial Container Allocation**: Express macro-containers with explicit canvas height/width percentages (e.g., 2-tier stacked containers with 30-35% top vs 65-70% bottom, or left-hero 40-50% vs right-stack 50-60%) to prevent empty canvas dead zones.
+- **Nested Card Scaffolds**: Use outer macro-containers with subtle dashed borders and nest solid white sub-cards inside.
+- **Micro-Visual Trinity Injection**: Never output empty blank boxes. For each key node, compile the **Micro-Visual Trinity** from `references/json-to-prompt.md` and `references/architecture-icons.md`:
+  1. *Header / Icon Badge* (domain icon, e.g. 💡, 🔬, 🔍, 📊);
+  2. *Concrete Scientific Schematic* (3D GP elevation mesh, 1D multi-peak acquisition curve, 3D tensor block, heatmap, or state DAG);
+  3. *Micro Mathematical/Data Card* (equation card, uncertainty gauge, dialogue bubble, or mini table).
 
 ### 4. Bind Style & Color Tokens Semantically
-Bind paired tokens to semantic regions: background, soft fill, dark outline/title, optional icon accent, and exception color from `docs/palettes.md`.
+Bind paired tokens to semantic regions: background, soft fill, dark outline/title, optional icon accent, and exception color from `docs/palettes.md`. Follow dual-fidelity and multi-role paired color rules (e.g. Coral Red for real/high-fidelity vs Slate Blue for surrogate/low-fidelity).
 
 ### 5. Emit FigureSpec v1
 Conform to `figure-spec.schema.json`. Required features include:

@@ -87,12 +87,17 @@ come from the evidence-backed visible-text/component fields.
 | Provenance manifest | `several cited document slips connected to one manifest sheet; no invented identifiers or body text` |
 | Typed policy | `decision diamond feeding the sourced number of abstract action tabs, clean line illustration` |
 | Planner / agent reasoning | `compact decision or reasoning glyph in the selected illustration language; use a robot motif only when the user or reference requests one` |
+| Cognitive reasoning / LLM query | `electronic brain chip glyph surrounded by concise quoted natural-language dialogue bubbles with prior prompts` |
+| Uncertainty gauge meter | `half-circle colored gauge meter with a pointer needle indicating calibrated variance / confidence` |
+| Gating criterion / decision | `decision diamond with threshold condition (e.g. p_Delta(x*) < tau?), branching downward to a green checkmark badge (Yes) and red cross badge (No)` |
+| 3D GP Response Surface (hero) | `3D Gaussian Process response surface with blue-to-red elevation mesh, highlighted elliptical discrepancy region X_R*, and a mathematical coupling formula card` |
+| 1D Acquisition Function | `1D multi-peak acquisition function curve with coordinate axes, observation dots, and a prominent red peak point x* marked with a magnifying glass pointer` |
+| Physical / Wet-Lab Experiment | `chemistry laboratory glassware (beakers, flask, microscope) and a computer monitor showing real measurement curves` |
 | Council / critique | `the sourced number of reviewer markers converging on one annotated decision card` |
 | Deterministic harness | `gear aligned with a tabular execution grid, crisp mechanical line art` |
 | Gaussian Process fit (surrogate) | `mini 2D coordinate plot with arrow axes, a solid fitted mean curve, a same-hue uncertainty ribbon with dashed bounds, and contrasting observation points; bind hues to FigureSpec semantic tokens` |
-| Initial observations | `small 2D Cartesian coordinate plot with circular observations along a nonlinear trajectory; use only the sourced observation count` |
+| Initial observations / Warm starts | `small 2D Cartesian coordinate plot with circular observations along a nonlinear trajectory; use only the sourced observation count` |
 | Candidate pool | `compact structured candidate grid with an abstract header band and highlighted rows; place no generated field names, ranks, variables, or values` |
-| Physical experiment | `minimal apparatus silhouette appropriate to the sourced experiment; omit laboratory imagery when execution is simulated, looked up, or external` |
 | Working memory | `temporary state card with a short-lived marker; only FigureSpec-provided labels may appear` |
 | Episodic memory | `ordered event cards along a timeline arrow; only FigureSpec-provided labels may appear` |
 | Semantic memory | `versioned knowledge or rule cards; only FigureSpec-provided labels may appear` |
