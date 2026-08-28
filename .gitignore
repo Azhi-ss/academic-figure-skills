@@ -6,6 +6,8 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+*.pyc
+tmp/
 
 # 提示词文件例外（保留 docs/prompts/*.txt）
 *.txt
