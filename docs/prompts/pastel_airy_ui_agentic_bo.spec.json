@@ -1,0 +1,145 @@
+{
+  "schema": "academic-figure/FigureSpec@1",
+  "figure_id": "agentic_bo_fig1_standard_vs_agentic",
+  "plan_revision": "plan-1",
+  "sources": [
+    {
+      "kind": "paper",
+      "uri_or_path": "https://arxiv.org/abs/2608.00316",
+      "revision_or_page": "Figure 1",
+      "evidence": "Standard vs. agentic Bayesian optimization architecture comparison with surrogate backend, intelligent LLM agent, dynamic context stack, and expensive black-box evaluation loop"
+    }
+  ],
+  "prompt": "Figure Type and Communication Goal:\nModern pastel airy academic architecture diagram on pure white canvas (#FFFFFF), aspect ratio 16:9, top-tier AI/ML conference style, illustrating the paradigm shift from Standard Bayesian Optimization to Agentic Bayesian Optimization based on Meta autoresearch framework (arXiv:2608.00316 Figure 1 and Figure 3). No top title banner across the entire canvas.\n\nComposition and Layout Proportions:\nTwo balanced side-by-side comparative sections occupying the full 16:9 canvas with generous negative space and airy breathing room. Left Section (a) Standard BO occupies 42% of canvas width. Right Section (b) Agentic BO occupies 58% of canvas width. Clear vertical airflow and elegant orthogonal routing throughout both sections.\n\nStructured Panels and SVMC Visual Metaphors:\n1. Left Section (a) Standard BO (Subcaption text '(a) Standard BO' centered at bottom): Features an outer gray dashed rounded rectangle (#94A3B8, stroke-dasharray 4,4) labeled 'fixed policy \\Pi_0' representing static algorithmic boundary. Inside this dashed boundary, top rounded card in soft warm apricot (#FAE8DC fill, crisp charcoal text) contains 'GP surrogate + acquisition \\alpha'. Downward orthogonal black arrow (#1E293B) leads to middle soft warm apricot card containing 'select x_{t+1} = arg max_x \\alpha'. Downward solid arrow labeled '\\bar{x}_{t+1}' exits dashed boundary into an expensive execution anchor styled as a solid deep slate charcoal pill (#4B5563 fill, bold white text) containing 'evaluate h(\\cdot)'. Downward solid arrow leads to a soft neutral light gray rounded card (#E9E9EC fill, dark text) containing 'append to \\mathcal{D}_t'. Clean orthogonal thin black feedback arrow curves from 'append to \\mathcal{D}_t' on the right and feeds back up into top 'GP surrogate + acquisition \\alpha'.\n2. Right Section (b) Agentic BO (Subcaption text '(b) Agentic BO' centered at bottom): Top soft warm apricot rounded card (#FAE8DC fill, dark text) contains 'GP surrogate + acquisition \\alpha'. In the center layer, middle-left shows a stacked dynamic context card (#E9E9EC fill, subtle dashed edges and layered shadows) containing 'context \\mathcal{K}_t' with subtext 'added / revised over time'. Middle-center shows the intelligent reasoning core styled as a soft pastel periwinkle blue rounded card (#DBE7FB fill, crisp navy text) containing 'agent \\mathbb{A} selects x_{t+1}'. Downward arrow with label 'proposal \\tilde{x}, diagnostics' flows from top surrogate down to agent. Upward arrow with label 'reconfigure c_t' flows from agent up to top surrogate. Right-pointing arrow from stacked context flows into agent. Below the agent, downward arrow with label 'x_{t+1}' flows into expensive execution anchor styled as a solid deep slate charcoal pill (#4B5563 fill, bold white text) containing 'evaluate h(\\cdot)'. Upward return arrow labeled 'metrics' flows from evaluate back up to agent. Downward arrow flows from evaluate into bottom soft neutral light gray card (#E9E9EC fill) containing 'append to \\mathcal{D}_t'. Right-hand vertical upward line labeled 'observe' flows from dataset up into agent, and closed-loop feedback arrow curves up from dataset to top surrogate backend.\n\nTopology and Typed Connections:\nLeft Standard BO: GP surrogate -> select argmax -> evaluate h -> append to D_t -> GP surrogate (closed sequential loop).\nRight Agentic BO: context K_t -> agent A (contextual steering); surrogate <-> agent A (bi-directional query and reconfiguration); agent A -> evaluate h -> append to D_t (decision execution and recording); evaluate h -> agent A (metrics feedback); append to D_t -> agent A (live observation); append to D_t -> surrogate (posterior update loop).\nDraw no other inter-module connections.\n\nVisible Text Closed List:\nLeft Section: 'fixed policy \\Pi_0', 'GP surrogate + acquisition \\alpha', 'select x_{t+1} = arg max_x \\alpha', '\\bar{x}_{t+1}', 'evaluate h(\\cdot)', 'append to \\mathcal{D}_t', '(a) Standard BO'.\nRight Section: 'GP surrogate + acquisition \\alpha', 'proposal \\tilde{x}, diagnostics', 'reconfigure c_t', 'context \\mathcal{K}_t', 'added / revised over time', 'agent \\mathbb{A} selects x_{t+1}', 'x_{t+1}', 'metrics', 'evaluate h(\\cdot)', 'append to \\mathcal{D}_t', 'observe', '(b) Agentic BO'.\n\nStyle Grammar and Paired Color Tokens:\nSurface profile: pastel-airy-ui.\nCanvas: Pure white (#FFFFFF) with high negative space and airy breathing room.\nSurrogate and Acquisition Math: Soft warm peach / apricot (#FAE8DC).\nAgent and Decision Core: Soft pastel periwinkle baby blue (#DBE7FB).\nExecution Anchor: Deep slate charcoal (#4B5563) with crisp white text (#FFFFFF).\nData Buffer and Context: Soft neutral light gray (#E9E9EC).\nTypography: Academic LaTeX Computer Modern serif for mathematical variables and notation (\\Pi_0, \\mathcal{K}_t, \\mathcal{D}_t, x_{t+1}, \\tilde{x}, \\alpha, h(\\cdot), c_t) combined with clean geometric sans-serif for functional labels.\nConnectors: Minimalist 1.2px dark charcoal orthogonal lines with neat filled arrowheads.\n\nNegative Constraints and Exclusions:\nNo overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No dark background. No heavy black comic cartoon outlines. No 3D glossy chrome. Aspect ratio 16:9.",
+  "aspect_ratio": "16:9",
+  "final_width_mm": 183,
+  "visible_text": [
+    "fixed policy \\Pi_0",
+    "GP surrogate + acquisition \\alpha",
+    "select x_{t+1} = arg max_x \\alpha",
+    "\\bar{x}_{t+1}",
+    "evaluate h(\\cdot)",
+    "append to \\mathcal{D}_t",
+    "(a) Standard BO",
+    "proposal \\tilde{x}, diagnostics",
+    "reconfigure c_t",
+    "context \\mathcal{K}_t",
+    "added / revised over time",
+    "agent \\mathbb{A} selects x_{t+1}",
+    "x_{t+1}",
+    "metrics",
+    "observe",
+    "(b) Agentic BO"
+  ],
+  "topology": {
+    "components": [
+      {"id": "std_surrogate", "label": "GP surrogate + acquisition \\alpha", "role": "surrogate"},
+      {"id": "std_select", "label": "select x_{t+1} = arg max_x \\alpha", "role": "selection"},
+      {"id": "std_eval", "label": "evaluate h(\\cdot)", "role": "evaluator"},
+      {"id": "std_append", "label": "append to \\mathcal{D}_t", "role": "memory"},
+      {"id": "agentic_surrogate", "label": "GP surrogate + acquisition \\alpha", "role": "surrogate"},
+      {"id": "agentic_context", "label": "context \\mathcal{K}_t", "role": "context"},
+      {"id": "agentic_agent", "label": "agent \\mathbb{A} selects x_{t+1}", "role": "reasoning"},
+      {"id": "agentic_eval", "label": "evaluate h(\\cdot)", "role": "evaluator"},
+      {"id": "agentic_append", "label": "append to \\mathcal{D}_t", "role": "memory"}
+    ],
+    "connections": [
+      {"id": "c1", "from": "std_surrogate", "to": "std_select", "kind": "executed", "direction": "forward"},
+      {"id": "c2", "from": "std_select", "to": "std_eval", "kind": "executed", "direction": "forward"},
+      {"id": "c3", "from": "std_eval", "to": "std_append", "kind": "executed", "direction": "forward"},
+      {"id": "c4", "from": "std_append", "to": "std_surrogate", "kind": "feedback", "direction": "forward"},
+      {"id": "c5", "from": "agentic_surrogate", "to": "agentic_agent", "kind": "data", "direction": "forward"},
+      {"id": "c6", "from": "agentic_agent", "to": "agentic_surrogate", "kind": "control", "direction": "forward"},
+      {"id": "c7", "from": "agentic_context", "to": "agentic_agent", "kind": "data", "direction": "forward"},
+      {"id": "c8", "from": "agentic_agent", "to": "agentic_eval", "kind": "executed", "direction": "forward"},
+      {"id": "c9", "from": "agentic_eval", "to": "agentic_agent", "kind": "feedback", "direction": "forward"},
+      {"id": "c10", "from": "agentic_eval", "to": "agentic_append", "kind": "executed", "direction": "forward"},
+      {"id": "c11", "from": "agentic_append", "to": "agentic_agent", "kind": "feedback", "direction": "forward"},
+      {"id": "c12", "from": "agentic_append", "to": "agentic_surrogate", "kind": "feedback", "direction": "forward"}
+    ],
+    "groups": [
+      {
+        "id": "group_std_bo",
+        "label": "Standard BO Loop",
+        "component_ids": ["std_surrogate", "std_select", "std_eval", "std_append"]
+      },
+      {
+        "id": "group_agentic_bo",
+        "label": "Agentic BO Loop",
+        "component_ids": ["agentic_surrogate", "agentic_context", "agentic_agent", "agentic_eval", "agentic_append"]
+      }
+    ],
+    "authority_boundaries": [
+      {
+        "id": "b_fixed_policy",
+        "label": "fixed policy \\Pi_0",
+        "encloses": ["std_surrogate", "std_select"]
+      }
+    ]
+  },
+  "layout": {
+    "composition": "comparison",
+    "hero": "agentic_agent",
+    "reading_order": [
+      "std_surrogate", "std_select", "std_eval", "std_append",
+      "agentic_surrogate", "agentic_context", "agentic_agent", "agentic_eval", "agentic_append"
+    ],
+    "group_regions": {
+      "group_std_bo": "left 42%",
+      "group_agentic_bo": "right 58%"
+    },
+    "nesting_depth": 1,
+    "whitespace": "open",
+    "routing_notes": ["Generous whitespace", "Floating pastel cards", "Dashed scope box"]
+  },
+  "style_profile": "pastel-airy-ui",
+  "style_preset": "现代柔彩空气风",
+  "style_source": "scene",
+  "style_grammar": {
+    "marks": "clean floating UI cards with soft pastel apricot surrogate, periwinkle blue agent, deep slate charcoal evaluation anchor, and stacked context layers",
+    "fills": "opaque pure white background with pastel floating cards and slate solid pill",
+    "strokes": "subtle 1px border with delicate elevation and dashed scope boundary",
+    "typography": "academic LaTeX Computer Modern serif math variables with clean geometric sans-serif labels",
+    "shadow": "subtle",
+    "density": "airy"
+  },
+  "semantic_color_roles": {
+    "surrogate": {
+      "fill": "#FAE8DC",
+      "outline": "#F5D0B5",
+      "title": "#1E293B",
+      "icon_accent": "#FDBA74"
+    },
+    "agent": {
+      "fill": "#DBE7FB",
+      "outline": "#BFDBFE",
+      "title": "#0F172A",
+      "icon_accent": "#60A5FA"
+    },
+    "evaluator": {
+      "fill": "#4B5563",
+      "outline": "#374151",
+      "title": "#FFFFFF",
+      "icon_accent": "#9CA3AF"
+    },
+    "memory": {
+      "fill": "#E9E9EC",
+      "outline": "#D1D5DB",
+      "title": "#334155",
+      "icon_accent": "#9CA3AF"
+    }
+  },
+  "reference_images": [],
+  "must_not_claim": ["untested human equivalence in optimization reasoning"],
+  "forbidden_connections": ["agentic_context -> std_surrogate"],
+  "negative_constraints": [
+    "no overall top title banner across canvas",
+    "no markdown formatting symbols (#, **, -, |)",
+    "no dark background",
+    "no heavy black comic cartoon outlines",
+    "no 3D glossy chrome"
+  ],
+  "prompt_review": "waived",
+  "workspace_root": "/home/dministrator/Lab/clones/academic-figure-skills",
+  "output_path": "/home/dministrator/Lab/clones/academic-figure-skills/docs/gallery/pastel_airy_ui_agentic_bo.jpg"
+}

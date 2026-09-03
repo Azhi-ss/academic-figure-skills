@@ -53,11 +53,11 @@ npx skills add Azhi-ss/academic-figure-skills -l
 </tr>
 <tr>
 <td align="center" width="50%">
-<img src="docs/gallery/pastel_airy_ui_swe_agent.jpg" alt="现代柔彩空气风" />
-<br/><b>现代柔彩空气风 (Pastel Airy UI)</b>
-<br/><sub><b>对标论文：</b><a href="https://arxiv.org/abs/2405.15793">SWE-agent (ICML 2024)</a> Fig 2 / <a href="https://arxiv.org/abs/2210.03629">ReAct (ICLR 2023)</a> Fig 1</sub>
-<br/><sub><b>核心特征：</b>纯白浮动卡片、CLI 终端仿真视窗、悬浮柔彩 Token / Pill、大比率优雅留白与代码补丁流</sub>
-<br/><sub><a href="docs/prompts/pastel_airy_ui_swe_agent.txt">📄 查看实测 Prose 提示词</a></sub>
+<img src="docs/gallery/pastel_airy_ui_agentic_bo.jpg" alt="现代柔彩空气风" />
+<br/><b>现代柔彩空气风 (Pastel Airy UI / Modern Pastel Airy)</b>
+<br/><sub><b>对标论文：</b><a href="https://arxiv.org/abs/2608.00316">Brunzema et al. (arXiv:2608.00316)</a> Fig 1 / <a href="https://arxiv.org/abs/2405.15793">SWE-agent (ICML 2024)</a> Fig 2</sub>
+<br/><sub><b>核心特征：</b>纯白高留白画布、柔杏数学代理卡片、柔雾冰蓝 Agent 中枢、深灰高对比评估锚点、虚线作用域容器与叠层演进上下文</sub>
+<br/><sub><a href="docs/prompts/pastel_airy_ui_agentic_bo.txt">📄 查看实测 Prose 提示词</a></sub>
 </td>
 <td align="center" width="50%">
 <img src="docs/gallery/contrast_ablation_kan.jpg" alt="对比消融实验风" />

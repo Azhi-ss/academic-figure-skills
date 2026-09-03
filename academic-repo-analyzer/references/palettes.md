@@ -48,8 +48,9 @@ Small body text remains neutral `#24323D`. The colored values below are heading 
 | **P1 Warm ML** | playful, teaching, human-centered | `#FFD0D0` `#BBDEFB` `#FFF3C4` `#E1BEE7` `#C8E6C9` | `#A93636` `#146C61` `#6A5ACD` `#2F7430` |
 | **P2 Cool Research** | calm token-centric research figure | `#B3E5FC` `#C5CAE9` `#CFD8DC` `#B2DFDB` `#D1C4E9` | `#1565C0` `#3949AB` `#006F65` |
 | **P3 Earthy Warm** | natural or embodied visual direction | `#FFE0B2` `#D7CCC8` `#C8E6C9` `#E0E0E0` `#EFEBE9` | `#6D4C41` `#827717` `#2E7D32` |
+| **P4 Airy Agentic BO** | surrogate backend, agent decision, charcoal eval anchor | `#FAE8DC` (Peach) `#DBE7FB` (Periwinkle) `#4B5563` (Slate) `#E9E9EC` (Gray) | `#1E293B` `#0F172A` `#FFFFFF` `#334155` |
 
-If a reference is present, derive its token pairs instead of snapping every soft figure to the nearest P1–P3 scheme.
+If a reference is present, derive its token pairs instead of snapping every soft figure to the nearest P1–P4 scheme.
 
 ---
 

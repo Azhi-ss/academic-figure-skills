@@ -1,0 +1,31 @@
+Figure Type and Communication Goal:
+Modern pastel airy academic architecture diagram on pure white canvas (#FFFFFF), aspect ratio 16:9, top-tier AI/ML conference style, illustrating the paradigm shift from Standard Bayesian Optimization to Agentic Bayesian Optimization based on Meta autoresearch framework (arXiv:2608.00316 Figure 1 and Figure 3). No top title banner across the entire canvas.
+
+Composition and Layout Proportions:
+Two balanced side-by-side comparative sections occupying the full 16:9 canvas with generous negative space and airy breathing room. Left Section (a) Standard BO occupies 42% of canvas width. Right Section (b) Agentic BO occupies 58% of canvas width. Clear vertical airflow and elegant orthogonal routing throughout both sections.
+
+Structured Panels and SVMC Visual Metaphors:
+1. Left Section (a) Standard BO (Subcaption text '(a) Standard BO' centered at bottom): Features an outer gray dashed rounded rectangle (#94A3B8, stroke-dasharray 4,4) labeled 'fixed policy \Pi_0' representing static algorithmic boundary. Inside this dashed boundary, top rounded card in soft warm apricot (#FAE8DC fill, crisp charcoal text) contains 'GP surrogate + acquisition \alpha'. Downward orthogonal black arrow (#1E293B) leads to middle soft warm apricot card containing 'select x_{t+1} = arg max_x \alpha'. Downward solid arrow labeled '\bar{x}_{t+1}' exits dashed boundary into an expensive execution anchor styled as a solid deep slate charcoal pill (#4B5563 fill, bold white text) containing 'evaluate h(\cdot)'. Downward solid arrow leads to a soft neutral light gray rounded card (#E9E9EC fill, dark text) containing 'append to \mathcal{D}_t'. Clean orthogonal thin black feedback arrow curves from 'append to \mathcal{D}_t' on the right and feeds back up into top 'GP surrogate + acquisition \alpha'.
+2. Right Section (b) Agentic BO (Subcaption text '(b) Agentic BO' centered at bottom): Top soft warm apricot rounded card (#FAE8DC fill, dark text) contains 'GP surrogate + acquisition \alpha'. In the center layer, middle-left shows a stacked dynamic context card (#E9E9EC fill, subtle dashed edges and layered shadows) containing 'context \mathcal{K}_t' with subtext 'added / revised over time'. Middle-center shows the intelligent reasoning core styled as a soft pastel periwinkle blue rounded card (#DBE7FB fill, crisp navy text) containing 'agent \mathbb{A} selects x_{t+1}'. Downward arrow with label 'proposal \tilde{x}, diagnostics' flows from top surrogate down to agent. Upward arrow with label 'reconfigure c_t' flows from agent up to top surrogate. Right-pointing arrow from stacked context flows into agent. Below the agent, downward arrow with label 'x_{t+1}' flows into expensive execution anchor styled as a solid deep slate charcoal pill (#4B5563 fill, bold white text) containing 'evaluate h(\cdot)'. Upward return arrow labeled 'metrics' flows from evaluate back up to agent. Downward arrow flows from evaluate into bottom soft neutral light gray card (#E9E9EC fill) containing 'append to \mathcal{D}_t'. Right-hand vertical upward line labeled 'observe' flows from dataset up into agent, and closed-loop feedback arrow curves up from dataset to top surrogate backend.
+
+Topology and Typed Connections:
+Left Standard BO: GP surrogate -> select argmax -> evaluate h -> append to D_t -> GP surrogate (closed sequential loop).
+Right Agentic BO: context K_t -> agent A (contextual steering); surrogate <-> agent A (bi-directional query and reconfiguration); agent A -> evaluate h -> append to D_t (decision execution and recording); evaluate h -> agent A (metrics feedback); append to D_t -> agent A (live observation); append to D_t -> surrogate (posterior update loop).
+Draw no other inter-module connections.
+
+Visible Text Closed List:
+Left Section: 'fixed policy \Pi_0', 'GP surrogate + acquisition \alpha', 'select x_{t+1} = arg max_x \alpha', '\bar{x}_{t+1}', 'evaluate h(\cdot)', 'append to \mathcal{D}_t', '(a) Standard BO'.
+Right Section: 'GP surrogate + acquisition \alpha', 'proposal \tilde{x}, diagnostics', 'reconfigure c_t', 'context \mathcal{K}_t', 'added / revised over time', 'agent \mathbb{A} selects x_{t+1}', 'x_{t+1}', 'metrics', 'evaluate h(\cdot)', 'append to \mathcal{D}_t', 'observe', '(b) Agentic BO'.
+
+Style Grammar and Paired Color Tokens:
+Surface profile: pastel-airy-ui.
+Canvas: Pure white (#FFFFFF) with high negative space and airy breathing room.
+Surrogate and Acquisition Math: Soft warm peach / apricot (#FAE8DC).
+Agent and Decision Core: Soft pastel periwinkle baby blue (#DBE7FB).
+Execution Anchor: Deep slate charcoal (#4B5563) with crisp white text (#FFFFFF).
+Data Buffer and Context: Soft neutral light gray (#E9E9EC).
+Typography: Academic LaTeX Computer Modern serif for mathematical variables and notation (\Pi_0, \mathcal{K}_t, \mathcal{D}_t, x_{t+1}, \tilde{x}, \alpha, h(\cdot), c_t) combined with clean geometric sans-serif for functional labels.
+Connectors: Minimalist 1.2px dark charcoal orthogonal lines with neat filled arrowheads.
+
+Negative Constraints and Exclusions:
+No overall top title banner across canvas. No markdown formatting symbols (#, **, -, |). No dark background. No heavy black comic cartoon outlines. No 3D glossy chrome. Aspect ratio 16:9.
