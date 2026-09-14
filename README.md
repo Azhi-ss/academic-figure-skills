@@ -1,11 +1,11 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-3.1.0-blue)
+![Version](https://img.shields.io/badge/version-3.2.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Stars](https://img.shields.io/github/stars/Azhi-ss/academic-figure-skills?style=social)
 
 **Academic paper figure skills for Claude Code, Cursor, Codex & Gemini CLI.**  
-AI 驱动的学术论文配图技能包：证据分析 → FigurePlan v1 → FigureSpec v1 → 原生生图 → RenderAudit v1 → 定向修图。
+AI 驱动的学术论文配图技能包：证据分析 → FigurePlan v1 → 提示词设计 / FigureSpec v1 → 原生生图 → RenderAudit v2 → 定向修图。
 
 > **是什么？** 5 个可独立安装的 agent skill，覆盖仓库/论文/草稿/参考图分析、可追溯配图规划、统一风格与色彩设计、结构化规范、Codex 原生直接生图和生成后视觉审计。skill 定义可复用流程，不等于常驻子智能体；仅端到端 workflow 会在任务可独立拆分时临时派发 figure worker。三个 surface profile 是 `classic-technical`（现代前沿技术框线/经典矢量）、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是保留参考图真实语法的覆盖模式，不等同于手绘柔彩风。色板是风格下的可选变量，不再由代码目录数决定。
 
@@ -29,6 +29,32 @@ npx skills add Azhi-ss/academic-figure-skills -g --all
 ```bash
 npx skills add Azhi-ss/academic-figure-skills -l
 ```
+
+## 构造、诊断与修订画图提示词
+
+直接调用 `academic-figure-designer`，不另建第二套 prompt 编译器：
+
+| 你可以这样说 | 交付 |
+|---|---|
+| “根据这些机制构造英文画图 prompt，先不要生图” | 设计简报、完整 prompt、待核实项 |
+| “诊断这个 prompt 为什么容易画乱，不改文件” | 问题位置、影响和最小修正建议 |
+| “颜色丰富一些，但节点、文字、连线不动，修改 prompt” | 改动与保留清单、完整新 prompt |
+| “按照这个 prompt 直接画图，不用返回提示词” | 校验后的内部 prompt、图片和逐版本审核 |
+
+设计逻辑是：读者问题 → 有证据的科学骨架 → 确定风格/参考图语法 → 联合设计布局、视觉锚点与文字容量 → 闭合连线 → 完整 prompt → 图片验收。风格在布局定稿前介入，不是写完提示词后的附加形容词；已选风格直接复用，不增加确认关卡。“增加颜色”“增加信息”“减少混乱”分别处理；手绘机器人、公式卡和微型图都是可选表达，不再强制每节点三件套。多 agent 讨论必须有真实交互证据，独立评审不自动改画成投票或协商。
+
+具体见 [提示词设计逻辑](academic-figure-designer/references/prompt-design-logic.md)、[可填充模板](academic-figure-designer/references/prompt-templates.md) 和 [案例与迁移测试](academic-figure-designer/references/prompt-design-cases.md)。本次提炼参考 Nuwa 的主题框架方法；成品技能没有 Nuwa 运行时依赖。
+
+### 审核记录与图片正确性分开
+
+新 RenderAudit v2 将记录绑定到实际 image/spec SHA-256，并逐节点、逐边记录 `pass / fail / unverified`。局部修箭头或只调颜色后也重新检查全图；不把旧图的 PASS 移植到新图。
+
+```bash
+python3 academic-figure-workflow/scripts/validate_render_audit.py \
+  --spec figure.spec.json --image figure.png figure.audit.json
+```
+
+返回码：0 是记录完整且全部断言通过；1 是记录有效但未通过验收；2 是记录缺项、版本绑定不符或状态矛盾。它不能看图，不能证明审核者的断言真实；FigureSpec 校验与记录校验都不能代替实际图片目检。旧 v1 审核只保留为历史，新图重新生成 v2 审核。
 
 ## 顶会级配图风格全景展示 (Style Showcase Gallery)
 
@@ -99,7 +125,7 @@ npx skills add Azhi-ss/academic-figure-skills -l
 
 ## 完整工作流
 
-3.1.0 不设置固定“三道门禁”。只有存在会实质改变结果的语义歧义、未解决 placeholder，或用户主动要求 review 时才暂停；用户明确要求“直接生成 / 不展示 prompt / 使用本地模型”时，prompt review 记为 waived 并继续执行。
+3.2.0 不设置固定“三道门禁”。只有存在会实质改变结果的语义歧义、未解决 placeholder，或用户主动要求 review 时才暂停；用户明确要求“直接生成 / 不展示 prompt / 使用本地模型”时，prompt review 记为 waived 并继续执行。
 
 ```
 代码 / 论文 / URL / 参考图
@@ -110,7 +136,7 @@ style grammar + FigureSpec v1
           ↓  [render-ready: trusted workspace + prompt-review binding]
 Codex image_gen.imagegen / compatible backend
           ↓
-view_image(original) → RenderAudit v1 → 最多两次有缺陷依据的 targeted edit
+view_image(original) → RenderAudit v2 → 最多两次有缺陷依据的 targeted edit
           ↓
 工作区内绝对路径交付
 ```
@@ -125,7 +151,7 @@ view_image(original) → RenderAudit v1 → 最多两次有缺陷依据的 targe
 
 返修不重起一轮盲目重绘，而是：
 
-1. 以 original detail 查看当前最佳版本并生成 RenderAudit v1；
+1. 以 original detail 查看当前最佳版本并生成绑定 image/spec 哈希的 RenderAudit v2；
 2. 将该图作为 `referenced_image_paths` 的第一张图；
 3. 只描述已观察缺陷、精确修复与必须保持的正确区域；
 4. 保存 `r0/r1/r2` 版本，每次编辑后重新查看与审计；
@@ -197,7 +223,7 @@ git clone https://github.com/Azhi-ss/academic-figure-skills.git
 You: 分析这个仓库并直接调用本地 Codex 生图，不要展示 prompt
 AI:  [Semantic Architecture → FigurePlan v1 → FigureSpec v1
       → render-ready validation → image_gen.imagegen
-      → RenderAudit v1 → 绝对路径交付]
+      → RenderAudit v2 → 绝对路径交付]
 ```
 
 ```
@@ -210,7 +236,7 @@ AI:  [解析论文 URL 与原图 → ReferenceAnalysis v1 → style grammar
 ```
 # 场景 3: 基于首图做定向修订
 You: 保持布局，只修复乱码、透明背景和多余节点
-AI:  [view_image(original) → RenderAudit v1 → 当前最佳图作第一引用
+AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
       → targeted image edit → 再审计；最多两轮]
 ```
 
@@ -253,7 +279,7 @@ AI:  [view_image(original) → RenderAudit v1 → 当前最佳图作第一引用
 | **[docs/palettes.md](docs/palettes.md)** | 12 套经典 preset、I1 paired semantic tokens 与四种路由模式 |
 | **[docs/styles.md](docs/styles.md)** | 三个 surface profile、reference-led 模式与可组合 style layers |
 | **[docs/codex-image-workflow.md](docs/codex-image-workflow.md)** | Codex 原生生成、参考图编辑与安全调用 |
-| **[docs/render-audit.md](docs/render-audit.md)** | RenderAudit v1 与定向修订检查项 |
+| **[docs/render-audit.md](docs/render-audit.md)** | RenderAudit v2：图片/spec 绑定、逐边检查与定向修订 |
 | **[docs/missing-info-policy.md](docs/missing-info-policy.md)** | 缺信息时的统一策略 |
 | **[CHANGELOG.md](CHANGELOG.md)** | 版本历史 |
 | **[CONTRIBUTING.md](CONTRIBUTING.md)** | 贡献指南 |
@@ -278,8 +304,8 @@ A: 可以。明确说“直接生成 / 不展示 prompt / 使用本地模型”�
 ### Q: 必须按顺序跑完整流水线吗？
 A: 不需要。可直接 prompt / color-expert / repo-analyzer。
 
-### Q: 3.1.0 有什么变化？
-A: 3.1.0 直接调用 Codex `image_gen.imagegen`，支持论文 URL 与参考图条件化生成、可机器执行的 prompt-review/hash 状态、可信工作区 render-ready 校验，并在首图后执行 RenderAudit v1；发现明确缺陷时使用当前最佳图作第一引用，最多进行两次定向编辑。
+### Q: 3.2.0 有什么变化？
+A: 3.2.0 支持先构造、诊断或修订 prompt，也可直接调用 Codex `image_gen.imagegen`。实际生成遵守 prompt-review/hash 与可信工作区 render-ready 校验；每张新图执行 RenderAudit v2，绑定图片/spec 哈希并逐边目检。发现缺陷时使用当前最佳图作第一引用，最多进行两次定向编辑；只写 prompt 的任务不启动生图。
 
 ## 引用
 

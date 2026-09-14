@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2026-09-10
+
+### Added
+
+- 在现有 designer 中加入 construct / diagnose / revise 三个 prompt 模式及明确停止点；prompt-only 不调用 renderer，也不虚构运行路径。
+- 提示词设计参考、完整构造/修订模板和本地反馈衍生案例；区分真实用户需求、合成回归场景与尚未验证的历史图片。
+- RenderAudit@2：image/spec 原始字节 SHA-256 绑定、独立 spec-validation/image-inspection 状态、完整节点与逐边证据。
+- stdlib 审核记录校验器与回归测试：缺边、过期摘要、伪造整体 PASS、未验证项和语义字段不匹配无法通过。程序验证记录而非图像像素。
+
+### Changed
+
+- 移除强制每节点“图标 + 小图 + 公式卡”和固定容器比例；依据科学角色选择必要视觉锚点。
+- 将颜色丰富度、内容密度、排版层级分别处理；多 agent 讨论须有真实消息交互证据。
+- 明确在科学骨架确认后、布局定稿前融入风格；同步 designer、编译器、模板与 figure worker，复用已选风格并保留仅换风格时的科学约束，不新增确认关卡。
+- 局部图像编辑显式保留关键边，并对整张新图重新审核；不沿用上一版的 PASS。
+- 统一编译器、模板、workflow 和共享执行/审核文档；FigureSpec@1 保持兼容。designer 2.2.0、workflow 1.7.0。
+- 采用 Nuwa 主题提炼方法辅助整理开发经验；交付技能无 Nuwa 运行时依赖。
+
 ## [3.1.0] - 2026-08-27
 
 ### Added

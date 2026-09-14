@@ -2,7 +2,14 @@
 
 An image prompt is a rendering adapter for FigureSpec v1. It should preserve evidence-backed topology and a concrete visual grammar while avoiding production instructions that the model may draw as text.
 
+For construct/diagnose/revise decisions and feedback routing, first use
+`prompt-design-logic.md`; this guide elaborates visual choices after those
+decisions. “More color”, “more information”, and “less clutter” are distinct
+changes, not interchangeable requests for decoration.
+
 ## Before writing
+
+After grounding the scientific skeleton, choose or reuse the visual grammar before finalizing composition, marks and text capacity. Follow the style-timing rules in `prompt-design-logic.md`; the prose order below does not postpone style decisions until after layout.
 
 Confirm:
 

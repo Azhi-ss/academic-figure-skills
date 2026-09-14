@@ -1,6 +1,6 @@
 {
   "name": "academic-figure-skills",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Reference-aware academic figure workflow for evidence-backed planning, FigureSpec generation, native Codex rendering, visual audit, and targeted image revision.",
   "author": "Azhi-ss",
   "repository": "https://github.com/Azhi-ss/academic-figure-skills",
@@ -9,7 +9,7 @@
     {
       "id": "academic-figure-workflow",
       "name": "Academic Figure Workflow",
-      "version": "1.6.0",
+      "version": "1.7.0",
       "description": "Plan, generate, inspect, and refine academic figures from repositories, papers, paper URLs, PDFs, or reference images, with conditional review and native image-tool routing.",
       "path": "./academic-figure-workflow",
       "trigger_phrases": [
@@ -70,12 +70,14 @@
     },
     {
       "id": "academic-figure-designer",
-      "name": "Academic Figure Designer & Spec Engine",
-      "version": "2.1.0",
-      "description": "Unified academic figure designer, semantic color & surface decision engine, and FigureSpec v1 compiler for classic-technical, pastel-airy-ui, illustrated-modular, and reference-led styles.",
+      "name": "Academic Figure Designer & Prompt Engine",
+      "version": "2.2.0",
+      "description": "Evidence-grounded academic figure design and prompt construction, diagnosis, and revision; semantic palettes, reference-led styles, and FigureSpec v1 compilation.",
       "path": "./academic-figure-designer",
       "trigger_phrases": [
         "设计论文配图", "论文配图", "生成论文配图", "学术论文生图",
+        "构造画图提示词", "诊断画图prompt", "修改绘图提示词",
+        "construct figure prompt", "diagnose figure prompt", "revise figure prompt",
         "架构图", "框架图", "顶会风格配图", "学术配图配色",
         "论文配色方案", "色盲友好配色", "配图风格选择",
         "CVPR 风格图", "NeurIPS 风格图", "ICLR 风格图",

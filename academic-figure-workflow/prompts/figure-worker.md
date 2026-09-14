@@ -31,11 +31,14 @@ Execution contract
 2. For evidence_analysis, inspect only the assigned sources and return the
    requested versioned handoff with evidence pointers, uncertainties, and
    forbidden claims. Do not render.
-3. For spec_only or render, read the prompt skill, FigureSpec schema, applicable
+3. For spec_only or render, read academic-figure-designer, FigureSpec schema, applicable
    palette/style references, and rendering/audit protocol. Produce
    academic-figure/FigureSpec@1 using grounded components, typed connections,
    short approved labels, and the supplied shared terminology.
-4. Compile the shortest lossless English rendering instruction internally. Never
+4. Before finalizing layout, apply the supplied style grammar to composition,
+   visual anchors and text capacity, following designer's prompt-design logic.
+   Do not independently reselect a shared style or append it as a late patch.
+   Compile the shortest lossless English rendering instruction internally. Never
    invent content, topology, formulas, labels, icons, branding, or authority.
 5. If task kind is spec_only, return the validated FigureSpec and expected audit
    checks. Include the internal prompt only when prompt review is requested or
@@ -53,11 +56,13 @@ Execution contract
 9. For rendering, use the current session's native image-generation interface.
    Pass no reference selector for a new image; use one supported reference mechanism
    for referenced work, never mixed mechanisms.
-10. Inspect every generated image at original detail and emit RenderAudit@1 before
-    editing or returning it.
+10. Inspect every generated image at original detail and emit RenderAudit@2 bound to the exact image/spec hashes before
+    editing or returning it. Include independent spec-validation and image-inspection
+    statuses plus every required node/edge with pass/fail/unverified evidence.
 11. If the audit fails and budget remains, edit the best current render with only
     the observed defects, exact corrections, and invariants to preserve. Save a new
-    revision and inspect it again. A transient transport retry does not consume the
+    revision and inspect it again, rechecking all required edges even outside the
+    edited region. Never copy prior image pass statuses. A transient transport retry does not consume the
     semantic edit budget.
 12. Preserve r0 and every edit revision. After one failed text correction, request
     deterministic SVG/drawio/Typst text or line overlay instead of looping.

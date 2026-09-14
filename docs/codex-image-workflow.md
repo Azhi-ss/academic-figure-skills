@@ -1,6 +1,8 @@
 # Codex Native Image Generation and Revision
 
-Use this execution contract when Codex exposes its built-in image generation/editing capability. The user should receive the image artifact, not an internal prompt-writing exercise.
+Use this execution contract when Codex exposes its built-in image generation/editing capability. For image requests the user receives the image artifact. Explicit prompt construction,
+diagnosis, revision or planning requests stop at their requested text deliverable;
+this execution contract does not authorize rendering those requests.
 
 ## Default interaction
 
@@ -99,10 +101,14 @@ Record:
 - wrong connection endpoints, direction, line semantics, or branch labels;
 - invented claims or capabilities;
 - missing, duplicated, misspelled, garbled, or production-instruction text;
-- overlap, clipping, illegible scale, transparent/dark background, or wrong aspect ratio;
+- overlap, clipping, illegible scale, background or opacity differing from the FigureSpec, or wrong aspect ratio;
 - style drift in composition, fills, strokes, typography, illustration language, or density.
 
-Do not accept a render merely because the API returned successfully.
+Emit RenderAudit@2 following `render-audit.md`: bind exact image/spec SHA-256,
+separate spec_validation from image_inspection, and cover every required node and
+edge with pass/fail/unverified evidence. Scan for extra and forbidden relations.
+Do not accept a render merely because the API returned successfully, the spec
+validated, or a previous image passed.
 
 ## Targeted image revision
 
@@ -114,17 +120,20 @@ When defects are repairable:
    **edit mode**, with the checked current render as the first local reference
    image. Include a style reference only when style drift is one of the audited
    defects.
-4. Write a surgical internal edit instruction containing the observed defect, its exact correction, and the invariant regions that must remain unchanged.
+4. Write a surgical internal edit instruction containing the observed defect, its exact correction, and explicit critical edge endpoints/directions/types, labels and authority
+   boundaries that must remain unchanged.
 5. Prefer “remove incorrect edge X; add edge A → B with a dashed purple line; preserve all other nodes, labels, positions, and colors” over regenerating the entire design.
 6. Save the result as a new revision; never overwrite the only known-good image.
-7. Reinspect the edited output at original detail and emit a new RenderAudit revision. A change passes only when it fixes the target without regressing topology, text, layout, or style elsewhere.
+7. Reinspect the edited output at original detail, reset every ledger status, and
+   emit a newly bound RenderAudit@2. Check every required edge, including those
+   outside the edited region. A change passes only when it fixes the target without regressing topology, text, layout, or style elsewhere.
 
 Use this control loop:
 
 ```text
 initial generation (r0)
   -> inspect at original detail
-  -> RenderAudit@1
+  -> RenderAudit@2
   -> pass: select and deliver
   -> fail, repairable, edits_used < 2:
        edit best current render -> r1/r2 -> reinspect -> new audit
@@ -145,6 +154,10 @@ Native image generation does not guarantee exact typography. If required labels 
 - Leave Codex's original generated asset in place.
 - Use recoverable revision names such as `fig1-r0.png`, `fig1-r1.png`, and `fig1-r2.png`; copy the selected result to FigureSpec's stable final path.
 - Sanitize metadata on delivery: run `clean_image_metadata.py` (or `strip_image_metadata`) on the final deliverable to strip all C2PA, EXIF, and provenance markers, ensuring clean, publication-ready images.
+- After all delivery-file transformations, inspect that exact file and bind its
+  final RenderAudit@2. Validate the record using workflow's
+  `scripts/validate_render_audit.py --spec <spec.json> --image <image.png> <audit.json>`.
+  This checks record integrity, not pixels or scientific truth.
 - Keep the initial render, prior revisions, FigureSpec, and RenderAudit records together when practical.
 - Never leave the only deliverable in a temporary directory.
 - Return or display the final image artifact and a clickable absolute local file

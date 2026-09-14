@@ -1,105 +1,76 @@
 # FigureSpec to Image Prompt Compilation
 
-Compile FigureSpec v1 into natural-language rendering instructions without changing its scientific content. The prompt is a backend adapter, not a second design stage.
+Compile settled design decisions into rendering instructions without changing scientific content. This is the single compiler. Use `prompt-design-logic.md` first for construction, diagnosis, or revision; do not infer new science during compilation.
 
 ## Invariants
 
-1. Preserve every component ID and every connection endpoint.
-2. Do not add dimensions, formulas, model variants, legends, icons, or side notes absent from FigureSpec.
-3. Do not convert style tokens into visible words such as `WHITE FILL`, `300 DPI`, hex codes, or stroke widths.
-4. Only values in `visible_text` and explicit block label fields may be rendered as text.
-5. `caption_note`, evidence pointers, JSON keys, and production metadata are never visible.
-6. Reference images remain structured image inputs when the backend supports them; prose is not a replacement for reference conditioning.
-7. **Strict Prose Normalization (Zero Markdown Syntax)**: Prompts must be clean structured natural language prose. Never use Markdown formatting symbols (such as `#`, `**`, `*`, `- `, backticks, or `|---|` tables) inside the prompt sent to the image model. Models frequently paint Markdown syntax tokens as visual text artifacts on the canvas.
+1. Preserve every declared component and every edge's endpoints, direction, kind, line semantics and label.
+2. Add no unsourced dimensions, formulas, claims, legends, icons or capabilities. A reference supplies style, not evidence for the target method.
+3. Only approved `visible_text` and explicitly reconciled component/edge labels are visible. If local label fields and the global inventory disagree, repair the design before compiling.
+4. Evidence pointers, caption notes, JSON keys and production metadata are not visible. Hex colors are style instructions, not labels.
+5. Reference images remain structured image inputs when supported; prose does not replace reference conditioning.
+6. Use compact natural-language paragraphs, without Markdown headings, emphasis, bullet markers or tables around instructions. Do not remove approved scientific symbols merely because they resemble markup.
+7. Prompt-only output does not claim rendering or visual validation occurred. A draft brief may precede render-ready FigureSpec; never fabricate output paths to satisfy a prompt-writing request.
 
-## Compilation order
+## One compilation order
 
-### 1. Lead with figure purpose and style grammar
+This is the prose order, not the design-decision order. Settle the style grammar before finalizing layout; composition and component descriptions must already embody it even though detailed style tokens appear in section 5. If only a content brief exists, return to design before compiling, rather than appending a style slogan to an otherwise frozen prompt.
 
-Name the figure type, communication goal, aspect ratio, canvas, and selected style profile. Describe observable grammar—composition, marks, fills, stroke character, typography, spacing, and illustration level—rather than relying on venue names or vague words such as “professional.” Default to no canvas title because the figure title normally belongs in the external caption. If the user, FigureSpec, or supplied reference explicitly includes a title, compile that exact string once as a short non-banner heading with reserved whitespace.
+### 1. Purpose
 
-### 2. Describe composition by visual hierarchy and spatial proportions
+Name the figure type and one communication goal. State the dominant scientific mechanism and any high-risk meaning to avoid. Default to no overall canvas title; when requested, lock exactly one short non-banner title.
 
-Start with macro-containers, layout proportions, and spatial division across the canvas:
+### 2. Composition and components
 
-- **Macro-to-Micro Container Allocation**: Express spatial division explicitly by height/width percentage (e.g. `Top container: 30-35% height`, `Bottom container: 65-70% height`). This prevents the image model from clustering components into a corner or leaving massive empty dead space.
-- **Nested Card Architecture**: Use outer macro-containers with subtle dashed or light borders, and nest structured solid white sub-cards inside. This creates depth and multi-level organization without relying on drop shadows.
-- **Hero Focal Region**: Allocate 35–50% of visual attention to the central contribution (e.g., 3D response surface, complex policy loop, or multi-branch neural mechanism) and surround it with supporting context modules.
+Describe the reading order, dominant region, supporting groups and connector channels. Use approximate proportions only when they help, not for every container. Nest cards only when they express real hierarchy; a comparison grid need not have a hero region.
 
-Do not mechanically list JSON order. Preserve explicit spatial gaps and reading directions.
+Describe optional visual anchors already selected in the spec. A label-only node is valid. A useful hero schematic may replace several repetitive icons. No mandatory icon + mini-plot + math-card bundle.
 
-### 2.1 Scientific Visual Metaphor Compilation (SVMC: Preventing Text Dumps & Empty Boxes)
+Select visuals by the role they explain, not by the field's stereotypes:
 
-When components represent structured computation, representations, or experiments, never output generic empty text boxes. Inject the **Micro-Visual Trinity** for each key node:
-1. **Header Tag / Icon Badge**: Leading domain glyph (e.g. 💡 idea bulb, 🔬 microscope, 🔍 search loop).
-2. **Concrete Scientific Schematic**: Actual plot or geometric visualization (e.g. 3D GP mesh, 1D multi-peak curve, tensor block, heatmap, state graph).
-3. **Micro Mathematical/Data Card**: Core equation, uncertainty gauge, dialogue bubble, or bounded data table.
+| Meaning to communicate | Possible visual, if declared |
+|---|---|
+| Propose or reason about an action | small line-art agent with one short decision question |
+| Independent assessment | reviewer role and bounded advisory output; no invented consensus |
+| Uncertainty or acquisition | sourced schematic curve or actual deterministic plot |
+| Representation or transformation | token stream, tensor slices or connection matrix |
+| Experiment or observation | actual supported apparatus or measured-data symbol |
+| Memory and provenance | record stack or event graph, distinct from validation |
 
-Select archetypes compatible with the paper's actual modality:
+Do not insert a GP surface, threshold test, coupling formula or wet-lab robot merely because the paper concerns optimization. Any illustrative curve without measured data must be identified as schematic in approved labels or caption notes. Quantitative plots use actual data and deterministic plotting.
 
-- **Optimization & Active Learning Components**:
-  - *3D Gaussian Process / Response Surface*: 3D elevation mesh with diverging color gradients, highlighted elliptical focused regions ($\mathcal{X}_R^*$), and a mathematical coupling formula card ($f_R(x) = \rho f_L(x) + \delta(x)$).
-  - *1D Acquisition Function*: 1D curve with coordinate axes, observation dots, and a prominent red peak marker ($x^* = \arg\max \alpha_t(x)$) with a magnifying glass pointer.
-  - *Gating & Decision*: Decision diamond asking a threshold condition ($p_\Delta(x^*) < \tau?$) with branching checkmark (Yes) and cross (No) badges.
-  - *Cognitive Reasoning & Uncertainty*: Brain/chip glyph with quoted natural-language dialogue bubbles, paired with a half-circle uncertainty gauge meter and mini prediction table.
-  - *Physical / Wet-Lab Experiments*: Laboratory apparatus (glassware, beakers, microscope) paired with a computer monitor showing measurement curves.
-- **Neural & Representation Components**:
-  - *Feature / Tensor Blocks*: 3D orthogonal colored tensor blocks or stacked 2D feature slices with dimension annotations (e.g. `$B \times C \times H \times W$`).
-  - *Attention / Cross-Modal Matrix*: multi-layer square heatmap grid with diverging color intensity or bipartite connecting lines.
-  - *Loss / Objective Constraint*: mathematical minimization formula block with dashed purple bounding box.
-- **Pipeline & Stage Flows**:
-  - *Sequential Stages*: discrete rounded container cards with stage header pills and bold primary process icons.
-  - *Data Stream / Token Sequence*: horizontal array of rounded pills with clear left-to-right flow arrows.
-- **Systems, Data & Memory**:
-  - *Storage / Memory Buffer*: clean cylinder database glyph or node-edge episodic graph (EventGraph).
-  - *Queue / Buffer / Scheduler*: partitioned horizontal stack with incoming/outgoing directional arrows.
+### 3. Closed topology
 
-### 3. State topology as a closed list
+Translate each declared edge exactly once, identifying source and target by visible label and region when necessary. Include direction, semantic kind, line style and exact label when present. Internal IDs identify checks and are not visible labels unless separately approved.
 
-Translate each connection exactly once:
+For example: “Draw a solid forward executed arrow from Selection to Experiment, labelled Submit. Draw a dashed advisory arrow from Review to Fusion.” Use this only when those nodes and edges are actually declared.
 
-```text
-[from label] → [to label], [executed/advisory/feedback/persistence/exception],
-[solid/dashed/dotted], optional visible label "..."
-```
+State prohibited shortcuts explicitly where they would change meaning, then “Draw no other inter-module connections.” Spatial proximity never implies an edge. Preserve distinct bidirectional or backward edges without silently converting them to a forward pipeline.
 
-Add: “Draw no other inter-module connections.” This reduces invented shortcuts. Do not infer an edge from spatial proximity.
+### 4. Visible text
 
-### 4. Lock visible text
+Provide a closed list of exact visible strings, grouped by region. Distinguish plot labels and necessary legends from caption-only parameters, evidence and caveats. Never ask for rendered placeholder text or production instructions. A closed inventory is an intent constraint, not an OCR guarantee.
 
-Provide a compact closed list of exact visible strings, grouped by region. Say that no other words, JSON keys, production terms, or placeholder text may appear. This is an intent constraint, not a guarantee; RenderAudit must still inspect the resulting image.
+### 5. Visual grammar and semantic color
 
-### 5. Describe semantic color tokens
+Describe marks, stroke character, fills, typography, spacing, illustration level and shadow policy, then map actual roles to paired soft fill / dark outline-title / optional accent tokens. Add non-color encodings for scientifically important distinctions.
 
-For each semantic zone provide paired tokens:
+Style exclusions must agree with the selected grammar. A declared scientific 3D surface is not “3D chrome”; do not request it and simultaneously forbid all 3D. White is the common default, not an override of a user-approved domain-specific background.
 
-```text
-zone: soft fill #..., dark outline/title #..., optional icon accent #...
-```
+### 6. Defect constraints and geometry
 
-State non-color encodings for advisory, exception, fixed/trainable, or other distinctions. Do not substitute a single palette name for role mapping.
+End with specific failure prevention: no extra edges, role confusion, duplicate labels, unreadable text, overlap or clipping; add only applicable style exclusions. State aspect ratio and final-scale legibility intent. Physical width and exact point sizes are export/audit metadata, not a guarantee from a raster model.
 
-### 6. End with negative constraints and geometry
+## Revisions
 
-Use a short defect-oriented list: no unintended or duplicated title banner, no extra modules or edges, no garbled text, no transparent/dark background, no clipping or overlap, no gradients/3D/branding, and any style-specific exclusions. State the aspect ratio last.
+Update the design first. For prompt revision, output a coherent complete new prompt plus a short change/preservation summary; do not accumulate contradictory append-only patches.
 
-## Prompt length
+For an actual image edit, use a bounded edit prompt with the inspected baseline image: observed defect, exact correction, and explicit critical edges/labels/authority boundaries to preserve. “Everything else unchanged” may supplement, but cannot replace, that list. After editing, audit the entire required graph, including edges outside the edited region.
 
-Use the shortest prompt that preserves the spec. Roughly 180–450 English words is usually sufficient, but topology correctness has priority over a fixed word count. Long visible-text inventories belong in a deterministic SVG/drawio/Typst workflow rather than an ever-longer image prompt.
+## Length and backend suitability
 
-## Backend suitability
-
-- **Image generation/editing:** conceptual, illustrated, or low-text frameworks where visual language matters.
-- **Deterministic vector renderer:** text-heavy architectures, exact mathematical notation, dense legends, or strict topology.
-- **Hybrid:** image-generated illustration or background plus deterministic text/vector overlay.
-
-When the selected backend cannot plausibly satisfy the text/topology contract, return the spec or switch to a compatible deterministic renderer instead of claiming exact control.
+Use the shortest lossless brief. About 180–450 English words often works, but never drop essential edges to meet a word target. Dense labels, precise equations or fragile topology may warrant deterministic SVG/drawio/Typst or hybrid vector text. Preserve the user's chosen backend and current tool policies; if a switch changes the requested deliverable materially, explain and obtain direction. Never claim that prose guarantees exact geometry or typography.
 
 ## Preflight
 
-- Every prompt component maps to one FigureSpec component.
-- Every prompt connection maps to one FigureSpec connection.
-- No content was inferred during compilation.
-- Exact visible strings are separated from production instructions.
-- Style reference paths remain available to the renderer.
-- RenderAudit has an objective checklist for the output.
+Check component/edge coverage, source support, closed visible text, compatible style constraints, reference-input selection and an objective image checklist. Specification validation proves the input contract, not the generated pixels.

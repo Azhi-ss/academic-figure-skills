@@ -17,11 +17,18 @@ Required inputs:
 Emit a JSON-compatible audit:
 
 ```text
-schema: academic-figure/RenderAudit@1
-figure_id, render_revision, image_path
+schema: academic-figure/RenderAudit@2
+figure_id, render_revision, image_path (absolute)
+image_sha256, spec_sha256 (lowercase SHA-256 of exact file bytes)
+spec_validation: {status: pass|fail|unverified}
+image_inspection: {status: pass|fail|unverified, evidence}
+nodes[]: {id, status: pass|fail|unverified, evidence}
+edges[]: {id, from, to, kind, direction, line, label,
+          status: pass|fail|unverified, evidence}
 checks:
   semantic_topology, visible_text, background, layout,
   style_fidelity, accessibility
+  (each check is {status: pass|fail|unverified, evidence})
 pass: true|false
 defects[]: {check, severity, observed, expected, evidence, edit_instruction}
 targeted_edit: string|null
@@ -29,6 +36,56 @@ semantic_edits_used: 0|1|2
 semantic_edits_remaining: 2|1|0
 residual_risks[]
 ```
+
+## Revision binding and complete ledgers
+
+New audits use RenderAudit@2. Keep legacy @1 records for history, but do not
+upgrade their booleans mechanically into observed @2 results. Bind each audit to
+one actual image and one actual FigureSpec by path, revision, and raw-file
+SHA-256. Finish any export/metadata transformation before binding the delivered
+file, then inspect that exact final file. A new file or changed spec needs a new
+audit; do not copy forward a previous image's pass.
+
+FigureSpec validation and actual image inspection are independent. Record their
+statuses separately. If the image cannot be opened, or an arrowhead is too
+ambiguous to identify, use `unverified`, not a guessed `pass`. Evidence describes
+what was inspected, including region or endpoints; “spec valid” is not visual
+evidence. Image inspection status says whether inspection was performed; defects
+found during inspection belong in the individual check statuses.
+
+Derive the complete node and edge ledger from the spec, not from what is easiest
+to see. Cover every component and every connection exactly once. Use declared
+edge IDs; for a legacy connection without an ID, use its stable one-based position
+as `edge_001`, `edge_002`, etc. Copy from/to/kind/direction/line/label exactly;
+for omitted direction/line use `unspecified`, and omitted label is an empty
+string. Semantic kind remains required. This does not authorize rendering a scientifically ambiguous spec.
+
+Check the image against the ledger, then scan the image for extra edges and
+forbidden shortcuts; a required-edge ledger alone cannot detect invented arrows.
+Record that second scan and authority-boundary checks under semantic_topology.
+Record the actual text-inventory and final-size inspection under the relevant
+checks. Reset all statuses to unverified for every new image, including style-only
+and single-arrow edits, and recheck all required edges outside the edited region.
+
+For the bundled record validator (it does NOT inspect pixels), run:
+
+```bash
+python3 <workflow>/scripts/validate_render_audit.py \
+  --spec <spec.json> --image <image.png> <audit.json>
+```
+
+Exit 0 means the bound record is complete and all asserted statuses pass; exit 1
+means a valid record is failed/unverified; exit 2 means malformed, incomplete or
+mismatched evidence, including a stale digest or misleading aggregate pass.
+When workflow's script is not installed, perform the same ledger checks manually
+and state that record validation was manual. Never call this script's exit 0
+proof of scientific accuracy or image quality: it cannot verify the truthfulness
+of a human/model's visual assertions.
+
+A legal top-level `pass: true` requires all node/edge/check statuses, spec
+validation and image inspection to pass, with no critical or major defect.
+Any fail or unverified status blocks acceptance. A complete record of a failed
+image is useful and must remain failed.
 
 `severity` is `critical`, `major`, or `minor`. A critical or major defect makes
 the audit fail. Minor defects may pass only when they do not change scientific
@@ -79,8 +136,8 @@ it damages interpretation and minor only when the FigureSpec marks it optional.
 - Metadata and provenance cleanliness: sanitize and strip all C2PA manifests, JUMBF markers, EXIF, and AI generation metadata using `clean_image_metadata.py` before final delivery.
 - The file extension matches the encoded media type and the image opens normally.
 
-A transparent/black background, wrong crop, or wrong aspect ratio is a major
-defect. A file that cannot be decoded is critical.
+A background or opacity that differs from the FigureSpec, a wrong crop, or a
+wrong aspect ratio is a major defect. A file that cannot be decoded is critical.
 
 ## 4. Layout and publication-scale legibility
 
@@ -143,10 +200,12 @@ budget because it did not attempt to change the image semantics.
 
 1. Audit the initial render and rank defects by semantic risk.
 2. If it fails, write one bounded edit instruction containing only the observed
-   defects, their exact expected replacements, and an explicit request to preserve
-   every check that already passed.
-3. Inspect the edited image and emit a new audit. Do not assume an edit preserved
-   topology or text.
+   defects, their exact expected replacements, and an explicit list of critical nodes, edge endpoints/directions/types,
+   visible labels and authority boundaries to preserve. “Keep everything else”
+   alone is not a preservation contract.
+3. Inspect the edited image and emit a newly bound audit. Recheck the full
+   required edge ledger, not just the repaired connector; do not assume an edit
+   preserved topology or text.
 4. If needed, perform one final targeted edit, then audit again.
 5. After two targeted edits, stop. Deliver the best valid artifact only if all
    critical and major checks pass; otherwise mark the render incomplete and report

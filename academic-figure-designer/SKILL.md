@@ -1,163 +1,81 @@
 ---
 name: academic-figure-designer
-description: Unified academic figure designer, semantic color & surface decision engine, and FigureSpec v1 compiler. Handles style selection, reference palette derivation, colorblind-safe token binding, SVMC visual metaphors, and normalized compact prose prompt compilation across classic-technical, pastel-airy-ui, illustrated-modular, and reference-led profiles.
+description: Design evidence-grounded academic figures and construct, diagnose, or revise scientific image prompts. Use for figure layout, semantic palettes, reference-led styles, prompt engineering, information-density feedback, and FigureSpec v1 compilation.
 metadata:
-  version: "2.1.0"
+  version: "2.2.0"
   stages: [writing, research, review]
 ---
 
-# Academic Figure Designer and Spec Engine
+# Academic Figure Designer and Prompt Engine
 
-Design evidence-grounded academic figures, make semantic color & surface decisions, and compile clean `academic-figure/FigureSpec@1` specifications and normalized structured rendering briefs. This skill serves as the single authoritative designer and prompt compiler for all figure styles.
+将科学内容编译成可验收的图示。这里是唯一的设计与 prompt 编译入口；不把提示词修辞当作第二次科学设计。
 
-Load only as needed:
+## 按请求选择输出
 
-- spec contract → `json-schema.md` and `figure-spec.schema.json`
-- prompt compilation → `references/json-to-prompt.md`
-- visual brief guidance → `references/image-prompt-guide.md`
-- composition scaffolds → `references/prompt-templates.md`
-- visual anchors & SVMC → `references/architecture-icons.md`
-- palette/style fallback → `references/palettes.md` and optional `references/styles/`
-- missing evidence → `references/missing-info-policy.md`
-
-## Supported Style Profiles
-
-Select one canonical `style_profile` (or compose with layer overlays from `docs/styles/`):
-
-1. **`classic-technical` (经典学术框线风)**:
-   - Clean white background, thin 1.5pt crisp outlines, restrained subtle tints (Okabe-Ito, Nature Blue, Cool Gray).
-   - High contrast, orthogonal alignment, strict box/arrow engineering topology.
-   - High-density tabular parameters and formal sans-serif typography (Helvetica/Inter).
-2. **`pastel-airy-ui` (现代柔彩空气风)**:
-   - White canvas with floating white cards and faint borders.
-   - Generous negative space, floating pills/tokens (P1 Warm, P2 Cool, P3 Earthy), and lightweight curves.
-   - Interface-like feel without multi-level nested boxes.
-3. **`illustrated-modular` (编辑手绘模块风 / 有色语义分区图示风)**:
-   - White canvas with content-driven soft-tinted semantic zones (I1 paired tokens: `{soft_fill, dark_outline, title_text, icon_accent}`).
-   - Strong same-hue 1.5–2.5px dark outlines and **no drop shadows**.
-   - Asymmetric hero region (~35–55% visual focus) with supporting modules arranged by real semantics.
-   - Content-grounded editorial line art tied to declared semantics.
-4. **`reference-led` (参考图驱动自由风格)**:
-   - Extracts observable visual grammar (composition, marks, stroke, typography, illustration level, paired color fills/outlines) directly from a user-supplied reference image without copying proprietary content or topology.
-
-## Direct Input Normalization Protocol (自然语言直通归一化)
-
-When the user provides direct natural-language architecture descriptions (bypassing upstream analyzers), deterministically normalize the input into `FigureSpec v1`:
-
-1. **Source Mapping**:
-   - `sources`: `[{"kind": "user_instruction", "uri_or_path": "conversation", "evidence": "<exact user request text>"}]`
-   - `plan_revision`: `"r1"`
-2. **Topology Synthesis**:
-   - Extract stages/modules as snake_case IDs (`input_data`, `encoder`, `fusion_block`, `loss_head`, `output`).
-   - Derive directed connections from temporal or dataflow verbs (e.g. "送入", "经过", "transforms to").
-   - Default `must_not_claim: []`, `forbidden_connections: []`, and standard `negative_constraints`.
-
-## Semantic Color & Accessibility Decision (Domain-Adaptive Presets)
-
-The default rules below serve as **recommended presets for ML, AI4Science, and Systems papers**. Domain-specific figures (e.g. monochrome print, inverted microscopy, multi-channel bio, astrophysics) may customize palette and background while preserving readability:
-
-1. **Recommended ML / Systems Role Binding (Preset)**:
-   - Multi-stage pipeline: Stage 1 (Green input) -> Stage 2 (Blue encoder) -> Stage 3 (Peach transformation) -> Stage 4 (Purple loss) -> Stage 5 (Gold output).
-   - Deep Learning: Features/Data (Green) -> Backbone (Blue) -> Fusion/Attention (Peach) -> Loss/Constraint (Purple) -> Head/Task (Gold).
-   - Interactive / Agentic: Policy/Reasoning (Blue), Context/Observation (Green), Tool/Harness (Peach), Advisory/Feedback (Purple), Memory/Storage (Cyan), Output (Gold), Guardrail/Stop (Coral).
-2. **Domain-Specific Extensions**:
-   - **Monochrome Print**: High-contrast grayscale tints (`#FFFFFF` fill, `#24323D` stroke, dashed vs solid line dual-encoding).
-   - **Dark/Microscopy / Astrophysics**: Dark canvas allowed when reference or domain data requires inverted emission contrast.
-3. **Accessibility & Grayscale Invariants**:
-   - Ensure title and label texts meet WCAG AA contrast against their card backgrounds.
-   - Dual-encode critical paths with shape, border style (solid vs dashed), or iconography so meaning survives grayscale printing and color vision deficiencies.
-
-## Strict Prompt Formatting Standard (Prose Normalization)
-
-All generated image prompts **MUST be compiled as normalized structured natural language (Compact Prose)**:
-
-> [!IMPORTANT]
-> **Zero Markdown Syntax in Image Prompts**:
-> Never use Markdown formatting symbols (such as `#` headers, `**bold**`, `*italic*`, markdown bullet lists `- item`, backticks, or ASCII markdown tables `| --- |`) inside the prompt string sent to diffusion/image models. Image models frequently hallucinate and render Markdown syntax tokens as literal text on the canvas.
-> Use clean, comma-and-sentence structured prose grouped by numbered container blocks or semantic zones.
-
-### Canonical Prompt Structure
-
-1. **Lead & Purpose**: High-level figure goal, aspect ratio, canvas background (pure white `#FFFFFF`), and style profile. Default to an external paper caption with no canvas title. If the user, FigureSpec, or supplied reference explicitly requires a title, lock exactly one short non-banner title and reserve whitespace for it.
-2. **Layout & Hero Focus**: Numbered container panels and proportions (e.g. 3-column sandwich layout, central hero region).
-3. **Semantic Container Blocks**: For each container, describe inner title pill, sub-cards, data flow, and scientific visual metaphors (SVMC).
-4. **Topology & Connections**: Explicit source -> destination connections, line styles (solid for forward, dashed for feedback/advisory), and edge labels.
-5. **Visual Constraints**: Negative defect constraints (*No unintended or duplicated title banner, no floating text, no gradients, no 3D chrome, no photorealism, no shadows*).
-
-## Text Budget
-
-Visible text must remain structural and publication-legible:
-
-| Element | Guideline |
+| 用户意图 | 行动与停止点 |
 |---|---|
-| Region or module title | usually no more than 5 words |
-| Short label | usually no more than 3 words |
-| Arrow label | usually no more than 3 words |
-| Core formula | at most one short sourced line |
-| Parameters, evidence, caveats | caption only |
+| 构造画图提示词 / 只写 prompt | construct：设计简报与完整 prompt；不生图 |
+| 检查或诊断已有 prompt | diagnose：定位问题、影响与最小修正；不擅改文件或生图 |
+| 按反馈修改 prompt | revise：改动、保留项及完整新 prompt；不自动生图 |
+| 制作图 / 修改图片 | construct 或 revise 后交给 workflow 渲染、目检 |
+| 只咨询配色或风格 | Palette Decision；不要求完整拓扑，不生图 |
 
-Drop secondary labels before reducing them below readable final-paper size.
+只问方案时不启动绘图。直接画图时不强加 prompt 确认；按用户的 review 偏好执行。
 
-## Output Contracts
+## 按需读取
 
-This skill emits one of two deliverables based on the user's intent:
+- 构造、诊断或修订决策 → `references/prompt-design-logic.md`
+- 编译 renderer prompt → `references/json-to-prompt.md`
+- 可直接填充的构造/修订样板 → `references/prompt-templates.md`
+- 密度、布局、文字或风格细节 → `references/image-prompt-guide.md`
+- 案例与迁移检验 → `references/prompt-design-cases.md`
+- 实际渲染的结构契约 → `json-schema.md` 和 `figure-spec.schema.json`
+- 视觉锚点 → `references/architecture-icons.md`，仅使用符合证据的元素
+- 色彩与可选风格库 → `references/palettes.md`、`references/styles/`
+- 证据不足 → `references/missing-info-policy.md`
+- 图片验收 → `references/render-audit.md`
 
-### A. Full Figure Design (Default)
-Emits `FigureSpec v1` JSON and normalized compact prose prompt. Proceed to validate and render.
+## 设计流程
 
-### B. Palette Decision (Color / Consultation Only)
-When the user asks only for color palette advice, style recommendation, or accessibility review (`学术配图配色`, `论文配色方案`, `色盲友好配色`):
-Emit a structured **Palette Decision** and stop:
-- Canonical `style_profile` and decision branch (`user`, `reference`, `scene`, or `default`);
-- Recommended palette / paired token set (and one alternate);
-- Canvas, body text, outline, and neutral divider colors;
-- Semantic-zone bindings mapped to the paper's actual roles;
-- Accessibility & grayscale dual-encoding notes;
-- Copy-ready token handoff.
+1. 写出读者问题及图的核心答案，区分主内容、支撑内容、caption-only。
+2. 从上游分析或用户输入提取稳定 component IDs、typed connections、权限边界、禁止关系及证据。不从参考图借算法，不把缺失证据填成确定事实。
+3. 在科学骨架明确后、布局定稿前确定风格。复用用户已选风格；有参考图时先查看并提取视觉语法，无参考时选择适合内容的 profile。风格参与后续构图，不作为写完 prompt 后追加的装饰句；详见 `references/prompt-design-logic.md`。
+4. 联合科学含义与所选风格设计阅读顺序、主区、语义分组、连线通道及必要视觉锚点。只有真实层级需要时才嵌套；比例是构图辅助。图标、小图、公式卡、机器人或气泡均可选，纯标签节点合法。
+5. 锁定可见文字、语义颜色与非颜色编码，检查所选风格下的文字容量与可读性；编译前闭合全部边。修订先写 Delta 与 Invariants，颜色修改不改变科学拓扑。
+6. 将内容、布局与风格统一编译为完整的紧凑自然语言，而非给旧 prompt 叠加风格补丁。prompt-only 在此交付；渲染任务再补齐、校验 FigureSpec 并移交执行。
 
-## Workflow
+用户直接描述架构时跳过不必要的仓库扫描。将其记为 `sources` 中的 `user_instruction`，证据为原请求；component IDs 使用稳定 snake_case。执行、建议、反馈、存储和异常连接分开，不靠位置推断连线。
 
-### 1. Identify Task Scope (Design vs Palette-Only)
-- If the request is palette/color/style consultation only, perform Step 3 (Bind Style & Color Tokens) and emit the **Palette Decision**, then **STOP**.
-- If the request is full figure creation or prompt compilation, proceed through all steps.
+## 风格与语义配色
 
-### 2. Close the Semantic Graph & Geometry
-Copy component IDs, labels, groups, and typed connections from upstream analysis or direct user input. Carry `must_not_claim`, `forbidden_connections`, and authority boundaries into the spec.
+保留四个 canonical `style_profile`：
 
-### 3. Choose Composition & Visual Metaphor (SVMC & Spatial Blueprints)
-- **Spatial Container Allocation**: Express macro-containers with explicit canvas height/width percentages (e.g., 2-tier stacked containers with 30-35% top vs 65-70% bottom, or left-hero 40-50% vs right-stack 50-60%) to prevent empty canvas dead zones.
-- **Nested Card Scaffolds**: Use outer macro-containers with subtle dashed borders and nest solid white sub-cards inside.
-- **Micro-Visual Trinity Injection**: Never output empty blank boxes. For each key node, compile the **Micro-Visual Trinity** from `references/json-to-prompt.md` and `references/architecture-icons.md`:
-  1. *Header / Icon Badge* (domain icon, e.g. 💡, 🔬, 🔍, 📊);
-  2. *Concrete Scientific Schematic* (3D GP elevation mesh, 1D multi-peak acquisition curve, 3D tensor block, heatmap, or state DAG);
-  3. *Micro Mathematical/Data Card* (equation card, uncertainty gauge, dialogue bubble, or mini table).
+- `classic-technical`：技术线图、精确拓扑、克制色彩、清晰无衬线文字。
+- `pastel-airy-ui`：轻边界与白色卡片，颜色主要落在 token、曲线和重点，不堆叠卡片。
+- `illustrated-modular`：有色语义分区、成对浅底/深轮廓、可选择手绘线稿和角色插图；不默认每区同等密度。
+- `reference-led`：依据已查看的参考图提取布局、线条、填色、字体、插图和留白语法；不等同于手绘风。
 
-### 4. Bind Style & Color Tokens Semantically
-Bind paired tokens to semantic regions: background, soft fill, dark outline/title, optional icon accent, and exception color from `docs/palettes.md`. Follow dual-fidelity and multi-role paired color rules (e.g. Coral Red for real/high-fidelity vs Slate Blue for surrogate/low-fidelity).
+色相随职责绑定，不按代码目录数配色。Agentic 图可参考 reasoning 蓝、context 绿、execution 桃、advisory 紫、memory 青、output 金、stop 珊瑚红；这些是领域预设而非通用事实。支持丰富配色、灰度印刷或数据需要的深色背景。遵循参考/用户确定的 surface 和 shadow 规则，避免一处要求 3D 而另一处全局禁止 3D。
 
-### 5. Emit FigureSpec v1
-Conform to `figure-spec.schema.json`. Required features include:
-- `style_profile`: `classic-technical`, `pastel-airy-ui`, `illustrated-modular`, or `reference-led`.
-- unique component IDs, closed visible-text list, sources, typed connections with valid endpoints.
-- `prompt_review: requested|confirmed|waived` and conditional `prompt_reviewed_sha256`.
-- declared absolute `workspace_root` and `output_path`.
+正文与底色保持足够对比度；关键差别用颜色加线型、标签或形状双编码。Palette Decision 输出 profile、选择理由、语义绑定、底色/正文/轮廓、一个备选与可复制 tokens。
 
-### 6. Validate FigureSpec v1
-Immediately before every render or edit, run:
+## 文字与编译
+
+区域标题通常不超过 5 词、标签/边标签通常不超过 3 词；这是缩写建议，不得破坏科学含义。只放必要且有来源的公式。先移走次要文本，再考虑分图或确定性排版，不通过无限缩小字体增加密度。
+
+模型输入用 compact prose，不用 Markdown 标题、加粗、列表或表格包围指令；保留批准的数学符号及精确标签。默认图题放外部 caption，只有用户或设计明确要求时才显示一个短图题。顺序为目的、构图与组件、闭合边清单、精确可见文字、风格配色、缺陷约束及比例，详见编译器。
+
+## 渲染交接与验证
+
+实际渲染使用 `academic-figure/FigureSpec@1`，保持现有 schema 兼容。所有边有正确端点，`visible_text` 闭合；参考、输出路径与 workspace_root 均来自真实运行环境。prompt-only 不需要编造渲染环境。
+
+渲染前立即执行（脚本路径按实际安装位置解析）：
 
 ```bash
-python3 academic-figure-designer/scripts/validate_figure_spec.py \
-  --strict-v1 --render-ready \
-  --workspace-root <trusted-actual-root> \
-  <spec.json>
+python3 <designer>/scripts/validate_figure_spec.py --strict-v1 --render-ready \
+  --workspace-root <trusted-actual-root> <spec.json>
 ```
 
-### 7. Hand off for Rendering & Repair
-When called from `academic-figure-workflow`, pass the validated rendering package forward. Use the current session's native `image_gen.imagegen` interface. If prompt review is `waived`, keep prompt internal as a tool parameter and deliver the rendered image directly.
+`prompt_review: requested` 展示并停下；`confirmed` 必须匹配已审核 prompt 的 SHA-256，改变后重新请求审核；`waived` 内部传参且不在回答中贴出。校验失败不调用 renderer。
 
-## Stop Condition
-
-- **Palette-only requests**: Stop after emitting the complete **Palette Decision**. Do not demand topology or attempt image rendering.
-- **Figure design requests**: Stop after emitting and validating `FigureSpec v1` (or delivering the rendered image in workflow mode).
-
-
+交给 `academic-figure-workflow` 使用当前可用的原生图片工具；每次图片编辑前先看基线图，之后保存新版本并重新逐节点、逐边目检。FigureSpec PASS 不代表图片 PASS。只有 prompt 的产物不宣称已经通过图片验收。
