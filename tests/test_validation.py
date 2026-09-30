@@ -9,20 +9,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-sys.path.insert(0, str(ROOT / "academic-figure-designer" / "scripts"))
+sys.path.insert(0, str(ROOT / "academic-figure-workflow" / "scripts"))
 
-from sync_shared_refs import (  # noqa: E402
-    FIGURE_SKILLS,
-    WORKFLOW_FILES_FROM_DESIGNER,
-    SyncItem,
-    synchronize,
-)
 from validate_figure_spec import ValidationReport, validate_spec  # noqa: E402
-from validate_skill_pack import (  # noqa: E402
-    validate_reference_items,
-    validate_shared_refs,
-    validate_skills,
-)
+from validate_skill_pack import validate_skills  # noqa: E402
 
 
 def valid_spec() -> dict:
@@ -213,17 +203,8 @@ metadata:
 
 
 def write_pack(root: Path, skill_ids: list[str]) -> None:
-    docs = root / "docs"
-    (docs / "styles").mkdir(parents=True)
-    for name in ("palettes.md", "missing-info-policy.md", "render-audit.md", "styles/style.md"):
-        (docs / name).write_text(f"{name}\n", encoding="utf-8")
     for skill_id in skill_ids:
         write_skill(root, skill_id)
-    if "academic-figure-designer" in skill_ids:
-        designer = root / "academic-figure-designer"
-        (designer / "scripts").mkdir()
-        for name in WORKFLOW_FILES_FROM_DESIGNER:
-            (designer / name).write_text(f"{name}\n", encoding="utf-8")
     entries = [
         {"id": skill_id, "path": f"./{skill_id}", "version": "1.0.0"}
         for skill_id in skill_ids
@@ -279,57 +260,6 @@ class PackValidationTests(unittest.TestCase):
         ):
             with self.subTest(field=field):
                 self.assertIn(field, prompt)
-
-    def test_shared_reference_hash_drift_fails(self) -> None:
-        source = self.root / "docs" / "palettes.md"
-        target = self.root / "example-skill" / "references" / "palettes.md"
-        source.parent.mkdir(parents=True)
-        target.parent.mkdir(parents=True)
-        source.write_text("canonical\n", encoding="utf-8")
-        target.write_text("stale\n", encoding="utf-8")
-        report = ValidationReport()
-        validate_reference_items(self.root, [SyncItem(source, target)], report)
-        self.assertFalse(report.ok)
-        self.assertIn("reference.drift", diagnostic_codes(report))
-
-    def test_sync_shared_references_in_temporary_pack(self) -> None:
-        skill_ids = ["academic-figure-designer", "academic-figure-workflow", "other-skill"]
-        write_pack(self.root, skill_ids)
-
-        self.assertEqual(12, len(synchronize(self.root)))
-        self.assertEqual([], synchronize(self.root, check=True))
-        for skill_id in skill_ids:
-            references = self.root / skill_id / "references"
-            self.assertTrue((references / "missing-info-policy.md").is_file())
-            for name in ("palettes.md", "render-audit.md", "styles/style.md"):
-                self.assertEqual(
-                    skill_id in FIGURE_SKILLS,
-                    (references / name).is_file(),
-                    f"{skill_id}/references/{name}",
-                )
-        workflow = self.root / "academic-figure-workflow"
-        for name in WORKFLOW_FILES_FROM_DESIGNER:
-            self.assertEqual(f"{name}\n", (workflow / name).read_text(encoding="utf-8"))
-
-        (workflow / "scripts" / "validate_figure_spec.py").write_text("drifted\n", encoding="utf-8")
-        drift = synchronize(self.root, check=True)
-        self.assertEqual(
-            [self.root / "academic-figure-designer" / "scripts" / "validate_figure_spec.py"],
-            [item.source for item in drift],
-        )
-
-    def test_stale_vendored_style_is_rejected_for_every_style_skill(self) -> None:
-        write_pack(self.root, sorted(FIGURE_SKILLS))
-        synchronize(self.root)
-        for skill_id in FIGURE_SKILLS:
-            stale = self.root / skill_id / "references" / "styles" / "deleted-style.md"
-            stale.write_text("stale\n", encoding="utf-8")
-
-        report = ValidationReport()
-        validate_shared_refs(self.root, report)
-        extras = [item for item in report.diagnostics if item.code == "reference.style_extra"]
-        self.assertEqual(len(FIGURE_SKILLS), len(extras))
-        self.assertEqual(set(FIGURE_SKILLS), {Path(item.path).parts[0] for item in extras})
 
 
 if __name__ == "__main__":

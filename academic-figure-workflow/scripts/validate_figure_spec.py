@@ -503,6 +503,28 @@ def _validate_render_readiness(
     *,
     trusted_workspace_root: str | Path | None,
 ) -> None:
+    selection = spec.get("style_selection")
+    if selection not in {"confirmed", "waived"}:
+        report.error(
+            "style_selection.render_blocked",
+            "$.style_selection",
+            "style selection is missing or pending; rendering is blocked until the user chooses a style",
+        )
+    elif selection == "confirmed":
+        preset = spec.get("style_preset")
+        profile = spec.get("style_profile")
+        if isinstance(profile, dict):
+            profile = profile.get("id")
+        references = spec.get("reference_images")
+        has_preset = isinstance(preset, str) and bool(preset.strip())
+        has_reference = isinstance(references, list) and len(references) > 0
+        if not has_preset and not (profile == "reference-led" and has_reference):
+            report.error(
+                "style_selection.unconfirmed",
+                "$.style_selection",
+                "confirmed style selection requires a non-empty style_preset, or reference-led with a reference image",
+            )
+
     review = spec.get("prompt_review")
     if review in {"requested", "waived"} and "prompt_reviewed_sha256" in spec:
         report.error(

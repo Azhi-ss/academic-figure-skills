@@ -1,5 +1,5 @@
 > Benchmark golden — derived from synthetic fixture-sparse @ N/A (license: —).
-> URL: synthetic: academic-repo-analyzer/scripts/create_sparse_fixture.py
+> URL: synthetic: scripts/create_sparse_fixture.py
 > Pinned commit: N/A
 > License: —
 

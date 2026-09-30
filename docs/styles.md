@@ -26,19 +26,19 @@
 
 ## 两个柔彩模块文件的职责边界
 
-- [有色语义分区图示风.md](styles/有色语义分区图示风.md) 是**颜色/材质层**：定义 semantic zone 如何配对 fill、outline、title 和 icon accent，可与多种布局组合。
-- [编辑手绘模块风.md](styles/编辑手绘模块风.md) 是**完整构图 profile**：定义 hero-plus-support、手绘标题、插画和拓扑校验；其默认色彩直接引用前者与 `docs/palettes.md` 的 I1 tokens。
+- [有色语义分区图示风.md](../academic-figure-workflow/references/styles/有色语义分区图示风.md) 是**颜色/材质层**：定义 semantic zone 如何配对 fill、outline、title 和 icon accent，可与多种布局组合。
+- [编辑手绘模块风.md](../academic-figure-workflow/references/styles/编辑手绘模块风.md) 是**完整构图 profile**：定义 hero-plus-support、手绘标题、插画和拓扑校验；其默认色彩直接引用前者与 `../academic-figure-workflow/references/palettes.md` 的 I1 tokens。
 
 两者保留是为了兼容已有风格名。只要需要柔彩分区而不需要手绘叙事时，单独使用“有色语义分区”；需要完整 illustrated modular 效果时，使用“编辑手绘模块风”并组合 semantic tokens。
 
 ## 风格定义文件
 
-- [现代前沿技术框线风.md](styles/现代前沿技术框线风.md)
-- [编辑手绘模块风.md](styles/编辑手绘模块风.md)
-- [有色语义分区图示风.md](styles/有色语义分区图示风.md)
-- [现代柔彩空气风.md](styles/现代柔彩空气风.md)
-- [对比消融实验风.md](styles/对比消融实验风.md)
-- [双保真度引导闭环风.md](styles/双保真度引导闭环风.md)
+- [现代前沿技术框线风.md](../academic-figure-workflow/references/styles/现代前沿技术框线风.md)
+- [编辑手绘模块风.md](../academic-figure-workflow/references/styles/编辑手绘模块风.md)
+- [有色语义分区图示风.md](../academic-figure-workflow/references/styles/有色语义分区图示风.md)
+- [现代柔彩空气风.md](../academic-figure-workflow/references/styles/现代柔彩空气风.md)
+- [对比消融实验风.md](../academic-figure-workflow/references/styles/对比消融实验风.md)
+- [双保真度引导闭环风.md](../academic-figure-workflow/references/styles/双保真度引导闭环风.md)
 
 ## Codex 定向编辑提示
 

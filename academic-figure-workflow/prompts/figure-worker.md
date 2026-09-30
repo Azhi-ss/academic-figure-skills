@@ -16,7 +16,8 @@ Task packet
 - upstream artifacts: <FigurePlan v1, ReferenceAnalysis v1, or job-file paths>
 - evidence sources: <paths, URLs, revisions/pages>
 - shared terminology and authority boundaries: <...>
-- selected style profile and grammar: <...>
+- settled spec: <reader question, evidence-backed answer, required nodes, required edges, forbidden claims, forbidden connections>
+- selected style profile and grammar: <style_selection, style_preset, style_profile, observable grammar; already settled>
 - reference images: <checked absolute paths or transient conversation-image note>
 - declared FigureSpec workspace root: <absolute declaration>
 - trusted workspace root: <absolute runtime/developer-provided path>
@@ -25,21 +26,36 @@ Task packet
 - semantic edit budget remaining: 0 | 1 | 2
 - acceptance criteria: <observable, figure-local conditions>
 
+The packet is the worker's spec. Apply only the decisions written there.
+
+Design checks, in order. Do not reopen a settled item.
+1. Use the packet's reader question and answer. Do not invent a second goal.
+2. Add a node, edge, formula, or label only from the packet or the assigned sources. Mark anything beyond that evidence as uncertain.
+3. Apply the supplied style to composition, anchors, and text capacity before writing prose. Do not reselect the style or open the style menu.
+4. Close every required edge, then close the visible-text list.
+5. Compile one compact English prompt in this order: purpose, composition, closed edges, visible text, visual grammar, defect constraints. For illustrated-modular, the composition states unequal regions, open interiors, the few local outlines, and sourced mechanism lines, and does not turn stations into equal framed icons. Do not append style as a later slogan.
+6. `spec_only` stops at the validated FigureSpec. `render` continues only when `style_selection` is `confirmed` or `waived`, and `prompt_review` is `confirmed` or `waived`.
+
 Execution contract
 1. Stay inside the assigned figure, sources, and owned output paths. Do not edit
    shared plans, manifests, or another worker's artifacts.
 2. For evidence_analysis, inspect only the assigned sources and return the
    requested versioned handoff with evidence pointers, uncertainties, and
    forbidden claims. Do not render.
-3. For spec_only or render, read academic-figure-designer, FigureSpec schema, applicable
+3. For spec_only or render, read this workflow's design flow and references/prompt-design-logic.md, FigureSpec schema, applicable
    palette/style references, and rendering/audit protocol. Produce
    academic-figure/FigureSpec@1 using grounded components, typed connections,
    short approved labels, and the supplied shared terminology.
 4. Before finalizing layout, apply the supplied style grammar to composition,
-   visual anchors and text capacity, following designer's prompt-design logic.
+   visual anchors and text capacity, following this workflow's design flow and references/prompt-design-logic.md.
    Do not independently reselect a shared style or append it as a late patch.
-   Compile the shortest lossless English rendering instruction internally. Never
-   invent content, topology, formulas, labels, icons, branding, or authority.
+   Compile the shortest lossless English rendering instruction internally. The
+   selected profile's composition, nesting, and sourced mechanism lines are part
+   of that brief for every profile. For illustrated-modular, state unequal
+   regions, open interiors, the few local outlines, and sourced mechanism lines.
+   Never turn stations into equal framed icons. Never invent content, topology, formulas,
+   labels, icons, branding, or authority, and never drop that composition to
+   make the prompt shorter.
 5. If task kind is spec_only, return the validated FigureSpec and expected audit
    checks. Include the internal prompt only when prompt review is requested or
    confirmed.
@@ -60,7 +76,9 @@ Execution contract
     editing or returning it. Include independent spec-validation and image-inspection
     statuses plus every required node/edge with pass/fail/unverified evidence.
 11. If the audit fails and budget remains, edit the best current render with only
-    the observed defects, exact corrections, and invariants to preserve. Save a new
+    the observed defects, exact corrections, and invariants to preserve. Do not
+    simplify composition, subcards, or mechanism labels to make arrows easier. If
+    the renderer cannot keep both, stop and report. Save a new
     revision and inspect it again, rechecking all required edges even outside the
     edited region. Never copy prior image pass statuses. A transient transport retry does not consume the
     semantic edit budget.

@@ -5,6 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.0] - 2026-10-01
+
+### Changed
+
+- 第一次出图前必须确认风格。用户未点名风格、也没有要跟随的参考图时，workflow 展示 `references/previews/` 中的 6 张预览并停下；「直接画图」只把 `prompt_review` 设为 `waived`，不代替选风格。
+- FigureSpec 增加 `style_selection`（`pending` / `confirmed` / `waived`）。`--render-ready` 拒绝缺字段或 `pending`；`confirmed` 需要非空 `style_preset`，或 `reference-led` 且已有参考图。
+- 版本：包 4.1.0，workflow 2.1.0。
+- 运行时支持子 agent 时，独立的来源分析、独立的图、以及已完成图的只读复核都要开 worker。每个 worker 的任务包就是它的 spec：已定的科学内容和风格，加上必须按顺序执行的设计检查。风格菜单、单图顺序步骤和最终交付仍留在主 agent。
+- 箭头画错时不得改用等大图标条来换端点。这条对所有风格生效，不限于手绘模块风。语义修改必须保住已确认的构图、主区、嵌套层和机制标签；保不住就停下来报告。图计划的「最短」只禁止臆造模块，执行路径上的次要站仍要留下。字数建议不能拿来删掉风格要求的机制行。
+- 手绘模块风的区内默认是开放线稿和有来源的机制行，只给真实的一层分组加子卡。编译不得把每个站点收成等大图标；审核把这种图判为风格不符。
+
+## [4.0.0] - 2026-10-01
+
+### Changed
+
+- 5 个 skill 合并为 2 个：
+  - `academic-repo-analyzer`、`academic-figure-draft-analyzer`、`academic-figure-architecture-extractor` → `academic-figure-analyzer`（`references/repo.md`、`paper.md`、`reference-figure.md`）
+  - `academic-figure-designer` → `academic-figure-workflow`
+- 交接格式（SemanticArchitecture@1、FigurePlan@1、ReferenceAnalysis@1、FigureSpec@1、RenderAudit@2）与校验行为不变。
+- benchmark 脚本移到仓库根 `scripts/`（`fetch_benchmark_repos.py`、`run_repo_benchmarks.py`、`create_sparse_fixture.py`）。
+- 版本：包 4.0.0，workflow 2.0.0，analyzer 1.0.0。
+- 从 3.x 升级：
+
+```bash
+npx skills remove --global academic-figure-designer academic-repo-analyzer academic-figure-draft-analyzer academic-figure-architecture-extractor
+npx skills add Azhi-ss/academic-figure-skills -g --all
+```
+
+### Removed
+
+- 删除 `scripts/sync_shared_refs.py` 与跨 skill 的重复副本（风格、色板、审计、缺信息政策改为各自 skill 目录内的唯一副本）。
+
 ## [3.3.0] - 2026-10-01
 
 ### Added

@@ -173,7 +173,9 @@ content and topology independent.
   copied merely to imitate its appearance.
 
 A palette match with the wrong composition or mark language does **not** pass style
-fidelity. Clearly landing in the wrong style family is major.
+fidelity. For illustrated-modular, open interiors are part of the grammar: a frame
+around every station, or equal icon lanes, fails style fidelity even when the palette
+and labels match. Clearly landing in the wrong style family is major.
 
 ## 6. Accessibility and print behavior
 
@@ -212,6 +214,9 @@ budget because it did not attempt to change the image semantics.
    residual defects instead of silently accepting it or starting an unbounded loop.
 
 Do not use a whole-image style rewrite to repair one spelling error or connector.
-Conversely, do not patch isolated colors when the audit shows the entire style
-family or composition is wrong; use the first targeted edit to correct that bounded
-systemic defect and preserve grounded content.
+Do not trade the profile's composition for easier arrows: hero emphasis, a required
+subcard layer, and approved mechanism labels stay while endpoints are corrected.
+Collapsing them into equal icon lanes fails style fidelity. Conversely, do not patch
+isolated colors when the audit shows the entire style family or composition is wrong;
+use the first targeted edit to correct that bounded systemic defect and preserve
+grounded content.

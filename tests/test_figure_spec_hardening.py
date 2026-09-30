@@ -11,7 +11,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VALIDATOR_DIR = ROOT / "academic-figure-designer" / "scripts"
+VALIDATOR_DIR = ROOT / "academic-figure-workflow" / "scripts"
 sys.path.insert(0, str(VALIDATOR_DIR))
 
 from validate_figure_spec import _schema_errors, main, validate_path, validate_spec  # noqa: E402
@@ -58,7 +58,8 @@ def valid_spec(workspace: Path, *, prompt_review: str = "waived") -> dict:
             ],
         },
         "style_profile": "classic-technical",
-        "style_preset": None,
+        "style_preset": "现代前沿技术框线风",
+        "style_selection": "confirmed",
         "style_source": "default",
         "style_grammar": {"composition": "pipeline"},
         "semantic_color_roles": {"evidence": "#0072B2"},
@@ -243,6 +244,35 @@ class RenderReadyTests(unittest.TestCase):
                 trusted_workspace_root=workspace,
             )
             self.assertIn("prompt.utf8_invalid", codes(report))
+
+    def test_render_ready_blocks_until_style_is_confirmed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            workspace = Path(temporary)
+            missing = valid_spec(workspace)
+            del missing["style_selection"]
+            missing_report = validate_spec(
+                missing,
+                render_ready=True,
+                trusted_workspace_root=workspace,
+            )
+            self.assertIn("style_selection.render_blocked", codes(missing_report))
+
+            pending = valid_spec(workspace)
+            pending["style_selection"] = "pending"
+            pending_report = validate_spec(
+                pending,
+                render_ready=True,
+                trusted_workspace_root=workspace,
+            )
+            self.assertIn("style_selection.render_blocked", codes(pending_report))
+
+            confirmed = valid_spec(workspace)
+            ready = validate_spec(
+                confirmed,
+                render_ready=True,
+                trusted_workspace_root=workspace,
+            )
+            self.assertTrue(ready.ok, ready.to_dict())
 
     def test_waived_review_is_render_ready_without_digest(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

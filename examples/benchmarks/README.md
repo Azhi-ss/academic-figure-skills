@@ -27,13 +27,13 @@ result only; it is never evidence of image quality or publication readiness.
 
 ```bash
 # 1. clone (shallow, git-ignored); add e.g. `--repos cyclegan nerf` for a subset
-python3 academic-repo-analyzer/scripts/fetch_benchmark_repos.py --manifest examples/benchmarks/manifest.json
+python3 scripts/fetch_benchmark_repos.py --manifest examples/benchmarks/manifest.json
 # 2. create the sparse fixture
-python3 academic-repo-analyzer/scripts/create_sparse_fixture.py
-# 3. manually run academic-repo-analyzer for each repo and write
+python3 scripts/create_sparse_fixture.py
+# 3. manually run academic-figure-analyzer for each repo and write
 #    ref_repos/<id>/analysis/<id>-analysis.md
 # 4. score
-python3 academic-repo-analyzer/scripts/run_repo_benchmarks.py --manifest examples/benchmarks/manifest.json
+python3 scripts/run_repo_benchmarks.py --manifest examples/benchmarks/manifest.json
 ```
 
 Report: `ref_repos/benchmark-report.md`. Exit code 0 = all checks pass.

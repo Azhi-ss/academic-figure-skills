@@ -3,10 +3,9 @@
 本示例只覆盖 skill 允许的委派范围：
 
 - **可以委派**：彼此独立的配图（图 A / 图 B 各自成图）、彼此独立的来源分析（论文解析 / 仓库解析）。
-- **不要委派**：单张图的顺序修改（改文字、换颜色、修箭头）。这类改动由主 agent 直接做，
-  加一层 worker 只会增加不一致风险。见 `academic-figure-workflow/SKILL.md`：
-  “Do not delegate a single sequential figure merely to add an agent layer.”
-- **没有子 agent 也能完成流程**。委派是环境允许时的优化，不是流程的前置条件。
+- **要开**：彼此独立的来源分析、彼此独立的配图，以及一张已完成图的只读复核。运行时支持子 agent 时就开，不要为了留在一条线程里把这些工作收回主 agent。
+- **不要委派**：风格菜单、单张图从设计到修图的顺序步骤、对一张已有图的局部修改。见 `academic-figure-workflow/SKILL.md` 的 “When to open a sub-agent”。
+- **没有子 agent 也能完成流程**。主 agent 自己做同样的步骤，缺子 agent 不阻塞交付。
 
 ## 两条铁律
 

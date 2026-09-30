@@ -32,10 +32,10 @@ Palette values only make sense with a surface and line treatment. Select a profi
 
 | Signals | Profile | Primary skill | Visual grammar |
 |---|---|---|---|
-| technical stack, compact network, classic vector, strict print | **`classic-technical`** | `academic-figure-designer` | restrained geometry, fine borders, white or near-white modules, compact sans labels |
-| airy, token flow, interface-like, soft cards | **`pastel-airy-ui`** | `academic-figure-designer` | white cards, subtle border/shadow, floating pills and tokens, generous whitespace |
-| hand-drawn academic infographic, modular narrative, agent/scientific workflow, tinted zones | **`illustrated-modular`** | `academic-figure-designer` | asymmetric hero layout, soft semantic-zone fills, strong same-hue outlines, no shadow, one-level subcards, controlled line illustrations |
-| supplied reference does not fit one preset | **`reference-led`** | `academic-figure-designer` | override defaults with observed grammar; do not assume an illustrated surface |
+| technical stack, compact network, classic vector, strict print | **`classic-technical`** | `academic-figure-workflow` | restrained geometry, fine borders, white or near-white modules, compact sans labels |
+| airy, token flow, interface-like, soft cards | **`pastel-airy-ui`** | `academic-figure-workflow` | white cards, subtle border/shadow, floating pills and tokens, generous whitespace |
+| hand-drawn academic infographic, modular narrative, agent/scientific workflow, tinted zones | **`illustrated-modular`** | `academic-figure-workflow` | asymmetric hero layout, soft semantic-zone fills, strong same-hue outlines, no shadow, one-level subcards, controlled line illustrations |
+| supplied reference does not fit one preset | **`reference-led`** | `academic-figure-workflow` | override defaults with observed grammar; do not assume an illustrated surface |
 
 Do not force a supplied reference into a binary classic/pastel label. A coherent figure may combine a classic flat canvas, tinted modular zones, and hand-drawn illustrations. State the observed properties so the combination is intentional rather than a style-word mixture.
 

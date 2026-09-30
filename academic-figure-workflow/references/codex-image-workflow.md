@@ -8,7 +8,7 @@ this execution contract does not authorize rendering those requests.
 
 - If the user asks Codex to generate the figure directly, call the native image tool after the semantic plan/spec is ready.
 - Do not print or ask the user to copy the internal image prompt unless the user explicitly asks to review it.
-- A request such as “直接画图”, “使用 Codex 生图”, or “不用返回 prompt” records `prompt_review: waived` for the current figure.
+- A request such as “直接画图”, “使用 Codex 生图”, or “不用返回 prompt” records `prompt_review: waived` for the current figure. It does not choose a style. If `style_selection` is missing or `pending`, show the style previews and stop before any image call.
 - Prompt review and render audit are different: waiving prompt review never waives topology/text/quality inspection.
 - The prompt still exists as an internal renderer instruction. “Do not return the prompt” means compile and use it silently; it does not mean call the image model without an instruction.
 
@@ -142,7 +142,7 @@ initial generation (r0)
        select best recoverable revision and disclose residual defects
 ```
 
-Allow at most two semantic edit rounds after the initial image. A transient transport failure may be retried once and does not consume a semantic edit round. If the second semantic edit still fails, keep the best image and report remaining defects rather than silently looping.
+Allow at most two semantic edit rounds after the initial image. A transient transport failure may be retried once and does not consume a semantic edit round. An edit that repairs arrows must keep the confirmed composition, hero, subcards, and mechanism labels. Do not spend a round on equal icon lanes. If the second semantic edit still fails, keep the best image and report remaining defects rather than silently looping.
 
 ## Text-heavy figures
 

@@ -1,7 +1,7 @@
 {
   "_benchmark_golden": {
     "repository": "synthetic fixture-sparse",
-    "url": "synthetic: academic-repo-analyzer/scripts/create_sparse_fixture.py",
+    "url": "synthetic: scripts/create_sparse_fixture.py",
     "pinned_commit": "N/A",
     "license": "—"
   },

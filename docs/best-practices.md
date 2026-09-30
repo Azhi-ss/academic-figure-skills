@@ -142,7 +142,7 @@ semantic_zone:
   icon_accent: "#......"
 ```
 
-`docs/palettes.md` 的 I1 token 给出了可直接使用的蓝、绿、桃、紫、青、金和珊瑚配对。Agentic-science 图中可按实际内容映射 reasoning/planning、evidence/context、deterministic execution、advisory/uncertainty、memory/provenance/recovery、output/report 和 exception/stop；没有出现的角色不必占色。
+[`academic-figure-workflow/references/palettes.md`](../academic-figure-workflow/references/palettes.md) 的 I1 token 给出了可直接使用的蓝、绿、桃、紫、青、金和珊瑚配对。Agentic-science 图中可按实际内容映射 reasoning/planning、evidence/context、deterministic execution、advisory/uncertainty、memory/provenance/recovery、output/report 和 exception/stop；没有出现的角色不必占色。
 
 ### 颜色数量
 

@@ -185,6 +185,10 @@
       "type": "array",
       "items": {"type": "string", "minLength": 1}
     },
+    "style_selection": {
+      "description": "pending or a missing value blocks render-ready. confirmed requires a named style_preset, or reference-led with a reference image. waived is only for an explicit user request to choose the style for them.",
+      "enum": ["pending", "confirmed", "waived"]
+    },
     "prompt_review": {
       "description": "requested blocks rendering until review; confirmed or waived permit rendering. This never disables RenderAudit.",
       "enum": ["requested", "confirmed", "waived"]

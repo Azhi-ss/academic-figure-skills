@@ -1,7 +1,7 @@
 {
   "name": "academic-figure-skills",
-  "version": "3.3.0",
-  "description": "Reference-aware academic figure workflow for evidence-backed planning, FigureSpec generation, native Codex rendering, visual audit, and targeted image revision.",
+  "version": "4.1.0",
+  "description": "Two academic figure skills: academic-figure-workflow designs style, palette, and prompts, compiles FigureSpec, and handles native rendering, visual audit, and targeted revision; academic-figure-analyzer turns repositories, papers, drafts, and reference figures into SemanticArchitecture, FigurePlan, and ReferenceAnalysis.",
   "author": "Azhi-ss",
   "repository": "https://github.com/Azhi-ss/academic-figure-skills",
   "license": "MIT",
@@ -9,72 +9,15 @@
     {
       "id": "academic-figure-workflow",
       "name": "Academic Figure Workflow",
-      "version": "1.8.0",
-      "description": "Plan, generate, inspect, and refine academic figures from repositories, papers, paper URLs, PDFs, or reference images, with conditional review and native image-tool routing.",
+      "version": "2.1.0",
+      "description": "Design evidence-grounded academic figures and construct, diagnose, or revise prompts; semantic palettes, reference-led styles, and FigureSpec v1. Plan, generate, inspect, and refine figures with conditional review and native image-tool routing. Repository, paper, draft, or reference-figure inputs are analyzed by academic-figure-analyzer first.",
       "path": "./academic-figure-workflow",
       "trigger_phrases": [
         "帮我从仓库到配图走一遍", "完整论文配图工作流", "academic figure workflow",
         "end-to-end figure pipeline", "from paper to figure prompt",
         "直接生成论文配图", "使用 Codex 生图", "不用返回 prompt",
         "draw this academic figure",
-        "which skill should I use first"
-      ],
-      "stages": ["research", "writing", "review"],
-      "tools": ["bash", "image_gen", "view_image"],
-      "tags": ["academic", "workflow", "orchestration", "figure", "prompt", "planning", "style-library"]
-    },
-    {
-      "id": "academic-repo-analyzer",
-      "name": "Academic Repo Analyzer",
-      "version": "1.5.1",
-      "description": "Evidence-backed semantic architecture analysis for ML, AI4Science, and research repositories without treating directory counts as visual modules.",
-      "path": "./academic-repo-analyzer",
-      "trigger_phrases": [
-        "分析代码仓库", "仓库分析", "repo analyzer",
-        "analyze this repo", "理解这个代码库",
-        "what does this repo do", "code repository analysis"
-      ],
-      "stages": ["research", "review"],
-      "tools": ["bash"],
-      "tags": ["academic", "repository", "analysis", "deep-learning", "machine-learning", "code"]
-    },
-    {
-      "id": "academic-figure-draft-analyzer",
-      "name": "Academic Draft & Paper Analyzer (Figure Planner)",
-      "version": "1.4.1",
-      "description": "Evidence-backed Figure Plan v1 generation with fast-track Draft-to-Figure support for Markdown notes and outlines, as well as comprehensive planning for full manuscripts.",
-      "path": "./academic-figure-draft-analyzer",
-      "trigger_phrases": [
-        "分析草稿配图", "草稿画图", "Markdown画架构图", "分析论文配图需求",
-        "论文需要哪些图", "论文配图规划", "paper figure planning",
-        "draft to figure", "analyze draft for figures"
-      ],
-      "stages": ["research", "review"],
-      "tools": ["bash"],
-      "tags": ["academic", "draft", "paper", "analysis", "planning", "figure", "markdown"]
-    },
-    {
-      "id": "academic-figure-architecture-extractor",
-      "name": "Academic Figure Architecture Extractor",
-      "version": "1.3.1",
-      "description": "Extract semantic structure and transferable style grammar from figures, PDFs, and paper or figure URLs for redraws and reference-conditioned generation.",
-      "path": "./academic-figure-architecture-extractor",
-      "trigger_phrases": [
-        "提取论文架构图", "架构图分析", "从PDF提取图表",
-        "自动分析架构图", "architecture diagram extraction",
-        "extract figures from pdf", "analyze architecture diagram"
-      ],
-      "stages": ["research", "writing"],
-      "tools": ["bash"],
-      "tags": ["academic", "architecture", "diagram", "extraction", "pdf", "analysis"]
-    },
-    {
-      "id": "academic-figure-designer",
-      "name": "Academic Figure Designer & Prompt Engine",
-      "version": "2.3.0",
-      "description": "Evidence-grounded academic figure design and prompt construction, diagnosis, and revision; semantic palettes, reference-led styles, and FigureSpec v1 compilation.",
-      "path": "./academic-figure-designer",
-      "trigger_phrases": [
+        "which skill should I use first",
         "设计论文配图", "论文配图", "生成论文配图", "学术论文生图",
         "构造画图提示词", "诊断画图prompt", "修改绘图提示词",
         "construct figure prompt", "diagnose figure prompt", "revise figure prompt",
@@ -87,9 +30,30 @@
         "paper figure", "academic figure", "academic diagram",
         "学术配图JSON", "Visual Brief"
       ],
-      "stages": ["writing", "research", "review"],
+      "stages": ["research", "writing", "review"],
+      "tools": ["bash", "image_gen", "view_image"],
+      "tags": ["academic", "workflow", "orchestration", "figure", "prompt", "planning", "style-library", "designer", "spec", "color", "palette", "figure-spec", "technical-vector", "pastel", "illustrated-modular", "reference-aware"]
+    },
+    {
+      "id": "academic-figure-analyzer",
+      "name": "Academic Figure Analyzer",
+      "version": "1.0.0",
+      "description": "Evidence-backed analysis of repositories, paper drafts, and reference figures into SemanticArchitecture@1, FigurePlan@1, and ReferenceAnalysis@1, without writing prompts or generating images.",
+      "path": "./academic-figure-analyzer",
+      "trigger_phrases": [
+        "分析代码仓库", "仓库分析", "repo analyzer",
+        "analyze this repo", "理解这个代码库",
+        "what does this repo do", "code repository analysis",
+        "分析草稿配图", "草稿画图", "Markdown画架构图", "分析论文配图需求",
+        "论文需要哪些图", "论文配图规划", "paper figure planning",
+        "draft to figure", "analyze draft for figures",
+        "提取论文架构图", "架构图分析", "从PDF提取图表",
+        "自动分析架构图", "architecture diagram extraction",
+        "extract figures from pdf", "analyze architecture diagram"
+      ],
+      "stages": ["research", "writing", "review"],
       "tools": ["bash"],
-      "tags": ["academic", "designer", "figure", "spec", "color", "palette", "figure-spec", "technical-vector", "pastel", "illustrated-modular", "reference-aware"]
+      "tags": ["academic", "repository", "analysis", "deep-learning", "machine-learning", "code", "draft", "paper", "planning", "figure", "markdown", "architecture", "diagram", "extraction", "pdf"]
     }
   ]
 }

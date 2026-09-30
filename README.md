@@ -1,15 +1,15 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-3.3.0-blue)
+![Version](https://img.shields.io/badge/version-4.1.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Stars](https://img.shields.io/github/stars/Azhi-ss/academic-figure-skills?style=social)
 
 **Academic paper figure skills for Claude Code, Cursor, Codex & Gemini CLI.**  
 AI 驱动的学术论文配图技能包：证据分析 → FigurePlan v1 → 提示词设计 / FigureSpec v1 → 原生生图 → RenderAudit v2 → 定向修图。
 
-> **是什么？** 5 个可独立安装的 agent skill，覆盖仓库/论文/草稿/参考图分析、可追溯配图规划、统一风格与色彩设计、结构化规范、Codex 原生直接生图和生成后视觉审计。skill 定义可复用流程，不等于常驻子智能体；仅端到端 workflow 会在任务可独立拆分时临时派发 figure worker。三个 surface profile 是 `classic-technical`（现代前沿技术框线/经典矢量）、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是保留参考图真实语法的覆盖模式，不等同于手绘柔彩风。色板是风格下的可选变量，不再由代码目录数决定。
+> **是什么？** 2 个可独立安装的 agent skill，覆盖仓库/论文/草稿/参考图分析、可追溯配图规划、统一风格与色彩设计、结构化规范、Codex 原生直接生图和生成后视觉审计。skill 定义可复用流程，不等于常驻子智能体；仅端到端 workflow 会在任务可独立拆分时临时派发 figure worker。三个 surface profile 是 `classic-technical`（现代前沿技术框线/经典矢量）、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是保留参考图真实语法的覆盖模式，不等同于手绘柔彩风。色板是风格下的可选变量，不再由代码目录数决定。
 
-**5 skills · 3 core style profiles · native Codex rendering · reference-aware revision** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
+**2 skills · 3 core style profiles · native Codex rendering · reference-aware revision** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
 
 
 ## 快速开始（30 秒）
@@ -32,7 +32,7 @@ npx skills add Azhi-ss/academic-figure-skills -l
 
 ## 构造、诊断与修订画图提示词
 
-直接调用 `academic-figure-designer`，不另建第二套 prompt 编译器：
+直接调用 `academic-figure-workflow`，不另建第二套 prompt 编译器：
 
 | 你可以这样说 | 交付 |
 |---|---|
@@ -43,7 +43,7 @@ npx skills add Azhi-ss/academic-figure-skills -l
 
 设计逻辑是：读者问题 → 有证据的科学骨架 → 确定风格/参考图语法 → 联合设计布局、视觉锚点与文字容量 → 闭合连线 → 完整 prompt → 图片验收。风格在布局定稿前介入，不是写完提示词后的附加形容词；已选风格直接复用，不增加确认关卡。“增加颜色”“增加信息”“减少混乱”分别处理；手绘机器人、公式卡和微型图都是可选表达，不再强制每节点三件套。多 agent 讨论必须有真实交互证据，独立评审不自动改画成投票或协商。
 
-具体见 [提示词设计逻辑](academic-figure-designer/references/prompt-design-logic.md)、[可填充模板](academic-figure-designer/references/prompt-templates.md) 和 [案例与迁移测试](academic-figure-designer/references/prompt-design-cases.md)。本次提炼参考 Nuwa 的主题框架方法；成品技能没有 Nuwa 运行时依赖。
+具体见 [提示词设计逻辑](academic-figure-workflow/references/prompt-design-logic.md)、[可填充模板](academic-figure-workflow/references/prompt-templates.md) 和 [案例与迁移测试](academic-figure-workflow/references/prompt-design-cases.md)。本次提炼参考 Nuwa 的主题框架方法；成品技能没有 Nuwa 运行时依赖。
 
 ### 审核记录与图片正确性分开
 
@@ -117,15 +117,12 @@ python3 academic-figure-workflow/scripts/validate_render_audit.py \
 
 | 技能 | 功能 | 触发词示例 |
 |-----|------|-----------|
-| **academic-figure-workflow** | 端到端编排：分析、条件式 review、原生生图、审图与定向修订 | 完整论文配图工作流、帮我画图、which skill first |
-| **academic-repo-analyzer** | 从代码证据提取语义事实，辅助参数与维度核验，不干预论文高层叙事 | 分析代码仓库、repo analyzer |
-| **academic-figure-draft-analyzer** | 草稿与论文配图规划（支持 Markdown 提纲直出 Figure 1 与完整多图规划） | 分析草稿配图、草稿画图、论文需要哪些图、paper figure planning |
-| **academic-figure-architecture-extractor** | 从 PDF、论文 URL 或图片抽取可迁移 style grammar | 提取论文架构图、reference figure |
-| **academic-figure-designer** | 统一配图设计与规范引擎：风格选择、语义配色与无障碍、构图布局、FigureSpec v1 与生图 Prompt 编译 | 设计论文配图、学术配图配色、论文配色方案、顶会风格配图、编辑手绘模块风 |
+| **academic-figure-workflow** | 风格、配色与 prompt 构造/诊断/修订，FigureSpec、原生生图、审图与定向修图；仓库、论文、草稿或参考图先交给 analyzer | 设计论文配图、构造画图提示词、完整论文配图工作流、使用 Codex 生图 |
+| **academic-figure-analyzer** | 分析仓库、论文草稿与参考图，产出 SemanticArchitecture@1、FigurePlan@1、ReferenceAnalysis@1；不写 prompt、不生图 | 分析代码仓库、分析草稿配图、提取论文架构图 |
 
 ## 完整工作流
 
-3.3.0 不设置固定“三道门禁”。只有存在会实质改变结果的语义歧义、未解决 placeholder，或用户主动要求 review 时才暂停；用户明确要求“直接生成 / 不展示 prompt / 使用本地模型”时，prompt review 记为 waived 并继续执行。
+流程不设置固定“三道门禁”。只有存在会实质改变结果的语义歧义、未解决 placeholder，或用户主动要求 review 时才暂停；用户明确要求“直接生成 / 不展示 prompt / 使用本地模型”时，prompt review 记为 waived 并继续执行。
 
 ```
 代码 / 论文 / URL / 参考图
@@ -182,14 +179,14 @@ view_image(original) → RenderAudit v2 → 最多两次有缺陷依据的 targe
 仓库已公开，`npx skills` 从 GitHub 拉取；**push 到 `main` 即更新分发**，无需 npm publish。
 
 ```bash
-# 全局安装全部 5 个 skill
+# 全局安装全部 skill（推荐）
 npx skills add Azhi-ss/academic-figure-skills -g --all
 
 # 仅列出仓库内 skill（不安装）
 npx skills add Azhi-ss/academic-figure-skills -l
 
 # 只装其中一个
-npx skills add Azhi-ss/academic-figure-skills -g -s academic-figure-designer -y
+npx skills add Azhi-ss/academic-figure-skills -g -s academic-figure-workflow -y
 
 # 更新到 main 最新
 npx skills update Azhi-ss/academic-figure-skills -g -y
@@ -211,10 +208,19 @@ npx skills add https://github.com/Azhi-ss/academic-figure-skills -g --all
 ```bash
 git clone https://github.com/Azhi-ss/academic-figure-skills.git
 # 将各个 skill 目录链到 agent skills 路径，例如：
-# ln -s "$PWD/academic-figure-designer" ~/.claude/skills/academic-figure-designer
+# ln -s "$PWD/academic-figure-workflow" ~/.claude/skills/academic-figure-workflow
 ```
 
 更推荐始终用 `npx skills add`，避免把整个 monorepo 误拷进 skills 目录。
+
+## 从 3.x 升级
+
+旧的 `academic-figure-designer`、`academic-repo-analyzer`、`academic-figure-draft-analyzer`、`academic-figure-architecture-extractor` 已并入 workflow 与 analyzer。先卸掉旧 skill，再安装当前包：
+
+```bash
+npx skills remove --global academic-figure-designer academic-repo-analyzer academic-figure-draft-analyzer academic-figure-architecture-extractor
+npx skills add Azhi-ss/academic-figure-skills -g --all
+```
 
 ## 使用示例
 
@@ -242,7 +248,7 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 
 ## 风格 profile 与配色变量
 
-单一事实源：[`docs/styles.md`](docs/styles.md) & [`docs/palettes.md`](docs/palettes.md)
+单一事实源：[`academic-figure-workflow/references/styles/`](academic-figure-workflow/references/styles/) 与 [`academic-figure-workflow/references/palettes.md`](academic-figure-workflow/references/palettes.md)。[`docs/styles.md`](docs/styles.md) 仍是风格总览。
 
 内置样式文件可以提供更细的变体；workflow 先选择三个 surface profile，必要时再启用 `reference-led` 覆盖模式：
 
@@ -253,7 +259,7 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 | **pastel-airy-ui** | LLM Token 流、Agent 交互界面、概念决策循环 | 纯白浮动卡片、CLI 终端仿真视窗、悬浮柔彩 Token/Pill、高留白比率 | **SWE-agent** (ICML 2024) Fig 2<br>**ReAct** (ICLR 2023) Fig 1<br>**Reflexion** (NeurIPS 2023) Fig 1 |
 | **reference-led** | 用户给出参考图且其语法不应被 preset 覆盖 | 如实继承观察到的 surface/composition，不自动转成手绘柔彩 | 用户提供的任意顶刊/顶会论文原图 |
 
-内容关系、用户偏好、参考图、可访问性与黑白印刷配方见 `docs/palettes.md` 的 **Scene → palette decision** 与 **Worked decision recipes**。venue/domain 名称本身不选择颜色。
+内容关系、用户偏好、参考图、可访问性与黑白印刷配方见 [`academic-figure-workflow/references/palettes.md`](academic-figure-workflow/references/palettes.md) 的 **Scene → palette decision** 与 **Worked decision recipes**。venue/domain 名称本身不选择颜色。
 
 | 经典配色方案 | 适用场景 |
 |-----|---------|
@@ -276,11 +282,11 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 
 | 文档 | 说明 |
 |-----|------|
-| **[docs/palettes.md](docs/palettes.md)** | 12 套经典 preset、I1 paired semantic tokens 与四种路由模式 |
-| **[docs/styles.md](docs/styles.md)** | 三个 surface profile、reference-led 模式与可组合 style layers |
+| **[academic-figure-workflow/references/palettes.md](academic-figure-workflow/references/palettes.md)** | 12 套经典 preset、I1 paired semantic tokens 与四种路由模式 |
+| **[docs/styles.md](docs/styles.md)** | 风格总览；定义文件在 workflow 的 `references/styles/` |
 | **[academic-figure-workflow/references/codex-image-workflow.md](academic-figure-workflow/references/codex-image-workflow.md)** | Codex 原生生成、参考图编辑与安全调用 |
-| **[docs/render-audit.md](docs/render-audit.md)** | RenderAudit v2：图片/spec 绑定、逐边检查与定向修订 |
-| **[docs/missing-info-policy.md](docs/missing-info-policy.md)** | 缺信息时的统一策略 |
+| **[academic-figure-workflow/references/render-audit.md](academic-figure-workflow/references/render-audit.md)** | RenderAudit v2：图片/spec 绑定、逐边检查与定向修订 |
+| **[academic-figure-analyzer/references/missing-info-policy.md](academic-figure-analyzer/references/missing-info-policy.md)** | 缺信息时的统一策略 |
 | **[CHANGELOG.md](CHANGELOG.md)** | 版本历史 |
 | **[CONTRIBUTING.md](CONTRIBUTING.md)** | 贡献指南 |
 | **[docs/academic-references.md](docs/academic-references.md)** | 学术引用 |
@@ -299,13 +305,16 @@ A: 所有路径都先形成可校验的 FigureSpec/渲染包；`classic-technica
 A: 精确拓扑用 `classic-technical`；轻量 token/card 叙事用 `pastel-airy-ui`；agent-drawn、柔彩语义分区用 `illustrated-modular`。有参考图时先分析其真实语法；只有 preset 无法忠实概括时才用 `reference-led`，且不会自动变成 illustrated modular。
 
 ### Q: 可以直接用 Codex 生图而不看 prompt 吗？
-A: 可以。明确说“直接生成 / 不展示 prompt / 使用本地模型”即可 waive prompt review，workflow 会把 prompt 作为 `image_gen.imagegen` 的内部参数直接出图。正式生成前仍会运行 render-ready 校验；只有会实质改变语义的 unresolved choice 才需要 plan review。
+A: 可以跳过 prompt 展示。明确说“直接生成 / 不展示 prompt / 使用本地模型”即可 waive prompt review。若这次请求没有点名风格、也没有给出要跟随的参考图，workflow 会先展示 6 张风格预览并停下，不调用生图。正式生成前仍会运行 render-ready 校验；缺 `style_selection` 或值为 `pending` 时不能出图。
 
 ### Q: 必须按顺序跑完整流水线吗？
-A: 不需要。可直接 designer / draft-analyzer / repo-analyzer / architecture-extractor。
+A: 不需要。不必跑完整流水线，可只做分析（analyzer）或只做设计/prompt/生图（workflow）。
 
-### Q: 3.3.0 有什么变化？
-A: 3.3.0 是维护版本，工作方式与 3.2.0 相同：支持先构造、诊断或修订 prompt，也可直接调用 Codex `image_gen.imagegen`；实际生成遵守 prompt-review/hash 与可信工作区 render-ready 校验，每张新图执行 RenderAudit v2，最多进行两次定向编辑。本版 FigureSpec 校验器直接读取 `figure-spec.schema.json`；workflow 自带校验器与元数据清理脚本，单独安装也能完成 render-ready 校验和交付前清理；未版本化的旧 spec 与风格别名不再被接受，`--strict-v1` 保留但已不起作用。
+### Q: 4.1.0 有什么变化？
+A: 第一次出图前，没指定风格时必须先看 6 张预览并等用户选择。「直接画」只跳过 prompt 展示，不代替选风格。修图、已点名风格或有参考图时不再弹菜单。
+
+### Q: 4.0.0 有什么变化？
+A: 4.0.0 是结构合并、行为不变：原先 5 个 skill 并入 workflow 与 analyzer。3.3.0 的校验仍然有效：FigureSpec 校验器直接读取 `figure-spec.schema.json`；workflow 自带校验器与元数据清理脚本，单独安装也能完成 render-ready 校验和交付前清理。可先构造、诊断或修订 prompt，也可直接调用 Codex `image_gen.imagegen`；生成遵守 prompt-review/hash 与可信工作区校验，每张新图执行 RenderAudit v2，最多两次定向编辑。未版本化旧 spec 与风格别名不再被接受，`--strict-v1` 保留但已不起作用。
 
 ## 引用
 
@@ -317,7 +326,7 @@ A: 3.3.0 是维护版本，工作方式与 3.2.0 相同：支持先构造、诊�
   title = {Academic Figure Skills: AI-powered academic figure generation skill pack},
   year = {2026},
   url = {https://github.com/Azhi-ss/academic-figure-skills},
-  version = {3.1.0}
+  version = {4.1.0}
 }
 ```
 

@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Validate skill-pack metadata, shared references, and figure specs.
+"""Validate the pack manifest, SKILL.md frontmatter, and figure specs.
 
 The checker is intentionally standard-library-only so it can run in a fresh
-checkout and in lightweight CI.  It validates the subset of SKILL.md frontmatter
-supported by Codex/Agent Skills, checks manifest versions against
-``metadata.version``, detects vendored-copy drift, and delegates the example
-FigureSpecs in ``docs/prompts/`` to ``validate_figure_spec.py``.
+checkout and in lightweight CI.  It validates ``manifest.json``, the subset of
+SKILL.md frontmatter supported by Codex/Agent Skills, and the example
+FigureSpecs in ``docs/prompts/*.spec.json``.
 """
 
 from __future__ import annotations
@@ -15,15 +14,39 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
 
 
 PACK_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(PACK_ROOT / "academic-figure-designer" / "scripts"))
+sys.path.insert(0, str(PACK_ROOT / "academic-figure-workflow" / "scripts"))
 
-from sync_shared_refs import SyncItem, build_sync_plan, load_skill_paths  # noqa: E402
 from validate_figure_spec import ValidationReport, print_reports, validate_path  # noqa: E402
+
+
+def load_skill_paths(root: Path) -> dict[str, Path]:
+    """Load skill id -> directory mappings from the pack manifest."""
+
+    root = root.resolve()
+    manifest_path = root / "manifest.json"
+    data = json.loads(manifest_path.read_text(encoding="utf-8"))
+    skills = data.get("skills") if isinstance(data, dict) else None
+    if not isinstance(skills, list):
+        raise ValueError(f"{manifest_path}: 'skills' must be a list")
+
+    result: dict[str, Path] = {}
+    for index, entry in enumerate(skills):
+        skill_id = entry.get("id") if isinstance(entry, dict) else None
+        raw_path = entry.get("path") if isinstance(entry, dict) else None
+        if not (isinstance(skill_id, str) and skill_id and isinstance(raw_path, str) and raw_path):
+            raise ValueError(f"{manifest_path}: skills[{index}] needs non-empty string 'id' and 'path'")
+        if skill_id in result:
+            raise ValueError(f"{manifest_path}: duplicate skill id {skill_id!r}")
+        skill_dir = (root / raw_path).resolve()
+        if not skill_dir.is_relative_to(root):
+            raise ValueError(f"{manifest_path}: skill path escapes repository: {raw_path!r}")
+        result[skill_id] = skill_dir
+    return result
 
 
 CODEX_FRONTMATTER_KEYS = frozenset(
@@ -201,55 +224,6 @@ def validate_skills(root: Path, report: ValidationReport) -> None:
             )
 
 
-def validate_reference_items(
-    root: Path,
-    items: Iterable[SyncItem],
-    report: ValidationReport,
-) -> None:
-    """Compare canonical sources with their vendored copies."""
-
-    for item in items:
-        target = str(item.target.relative_to(root))
-        if not item.source.is_file():
-            report.error("reference.source_missing", str(item.source.relative_to(root)), "canonical shared file is missing")
-        elif not item.target.is_file():
-            report.error("reference.target_missing", target, "vendored copy is missing; run sync_shared_refs.py")
-        elif not item.in_sync:
-            report.error("reference.drift", target, f"vendored copy differs from {item.source.relative_to(root)}")
-
-
-def validate_vendored_style_sets(
-    root: Path,
-    items: Iterable[SyncItem],
-    report: ValidationReport,
-) -> None:
-    """Reject vendored style Markdown files absent from the canonical library."""
-
-    expected: dict[Path, set[str]] = {}
-    for item in items:
-        if item.source.parent == root / "docs" / "styles":
-            expected.setdefault(item.target.parent, set()).add(item.target.name)
-    for style_dir, names in sorted(expected.items()):
-        for entry in sorted(style_dir.glob("*.md")):
-            if entry.name not in names:
-                report.error(
-                    "reference.style_extra",
-                    str(entry.relative_to(root)),
-                    "vendored style is not present in docs/styles; remove the stale copy",
-                )
-
-
-def validate_shared_refs(root: Path, report: ValidationReport) -> None:
-    root = root.resolve()
-    try:
-        plan = build_sync_plan(root)
-    except (OSError, ValueError) as exc:
-        report.error("reference.plan_invalid", str(root), str(exc))
-        return
-    validate_reference_items(root, plan, report)
-    validate_vendored_style_sets(root, plan, report)
-
-
 def validate_figure_specs(root: Path, report: ValidationReport) -> None:
     paths = sorted((root / "docs" / "prompts").glob("*.spec.json"))
     if not paths:
@@ -264,7 +238,6 @@ def validate_pack(root: Path) -> ValidationReport:
     root = root.resolve()
     report = ValidationReport(source=str(root))
     validate_skills(root, report)
-    validate_shared_refs(root, report)
     validate_figure_specs(root, report)
     return report
 
