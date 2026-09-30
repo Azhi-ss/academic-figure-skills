@@ -2,7 +2,7 @@
 name: academic-figure-draft-analyzer
 description: Plan evidence-backed figures for a paper draft, markdown notes, outline, manuscript, PDF, or paper webpage. Supports Draft-to-Figure fast-track for Markdown notes as well as comprehensive multi-figure planning for full manuscripts.
 metadata:
-  version: "1.4.0"
+  version: "1.4.1"
   stages: [research, review]
 ---
 

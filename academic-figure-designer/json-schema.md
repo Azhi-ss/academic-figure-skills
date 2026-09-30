@@ -1,6 +1,6 @@
 # FigureSpec v1 Contract
 
-The machine-readable schema is `figure-spec.schema.json`. This document explains the design intent and migration from legacy prompt specs.
+The machine-readable schema is `figure-spec.schema.json`; `scripts/validate_figure_spec.py` reads it directly and adds the cross-field checks a schema cannot express. This document explains the design intent.
 
 ## Identity and sources
 
@@ -209,8 +209,7 @@ legibility after scaling to the intended width.
 Run:
 
 ```bash
-python3 academic-figure-designer/scripts/validate_figure_spec.py \
-  --strict-v1 --render-ready \
+python3 <designer>/scripts/validate_figure_spec.py --render-ready \
   --workspace-root <trusted-actual-root> \
   <spec.json>
 ```
@@ -230,4 +229,4 @@ best current render, places it first in `referenced_image_paths`, locks all
 correct regions, saves a new revision, and re-audits it. Allow at most two
 semantic edit rounds; a transient transport retry does not count.
 
-Legacy `diagram_type` / `layout_and_content_blocks` specs may be read in compatibility mode but should be migrated before new rendering.
+Legacy `diagram_type` / `layout_and_content_blocks` specs and style-name aliases fail validation; rewrite them as FigureSpec v1 with a canonical `style_profile` before rendering.

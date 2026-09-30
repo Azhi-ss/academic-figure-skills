@@ -2,7 +2,7 @@
 name: academic-figure-architecture-extractor
 description: Extract semantic structure and transferable style grammar from academic figures, PDFs, and paper or figure URLs for analysis, redraws, or reference-conditioned generation. Do not use it for paper-text-only figure planning.
 metadata:
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Academic Figure Architecture Extractor

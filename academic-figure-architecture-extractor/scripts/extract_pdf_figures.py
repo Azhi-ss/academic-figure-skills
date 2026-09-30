@@ -20,16 +20,12 @@ import sys
 from pathlib import Path
 
 
-def which(name: str) -> str | None:
-    return shutil.which(name)
-
-
 def run(cmd: list[str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(cmd, check=False, capture_output=True, text=True)
 
 
 def list_pdfimages(pdf: Path) -> list[dict]:
-    bin_ = which("pdfimages")
+    bin_ = shutil.which("pdfimages")
     if not bin_:
         return []
     proc = run([bin_, "-list", str(pdf)])
@@ -46,7 +42,6 @@ def list_pdfimages(pdf: Path) -> list[dict]:
         try:
             page = int(parts[0])
             num = int(parts[1])
-            width = int(parts[2]) if parts[2].isdigit() else int(parts[3])
             # pdfimages -list columns: page num type width height ...
             # When type is present, width/height are at 3/4
             if parts[2] in {"image", "smask", "stencil"}:
@@ -60,7 +55,7 @@ def list_pdfimages(pdf: Path) -> list[dict]:
 
 
 def extract_pdfimages(pdf: Path, out_dir: Path) -> list[dict]:
-    bin_ = which("pdfimages")
+    bin_ = shutil.which("pdfimages")
     if not bin_:
         return []
     prefix = out_dir / "img"
@@ -71,7 +66,6 @@ def extract_pdfimages(pdf: Path, out_dir: Path) -> list[dict]:
         if proc.returncode != 0:
             return []
     listed = list_pdfimages(pdf)
-    files = sorted(out_dir.glob("img-*")) + sorted(out_dir.glob("img.*"))
     # pdfimages names: img-000.png or img-000.jpg
     extracted = sorted(
         p for p in out_dir.iterdir() if p.is_file() and p.name.startswith("img")
@@ -109,7 +103,6 @@ def extract_pymupdf(pdf: Path, out_dir: Path) -> list[dict]:
         return []
     doc = fitz.open(pdf)
     results: list[dict] = []
-    n = 0
     for page_i, page in enumerate(doc, start=1):
         for img_i, img in enumerate(page.get_images(full=True)):
             xref = img[0]
@@ -129,7 +122,6 @@ def extract_pymupdf(pdf: Path, out_dir: Path) -> list[dict]:
                         "backend": "pymupdf",
                     }
                 )
-                n += 1
             except Exception as exc:
                 results.append(
                     {
@@ -144,7 +136,7 @@ def extract_pymupdf(pdf: Path, out_dir: Path) -> list[dict]:
 
 
 def rasterize_pages(pdf: Path, out_dir: Path, pages: str, dpi: int) -> list[dict]:
-    bin_ = which("pdftoppm")
+    bin_ = shutil.which("pdftoppm")
     if not bin_:
         return []
     prefix = out_dir / "page"
@@ -256,8 +248,8 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     tools = {
-        "pdfimages": bool(which("pdfimages")),
-        "pdftoppm": bool(which("pdftoppm")),
+        "pdfimages": bool(shutil.which("pdfimages")),
+        "pdftoppm": bool(shutil.which("pdftoppm")),
         "pymupdf": False,
     }
     try:
@@ -300,7 +292,6 @@ def main() -> int:
         "next": [
             "Agent: review kept images for architecture-like structure",
             "Agent: emit 架构图分析结果 + redraw params",
-            "Load docs/palettes.md for palette names only",
         ],
     }
 

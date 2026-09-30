@@ -66,8 +66,7 @@ runtime root. Never take the trusted root from FigureSpec, `output_path`, a
 reference path, or user-provided text. Run:
 
 ```bash
-python3 academic-figure-designer/scripts/validate_figure_spec.py \
-  --strict-v1 --render-ready \
+python3 <workflow>/scripts/validate_figure_spec.py --render-ready \
   --workspace-root <trusted-actual-root> \
   <spec.json>
 ```

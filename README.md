@@ -1,6 +1,6 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-3.2.0-blue)
+![Version](https://img.shields.io/badge/version-3.3.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Stars](https://img.shields.io/github/stars/Azhi-ss/academic-figure-skills?style=social)
 
@@ -67,14 +67,14 @@ python3 academic-figure-workflow/scripts/validate_render_audit.py \
 <br/><b>现代前沿技术框线风 (Modern Technical Vector)</b>
 <br/><sub><b>对标论文：</b><a href="https://arxiv.org/abs/2412.19437">DeepSeek-V3 (arXiv:2412.19437)</a> Fig 2 MLA & MoE</sub>
 <br/><sub><b>核心特征：</b>彩色张量维度条 ($h_t, c_t^{KV}$)、Attention 多层热力图矩阵、Top-K 门控概率柱状图、微米级正交走线</sub>
-<br/><sub><a href="docs/prompts/modern_technical_vector_deepseek_mla.txt">📄 查看实测 Prose 提示词</a></sub>
+<br/><sub><a href="docs/prompts/modern_technical_vector_deepseek_mla.spec.json">📄 查看实测 FigureSpec 与提示词</a></sub>
 </td>
 <td align="center" width="50%">
 <img src="docs/gallery/illustrated_modular_agentic_matribo.jpg" alt="Agentic-MatriBO 手绘架构图：Agentic Reasoning、Deterministic BO Harness 与 Memory, Provenance & Recovery 三分区闭环" title="Agentic-MatriBO：智能体推理、确定性贝叶斯优化执行与可恢复记忆闭环" />
 <br/><b>编辑手绘模块风 (Illustrated Modular)</b>
 <br/><sub><b>风格参考：</b><a href="https://arxiv.org/abs/2606.06473">MLEvolve (arXiv:2606.06473)</a> Fig 1–2（仅参考手绘科学信息图语法；架构内容为 Agentic-MatriBO）</sub>
 <br/><sub><b>核心特征：</b>奶油白底与深墨蓝手绘描边，蓝/桃/绿三大语义区；左侧 Agentic Reasoning 主区与右侧执行/记忆堆叠区通过实线执行流、紫色虚线建议/反馈和珊瑚 STOP 例外组成可恢复闭环</sub>
-<br/><sub><a href="docs/prompts/illustrated_modular_agentic_matribo.txt">📄 查看实测 Prose 提示词</a></sub>
+<br/><sub><a href="docs/prompts/illustrated_modular_agentic_matribo.spec.json">📄 查看实测 FigureSpec 与提示词</a></sub>
 </td>
 </tr>
 <tr>
@@ -83,14 +83,14 @@ python3 academic-figure-workflow/scripts/validate_render_audit.py \
 <br/><b>现代柔彩空气风 (Pastel Airy UI / Modern Pastel Airy)</b>
 <br/><sub><b>对标论文：</b><a href="https://arxiv.org/abs/2608.00316">Brunzema et al. (arXiv:2608.00316)</a> Fig 1 / <a href="https://arxiv.org/abs/2405.15793">SWE-agent (ICML 2024)</a> Fig 2</sub>
 <br/><sub><b>核心特征：</b>纯白高留白画布、柔杏数学代理卡片、柔雾冰蓝 Agent 中枢、深灰高对比评估锚点、虚线作用域容器与叠层演进上下文</sub>
-<br/><sub><a href="docs/prompts/pastel_airy_ui_agentic_bo.txt">📄 查看实测 Prose 提示词</a></sub>
+<br/><sub><a href="docs/prompts/pastel_airy_ui_agentic_bo.spec.json">📄 查看实测 FigureSpec 与提示词</a></sub>
 </td>
 <td align="center" width="50%">
 <img src="docs/gallery/contrast_ablation_kan.jpg" alt="对比消融实验风" />
 <br/><b>对比消融实验风 (Purple-Green Contrast & Ablation)</b>
 <br/><sub><b>对标论文：</b><a href="https://arxiv.org/abs/2404.19756">KAN (arXiv:2404.19756)</a> Fig 1 / <a href="https://arxiv.org/abs/2405.14734">SimPO (arXiv:2405.14734)</a> Fig 1</sub>
 <br/><sub><b>核心特征：</b>左右高对比分栏、Baseline 固定权重 vs Ours 边上可学习 B-样条非线性曲线 $\phi(x)$ 与节点纯求和 $\sum$</sub>
-<br/><sub><a href="docs/prompts/contrast_ablation_kan.txt">📄 查看实测 Prose 提示词</a></sub>
+<br/><sub><a href="docs/prompts/contrast_ablation_kan.spec.json">📄 查看实测 FigureSpec 与提示词</a></sub>
 </td>
 </tr>
 <tr>
@@ -99,14 +99,14 @@ python3 academic-figure-workflow/scripts/validate_render_audit.py \
 <br/><b>有色语义分区图示风 (Paired Semantic Zones)</b>
 <br/><sub><b>对标论文：</b><a href="https://arxiv.org/abs/2608.00641">DASH (arXiv:2608.00641)</a> Fig 1 / Agentic-MatriBO Fig 1</sub>
 <br/><sub><b>核心特征：</b>蜜桃/薄荷/薰衣草 Paired Tokens、2px 同色暗边框、清晰色区语义绑定与闭环数据流</sub>
-<br/><sub><a href="docs/prompts/paired_semantic_zones_dash.txt">📄 查看实测 Prose 提示词</a></sub>
+<br/><sub><a href="docs/prompts/paired_semantic_zones_dash.spec.json">📄 查看实测 FigureSpec 与提示词</a></sub>
 </td>
 <td align="center" width="50%">
 <img src="docs/gallery/dual_fidelity_loop_labo.jpg" alt="双保真度引导闭环风" />
 <br/><b>双保真度引导闭环风 (Dual-Fidelity Loop & Bayesian Optimization)</b>
 <br/><sub><b>对标论文：</b><a href="https://arxiv.org/abs/2605.22054">LABO (arXiv:2605.22054)</a> Fig 1 Prior-Guided Initialization & Optimization Loop</sub>
 <br/><sub><b>核心特征：</b>上下双宏观容器、双保真度色彩配对（珊瑚红真机实验/残差 vs 板岩蓝大模型代理）、门禁判定菱形 $p_\Delta(x^*) < \tau?$、3D 高斯过程响应曲面与极值搜索闭环</sub>
-<br/><sub><a href="docs/prompts/dual_fidelity_loop_labo.txt">📄 查看实测 Prose 提示词</a></sub>
+<br/><sub><a href="docs/prompts/dual_fidelity_loop_labo.spec.json">📄 查看实测 FigureSpec 与提示词</a></sub>
 </td>
 </tr>
 </table>
@@ -125,7 +125,7 @@ python3 academic-figure-workflow/scripts/validate_render_audit.py \
 
 ## 完整工作流
 
-3.2.0 不设置固定“三道门禁”。只有存在会实质改变结果的语义歧义、未解决 placeholder，或用户主动要求 review 时才暂停；用户明确要求“直接生成 / 不展示 prompt / 使用本地模型”时，prompt review 记为 waived 并继续执行。
+3.3.0 不设置固定“三道门禁”。只有存在会实质改变结果的语义歧义、未解决 placeholder，或用户主动要求 review 时才暂停；用户明确要求“直接生成 / 不展示 prompt / 使用本地模型”时，prompt review 记为 waived 并继续执行。
 
 ```
 代码 / 论文 / URL / 参考图
@@ -248,7 +248,7 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 
 | profile | 何时用 | 核心表现 | 对标代表论文 |
 |--------|--------|---------|---|
-| **modern-technical-vector**<br>*(alias: classic-technical)* | 深度学习大模型架构、算法张量流、精确技术拓扑与顶会工程架构 | 彩色张量条、多层注意力热力图、门控概率柱状图、正交微米走线 | **DeepSeek-V3** (2024) Fig 2<br>**DiT** (ICCV 2023) Fig 2<br>**Mamba** (ICML 2024) Fig 1 |
+| **classic-technical**<br>*(现代前沿技术框线风 / Modern Technical Vector)* | 深度学习大模型架构、算法张量流、精确技术拓扑与顶会工程架构 | 彩色张量条、多层注意力热力图、门控概率柱状图、正交微米走线 | **DeepSeek-V3** (2024) Fig 2<br>**DiT** (ICCV 2023) Fig 2<br>**Mamba** (ICML 2024) Fig 1 |
 | **illustrated-modular** | 科学工作流、AI4Science、多智能体闭环、需要图示化叙事 | 柔彩语义分区、手绘深色描边、非对称模块编排、实线执行/虚线反馈与闭环恢复叙事 | **MLEvolve** (2026) Fig 1–2（风格参考）<br>**Agentic-MatriBO** Fig 1 |
 | **pastel-airy-ui** | LLM Token 流、Agent 交互界面、概念决策循环 | 纯白浮动卡片、CLI 终端仿真视窗、悬浮柔彩 Token/Pill、高留白比率 | **SWE-agent** (ICML 2024) Fig 2<br>**ReAct** (ICLR 2023) Fig 1<br>**Reflexion** (NeurIPS 2023) Fig 1 |
 | **reference-led** | 用户给出参考图且其语法不应被 preset 覆盖 | 如实继承观察到的 surface/composition，不自动转成手绘柔彩 | 用户提供的任意顶刊/顶会论文原图 |
@@ -278,7 +278,7 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 |-----|------|
 | **[docs/palettes.md](docs/palettes.md)** | 12 套经典 preset、I1 paired semantic tokens 与四种路由模式 |
 | **[docs/styles.md](docs/styles.md)** | 三个 surface profile、reference-led 模式与可组合 style layers |
-| **[docs/codex-image-workflow.md](docs/codex-image-workflow.md)** | Codex 原生生成、参考图编辑与安全调用 |
+| **[academic-figure-workflow/references/codex-image-workflow.md](academic-figure-workflow/references/codex-image-workflow.md)** | Codex 原生生成、参考图编辑与安全调用 |
 | **[docs/render-audit.md](docs/render-audit.md)** | RenderAudit v2：图片/spec 绑定、逐边检查与定向修订 |
 | **[docs/missing-info-policy.md](docs/missing-info-policy.md)** | 缺信息时的统一策略 |
 | **[CHANGELOG.md](CHANGELOG.md)** | 版本历史 |
@@ -302,10 +302,10 @@ A: 精确拓扑用 `classic-technical`；轻量 token/card 叙事用 `pastel-air
 A: 可以。明确说“直接生成 / 不展示 prompt / 使用本地模型”即可 waive prompt review，workflow 会把 prompt 作为 `image_gen.imagegen` 的内部参数直接出图。正式生成前仍会运行 render-ready 校验；只有会实质改变语义的 unresolved choice 才需要 plan review。
 
 ### Q: 必须按顺序跑完整流水线吗？
-A: 不需要。可直接 prompt / color-expert / repo-analyzer。
+A: 不需要。可直接 designer / draft-analyzer / repo-analyzer / architecture-extractor。
 
-### Q: 3.2.0 有什么变化？
-A: 3.2.0 支持先构造、诊断或修订 prompt，也可直接调用 Codex `image_gen.imagegen`。实际生成遵守 prompt-review/hash 与可信工作区 render-ready 校验；每张新图执行 RenderAudit v2，绑定图片/spec 哈希并逐边目检。发现缺陷时使用当前最佳图作第一引用，最多进行两次定向编辑；只写 prompt 的任务不启动生图。
+### Q: 3.3.0 有什么变化？
+A: 3.3.0 是维护版本，工作方式与 3.2.0 相同：支持先构造、诊断或修订 prompt，也可直接调用 Codex `image_gen.imagegen`；实际生成遵守 prompt-review/hash 与可信工作区 render-ready 校验，每张新图执行 RenderAudit v2，最多进行两次定向编辑。本版 FigureSpec 校验器直接读取 `figure-spec.schema.json`；workflow 自带校验器与元数据清理脚本，单独安装也能完成 render-ready 校验和交付前清理；未版本化的旧 spec 与风格别名不再被接受，`--strict-v1` 保留但已不起作用。
 
 ## 引用
 

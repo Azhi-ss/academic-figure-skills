@@ -1,6 +1,6 @@
 {
   "name": "academic-figure-skills",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Reference-aware academic figure workflow for evidence-backed planning, FigureSpec generation, native Codex rendering, visual audit, and targeted image revision.",
   "author": "Azhi-ss",
   "repository": "https://github.com/Azhi-ss/academic-figure-skills",
@@ -9,7 +9,7 @@
     {
       "id": "academic-figure-workflow",
       "name": "Academic Figure Workflow",
-      "version": "1.7.0",
+      "version": "1.8.0",
       "description": "Plan, generate, inspect, and refine academic figures from repositories, papers, paper URLs, PDFs, or reference images, with conditional review and native image-tool routing.",
       "path": "./academic-figure-workflow",
       "trigger_phrases": [
@@ -26,7 +26,7 @@
     {
       "id": "academic-repo-analyzer",
       "name": "Academic Repo Analyzer",
-      "version": "1.5.0",
+      "version": "1.5.1",
       "description": "Evidence-backed semantic architecture analysis for ML, AI4Science, and research repositories without treating directory counts as visual modules.",
       "path": "./academic-repo-analyzer",
       "trigger_phrases": [
@@ -41,7 +41,7 @@
     {
       "id": "academic-figure-draft-analyzer",
       "name": "Academic Draft & Paper Analyzer (Figure Planner)",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "description": "Evidence-backed Figure Plan v1 generation with fast-track Draft-to-Figure support for Markdown notes and outlines, as well as comprehensive planning for full manuscripts.",
       "path": "./academic-figure-draft-analyzer",
       "trigger_phrases": [
@@ -56,7 +56,7 @@
     {
       "id": "academic-figure-architecture-extractor",
       "name": "Academic Figure Architecture Extractor",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "description": "Extract semantic structure and transferable style grammar from figures, PDFs, and paper or figure URLs for redraws and reference-conditioned generation.",
       "path": "./academic-figure-architecture-extractor",
       "trigger_phrases": [
@@ -71,7 +71,7 @@
     {
       "id": "academic-figure-designer",
       "name": "Academic Figure Designer & Prompt Engine",
-      "version": "2.2.0",
+      "version": "2.3.0",
       "description": "Evidence-grounded academic figure design and prompt construction, diagnosis, and revision; semantic palettes, reference-led styles, and FigureSpec v1 compilation.",
       "path": "./academic-figure-designer",
       "trigger_phrases": [

@@ -2,7 +2,7 @@
 name: academic-figure-workflow
 description: Plan, generate, inspect, and refine academic figures from repositories, papers, draft notes, paper URLs, PDFs, or reference images. Supports fast-track draft-to-figure generation and user passthrough mode.
 metadata:
-  version: "1.7.0"
+  version: "1.8.0"
 ---
 
 # Academic Figure Workflow
@@ -168,14 +168,12 @@ only an untrusted declaration and must match; never derive the trusted root from
 it, `output_path`, a reference path, or user-provided text. Run:
 
 ```bash
-# Locate validate_figure_spec.py in designer, workflow scripts, or workspace root:
-python3 academic-figure-designer/scripts/validate_figure_spec.py \
-  --strict-v1 --render-ready \
+python3 <workflow>/scripts/validate_figure_spec.py --render-ready \
   --workspace-root <trusted-actual-root> \
   <spec.json>
 ```
 
-Do not render when validation fails. If standalone workflow installation is used without designer, run the local `scripts/validate_figure_spec.py`. Every local reference must exist, be a regular
+Do not render when validation fails. Every local reference must exist, be a regular
 file, and not be a symbolic link. Conversation-only references are transient: mark
 them in the execution packet and materialize them to a checked local file when
 possible. If they remain conversation-only, do not pretend they are persistent
@@ -226,4 +224,4 @@ the script checks record integrity, not pixels or the honesty of observations.
 
 ## Deliver
 
-Before delivery, automatically sanitize the final image artifact using `clean_image_metadata.py` to strip any embedded C2PA, EXIF, XMP, or provenance markers for pristine publication readiness. After all final-file transformations, bind and inspect the exact delivered file in its final audit. Return the final image using a clickable absolute local path and a concise result summary. Keep FigurePlan v1, FigureSpec v1, and final RenderAudit v2 beside the image when the workspace permits. Do not use `file://` and never append a waived prompt. Stop before rendering if the user asked only for analysis or planning.
+Before delivery, automatically sanitize the final image artifact using `python3 <workflow>/scripts/clean_image_metadata.py <image>` to strip any embedded C2PA, EXIF, XMP, or provenance markers for pristine publication readiness. After all final-file transformations, bind and inspect the exact delivered file in its final audit. Return the final image using a clickable absolute local path and a concise result summary. Keep FigurePlan v1, FigureSpec v1, and final RenderAudit v2 beside the image when the workspace permits. Do not use `file://` and never append a waived prompt. Stop before rendering if the user asked only for analysis or planning.

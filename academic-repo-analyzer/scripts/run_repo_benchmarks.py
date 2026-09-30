@@ -9,10 +9,18 @@ import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import List
 
 ANALYSIS_DIR = "analysis"
 LICENSE_FILES = ("LICENSE", "LICENSE.md", "LICENSE.txt", "COPYING", "NOTICE", "LICENCE")
+KEYWORD_EXPECTATIONS = ("framework", "task_any", "paths_any", "architecture_any", "entry_script")
+REQUIRED_SECTIONS = {
+    "completeness block": ["信息完整度", "completeness"],
+    "figure suggestions": ["配图建议", "figure suggestion"],
+}
+FLAG_NEEDLES = {
+    "limited_sample": ["抽样", "limited sample", "huge repo"],
+    "evidence_insufficient": ["证据不足", "evidence insufficient"],
+}
 
 EXPECTED = {
     "stable-diffusion": {
@@ -21,8 +29,6 @@ EXPECTED = {
         "paths_any": ["ldm/", "models/"],
         "architecture_any": ["U-Net", "UNet", "autoencoder", "VAE", "CLIP"],
         "module_count": {"source": ["top_level_dirs", "component_scan"], "value_min": 4},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "nanogpt": {
         "framework": ["PyTorch"],
@@ -30,8 +36,6 @@ EXPECTED = {
         "paths_any": ["model.py"],
         "architecture_any": ["GPT", "transformer", "attention"],
         "module_count": {"source": ["top_level_dirs"], "value": 1},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "esm": {
         "framework": ["PyTorch"],
@@ -39,26 +43,20 @@ EXPECTED = {
         "paths_any": ["esm/"],
         "architecture_any": ["transformer"],
         "module_count": {"source": ["top_level_dirs", "component_scan"], "value_min": 2},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "alphafold": {
-        "framework_any": ["JAX", "Haiku"],
+        "framework": ["JAX", "Haiku"],
         "task_any": ["protein"],
         "paths_any": ["alphafold/", "alphafold/model/"],
         "architecture_any": ["Evoformer", "structure module", "MSA"],
         "module_count": {"source": ["top_level_dirs", "component_scan"], "value_min": 4},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "graphcast": {
-        "framework_any": ["JAX", "Haiku"],
+        "framework": ["JAX", "Haiku"],
         "task_any": ["weather", "forecast"],
         "paths_any": ["graphcast/"],
         "architecture_any": ["GNN", "graph neural", "message passing", "GraphCast"],
         "module_count": {"source": ["top_level_dirs", "component_scan"], "value_min": 2},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "transformers": {
         "framework": ["PyTorch"],
@@ -66,16 +64,12 @@ EXPECTED = {
         "limited_sample": True,
         "no_keyword_scan_mention": True,
         "module_count": {"source": ["top_level_dirs"], "value_min": 10},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "fixture-sparse": {
         "entry_script": ["simulate.py"],
         "evidence_insufficient": True,
         "no_keyword_scan_mention": True,
         "module_count": {"source": ["component_scan"], "value": 2},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "cyclegan": {
         "framework": ["PyTorch"],
@@ -83,17 +77,13 @@ EXPECTED = {
         "paths_any": ["models/", "data/"],
         "architecture_any": ["generator", "discriminator", "PatchGAN", "ResNet", "cycle"],
         "module_count": {"source": ["top_level_dirs"], "value_min": 4},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "nerf": {
-        "framework_any": ["TensorFlow", "tensorflow"],
+        "framework": ["TensorFlow", "tensorflow"],
         "task_any": ["NeRF", "neural radiance", "volume rendering", "3D", "view synthesis"],
         "paths_any": ["run_nerf.py", "run_nerf_helpers.py"],
         "architecture_any": ["MLP", "positional encoding", "ray", "volume rendering", "render_rays"],
         "module_count": {"source": ["component_scan"], "value_min": 3},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "detr": {
         "framework": ["PyTorch"],
@@ -101,8 +91,6 @@ EXPECTED = {
         "paths_any": ["models/", "datasets/", "engine.py", "main.py"],
         "architecture_any": ["transformer", "backbone", "object quer", "bipartite", "Hungarian", "matcher", "encoder", "decoder"],
         "module_count": {"source": ["top_level_dirs"], "value_min": 4},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
     "whisper": {
         "framework": ["PyTorch"],
@@ -110,8 +98,6 @@ EXPECTED = {
         "paths_any": ["whisper/", "whisper/model.py", "whisper/audio.py", "whisper/decoding.py"],
         "architecture_any": ["encoder", "decoder", "transformer", "attention", "mel", "convolution"],
         "module_count": {"source": ["top_level_dirs"], "value_min": 1},
-        "completeness_block": True,
-        "figure_suggestions": True,
     },
 }
 
@@ -139,35 +125,22 @@ def has_any(text: str, needles) -> bool:
     return any(needle.lower() in low for needle in needles)
 
 
-def check(repo_id: str, root: Path, manifest_root: Path) -> List[str]:
+def check(repo_id: str, manifest_root: Path) -> list[str]:
     errs = []
     exp = EXPECTED[repo_id]
     repo_dir = manifest_root / repo_id
     analysis = load_text(repo_dir / ANALYSIS_DIR / f"{repo_id}-analysis.md")
     if not analysis:
         return [f"{repo_id}: missing {ANALYSIS_DIR}/{repo_id}-analysis.md"]
-    if exp.get("framework") and not has_any(analysis, exp["framework"]):
-        errs.append(f"{repo_id}: framework {exp['framework']} not found")
-    if exp.get("framework_any") and not has_any(analysis, exp["framework_any"]):
-        errs.append(f"{repo_id}: none of {exp['framework_any']} found")
-    if exp.get("task_any") and not has_any(analysis, exp["task_any"]):
-        errs.append(f"{repo_id}: task keywords {exp['task_any']} not found")
-    if exp.get("paths_any") and not has_any(analysis, exp["paths_any"]):
-        errs.append(f"{repo_id}: paths {exp['paths_any']} not found")
-    if exp.get("architecture_any") and not has_any(analysis, exp["architecture_any"]):
-        errs.append(f"{repo_id}: architecture {exp['architecture_any']} not found")
-    if exp.get("entry_script") and not has_any(analysis, exp["entry_script"]):
-        errs.append(f"{repo_id}: entry script {exp['entry_script']} not found")
-    if exp.get("completeness_block") and not has_any(analysis, ["信息完整度", "completeness"]):
-        errs.append(f"{repo_id}: completeness block missing")
-    if exp.get("figure_suggestions") and not has_any(analysis, ["配图建议", "figure suggestion"]):
-        errs.append(f"{repo_id}: figure suggestions missing")
-    if exp.get("limited_sample") and not has_any(analysis, ["抽样", "limited sample", "huge repo"]):
-        errs.append(f"{repo_id}: limited-sample note missing")
-    if exp.get("evidence_insufficient") and not has_any(
-        analysis, ["证据不足", "evidence insufficient"]
-    ):
-        errs.append(f"{repo_id}: evidence-insufficient label missing")
+    for key in KEYWORD_EXPECTATIONS:
+        if key in exp and not has_any(analysis, exp[key]):
+            errs.append(f"{repo_id}: {key} {exp[key]} not found")
+    for label, needles in REQUIRED_SECTIONS.items():
+        if not has_any(analysis, needles):
+            errs.append(f"{repo_id}: {label} missing")
+    for key, needles in FLAG_NEEDLES.items():
+        if exp.get(key) and not has_any(analysis, needles):
+            errs.append(f"{repo_id}: {key} note missing")
     if exp.get("no_keyword_scan_mention") and re.search(r"keyword.scan", analysis, re.I):
         errs.append(
             f"{repo_id}: analysis mentions keyword-scan (internal method, must not leak)"
@@ -199,16 +172,10 @@ def check(repo_id: str, root: Path, manifest_root: Path) -> List[str]:
                 )
     license_name = LICENSE_BY_ID[repo_id]
     if license_name:
-        if not any((repo_dir / filename).exists() for filename in LICENSE_FILES):
+        license_files = [repo_dir / name for name in LICENSE_FILES if (repo_dir / name).exists()]
+        if not license_files:
             errs.append(f"{repo_id}: no LICENSE-like file found in clone")
-        elif not has_any(
-            "\n".join(
-                load_text(repo_dir / filename)
-                for filename in LICENSE_FILES
-                if (repo_dir / filename).exists()
-            ),
-            [license_name],
-        ):
+        elif not has_any("\n".join(load_text(path) for path in license_files), [license_name]):
             errs.append(f"{repo_id}: license text does not contain '{license_name}'")
     return errs
 
@@ -228,7 +195,7 @@ def main() -> int:
         repo_ids = [repo_id for repo_id in repo_ids if repo_id in set(args.repos)]
     all_errs = []
     for repo_id in repo_ids:
-        all_errs.extend(check(repo_id, root, base))
+        all_errs.extend(check(repo_id, base))
     report = base / "benchmark-report.md"
     lines = [
         "# Repo Benchmark Report",

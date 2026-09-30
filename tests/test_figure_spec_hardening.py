@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 VALIDATOR_DIR = ROOT / "academic-figure-designer" / "scripts"
 sys.path.insert(0, str(VALIDATOR_DIR))
 
-from validate_figure_spec import main, validate_path, validate_spec  # noqa: E402
+from validate_figure_spec import _schema_errors, main, validate_path, validate_spec  # noqa: E402
 
 
 def valid_spec(workspace: Path, *, prompt_review: str = "waived") -> dict:
@@ -77,6 +77,10 @@ def codes(report) -> set[str]:
     return {item.code for item in report.diagnostics}
 
 
+def diagnostics(report) -> set[tuple[str, str]]:
+    return {(item.code, item.path) for item in report.diagnostics}
+
+
 class MalformedTypeTests(unittest.TestCase):
     def test_all_json_types_return_diagnostics_instead_of_crashing(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -94,17 +98,21 @@ class MalformedTypeTests(unittest.TestCase):
                 with self.subTest(name=name):
                     spec = valid_spec(workspace)
                     mutate(spec)
-                    report = validate_spec(spec, strict_v1=True)
+                    report = validate_spec(spec)
                     self.assertFalse(report.ok, report.to_dict())
 
 
-class ManualSchemaParityTests(unittest.TestCase):
+class SchemaEnforcementTests(unittest.TestCase):
+    def test_unsupported_schema_keyword_is_an_error_not_ignored(self) -> None:
+        with self.assertRaisesRegex(ValueError, "maxLength"):
+            list(_schema_errors("text", {"type": "string", "maxLength": 2}, "$"))
+
     def test_visible_text_priority_is_enforced(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             spec = valid_spec(Path(temporary))
             spec["visible_text"][0]["priority"] = "decorative"
-            report = validate_spec(spec, strict_v1=True)
-            self.assertIn("visible_text.priority_invalid", codes(report))
+            report = validate_spec(spec)
+            self.assertIn(("schema.enum", "$.visible_text[0].priority"), diagnostics(report))
 
     def test_connection_kind_must_be_nonempty_and_label_must_be_string(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -112,21 +120,21 @@ class ManualSchemaParityTests(unittest.TestCase):
             connection = spec["topology"]["connections"][0]
             connection["kind"] = "  "
             connection["label"] = 7
-            report = validate_spec(spec, strict_v1=True)
-            self.assertIn("connection.kind_required", codes(report))
-            self.assertIn("connection.label_type", codes(report))
+            report = validate_spec(spec)
+            self.assertIn(("schema.minLength", "$.topology.connections[0].kind"), diagnostics(report))
+            self.assertIn(("schema.type", "$.topology.connections[0].label"), diagnostics(report))
 
     def test_caption_notes_shape_is_enforced(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             spec = valid_spec(Path(temporary))
             spec["caption_notes"] = "not an array"
-            report = validate_spec(spec, strict_v1=True)
-            self.assertIn("caption_notes.type", codes(report))
+            report = validate_spec(spec)
+            self.assertIn(("schema.type", "$.caption_notes"), diagnostics(report))
 
             spec = valid_spec(Path(temporary))
             spec["caption_notes"] = ["valid", 1]
-            report = validate_spec(spec, strict_v1=True)
-            self.assertIn("caption_notes.item_type", codes(report))
+            report = validate_spec(spec)
+            self.assertIn(("schema.type", "$.caption_notes[1]"), diagnostics(report))
 
     def test_reference_descriptor_rejects_extra_keys(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -137,24 +145,27 @@ class ManualSchemaParityTests(unittest.TestCase):
             spec["reference_images"] = [
                 {"kind": "local_path", "path": str(reference), "ordinal_from_latest": 1}
             ]
-            report = validate_spec(spec, strict_v1=True)
-            self.assertIn("reference_image.extra_keys", codes(report))
+            report = validate_spec(spec)
+            self.assertIn(
+                ("schema.additionalProperties", "$.reference_images[0].ordinal_from_latest"),
+                diagnostics(report),
+            )
 
     def test_style_preset_and_source_are_enforced(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             spec = valid_spec(Path(temporary))
             spec["style_preset"] = []
             spec["style_source"] = "guess"
-            report = validate_spec(spec, strict_v1=True)
-            self.assertIn("style_preset.type", codes(report))
-            self.assertIn("style_source.invalid", codes(report))
+            report = validate_spec(spec)
+            self.assertIn(("schema.type", "$.style_preset"), diagnostics(report))
+            self.assertIn(("schema.enum", "$.style_source"), diagnostics(report))
 
     def test_reviewed_digest_shape_is_enforced(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             spec = valid_spec(Path(temporary))
             spec["prompt_reviewed_sha256"] = "ABC"
-            report = validate_spec(spec, strict_v1=True)
-            self.assertIn("prompt_reviewed_sha256.invalid", codes(report))
+            report = validate_spec(spec)
+            self.assertIn(("schema.pattern", "$.prompt_reviewed_sha256"), diagnostics(report))
 
     def test_explicit_null_is_rejected_where_schema_does_not_allow_it(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -164,12 +175,17 @@ class ManualSchemaParityTests(unittest.TestCase):
             spec["caption_notes"] = None
             spec["style_source"] = None
             spec["prompt_reviewed_sha256"] = None
-            report = validate_spec(spec, strict_v1=True)
-            self.assertIn("visible_text.priority_invalid", codes(report))
-            self.assertIn("connection.label_type", codes(report))
-            self.assertIn("caption_notes.type", codes(report))
-            self.assertIn("style_source.invalid", codes(report))
-            self.assertIn("prompt_reviewed_sha256.invalid", codes(report))
+            report = validate_spec(spec)
+            self.assertLessEqual(
+                {
+                    ("schema.enum", "$.visible_text[0].priority"),
+                    ("schema.type", "$.topology.connections[0].label"),
+                    ("schema.type", "$.caption_notes"),
+                    ("schema.enum", "$.style_source"),
+                    ("schema.type", "$.prompt_reviewed_sha256"),
+                },
+                diagnostics(report),
+            )
 
 
 class RenderReadyTests(unittest.TestCase):
@@ -177,7 +193,7 @@ class RenderReadyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             workspace = Path(temporary)
             spec = valid_spec(workspace, prompt_review="requested")
-            structural = validate_spec(spec, strict_v1=True)
+            structural = validate_spec(spec)
             self.assertTrue(structural.ok, structural.to_dict())
             report = validate_spec(
                 spec,
@@ -343,6 +359,7 @@ class RenderReadyTests(unittest.TestCase):
             with contextlib.redirect_stdout(output):
                 status = main(
                     [
+                        "--strict-v1",
                         "--render-ready",
                         "--workspace-root",
                         str(workspace),

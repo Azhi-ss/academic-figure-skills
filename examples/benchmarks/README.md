@@ -11,22 +11,22 @@ result only; it is never evidence of image quality or publication readiness.
 
 | id | repo | category | license | tests |
 |----|------|----------|---------|-------|
-| stable-diffusion | CompVis/stable-diffusion | DL/CV | CreativeML Open RAIL-M | diffusion baseline; anchors fictional example 01 |
-| nanogpt | karpathy/nanoGPT | DL/NLP | MIT | minimal transformer vocabulary and handoff shape |
-| esm | facebookresearch/esm | protein/AI4Science | MIT | protein classification row |
-| alphafold | google-deepmind/alphafold | protein/JAX | Apache-2.0 | protein + non-PyTorch stack |
-| graphcast | google-deepmind/graphcast | GNN/scientific | Apache-2.0 | GNN/weather outside DL taxonomy |
-| transformers | huggingface/transformers | huge-repo | Apache-2.0 | sampling cap; no keyword-scan leak |
-| cyclegan | junyanz/pytorch-CycleGAN-and-pix2pix | GAN/image translation | BSD-3-Clause | generators, discriminators, and paired/unpaired flow terms |
-| nerf | bmild/nerf | 3D neural rendering | MIT | MLP, ray sampling, and volume-rendering terms |
-| detr | facebookresearch/detr | object detection | Apache-2.0 | Transformer, queries, and matching terms |
-| whisper | openai/whisper | speech/ASR | MIT | audio encoder-decoder and mel front-end terms |
+| stable-diffusion | [CompVis/stable-diffusion](https://github.com/CompVis/stable-diffusion) | DL/CV | CreativeML Open RAIL-M | diffusion baseline; anchors fictional example 01 |
+| nanogpt | [karpathy/nanoGPT](https://github.com/karpathy/nanoGPT) | DL/NLP | MIT | minimal transformer vocabulary and handoff shape |
+| esm | [facebookresearch/esm](https://github.com/facebookresearch/esm) | protein/AI4Science | MIT | protein classification row |
+| alphafold | [google-deepmind/alphafold](https://github.com/google-deepmind/alphafold) | protein/JAX | Apache-2.0 | protein + non-PyTorch stack |
+| graphcast | [google-deepmind/graphcast](https://github.com/google-deepmind/graphcast) | GNN/scientific | Apache-2.0 | GNN/weather outside DL taxonomy |
+| transformers | [huggingface/transformers](https://github.com/huggingface/transformers) | huge-repo | Apache-2.0 | sampling cap; no keyword-scan leak |
+| cyclegan | [junyanz/pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix) | GAN/image translation | BSD-3-Clause | generators, discriminators, and paired/unpaired flow terms |
+| nerf | [bmild/nerf](https://github.com/bmild/nerf) | 3D neural rendering | MIT | MLP, ray sampling, and volume-rendering terms |
+| detr | [facebookresearch/detr](https://github.com/facebookresearch/detr) | object detection | Apache-2.0 | Transformer, queries, and matching terms |
+| whisper | [openai/whisper](https://github.com/openai/whisper) | speech/ASR | MIT | audio encoder-decoder and mel front-end terms |
 | fixture-sparse | synthetic (scripts/create_sparse_fixture.py) | sparse-input | — | simulate.py entry; no model files; evidence-insufficient |
 
 ## Reproduce
 
 ```bash
-# 1. clone (shallow, git-ignored)
+# 1. clone (shallow, git-ignored); add e.g. `--repos cyclegan nerf` for a subset
 python3 academic-repo-analyzer/scripts/fetch_benchmark_repos.py --manifest examples/benchmarks/manifest.json
 # 2. create the sparse fixture
 python3 academic-repo-analyzer/scripts/create_sparse_fixture.py
@@ -38,6 +38,10 @@ python3 academic-repo-analyzer/scripts/run_repo_benchmarks.py --manifest example
 
 Report: `ref_repos/benchmark-report.md`. Exit code 0 = all checks pass.
 Repository URLs/licenses: `manifest.json`. Actual fetched commits: `ref_repos/fetch-log.json`; committed golden headers record the derived short SHA.
+
+Each `<id>/` directory holds the committed goldens (`quick-understanding.md`,
+`figure-plan.md`, `prompt-spec.json`). The `prompt-spec.json` files predate
+FigureSpec v1 and are not validated by `scripts/validate_skill_pack.py`.
 
 Treat older `module_count` expectations as compatibility fixtures for the legacy
 Markdown contract, not as the 3.1.0 semantic architecture definition. Release

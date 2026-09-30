@@ -11,11 +11,16 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "academic-figure-designer" / "scripts"))
 
-from sync_shared_refs import SyncItem, synchronize  # noqa: E402
-from validate_figure_spec import validate_spec  # noqa: E402
+from sync_shared_refs import (  # noqa: E402
+    FIGURE_SKILLS,
+    WORKFLOW_FILES_FROM_DESIGNER,
+    SyncItem,
+    synchronize,
+)
+from validate_figure_spec import ValidationReport, validate_spec  # noqa: E402
 from validate_skill_pack import (  # noqa: E402
-    PackReport,
     validate_reference_items,
+    validate_shared_refs,
     validate_skills,
 )
 
@@ -80,52 +85,57 @@ def diagnostic_codes(report) -> set[str]:
     return {item.code for item in report.diagnostics}
 
 
+def diagnostics(report) -> set[tuple[str, str]]:
+    return {(item.code, item.path) for item in report.diagnostics}
+
+
 class FigureSpecValidationTests(unittest.TestCase):
-    def test_valid_strict_v1_spec_passes(self) -> None:
-        report = validate_spec(valid_spec(), strict_v1=True)
+    def test_valid_spec_passes(self) -> None:
+        report = validate_spec(valid_spec())
         self.assertTrue(report.ok, report.to_dict())
 
     def test_bad_connection_endpoint_fails(self) -> None:
         spec = valid_spec()
         spec["topology"]["connections"][1]["to"] = "missing_component"
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertFalse(report.ok)
         self.assertIn("connection.endpoint_unknown", diagnostic_codes(report))
 
     def test_missing_connection_direction_fails(self) -> None:
         spec = valid_spec()
         del spec["topology"]["connections"][0]["direction"]
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertFalse(report.ok)
-        self.assertIn("connection.direction_required", diagnostic_codes(report))
+        self.assertIn(("schema.required", "$.topology.connections[0].direction"), diagnostics(report))
 
     def test_duplicate_component_id_fails(self) -> None:
         spec = valid_spec()
         spec["topology"]["components"][2]["id"] = "policy"
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertFalse(report.ok)
         self.assertIn("component.id_duplicate", diagnostic_codes(report))
 
     def test_invalid_style_profile_fails(self) -> None:
         spec = valid_spec()
         spec["style_profile"] = "enterprise-neon-dashboard"
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertFalse(report.ok)
-        self.assertIn("style_profile.invalid", diagnostic_codes(report))
+        self.assertIn(("schema.enum", "$.style_profile"), diagnostics(report))
 
-    def test_legacy_style_profile_is_noncanonical_in_strict_mode(self) -> None:
-        spec = valid_spec()
-        spec["style_profile"] = "classic-academic-border"
-        report = validate_spec(spec, strict_v1=True)
-        self.assertFalse(report.ok)
-        self.assertIn("style_profile.noncanonical", diagnostic_codes(report))
+    def test_style_aliases_are_not_profile_ids(self) -> None:
+        for alias in ("classic-academic-border", "modern-technical-vector"):
+            with self.subTest(alias=alias):
+                spec = valid_spec()
+                spec["style_profile"] = alias
+                report = validate_spec(spec)
+                self.assertIn(("schema.enum", "$.style_profile"), diagnostics(report))
 
     def test_invalid_prompt_review_fails(self) -> None:
         spec = valid_spec()
         spec["prompt_review"] = "assumed-from-unrelated-chat"
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertFalse(report.ok)
-        self.assertIn("prompt_review.invalid", diagnostic_codes(report))
+        self.assertIn(("schema.enum", "$.prompt_review"), diagnostics(report))
 
     def test_recent_conversation_reference_is_valid(self) -> None:
         spec = valid_spec()
@@ -133,7 +143,7 @@ class FigureSpecValidationTests(unittest.TestCase):
         spec["reference_images"] = [
             {"kind": "recent_conversation", "ordinal_from_latest": 1}
         ]
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertTrue(report.ok, report.to_dict())
 
     def test_recent_conversation_reference_is_limited_to_five(self) -> None:
@@ -141,9 +151,12 @@ class FigureSpecValidationTests(unittest.TestCase):
         spec["reference_images"] = [
             {"kind": "recent_conversation", "ordinal_from_latest": 6}
         ]
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertFalse(report.ok)
-        self.assertIn("reference_image.ordinal_invalid", diagnostic_codes(report))
+        self.assertIn(
+            ("schema.maximum", "$.reference_images[0].ordinal_from_latest"),
+            diagnostics(report),
+        )
 
     def test_mixed_reference_mechanisms_fail(self) -> None:
         spec = valid_spec()
@@ -151,7 +164,7 @@ class FigureSpecValidationTests(unittest.TestCase):
             "/tmp/reference.png",
             {"kind": "recent_conversation", "ordinal_from_latest": 1},
         ]
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertFalse(report.ok)
         self.assertIn("reference_image.mixed_mechanisms", diagnostic_codes(report))
 
@@ -159,88 +172,100 @@ class FigureSpecValidationTests(unittest.TestCase):
         spec = valid_spec()
         spec["workspace_root"] = "/tmp/workspace"
         spec["output_path"] = "/tmp/outside/figure.png"
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertFalse(report.ok)
         self.assertIn("output_path.outside_workspace", diagnostic_codes(report))
 
     def test_empty_sources_fail(self) -> None:
         spec = valid_spec()
         spec["sources"] = []
-        report = validate_spec(spec, strict_v1=True)
+        report = validate_spec(spec)
         self.assertFalse(report.ok)
-        self.assertIn("source.empty", diagnostic_codes(report))
+        self.assertIn(("schema.minItems", "$.sources"), diagnostics(report))
 
-    def test_legacy_spec_warns_in_compatible_mode_and_fails_strict(self) -> None:
+    def test_legacy_unversioned_spec_fails(self) -> None:
         legacy = {
             "diagram_type": "Overall Framework",
             "layout_and_content_blocks": [
                 {"exact_title_to_render_inside": "Input", "flow": "right"}
             ],
         }
-        compatible = validate_spec(legacy)
-        self.assertTrue(compatible.ok)
-        self.assertIn("legacy.spec", diagnostic_codes(compatible))
-        strict = validate_spec(legacy, strict_v1=True)
-        self.assertFalse(strict.ok)
-        self.assertIn("schema.v1_required", diagnostic_codes(strict))
+        report = validate_spec(legacy)
+        self.assertFalse(report.ok)
+        self.assertIn(("schema.required", "$.schema"), diagnostics(report))
+
+
+def write_skill(root: Path, skill_id: str) -> None:
+    skill_dir = root / skill_id
+    skill_dir.mkdir()
+    (skill_dir / "SKILL.md").write_text(
+        f"""---
+name: {skill_id}
+description: Validate the isolated {skill_id} fixture.
+metadata:
+  version: "1.0.0"
+---
+
+# Fixture
+""",
+        encoding="utf-8",
+    )
+
+
+def write_pack(root: Path, skill_ids: list[str]) -> None:
+    docs = root / "docs"
+    (docs / "styles").mkdir(parents=True)
+    for name in ("palettes.md", "missing-info-policy.md", "render-audit.md", "styles/style.md"):
+        (docs / name).write_text(f"{name}\n", encoding="utf-8")
+    for skill_id in skill_ids:
+        write_skill(root, skill_id)
+    if "academic-figure-designer" in skill_ids:
+        designer = root / "academic-figure-designer"
+        (designer / "scripts").mkdir()
+        for name in WORKFLOW_FILES_FROM_DESIGNER:
+            (designer / name).write_text(f"{name}\n", encoding="utf-8")
+    entries = [
+        {"id": skill_id, "path": f"./{skill_id}", "version": "1.0.0"}
+        for skill_id in skill_ids
+    ]
+    (root / "manifest.json").write_text(
+        json.dumps({"version": "1.0.0", "skills": entries}),
+        encoding="utf-8",
+    )
 
 
 class PackValidationTests(unittest.TestCase):
+    def setUp(self) -> None:
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name).resolve()
+
     def test_manifest_metadata_version_drift_fails(self) -> None:
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            skill = root / "example-skill"
-            skill.mkdir()
-            (skill / "SKILL.md").write_text(
-                """---
-name: example-skill
-description: Validate a temporary example skill.
-metadata:
-  version: "1.1.0"
----
+        write_pack(self.root, ["example-skill"])
+        skill_file = self.root / "example-skill" / "SKILL.md"
+        skill_file.write_text(
+            skill_file.read_text(encoding="utf-8").replace('"1.0.0"', '"1.1.0"'),
+            encoding="utf-8",
+        )
+        report = ValidationReport()
+        validate_skills(self.root, report)
+        self.assertFalse(report.ok)
+        self.assertIn("manifest.version_drift", diagnostic_codes(report))
 
-# Example
-""",
-                encoding="utf-8",
-            )
-            manifest = {
-                "version": "1.0.0",
-                "skills": [
-                    {
-                        "id": "example-skill",
-                        "name": "Example Skill",
-                        "version": "1.0.0",
-                        "path": "./example-skill",
-                    }
-                ],
-            }
-            (root / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
-            prompt = root / "academic-figure-workflow" / "prompts"
-            prompt.mkdir(parents=True)
-            (prompt / "figure-worker.md").write_text(
-                "\n".join(
-                    (
-                        "- task kind:",
-                        "- owned output paths:",
-                        "- acceptance criteria:",
-                        "- status: success | blocked | failed",
-                        "- summary:",
-                        "- artifacts:",
-                        "- evidence:",
-                        "- validation:",
-                        "- residual risks:",
-                        "- next action:",
-                    )
-                ),
-                encoding="utf-8",
-            )
-            report = PackReport(root=str(root))
-            validate_skills(root, report)
-            self.assertFalse(report.ok)
-            self.assertIn("manifest.version_drift", diagnostic_codes(report))
+    def test_unregistered_top_level_skill_is_rejected(self) -> None:
+        write_pack(self.root, ["registered-skill"])
+        write_skill(self.root, "rogue-skill")
+        report = ValidationReport()
+        validate_skills(self.root, report)
+        rogue = [item for item in report.diagnostics if item.code == "manifest.skill_unregistered"]
+        self.assertEqual(1, len(rogue), report.to_dict())
+        self.assertTrue(rogue[0].path.endswith("rogue-skill/SKILL.md"))
 
-    def test_worker_prompt_requires_every_bounded_contract_field(self) -> None:
-        required_fields = (
+    def test_worker_prompt_keeps_bounded_contract_fields(self) -> None:
+        prompt = (ROOT / "academic-figure-workflow" / "prompts" / "figure-worker.md").read_text(
+            encoding="utf-8"
+        )
+        for field in (
             "- task kind:",
             "- owned output paths:",
             "- acceptance criteria:",
@@ -251,167 +276,60 @@ metadata:
             "- validation:",
             "- residual risks:",
             "- next action:",
-        )
-        complete_prompt = "\n".join(required_fields)
-        for missing_field in required_fields:
-            with self.subTest(missing_field=missing_field), tempfile.TemporaryDirectory() as temporary:
-                root = Path(temporary)
-                skill = root / "example-skill"
-                skill.mkdir()
-                (skill / "SKILL.md").write_text(
-                    """---
-name: example-skill
-description: Validate a temporary example skill.
-metadata:
-  version: "1.0.0"
----
-""",
-                    encoding="utf-8",
-                )
-                (root / "manifest.json").write_text(
-                    json.dumps(
-                        {
-                            "version": "1.0.0",
-                            "skills": [
-                                {
-                                    "id": "example-skill",
-                                    "name": "Example Skill",
-                                    "version": "1.0.0",
-                                    "path": "./example-skill",
-                                }
-                            ],
-                        }
-                    ),
-                    encoding="utf-8",
-                )
-                prompt = root / "academic-figure-workflow" / "prompts"
-                prompt.mkdir(parents=True)
-                (prompt / "figure-worker.md").write_text(
-                    complete_prompt.replace(missing_field, "", 1),
-                    encoding="utf-8",
-                )
-                report = PackReport(root=str(root))
-                validate_skills(root, report)
-                self.assertIn("worker_prompt.contract", diagnostic_codes(report))
+        ):
+            with self.subTest(field=field):
+                self.assertIn(field, prompt)
 
     def test_shared_reference_hash_drift_fails(self) -> None:
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            source = root / "docs" / "palettes.md"
-            target = root / "example-skill" / "references" / "palettes.md"
-            source.parent.mkdir(parents=True)
-            target.parent.mkdir(parents=True)
-            source.write_text("canonical\n", encoding="utf-8")
-            target.write_text("stale\n", encoding="utf-8")
-            report = PackReport(root=str(root))
-            validate_reference_items(root, [SyncItem(source, target)], report)
-            self.assertFalse(report.ok)
-            self.assertIn("reference.drift", diagnostic_codes(report))
+        source = self.root / "docs" / "palettes.md"
+        target = self.root / "example-skill" / "references" / "palettes.md"
+        source.parent.mkdir(parents=True)
+        target.parent.mkdir(parents=True)
+        source.write_text("canonical\n", encoding="utf-8")
+        target.write_text("stale\n", encoding="utf-8")
+        report = ValidationReport()
+        validate_reference_items(self.root, [SyncItem(source, target)], report)
+        self.assertFalse(report.ok)
+        self.assertIn("reference.drift", diagnostic_codes(report))
 
     def test_sync_shared_references_in_temporary_pack(self) -> None:
-        with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
-            docs = root / "docs"
-            docs.mkdir()
-            (docs / "palettes.md").write_text("palette\n", encoding="utf-8")
-            (docs / "missing-info-policy.md").write_text("missing\n", encoding="utf-8")
-            (docs / "render-audit.md").write_text("audit\n", encoding="utf-8")
-            (docs / "codex-image-workflow.md").write_text(
-                "codex image workflow\n", encoding="utf-8"
-            )
-            styles = docs / "styles"
-            styles.mkdir()
-            (styles / "illustrated.md").write_text(
-                "illustrated style\n", encoding="utf-8"
-            )
-            skill_ids = [
-                "academic-figure-workflow",
-                "academic-figure-designer",
-                "other-skill",
-            ]
-            manifest = {"skills": []}
-            for skill_id in skill_ids:
-                (root / skill_id).mkdir()
-                manifest["skills"].append(
-                    {"id": skill_id, "path": f"./{skill_id}"}
-                )
-            (root / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+        skill_ids = ["academic-figure-designer", "academic-figure-workflow", "other-skill"]
+        write_pack(self.root, skill_ids)
 
-            stale = synchronize(root)
-            self.assertEqual(11, len(stale))
-            self.assertEqual([], synchronize(root, check=True))
-            for skill_id in skill_ids:
+        self.assertEqual(12, len(synchronize(self.root)))
+        self.assertEqual([], synchronize(self.root, check=True))
+        for skill_id in skill_ids:
+            references = self.root / skill_id / "references"
+            self.assertTrue((references / "missing-info-policy.md").is_file())
+            for name in ("palettes.md", "render-audit.md", "styles/style.md"):
                 self.assertEqual(
-                    "palette\n",
-                    (root / skill_id / "references" / "palettes.md").read_text(encoding="utf-8"),
+                    skill_id in FIGURE_SKILLS,
+                    (references / name).is_file(),
+                    f"{skill_id}/references/{name}",
                 )
-            self.assertTrue(
-                (root / "academic-figure-workflow" / "references" / "render-audit.md").is_file()
-            )
-            self.assertFalse((root / "other-skill" / "references" / "render-audit.md").exists())
-            for skill_id in (
-                "academic-figure-workflow",
-                "academic-figure-designer",
-            ):
-                self.assertEqual(
-                    "illustrated style\n",
-                    (
-                        root
-                        / skill_id
-                        / "references"
-                        / "styles"
-                        / "illustrated.md"
-                    ).read_text(encoding="utf-8"),
-                )
-            self.assertFalse(
-                (root / "other-skill" / "references" / "styles").exists()
-            )
+        workflow = self.root / "academic-figure-workflow"
+        for name in WORKFLOW_FILES_FROM_DESIGNER:
+            self.assertEqual(f"{name}\n", (workflow / name).read_text(encoding="utf-8"))
 
-            codex_target = (
-                root
-                / "academic-figure-workflow"
-                / "references"
-                / "codex-image-workflow.md"
-            )
-            self.assertEqual("codex image workflow\n", codex_target.read_text(encoding="utf-8"))
-            codex_target.write_text("drifted workflow\n", encoding="utf-8")
-            drift = synchronize(root, check=True)
-            self.assertEqual(1, len(drift))
-            self.assertEqual(docs / "codex-image-workflow.md", drift[0].source)
-            self.assertEqual(codex_target, drift[0].target)
+        (workflow / "scripts" / "validate_figure_spec.py").write_text("drifted\n", encoding="utf-8")
+        drift = synchronize(self.root, check=True)
+        self.assertEqual(
+            [self.root / "academic-figure-designer" / "scripts" / "validate_figure_spec.py"],
+            [item.source for item in drift],
+        )
 
-    def test_sync_refuses_reference_directory_symlink_escape(self) -> None:
-        with tempfile.TemporaryDirectory() as temporary, tempfile.TemporaryDirectory() as outside:
-            root = Path(temporary)
-            docs = root / "docs"
-            styles = docs / "styles"
-            styles.mkdir(parents=True)
-            (docs / "palettes.md").write_text("palette\n", encoding="utf-8")
-            (docs / "missing-info-policy.md").write_text("missing\n", encoding="utf-8")
-            (docs / "render-audit.md").write_text("audit\n", encoding="utf-8")
-            (docs / "codex-image-workflow.md").write_text("codex\n", encoding="utf-8")
-            (styles / "style.md").write_text("style\n", encoding="utf-8")
+    def test_stale_vendored_style_is_rejected_for_every_style_skill(self) -> None:
+        write_pack(self.root, sorted(FIGURE_SKILLS))
+        synchronize(self.root)
+        for skill_id in FIGURE_SKILLS:
+            stale = self.root / skill_id / "references" / "styles" / "deleted-style.md"
+            stale.write_text("stale\n", encoding="utf-8")
 
-            skill = root / "academic-figure-workflow"
-            skill.mkdir()
-            (skill / "references").symlink_to(Path(outside), target_is_directory=True)
-            (root / "manifest.json").write_text(
-                json.dumps(
-                    {
-                        "skills": [
-                            {
-                                "id": "academic-figure-workflow",
-                                "path": "./academic-figure-workflow",
-                            }
-                        ]
-                    }
-                ),
-                encoding="utf-8",
-            )
-
-            with self.assertRaisesRegex(ValueError, "outside repository"):
-                synchronize(root)
-            self.assertEqual([], list(Path(outside).iterdir()))
+        report = ValidationReport()
+        validate_shared_refs(self.root, report)
+        extras = [item for item in report.diagnostics if item.code == "reference.style_extra"]
+        self.assertEqual(len(FIGURE_SKILLS), len(extras))
+        self.assertEqual(set(FIGURE_SKILLS), {Path(item.path).parts[0] for item in extras})
 
 
 if __name__ == "__main__":

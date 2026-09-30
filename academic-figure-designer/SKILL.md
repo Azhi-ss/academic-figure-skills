@@ -2,7 +2,7 @@
 name: academic-figure-designer
 description: Design evidence-grounded academic figures and construct, diagnose, or revise scientific image prompts. Use for figure layout, semantic palettes, reference-led styles, prompt engineering, information-density feedback, and FigureSpec v1 compilation.
 metadata:
-  version: "2.2.0"
+  version: "2.3.0"
   stages: [writing, research, review]
 ---
 
@@ -72,7 +72,7 @@ metadata:
 渲染前立即执行（脚本路径按实际安装位置解析）：
 
 ```bash
-python3 <designer>/scripts/validate_figure_spec.py --strict-v1 --render-ready \
+python3 <designer>/scripts/validate_figure_spec.py --render-ready \
   --workspace-root <trusted-actual-root> <spec.json>
 ```
 

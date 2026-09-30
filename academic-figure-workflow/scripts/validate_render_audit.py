@@ -60,14 +60,6 @@ def _read_json(path: Path, name: str, report: AuditReport) -> tuple[Any, bytes]:
     return value, raw
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as source:
-        for chunk in iter(lambda: source.read(1024 * 1024), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
 def _status_record(value: Any, name: str, report: AuditReport, *, evidence: bool = True) -> None:
     if not isinstance(value, dict):
         report.errors.append(f"{name}: must be a status object")
@@ -190,7 +182,7 @@ def validate_paths(spec_path: Path, image_path: Path, audit_path: Path) -> Audit
 
     expected_hashes = {"spec_sha256": hashlib.sha256(spec_raw).hexdigest()}
     try:
-        expected_hashes["image_sha256"] = _sha256(Path(image_path))
+        expected_hashes["image_sha256"] = hashlib.sha256(Path(image_path).read_bytes()).hexdigest()
     except (OSError, ValueError) as exc:
         report.errors.append(f"image: cannot hash file: {exc}")
     for name in ("image_sha256", "spec_sha256"):

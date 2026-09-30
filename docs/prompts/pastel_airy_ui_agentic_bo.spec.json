@@ -70,15 +70,11 @@
       }
     ],
     "authority_boundaries": [
-      {
-        "id": "b_fixed_policy",
-        "label": "fixed policy \\Pi_0",
-        "encloses": ["std_surrogate", "std_select"]
-      }
+      "fixed policy \\Pi_0 encloses std_surrogate and std_select"
     ]
   },
   "layout": {
-    "composition": "comparison",
+    "composition": "comparison_grid",
     "hero": "agentic_agent",
     "reading_order": [
       "std_surrogate", "std_select", "std_eval", "std_append",

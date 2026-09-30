@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2026-10-01
+
+### Added
+
+- workflow 自带由 designer 同步的 `figure-spec.schema.json`、`scripts/validate_figure_spec.py` 与 `scripts/clean_image_metadata.py`，单独安装时 SKILL.md 中的校验与清理命令可直接运行。
+- `test_clean_image_metadata.py` 改为 unittest，纳入 `unittest discover`；新增 PNG 文本元数据剥离断言。
+
+### Changed
+
+- FigureSpec 校验器直接读取 `figure-spec.schema.json`（标准库 schema 子集解释器），删除与 schema 重复的手写字段检查；字段形状诊断统一为 `schema.<keyword>`，跨字段、引用与 render-ready 检查不变。
+- 移除 legacy 兼容模式与 style profile 别名：未版本化 spec 与 `modern-technical-vector` 等别名直接报错；`--strict-v1` 保留为无操作参数以兼容旧调用。
+- `strip_image_metadata()` 返回 `(original_bytes, cleaned_bytes)`，删除恒为 `True` 的 success 位；删除无效的 `--recursive` 参数（目录始终递归）。
+- `sync_shared_refs.py` 改为数据驱动的同步计划，删除符号链接防护、原子写入与 Unicode 文件名碰撞检查；`palettes.md` 只同步到 designer 与 workflow。
+- `validate_skill_pack.py` 复用 FigureSpec 报告类型与 manifest 解析，改为校验 `docs/prompts/*.spec.json`；legacy benchmark `prompt-spec.json` 不再参与校验。
+- 技能版本：designer 2.3.0、workflow 1.8.0、repo-analyzer 1.5.1、draft-analyzer 1.4.1、architecture-extractor 1.3.1；FigureSpec@1 格式不变。
+
+### Fixed
+
+- 示例 `pastel_airy_ui_agentic_bo.spec.json` 的非法 `layout.composition` 与 `authority_boundaries` 形状（示例 spec 此前从未被校验）。
+- `modern-technical-vector` 同时是 schema 枚举值和别名的矛盾；README profile 表改用 canonical id `classic-technical`。
+- 可信工作区根无法解析时，render-ready 校验不再抛出 `UnboundLocalError`。
+
+### Removed
+
+- `docs/prompts/*.txt`（与 `.spec.json` 的 `prompt` 字段重复）、根目录 `scripts/clean_image_metadata.py`、`docs/codex-image-workflow.md`（workflow 内副本为唯一来源）、`examples/classic-repos/`（并入 `examples/benchmarks/README.md`），以及三个未使用的 `references/palettes.md` 副本。
+
 ## [3.2.0] - 2026-09-10
 
 ### Added

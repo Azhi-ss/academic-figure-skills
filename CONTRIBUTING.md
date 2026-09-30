@@ -98,9 +98,8 @@ as display name, trigger phrases, stages, tags, and tool hints in
 }
 ```
 
-4. Add the skill id to `EXPECTED_SKILL_IDS` in
-   `scripts/sync_shared_refs.py`, and to the relevant shared-reference groups if
-   it consumes styles, RenderAudit, or the Codex image workflow
+4. If the skill consumes the style library, palettes, or RenderAudit, add its
+   id to `FIGURE_SKILLS` in `scripts/sync_shared_refs.py`
 5. Run `python3 scripts/sync_shared_refs.py` to create self-contained vendored
    references; do not copy or symlink them manually
 6. Update the README.md to include your new skill in the skill list
@@ -128,7 +127,7 @@ For rendering skills, preserve the execution contract:
 - call Codex's native `image_gen.imagegen` capability directly when it is
   available instead of returning a prompt for the user to run;
 - keep the prompt internal when `prompt_review` is `waived`;
-- inspect the initial render, record RenderAudit v1, and use the current best
+- inspect the initial render, record RenderAudit v2, and use the current best
   image as the first reference for a bounded targeted edit;
 - preserve revision files and audit every edit.
 
@@ -143,10 +142,12 @@ python3 -B -m unittest discover -s tests -v
 python3 scripts/validate_skill_pack.py
 ```
 
-When changing FigureSpec, update the formal schema, the standard-library
-validator, the prose contract, and tests together. A render-capable caller must
-also run strict render-ready validation with its trusted workspace root before
-calling an image model.
+When changing FigureSpec, edit `academic-figure-designer/figure-spec.schema.json`;
+the validator reads it directly, so extend `validate_figure_spec.py` only for
+cross-field rules. Update the prose contract and tests together, then run the
+sync so the workflow's vendored schema, validator, and metadata cleaner follow.
+A render-capable caller must also run render-ready validation with its trusted
+workspace root before calling an image model.
 
 ### Trigger Phrases
 
