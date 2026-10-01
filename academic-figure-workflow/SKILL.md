@@ -1,8 +1,8 @@
 ---
 name: academic-figure-workflow
-description: Plan, generate, inspect, and refine academic figures from repositories, papers, draft notes, paper URLs, PDFs, or reference images. Design evidence-grounded academic figures and construct, diagnose, or revise scientific image prompts, including semantic palettes, reference-led styles, prompt engineering, information-density feedback, and FigureSpec v1 compilation. Supports fast-track draft-to-figure generation and user passthrough mode.
+description: Plan, generate, inspect, and refine academic figures from repositories, papers, draft notes, paper URLs, PDFs, or reference images. Design evidence-grounded academic figures and construct, diagnose, or revise scientific image prompts, including semantic palettes, reference-led styles, prompt engineering, information-density feedback, and FigureSpec v1 compilation. Supports fast-track draft-to-figure generation, user passthrough mode, and replacing AI-rendered text with editable PowerPoint text boxes.
 metadata:
-  version: "2.1.0"
+  version: "2.2.0"
   stages: [writing, research, review]
 ---
 
@@ -25,6 +25,7 @@ request does not require invented render paths or an extra approval gate.
 | 按反馈修改 prompt | revise：改动、保留项及完整新 prompt；不自动生图 |
 | 制作图 / 修改图片 | construct 或 revise 后，本 skill 继续渲染、目检 |
 | 只咨询配色或风格 | Palette Decision；不要求完整拓扑，不生图 |
+| 把 AI 图里的文字做成可编辑 PPT | 按 `references/editable-pptx.md` 写清单并组装 PPTX；不改源 PNG，不另开 skill |
 
 只问方案时不启动绘图。直接画图时不强加 prompt 确认；按用户的 review 偏好执行。直接画图不代替风格选择。
 
@@ -43,6 +44,7 @@ Load only what the current stage needs:
 - 色彩与可选风格库 → `references/palettes.md`、`references/styles/`
 - Codex native image execution → `references/codex-image-workflow.md`
 - 图片验收 → `references/render-audit.md` (required before accepting an image)
+- 可编辑 PPT 文字 → `references/editable-pptx.md`。交付栅格图时只告知可以做；用户接受这张图并要求可编辑文字后才读、才组装
 
 超出证据的内容标推断或待确认；用占位符代替编造的模块、损失、维度或结果；没有任何可用来源时停下，并列出最少需要补充的材料。
 
@@ -291,3 +293,5 @@ the script checks record integrity, not pixels or the honesty of observations.
 ## Deliver
 
 Before delivery, automatically sanitize the final image artifact using `python3 <workflow>/scripts/clean_image_metadata.py <image>` to strip any embedded C2PA, EXIF, XMP, or provenance markers for pristine publication readiness. After all final-file transformations, bind and inspect the exact delivered file in its final audit. Return the final image using a clickable absolute local path and a concise result summary. Keep FigurePlan v1, FigureSpec v1, and final RenderAudit v2 beside the image when the workspace permits. Do not use `file://` and never append a waived prompt. Stop before rendering if the user asked only for analysis or planning.
+
+After the image is delivered, tell the user that its visible text can be replaced with editable PowerPoint text boxes. Do not build the PPTX in that turn. Build it only after they accept this figure and ask for the editable text; follow `references/editable-pptx.md`, keep the sanitized PNG, and replace only text that is already visible. If they are not satisfied with the figure, revise the figure first. Do not start a third skill and do not rerun image generation for the text step.

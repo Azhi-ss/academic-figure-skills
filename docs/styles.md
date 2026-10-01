@@ -15,7 +15,7 @@
 | 名称 | 类型 | 代表论文与图号索引 (Representative Paper & Fig) | 核心视觉特征 |
 |---|---|---|---|
 | **现代前沿技术框线风** | `surface_profile` | **DeepSeek-V3** (arXiv:2412.19437) Fig 2<br>**DiT** (ICCV 2023) Fig 2<br>**Mamba** (ICML 2024) Fig 1 | 现代大模型张量架构：彩色张量维度条 ($h_t, c_t^{KV}$)、注意力多层热力图、Top-K 门控概率柱状图、正交微米走线 |
-| **编辑手绘模块风** | `surface_profile` | **MLEvolve** (arXiv:2606.06473) Fig 1–2（风格语法）<br>**Agentic-MatriBO** Fig 1 | illustrated modular：非对称 hero 或 left-hero/right-stack、最多一层 subcard、强描边、无阴影、手绘式短标题和受控线稿插画 |
+| **编辑手绘模块风** | `surface_profile` | **MLEvolve** (arXiv:2606.06473) Fig 1–2（风格语法）<br>**Agentic-MatriBO** Fig 1 | illustrated modular：不等大主区、区内开放线稿和短机制行；子卡只用于真实的一层分组；强描边、无阴影、手绘式短标题 |
 | **有色语义分区图示风** | `color_material_layer` | **DASH** (arXiv:2608.00641) Fig 1<br>**Agentic-MatriBO** Fig 1 | paired semantic tokens；柔彩 fill、深同色 outline、可读 title、受控 icon accent |
 | **现代柔彩空气风** | `surface_profile` | **Brunzema et al.** (arXiv:2608.00316) Fig 1 & 3<br>**SWE-agent** (ICML 2024) Fig 2<br>**Voyager** (NeurIPS 2023) Fig 1 | airy UI：纯白浮动卡片、柔杏数学代理与柔雾冰蓝 Agent、深灰高对比评估锚点、虚线作用域容器、叠层演进上下文与大比率呼吸感留白 |
 | **对比消融实验风** | `composition_variant` | **KAN** (arXiv:2404.19756) Fig 1<br>**SimPO** (arXiv:2405.14734) Fig 1 | 左右高对比分栏、Baseline 固定权重 vs Ours 边上可学习 B-样条非线性曲线 $\phi(x)$ 与节点纯求和 $\sum$ |

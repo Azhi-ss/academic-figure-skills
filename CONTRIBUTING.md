@@ -123,12 +123,18 @@ Keep descriptions short: one leading job + distinct trigger branches; no impleme
 For rendering skills, preserve the execution contract:
 
 - build and validate FigureSpec v1 before rendering;
-- call Codex's native `image_gen.imagegen` capability directly when it is
-  available instead of returning a prompt for the user to run;
+- stop for the six style previews before the first render when the user has
+  not named a style and has not given a reference to follow;
+- call the session's native image tool directly when it is available instead
+  of returning a prompt for the user to run;
 - keep the prompt internal when `prompt_review` is `waived`;
 - inspect the initial render, record RenderAudit v2, and use the current best
   image as the first reference for a bounded targeted edit;
-- preserve revision files and audit every edit.
+- keep the confirmed composition when repairing arrows; do not replace it
+  with an equal icon row;
+- preserve revision files and audit every edit;
+- after delivery, mention that visible text can become editable PowerPoint
+  text, and build that PPTX only after the user accepts the figure and asks.
 
 ### Validation before a pull request
 

@@ -1,6 +1,6 @@
 {
   "name": "academic-figure-skills",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Two academic figure skills: academic-figure-workflow designs style, palette, and prompts, compiles FigureSpec, and handles native rendering, visual audit, and targeted revision; academic-figure-analyzer turns repositories, papers, drafts, and reference figures into SemanticArchitecture, FigurePlan, and ReferenceAnalysis.",
   "author": "Azhi-ss",
   "repository": "https://github.com/Azhi-ss/academic-figure-skills",
@@ -9,8 +9,8 @@
     {
       "id": "academic-figure-workflow",
       "name": "Academic Figure Workflow",
-      "version": "2.1.0",
-      "description": "Design evidence-grounded academic figures and construct, diagnose, or revise prompts; semantic palettes, reference-led styles, and FigureSpec v1. Plan, generate, inspect, and refine figures with conditional review and native image-tool routing. Repository, paper, draft, or reference-figure inputs are analyzed by academic-figure-analyzer first.",
+      "version": "2.2.0",
+      "description": "Design evidence-grounded academic figures and construct, diagnose, or revise prompts; semantic palettes, reference-led styles, and FigureSpec v1. Plan, generate, inspect, and refine figures with conditional review and native image-tool routing. Repository, paper, draft, or reference-figure inputs are analyzed by academic-figure-analyzer first. Can replace AI-rendered text with editable PowerPoint text boxes.",
       "path": "./academic-figure-workflow",
       "trigger_phrases": [
         "帮我从仓库到配图走一遍", "完整论文配图工作流", "academic figure workflow",
@@ -28,7 +28,9 @@
         "有色语义分区图示风", "illustrated modular figure",
         "reference-led academic figure", "airy figure prompt",
         "paper figure", "academic figure", "academic diagram",
-        "学术配图JSON", "Visual Brief"
+        "学术配图JSON", "Visual Brief",
+        "把 AI 图里的文字做成可编辑 PPTX", "editable text on an AI figure",
+        "ai-figure-text-pptx"
       ],
       "stages": ["research", "writing", "review"],
       "tools": ["bash", "image_gen", "view_image"],

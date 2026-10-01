@@ -1,13 +1,13 @@
 # Academic Figure Skills
 
-![Version](https://img.shields.io/badge/version-4.1.0-blue)
+![Version](https://img.shields.io/badge/version-4.2.0-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Stars](https://img.shields.io/github/stars/Azhi-ss/academic-figure-skills?style=social)
 
 **Academic paper figure skills for Claude Code, Cursor, Codex & Gemini CLI.**  
-AI 驱动的学术论文配图技能包：证据分析 → FigurePlan v1 → 提示词设计 / FigureSpec v1 → 原生生图 → RenderAudit v2 → 定向修图。
+AI 驱动的学术论文配图技能包：看材料 → 第一次出图前选定风格 → 设计并生图 → 对照原图检查。图交出去之后，如果你接受这张图，还可以把里面已有的文字换成 PPT 里的可编辑文本框。
 
-> **是什么？** 2 个可独立安装的 agent skill，覆盖仓库/论文/草稿/参考图分析、可追溯配图规划、统一风格与色彩设计、结构化规范、Codex 原生直接生图和生成后视觉审计。skill 定义可复用流程，不等于常驻子智能体；仅端到端 workflow 会在任务可独立拆分时临时派发 figure worker。三个 surface profile 是 `classic-technical`（现代前沿技术框线/经典矢量）、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是保留参考图真实语法的覆盖模式，不等同于手绘柔彩风。色板是风格下的可选变量，不再由代码目录数决定。
+> **是什么？** 2 个可独立安装的 agent skill。`academic-figure-analyzer` 看仓库、论文、草稿和参考图。`academic-figure-workflow` 定风格、写规格、生图、检查，并在你接受成图之后按需把文字做成可编辑 PPT。第一次出图若还没点名风格、也没有要跟随的参考图，会先展示 6 张预览并停下。「直接画」只跳过提示词展示，不代替选风格。三个画面是 `classic-technical`、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是照着你给的参考图走，不会自动变成手绘风。互不相关的来源或互不相关的图可以分开做；一张图从设计画到检查仍由同一次流程做完。
 
 **2 skills · 3 core style profiles · native Codex rendering · reference-aware revision** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
 
@@ -21,7 +21,7 @@ npx skills add Azhi-ss/academic-figure-skills -g --all
 
 然后对 agent 说：
 
-1. `"分析这个仓库并直接用本地 Codex 生图，不用展示 prompt"`
+1. `"分析这个仓库再出图。还没定风格就先给我看预览，选定后再画，不用展示 prompt"`
 2. `"参考这篇论文 Figure 2 的画法重画我的框架；保留风格，不复制内容"`
 
 先看有哪些 skill（不安装）：
@@ -41,7 +41,7 @@ npx skills add Azhi-ss/academic-figure-skills -l
 | “颜色丰富一些，但节点、文字、连线不动，修改 prompt” | 改动与保留清单、完整新 prompt |
 | “按照这个 prompt 直接画图，不用返回提示词” | 校验后的内部 prompt、图片和逐版本审核 |
 
-设计逻辑是：读者问题 → 有证据的科学骨架 → 确定风格/参考图语法 → 联合设计布局、视觉锚点与文字容量 → 闭合连线 → 完整 prompt → 图片验收。风格在布局定稿前介入，不是写完提示词后的附加形容词；已选风格直接复用，不增加确认关卡。“增加颜色”“增加信息”“减少混乱”分别处理；手绘机器人、公式卡和微型图都是可选表达，不再强制每节点三件套。多 agent 讨论必须有真实交互证据，独立评审不自动改画成投票或协商。
+设计顺序是：读者要看懂什么 → 有证据的结构 → 选定风格或参考图 → 再定布局、锚点和文字 → 把每条边写死 → 出图 → 对照原图检查。风格在布局定稿前就定下，不是写完提示词后补一句形容词。已经选过的风格直接沿用，改图时不再弹菜单。箭头画错时只改端点，不把已定的主区和机制行收成一排等大图标。手绘角色、公式卡和微型图都可以用，但不是每个格子都必须有。多 agent 讨论必须来自材料里的真实交互。
 
 具体见 [提示词设计逻辑](academic-figure-workflow/references/prompt-design-logic.md)、[可填充模板](academic-figure-workflow/references/prompt-templates.md) 和 [案例与迁移测试](academic-figure-workflow/references/prompt-design-cases.md)。本次提炼参考 Nuwa 的主题框架方法；成品技能没有 Nuwa 运行时依赖。
 
@@ -122,23 +122,29 @@ python3 academic-figure-workflow/scripts/validate_render_audit.py \
 
 ## 完整工作流
 
-流程不设置固定“三道门禁”。只有存在会实质改变结果的语义歧义、未解决 placeholder，或用户主动要求 review 时才暂停；用户明确要求“直接生成 / 不展示 prompt / 使用本地模型”时，prompt review 记为 waived 并继续执行。
+你把仓库、论文、链接、参考图，或已经说清的结构交给它。材料需要核对时先分析；结构已经由你说清时直接设计。
+
+第一次出图有一道固定停点：还没点名风格、也没有「就照这张图」的参考时，先看 6 张预览，等你选完再画。你说「直接画」只表示不用看提示词。科学内容还有会改变图意的缺口，或者你要求先看方案时，也会停下来问。
 
 ```
-代码 / 论文 / URL / 参考图
-          ↓
-证据分析 → FigurePlan v1
-          ↓  [仅在必要时 review]
-style grammar + FigureSpec v1
-          ↓  [render-ready: trusted workspace + prompt-review binding]
-Codex image_gen.imagegen / compatible backend
-          ↓
-view_image(original) → RenderAudit v2 → 最多两次有缺陷依据的 targeted edit
-          ↓
-工作区内绝对路径交付
+材料或你口述的结构
+        ↓
+需要时先分析
+        ↓
+第一次出图：看 6 张风格预览，等你选定
+（已点名风格，或给出要跟随的参考图，则跳过）
+        ↓
+写成规格并校验 → 生图
+        ↓
+对照原图检查 → 最多改两轮
+（不把图收成等大图标条）
+        ↓
+把图交给你，并说明文字可以换成可编辑 PPT
+        ↓
+你接受这张图并要求之后，才做 PPT 文本框
 ```
 
-参考图可直接作为生成或编辑输入；流程匹配其构图、笔触、区域、字体和强调语法，但不复制原论文的标签、拓扑、claim 或品牌元素。多 agent 并发是环境允许时的优化，不是完成流程的必要条件。
+参考图可以交给生图工具。匹配的是构图、笔触、分区、字体和强调方式，不复制原图的文字、拓扑和结论。几张互不相关的图可以分开做；一张图的设计、出图和检查不拆开。
 
 ### Codex 直接生成与返修
 
@@ -146,7 +152,7 @@ view_image(original) → RenderAudit v2 → 最多两次有缺陷依据的 targe
 `image_gen.imagegen`（部分运行时显示为 `image_gen__imagegen`）。`prompt` 只是
 内部工具参数；用户说“直接画 / 不要返回 prompt”时，不会把它返给用户复制。
 
-返修不重起一轮盲目重绘，而是：
+返修对着当前这张图改已看见的问题，不换一套更简单的版式：
 
 1. 以 original detail 查看当前最佳版本并生成绑定 image/spec 哈希的 RenderAudit v2；
 2. 将该图作为 `referenced_image_paths` 的第一张图；
@@ -154,8 +160,7 @@ view_image(original) → RenderAudit v2 → 最多两次有缺陷依据的 targe
 4. 保存 `r0/r1/r2` 版本，每次编辑后重新查看与审计；
 5. 首图后最多两轮语义返修，瞬态传输重试不占额度。
 
-若密集文字一次定向修复后仍不可靠，改用 SVG/drawio/Typst
-或混合文字覆盖，不让图像模型无限循环重画。
+若密集文字一次定向修复后仍不可靠，改用 SVG、drawio、Typst 或混合文字，不让图像模型无限重画。图交出去之后，若你接受这张图并希望文字能在 PPT 里改，再按 [可编辑 PPT 文字](academic-figure-workflow/references/editable-pptx.md) 盖住旧字、放上文本框。这一步不重新生图，也不改源 PNG。
 
 ## 三个 surface profile + reference-led 模式
 
@@ -163,7 +168,7 @@ view_image(original) → RenderAudit v2 → 最多两次有缺陷依据的 targe
 |---|---|---|
 | **classic-technical** | 精确节点/边、克制线条、明确拓扑；可搭配 Okabe-Ito、蓝调或灰度 | 网络、机制、比较图、印刷约束 |
 | **pastel-airy-ui** | 白色或轻色 panel、柔彩 token/pill、较轻的连接与 UI 感 | token flow、界面式系统说明 |
-| **illustrated-modular** | 柔彩语义分区、深色圆润描边、手绘 line icon、非对称叙事；支持 left-hero/right-stack 等内容驱动构图 | agent 系统、AI4Science 闭环、编辑式科学信息图 |
+| **illustrated-modular** | 不等大语义区、深色圆润描边、区内开放线稿；子卡只用于真实的一层分组 | agent 系统、AI4Science 闭环、编辑式科学信息图 |
 | **reference-led** | 直接保留参考图观察到的构图、表面、笔触与强调语法；可落在前三类任一类或其相干组合 | 用户提供参考图且 preset 不能忠实概括时 |
 
 不知道从哪开始时直接说：
@@ -225,11 +230,11 @@ npx skills add Azhi-ss/academic-figure-skills -g --all
 ## 使用示例
 
 ```
-# 场景 1: 从代码仓库直接生成
-You: 分析这个仓库并直接调用本地 Codex 生图，不要展示 prompt
-AI:  [Semantic Architecture → FigurePlan v1 → FigureSpec v1
-      → render-ready validation → image_gen.imagegen
-      → RenderAudit v2 → 绝对路径交付]
+# 场景 1: 从代码仓库出图
+You: 分析这个仓库并直接生图，不要展示 prompt
+AI:  [先看仓库 → 若你还没选风格，展示 6 张预览并停下
+      → 你选定后写规格、校验、生图、对照原图检查
+      → 把图交给你，并说明可以换成可编辑 PPT 文字]
 ```
 
 ```
@@ -255,7 +260,7 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 | profile | 何时用 | 核心表现 | 对标代表论文 |
 |--------|--------|---------|---|
 | **classic-technical**<br>*(现代前沿技术框线风 / Modern Technical Vector)* | 深度学习大模型架构、算法张量流、精确技术拓扑与顶会工程架构 | 彩色张量条、多层注意力热力图、门控概率柱状图、正交微米走线 | **DeepSeek-V3** (2024) Fig 2<br>**DiT** (ICCV 2023) Fig 2<br>**Mamba** (ICML 2024) Fig 1 |
-| **illustrated-modular** | 科学工作流、AI4Science、多智能体闭环、需要图示化叙事 | 柔彩语义分区、手绘深色描边、非对称模块编排、实线执行/虚线反馈与闭环恢复叙事 | **MLEvolve** (2026) Fig 1–2（风格参考）<br>**Agentic-MatriBO** Fig 1 |
+| **illustrated-modular** | 科学工作流、AI4Science、多智能体闭环、需要图示化叙事 | 不等大色区、区内开放线稿和短机制行、手绘标题；子卡只框真实的一层分组 | **MLEvolve** (2026) Fig 1–2（风格参考）<br>**Agentic-MatriBO** Fig 1 |
 | **pastel-airy-ui** | LLM Token 流、Agent 交互界面、概念决策循环 | 纯白浮动卡片、CLI 终端仿真视窗、悬浮柔彩 Token/Pill、高留白比率 | **SWE-agent** (ICML 2024) Fig 2<br>**ReAct** (ICLR 2023) Fig 1<br>**Reflexion** (NeurIPS 2023) Fig 1 |
 | **reference-led** | 用户给出参考图且其语法不应被 preset 覆盖 | 如实继承观察到的 surface/composition，不自动转成手绘柔彩 | 用户提供的任意顶刊/顶会论文原图 |
 
@@ -290,6 +295,7 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 | **[CHANGELOG.md](CHANGELOG.md)** | 版本历史 |
 | **[CONTRIBUTING.md](CONTRIBUTING.md)** | 贡献指南 |
 | **[docs/academic-references.md](docs/academic-references.md)** | 学术引用 |
+| **[academic-figure-workflow/references/editable-pptx.md](academic-figure-workflow/references/editable-pptx.md)** | 接受成图后，把已有文字换成 PPT 文本框 |
 | **[docs/best-practices.md](docs/best-practices.md)** | 参考驱动、可读性与生成后审计实践 |
 | **[examples/](examples/)** | 端到端 handoff 示例 |
 
@@ -310,6 +316,9 @@ A: 可以跳过 prompt 展示。明确说“直接生成 / 不展示 prompt / �
 ### Q: 必须按顺序跑完整流水线吗？
 A: 不需要。不必跑完整流水线，可只做分析（analyzer）或只做设计/prompt/生图（workflow）。
 
+### Q: 4.2.0 有什么变化？
+A: 可编辑 PPT 文字并进 workflow，但不是出图的必经步骤。图交出去时会告知文字可以换成 PPT 文本框；用户接受这张图并要求之后才做。源 PNG 不改，也不再单独安装一个 skill。
+
 ### Q: 4.1.0 有什么变化？
 A: 第一次出图前，没指定风格时必须先看 6 张预览并等用户选择。「直接画」只跳过 prompt 展示，不代替选风格。修图、已点名风格或有参考图时不再弹菜单。
 
@@ -326,7 +335,7 @@ A: 4.0.0 是结构合并、行为不变：原先 5 个 skill 并入 workflow 与
   title = {Academic Figure Skills: AI-powered academic figure generation skill pack},
   year = {2026},
   url = {https://github.com/Azhi-ss/academic-figure-skills},
-  version = {4.1.0}
+  version = {4.2.0}
 }
 ```
 

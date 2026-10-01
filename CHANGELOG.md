@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.0] - 2026-10-01
+
+### Changed
+
+- 把 AI 图文字换成可编辑 PPTX 并入 workflow，不新增 skill。交付栅格图时只告知可以做；用户接受这张图并要求之后，才用 `scripts/build_overlay.py` 盖住旧字并放原生文本框。简单几何只有描摹结果对上原像素才收，画面留在底图。
+- 版本：包 4.2.0，workflow 2.2.0。
+- README、贡献说明和实践文档改成现在的用法：第一次出图先看风格预览；箭头返修不改版式；可编辑 PPT 在用户接受成图之后才做。
+
 ## [4.1.0] - 2026-10-01
 
 ### Changed
