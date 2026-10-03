@@ -20,6 +20,8 @@ This is the prose order, not the design-decision order. Settle the style grammar
 
 Name the figure type and one communication goal. State the dominant scientific mechanism and any high-risk meaning to avoid. Default to no overall canvas title; when requested, lock exactly one short non-banner title.
 
+For a bitmap render, open with a layout guide of about 120–200 English words and nothing else in that block: panel division, reading direction, arrow grammar, palette, and hierarchy. Distill it from the selected profile and at most two or three same-pattern reference images. Those images teach layout only. Do not copy their labels, icons, or topology. Then one sentence names the figure type. The closed edge list still follows and is not replaced by this guide.
+
 ### 2. Composition and components
 
 Describe the reading order, dominant region, supporting groups and connector channels. Use approximate proportions only when they help, not for every container. Nest cards only when they express real hierarchy; a comparison grid need not have a hero region.
