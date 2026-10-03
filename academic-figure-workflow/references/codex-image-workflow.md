@@ -146,7 +146,7 @@ Allow at most two semantic edit rounds after the initial image. A transient tran
 
 ## Text-heavy figures
 
-Native image generation does not guarantee exact typography. If required labels remain wrong after one targeted edit, stop and report the remaining text defects. Do not spend repeated image edits on dense prose, formulas, tables, or exact numeric charts.
+Native image generation does not guarantee exact typography. If required labels remain wrong after one targeted edit, switch to a deterministic SVG/drawio/Typst text overlay or renderer when available. Do not spend repeated image edits on dense prose, formulas, tables, or exact numeric charts.
 
 ## Files and delivery
 

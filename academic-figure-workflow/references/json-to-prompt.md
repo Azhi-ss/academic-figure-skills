@@ -73,7 +73,7 @@ For an actual image edit, use a bounded edit prompt with the inspected baseline 
 
 ## Length and backend suitability
 
-Use the shortest lossless brief. About 180–450 English words often works, but never drop essential edges or the selected profile's composition to meet a word target. Hero proportion, nesting, mark language, and sourced mechanism lines stay for every profile. Do not meet that word range by replacing open region interiors with an equal icon strip. An arrow repair copies that composition unchanged. Dense labels, precise equations, or fragile topology stay in the bitmap prompt; do not switch the figure to another file format to escape them. Preserve the user's chosen backend and current tool policies; if a switch changes the requested deliverable materially, explain and obtain direction. Never claim that prose guarantees exact geometry or typography.
+Use the shortest lossless brief. About 180–450 English words often works, but never drop essential edges or the selected profile's composition to meet a word target. Hero proportion, nesting, mark language, and sourced mechanism lines stay for every profile. Do not meet that word range by replacing open region interiors with an equal icon strip. An arrow repair copies that composition unchanged. Dense labels, precise equations or fragile topology may warrant deterministic SVG/drawio/Typst or hybrid vector text. Preserve the user's chosen backend and current tool policies; if a switch changes the requested deliverable materially, explain and obtain direction. Never claim that prose guarantees exact geometry or typography.
 
 ## Preflight
 
