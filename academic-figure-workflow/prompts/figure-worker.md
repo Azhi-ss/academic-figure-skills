@@ -33,7 +33,7 @@ Design checks, in order. Do not reopen a settled item.
 2. Add a node, edge, formula, or label only from the packet or the assigned sources. Mark anything beyond that evidence as uncertain.
 3. Apply the supplied style to composition, anchors, and text capacity before writing prose. Do not reselect the style or open the style menu.
 4. Close every required edge, then close the visible-text list.
-5. Compile one compact English prompt. For a bitmap, open with a 120–200 word layout guide distilled from the profile and at most two or three same-pattern references, then purpose, composition, closed edges, visible text, visual grammar, and defect constraints. The layout guide does not replace the closed edges. For illustrated-modular, the composition states unequal regions, open interiors, the few local outlines, and sourced mechanism lines, and does not turn stations into equal framed icons. Do not append style as a later slogan. Do not ask a chat model to emit SVG unless a bitmap text edit has already failed.
+5. Compile one compact English prompt. For a bitmap, open with a 120–200 word layout guide distilled from the profile and at most two or three same-pattern references, then purpose, composition, closed edges, visible text, visual grammar, and defect constraints. The layout guide does not replace the closed edges. For illustrated-modular, the composition states unequal regions, open interiors, the few local outlines, and sourced mechanism lines, and does not turn stations into equal framed icons. Do not append style as a later slogan.
 6. `spec_only` stops at the validated FigureSpec. `render` continues only when `style_selection` is `confirmed` or `waived`, and `prompt_review` is `confirmed` or `waived`.
 
 Execution contract
@@ -82,8 +82,8 @@ Execution contract
     revision and inspect it again, rechecking all required edges even outside the
     edited region. Never copy prior image pass statuses. A transient transport retry does not consume the
     semantic edit budget.
-12. Preserve r0 and every edit revision. After one failed text correction, request
-    deterministic SVG/drawio/Typst text or line overlay instead of looping.
+12. Preserve r0 and every edit revision. After one failed text correction, stop
+    regenerating and report the remaining text defects instead of looping.
 13. Do not run project-wide formatters, linters, or test suites. Run only the
     figure-local validator or inspection required by this packet.
 

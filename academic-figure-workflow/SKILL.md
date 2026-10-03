@@ -172,7 +172,7 @@ an alias for `illustrated-modular`.
 
 区域标题通常不超过 5 词、标签/边标签通常不超过 3 词；这是缩写建议，不得破坏科学含义，也不得用来删掉所选风格要求的机制行或子卡。只放必要且有来源的公式。先移走的是 caption-only 注释，不是路径上的机制标签。再考虑分图或确定性排版，不通过无限缩小字体增加密度。
 
-模型输入用 compact prose，不用 Markdown 标题、加粗、列表或表格包围指令；保留批准的数学符号及精确标签。默认图题放外部 caption，只有用户或设计明确要求时才显示一个短图题。位图 prompt 先写大约 120–200 词的版式说明（面板、箭头、配色、层级），依据所选风格和最多两三张同类参考图，不抄参考图的文字和拓扑；后面仍是闭合边清单、可见文字、风格和缺陷约束。一张计划中的图只出一张位图。让对话模型输出 SVG 代码是另一条路，本 skill 默认不走；文字一次改不好时，才改用 SVG、draw.io 或 Typst。详见编译器。
+模型输入用 compact prose，不用 Markdown 标题、加粗、列表或表格包围指令；保留批准的数学符号及精确标签。默认图题放外部 caption，只有用户或设计明确要求时才显示一个短图题。位图 prompt 先写大约 120–200 词的版式说明（面板、箭头、配色、层级），依据所选风格和最多两三张同类参考图，不抄参考图的文字和拓扑；后面仍是闭合边清单、可见文字、风格和缺陷约束。一张计划中的图只出一张位图。详见编译器。
 
 ## Create the spec
 
@@ -274,8 +274,7 @@ Save a new revision and reset its audit statuses to unverified. Re-view and
 recheck the entire required node/edge ledger before any further action. Allow at most
 **two semantic edit rounds** after the initial render. A transient transport retry
 does not consume this budget. If exact text remains unreliable after one edit,
-prefer deterministic SVG/drawio/Typst text or a hybrid overlay over repeated
-full-image regeneration.
+stop regenerating the whole image and report the remaining text defects.
 
 An arrow or endpoint defect does not permit a simpler figure. Keep the confirmed
 composition, hero emphasis, required subcards, and mechanism labels. Name the bad

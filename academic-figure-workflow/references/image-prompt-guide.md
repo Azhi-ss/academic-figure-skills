@@ -55,7 +55,7 @@ Describe proportions, hierarchy, and reading order:
 
 Use pipelines only for genuinely sequential executed flows. Loops, storyboards, asymmetric modular collages, layered boundaries, and central mechanisms are first-class layouts. Allow one level of nested subcards when the scientific hierarchy needs it.
 
-When reference figures are attached, first describe only their shared layout in about 120–200 words, then state the target paper's closed edges. Pass at most two or three same-pattern images to the image tool. Do not ask a chat model to emit SVG unless a bitmap edit has already failed on text. For illustrated-modular, describe a few unequal region boundaries, open interiors, and mechanism lines on the stations that need them. A local outline is only for a real grouping. A frame around every station is an equal-icon figure even when every label is present.
+When reference figures are attached, first describe only their shared layout in about 120–200 words, then state the target paper's closed edges. Pass at most two or three same-pattern images to the image tool. For illustrated-modular, describe a few unequal region boundaries, open interiors, and mechanism lines on the stations that need them. A local outline is only for a real grouping. A frame around every station is an equal-icon figure even when every label is present.
 
 ### Components and topology
 

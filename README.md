@@ -160,7 +160,7 @@ python3 academic-figure-workflow/scripts/validate_render_audit.py \
 4. 保存 `r0/r1/r2` 版本，每次编辑后重新查看与审计；
 5. 首图后最多两轮语义返修，瞬态传输重试不占额度。
 
-若密集文字一次定向修复后仍不可靠，改用 SVG、drawio、Typst 或混合文字，不让图像模型无限重画。图交出去之后，若你接受这张图并希望文字能在 PPT 里改，再按 [可编辑 PPT 文字](academic-figure-workflow/references/editable-pptx.md) 盖住旧字、放上文本框。这一步不重新生图，也不改源 PNG。
+若密集文字一次定向修复后仍不可靠，就停止重画并说明剩哪些字不对。图交出去之后，若你接受这张图并希望文字能在 PPT 里改，再按 [可编辑 PPT 文字](academic-figure-workflow/references/editable-pptx.md) 盖住旧字、放上文本框。这一步不重新生图，也不改源 PNG。
 
 ## 三个 surface profile + reference-led 模式
 
