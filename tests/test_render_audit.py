@@ -13,7 +13,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "academic-figure-workflow" / "scripts" / "validate_render_audit.py"
+SCRIPT = ROOT / "fig1-draw" / "scripts" / "validate_render_audit.py"
 MODULE_SPEC = importlib.util.spec_from_file_location("validate_render_audit", SCRIPT)
 assert MODULE_SPEC is not None and MODULE_SPEC.loader is not None
 MODULE = importlib.util.module_from_spec(MODULE_SPEC)

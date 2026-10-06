@@ -7,7 +7,7 @@
 **Academic paper figure skills for Claude Code, Cursor, Codex & Gemini CLI.**  
 AI 驱动的学术论文配图技能包：看材料 → 第一次出图前选定风格 → 设计并生图 → 对照原图检查。图交出去之后，如果你接受这张图，还可以把里面已有的文字换成 PPT 里的可编辑文本框。
 
-> **是什么？** 2 个可独立安装的 agent skill。`academic-figure-analyzer` 看仓库、论文、草稿和参考图。`academic-figure-workflow` 定风格、写规格、生图、检查，并在你接受成图之后按需把文字做成可编辑 PPT。第一次出图若还没点名风格、也没有要跟随的参考图，会先展示 6 张预览并停下。「直接画」只跳过提示词展示，不代替选风格。三个画面是 `classic-technical`、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是照着你给的参考图走，不会自动变成手绘风。互不相关的来源或互不相关的图可以分开做；一张图从设计画到检查仍由同一次流程做完。
+> **是什么？** 2 个可独立安装的 agent skill。`fig1-analyze` 看仓库、论文、草稿和参考图。`fig1-draw` 定风格、写规格、生图、检查，并在你接受成图之后按需把文字做成可编辑 PPT。第一次出图若还没点名风格、也没有要跟随的参考图，会先展示 6 张预览并停下。「直接画」只跳过提示词展示，不代替选风格。三个画面是 `classic-technical`、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是照着你给的参考图走，不会自动变成手绘风。互不相关的来源或互不相关的图可以分开做；一张图从设计画到检查仍由同一次流程做完。
 
 **2 skills · 3 core style profiles · native Codex rendering · reference-aware revision** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
 
@@ -32,7 +32,7 @@ npx skills add Azhi-ss/academic-figure-skills -l
 
 ## 构造、诊断与修订画图提示词
 
-直接调用 `academic-figure-workflow`，不另建第二套 prompt 编译器：
+直接调用 `fig1-draw`，不另建第二套 prompt 编译器：
 
 | 你可以这样说 | 交付 |
 |---|---|
@@ -43,14 +43,14 @@ npx skills add Azhi-ss/academic-figure-skills -l
 
 设计顺序是：读者要看懂什么 → 有证据的结构 → 选定风格或参考图 → 再定布局、锚点和文字 → 把每条边写死 → 出图 → 对照原图检查。风格在布局定稿前就定下，不是写完提示词后补一句形容词。已经选过的风格直接沿用，改图时不再弹菜单。箭头画错时只改端点，不把已定的主区和机制行收成一排等大图标。手绘角色、公式卡和微型图都可以用，但不是每个格子都必须有。多 agent 讨论必须来自材料里的真实交互。
 
-具体见 [提示词设计逻辑](academic-figure-workflow/references/prompt-design-logic.md)、[可填充模板](academic-figure-workflow/references/prompt-templates.md) 和 [案例与迁移测试](academic-figure-workflow/references/prompt-design-cases.md)。本次提炼参考 Nuwa 的主题框架方法；成品技能没有 Nuwa 运行时依赖。
+具体见 [提示词设计逻辑](fig1-draw/references/prompt-design-logic.md)、[可填充模板](fig1-draw/references/prompt-templates.md) 和 [案例与迁移测试](fig1-draw/references/prompt-design-cases.md)。本次提炼参考 Nuwa 的主题框架方法；成品技能没有 Nuwa 运行时依赖。
 
 ### 审核记录与图片正确性分开
 
 新 RenderAudit v2 将记录绑定到实际 image/spec SHA-256，并逐节点、逐边记录 `pass / fail / unverified`。局部修箭头或只调颜色后也重新检查全图；不把旧图的 PASS 移植到新图。
 
 ```bash
-python3 academic-figure-workflow/scripts/validate_render_audit.py \
+python3 fig1-draw/scripts/validate_render_audit.py \
   --spec figure.spec.json --image figure.png figure.audit.json
 ```
 
@@ -117,8 +117,8 @@ python3 academic-figure-workflow/scripts/validate_render_audit.py \
 
 | 技能 | 功能 | 触发词示例 |
 |-----|------|-----------|
-| **academic-figure-workflow** | 风格、配色与 prompt 构造/诊断/修订，FigureSpec、原生生图、审图与定向修图；仓库、论文、草稿或参考图先交给 analyzer | 设计论文配图、构造画图提示词、完整论文配图工作流、使用 Codex 生图 |
-| **academic-figure-analyzer** | 分析仓库、论文草稿与参考图，产出 SemanticArchitecture@1、FigurePlan@1、ReferenceAnalysis@1；不写 prompt、不生图 | 分析代码仓库、分析草稿配图、提取论文架构图 |
+| **fig1-draw** | 风格、配色与 prompt 构造/诊断/修订，FigureSpec、原生生图、审图与定向修图；仓库、论文、草稿或参考图先交给 fig1-analyze | 设计论文配图、构造画图提示词、完整论文配图工作流、使用 Codex 生图 |
+| **fig1-analyze** | 分析仓库、论文草稿与参考图，产出 SemanticArchitecture@1、FigurePlan@1、ReferenceAnalysis@1；不写 prompt、不生图 | 分析代码仓库、分析草稿配图、提取论文架构图 |
 
 ## 完整工作流
 
@@ -160,7 +160,7 @@ python3 academic-figure-workflow/scripts/validate_render_audit.py \
 4. 保存 `r0/r1/r2` 版本，每次编辑后重新查看与审计；
 5. 首图后最多两轮语义返修，瞬态传输重试不占额度。
 
-若密集文字一次定向修复后仍不可靠，改用 SVG、drawio、Typst 或混合文字，不让图像模型无限重画。图交出去之后，若你接受这张图并希望文字能在 PPT 里改，再按 [可编辑 PPT 文字](academic-figure-workflow/references/editable-pptx.md) 盖住旧字、放上文本框。这一步不重新生图，也不改源 PNG。
+若密集文字一次定向修复后仍不可靠，改用 SVG、drawio、Typst 或混合文字，不让图像模型无限重画。图交出去之后，若你接受这张图并希望文字能在 PPT 里改，再按 [可编辑 PPT 文字](fig1-draw/references/editable-pptx.md) 盖住旧字、放上文本框。这一步不重新生图，也不改源 PNG。
 
 ## 三个 surface profile + reference-led 模式
 
@@ -191,7 +191,7 @@ npx skills add Azhi-ss/academic-figure-skills -g --all
 npx skills add Azhi-ss/academic-figure-skills -l
 
 # 只装其中一个
-npx skills add Azhi-ss/academic-figure-skills -g -s academic-figure-workflow -y
+npx skills add Azhi-ss/academic-figure-skills -g -s fig1-draw -y
 
 # 更新到 main 最新
 npx skills update Azhi-ss/academic-figure-skills -g -y
@@ -213,14 +213,14 @@ npx skills add https://github.com/Azhi-ss/academic-figure-skills -g --all
 ```bash
 git clone https://github.com/Azhi-ss/academic-figure-skills.git
 # 将各个 skill 目录链到 agent skills 路径，例如：
-# ln -s "$PWD/academic-figure-workflow" ~/.claude/skills/academic-figure-workflow
+# ln -s "$PWD/fig1-draw" ~/.claude/skills/fig1-draw
 ```
 
 更推荐始终用 `npx skills add`，避免把整个 monorepo 误拷进 skills 目录。
 
 ## 从 3.x 升级
 
-旧的 `academic-figure-designer`、`academic-repo-analyzer`、`academic-figure-draft-analyzer`、`academic-figure-architecture-extractor` 已并入 workflow 与 analyzer。先卸掉旧 skill，再安装当前包：
+旧的 `academic-figure-designer`、`academic-repo-analyzer`、`academic-figure-draft-analyzer`、`academic-figure-architecture-extractor` 已并入现在的 `fig1-draw` 与 `fig1-analyze`。先卸掉旧 skill，再安装当前包：
 
 ```bash
 npx skills remove --global academic-figure-designer academic-repo-analyzer academic-figure-draft-analyzer academic-figure-architecture-extractor
@@ -253,7 +253,7 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 
 ## 风格 profile 与配色变量
 
-单一事实源：[`academic-figure-workflow/references/styles/`](academic-figure-workflow/references/styles/) 与 [`academic-figure-workflow/references/palettes.md`](academic-figure-workflow/references/palettes.md)。[`docs/styles.md`](docs/styles.md) 仍是风格总览。
+单一事实源：[`fig1-draw/references/styles/`](fig1-draw/references/styles/) 与 [`fig1-draw/references/palettes.md`](fig1-draw/references/palettes.md)。[`docs/styles.md`](docs/styles.md) 仍是风格总览。
 
 内置样式文件可以提供更细的变体；workflow 先选择三个 surface profile，必要时再启用 `reference-led` 覆盖模式：
 
@@ -264,7 +264,7 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 | **pastel-airy-ui** | LLM Token 流、Agent 交互界面、概念决策循环 | 纯白浮动卡片、CLI 终端仿真视窗、悬浮柔彩 Token/Pill、高留白比率 | **SWE-agent** (ICML 2024) Fig 2<br>**ReAct** (ICLR 2023) Fig 1<br>**Reflexion** (NeurIPS 2023) Fig 1 |
 | **reference-led** | 用户给出参考图且其语法不应被 preset 覆盖 | 如实继承观察到的 surface/composition，不自动转成手绘柔彩 | 用户提供的任意顶刊/顶会论文原图 |
 
-内容关系、用户偏好、参考图、可访问性与黑白印刷配方见 [`academic-figure-workflow/references/palettes.md`](academic-figure-workflow/references/palettes.md) 的 **Scene → palette decision** 与 **Worked decision recipes**。venue/domain 名称本身不选择颜色。
+内容关系、用户偏好、参考图、可访问性与黑白印刷配方见 [`fig1-draw/references/palettes.md`](fig1-draw/references/palettes.md) 的 **Scene → palette decision** 与 **Worked decision recipes**。venue/domain 名称本身不选择颜色。
 
 | 经典配色方案 | 适用场景 |
 |-----|---------|
@@ -287,15 +287,15 @@ AI:  [view_image(original) → RenderAudit v2 → 当前最佳图作第一引用
 
 | 文档 | 说明 |
 |-----|------|
-| **[academic-figure-workflow/references/palettes.md](academic-figure-workflow/references/palettes.md)** | 12 套经典 preset、I1 paired semantic tokens 与四种路由模式 |
+| **[fig1-draw/references/palettes.md](fig1-draw/references/palettes.md)** | 12 套经典 preset、I1 paired semantic tokens 与四种路由模式 |
 | **[docs/styles.md](docs/styles.md)** | 风格总览；定义文件在 workflow 的 `references/styles/` |
-| **[academic-figure-workflow/references/codex-image-workflow.md](academic-figure-workflow/references/codex-image-workflow.md)** | Codex 原生生成、参考图编辑与安全调用 |
-| **[academic-figure-workflow/references/render-audit.md](academic-figure-workflow/references/render-audit.md)** | RenderAudit v2：图片/spec 绑定、逐边检查与定向修订 |
-| **[academic-figure-analyzer/references/missing-info-policy.md](academic-figure-analyzer/references/missing-info-policy.md)** | 缺信息时的统一策略 |
+| **[fig1-draw/references/codex-image-workflow.md](fig1-draw/references/codex-image-workflow.md)** | Codex 原生生成、参考图编辑与安全调用 |
+| **[fig1-draw/references/render-audit.md](fig1-draw/references/render-audit.md)** | RenderAudit v2：图片/spec 绑定、逐边检查与定向修订 |
+| **[fig1-analyze/references/missing-info-policy.md](fig1-analyze/references/missing-info-policy.md)** | 缺信息时的统一策略 |
 | **[CHANGELOG.md](CHANGELOG.md)** | 版本历史 |
 | **[CONTRIBUTING.md](CONTRIBUTING.md)** | 贡献指南 |
 | **[docs/academic-references.md](docs/academic-references.md)** | 学术引用 |
-| **[academic-figure-workflow/references/editable-pptx.md](academic-figure-workflow/references/editable-pptx.md)** | 接受成图后，把已有文字换成 PPT 文本框 |
+| **[fig1-draw/references/editable-pptx.md](fig1-draw/references/editable-pptx.md)** | 接受成图后，把已有文字换成 PPT 文本框 |
 | **[docs/best-practices.md](docs/best-practices.md)** | 参考驱动、可读性与生成后审计实践 |
 | **[examples/](examples/)** | 端到端 handoff 示例 |
 
@@ -311,19 +311,19 @@ A: 所有路径都先形成可校验的 FigureSpec/渲染包；`classic-technica
 A: 精确拓扑用 `classic-technical`；轻量 token/card 叙事用 `pastel-airy-ui`；agent-drawn、柔彩语义分区用 `illustrated-modular`。有参考图时先分析其真实语法；只有 preset 无法忠实概括时才用 `reference-led`，且不会自动变成 illustrated modular。
 
 ### Q: 可以直接用 Codex 生图而不看 prompt 吗？
-A: 可以跳过 prompt 展示。明确说“直接生成 / 不展示 prompt / 使用本地模型”即可 waive prompt review。若这次请求没有点名风格、也没有给出要跟随的参考图，workflow 会先展示 6 张风格预览并停下，不调用生图。正式生成前仍会运行 render-ready 校验；缺 `style_selection` 或值为 `pending` 时不能出图。
+A: 可以跳过 prompt 展示。明确说“直接生成 / 不展示 prompt / 使用本地模型”即可 waive prompt review。若这次请求没有点名风格、也没有给出要跟随的参考图，`fig1-draw` 会先展示 6 张风格预览并停下，不调用生图。正式生成前仍会运行 render-ready 校验；缺 `style_selection` 或值为 `pending` 时不能出图。
 
 ### Q: 必须按顺序跑完整流水线吗？
-A: 不需要。不必跑完整流水线，可只做分析（analyzer）或只做设计/prompt/生图（workflow）。
+A: 不需要。不必跑完整流水线，可只做分析（`fig1-analyze`）或只做设计、prompt 和生图（`fig1-draw`）。
 
 ### Q: 4.2.0 有什么变化？
-A: 可编辑 PPT 文字并进 workflow，但不是出图的必经步骤。图交出去时会告知文字可以换成 PPT 文本框；用户接受这张图并要求之后才做。源 PNG 不改，也不再单独安装一个 skill。
+A: 可编辑 PPT 文字并进 `fig1-draw`，但不是出图的必经步骤。图交出去时会告知文字可以换成 PPT 文本框；用户接受这张图并要求之后才做。源 PNG 不改，也不再单独安装一个 skill。
 
 ### Q: 4.1.0 有什么变化？
 A: 第一次出图前，没指定风格时必须先看 6 张预览并等用户选择。「直接画」只跳过 prompt 展示，不代替选风格。修图、已点名风格或有参考图时不再弹菜单。
 
 ### Q: 4.0.0 有什么变化？
-A: 4.0.0 是结构合并、行为不变：原先 5 个 skill 并入 workflow 与 analyzer。3.3.0 的校验仍然有效：FigureSpec 校验器直接读取 `figure-spec.schema.json`；workflow 自带校验器与元数据清理脚本，单独安装也能完成 render-ready 校验和交付前清理。可先构造、诊断或修订 prompt，也可直接调用 Codex `image_gen.imagegen`；生成遵守 prompt-review/hash 与可信工作区校验，每张新图执行 RenderAudit v2，最多两次定向编辑。未版本化旧 spec 与风格别名不再被接受，`--strict-v1` 保留但已不起作用。
+A: 4.0.0 是结构合并、行为不变：原先 5 个 skill 并入现在的 `fig1-draw` 与 `fig1-analyze`。3.3.0 的校验仍然有效：FigureSpec 校验器直接读取 `figure-spec.schema.json`；`fig1-draw` 自带校验器与元数据清理脚本，单独安装也能完成 render-ready 校验和交付前清理。可先构造、诊断或修订 prompt，也可直接调用 Codex `image_gen.imagegen`；生成遵守 prompt-review/hash 与可信工作区校验，每张新图执行 RenderAudit v2，最多两次定向编辑。未版本化旧 spec 与风格别名不再被接受，`--strict-v1` 保留但已不起作用。
 
 ## 引用
 

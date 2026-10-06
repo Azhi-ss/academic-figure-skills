@@ -10,7 +10,7 @@ from PIL.PngImagePlugin import PngInfo
 
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "academic-figure-workflow" / "scripts"))
+sys.path.insert(0, str(ROOT / "fig1-draw" / "scripts"))
 
 from clean_image_metadata import batch_clean_directory, strip_image_metadata  # noqa: E402
 

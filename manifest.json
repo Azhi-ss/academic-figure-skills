@@ -1,17 +1,17 @@
 {
   "name": "academic-figure-skills",
   "version": "4.2.0",
-  "description": "Two academic figure skills: academic-figure-workflow designs style, palette, and prompts, compiles FigureSpec, and handles native rendering, visual audit, and targeted revision; academic-figure-analyzer turns repositories, papers, drafts, and reference figures into SemanticArchitecture, FigurePlan, and ReferenceAnalysis.",
+  "description": "Two academic figure skills: fig1-draw designs style, palette, and prompts, compiles FigureSpec, and handles native rendering, visual audit, and targeted revision; fig1-analyze turns repositories, papers, drafts, and reference figures into SemanticArchitecture, FigurePlan, and ReferenceAnalysis.",
   "author": "Azhi-ss",
   "repository": "https://github.com/Azhi-ss/academic-figure-skills",
   "license": "MIT",
   "skills": [
     {
-      "id": "academic-figure-workflow",
-      "name": "Academic Figure Workflow",
+      "id": "fig1-draw",
+      "name": "fig1-draw",
       "version": "2.2.0",
-      "description": "Design evidence-grounded academic figures and construct, diagnose, or revise prompts; semantic palettes, reference-led styles, and FigureSpec v1. Plan, generate, inspect, and refine figures with conditional review and native image-tool routing. Repository, paper, draft, or reference-figure inputs are analyzed by academic-figure-analyzer first. Can replace AI-rendered text with editable PowerPoint text boxes.",
-      "path": "./academic-figure-workflow",
+      "description": "Design evidence-grounded academic figures and construct, diagnose, or revise prompts; semantic palettes, reference-led styles, and FigureSpec v1. Plan, generate, inspect, and refine figures with conditional review and native image-tool routing. Repository, paper, draft, or reference-figure inputs are analyzed by fig1-analyze first. Can replace AI-rendered text with editable PowerPoint text boxes.",
+      "path": "./fig1-draw",
       "trigger_phrases": [
         "帮我从仓库到配图走一遍", "完整论文配图工作流", "academic figure workflow",
         "end-to-end figure pipeline", "from paper to figure prompt",
@@ -37,11 +37,11 @@
       "tags": ["academic", "workflow", "orchestration", "figure", "prompt", "planning", "style-library", "designer", "spec", "color", "palette", "figure-spec", "technical-vector", "pastel", "illustrated-modular", "reference-aware"]
     },
     {
-      "id": "academic-figure-analyzer",
-      "name": "Academic Figure Analyzer",
+      "id": "fig1-analyze",
+      "name": "fig1-analyze",
       "version": "1.0.0",
       "description": "Evidence-backed analysis of repositories, paper drafts, and reference figures into SemanticArchitecture@1, FigurePlan@1, and ReferenceAnalysis@1, without writing prompts or generating images.",
-      "path": "./academic-figure-analyzer",
+      "path": "./fig1-analyze",
       "trigger_phrases": [
         "分析代码仓库", "仓库分析", "repo analyzer",
         "analyze this repo", "理解这个代码库",

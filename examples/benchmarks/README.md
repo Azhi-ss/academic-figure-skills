@@ -30,7 +30,7 @@ result only; it is never evidence of image quality or publication readiness.
 python3 scripts/fetch_benchmark_repos.py --manifest examples/benchmarks/manifest.json
 # 2. create the sparse fixture
 python3 scripts/create_sparse_fixture.py
-# 3. manually run academic-figure-analyzer for each repo and write
+# 3. manually run fig1-analyze for each repo and write
 #    ref_repos/<id>/analysis/<id>-analysis.md
 # 4. score
 python3 scripts/run_repo_benchmarks.py --manifest examples/benchmarks/manifest.json

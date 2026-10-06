@@ -111,9 +111,9 @@ A good skill should include:
 
 1. **Input / Output Contract** — minimum inputs, deliverable shape
 2. **Steps with completion criteria** — checkable done conditions per step
-3. **Pointers to disclosed reference** — large tables live in that skill's own `references/` (for example `academic-figure-workflow/references/palettes.md`), not copied into another skill
+3. **Pointers to disclosed reference** — large tables live in that skill's own `references/` (for example `fig1-draw/references/palettes.md`), not copied into another skill
 4. **Stop conditions** — when to halt vs continue downstream
-5. **Sparse-input cases** — partial results labeled `推断` / `待确认` (see `academic-figure-analyzer/references/missing-info-policy.md`)
+5. **Sparse-input cases** — partial results labeled `推断` / `待确认` (see `fig1-analyze/references/missing-info-policy.md`)
 
 Do **not** paste the full palette hex tables into new skills. Keep the canonical
 palette, style, and audit files inside the skill that uses them. Never link to
@@ -145,9 +145,9 @@ python3 -B -m unittest discover -s tests -v
 python3 scripts/validate_skill_pack.py
 ```
 
-When changing FigureSpec, edit `academic-figure-workflow/figure-spec.schema.json`;
+When changing FigureSpec, edit `fig1-draw/figure-spec.schema.json`;
 the validator in that skill reads it directly, so extend
-`academic-figure-workflow/scripts/validate_figure_spec.py` only for cross-field
+`fig1-draw/scripts/validate_figure_spec.py` only for cross-field
 rules. Update the prose contract and tests together.
 A render-capable caller must also run render-ready validation with its trusted
 workspace root before calling an image model.

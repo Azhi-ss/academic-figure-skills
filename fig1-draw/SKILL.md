@@ -1,12 +1,12 @@
 ---
-name: academic-figure-workflow
+name: fig1-draw
 description: Plan, generate, inspect, and refine academic figures from repositories, papers, draft notes, paper URLs, PDFs, or reference images. Design evidence-grounded academic figures and construct, diagnose, or revise scientific image prompts, including semantic palettes, reference-led styles, prompt engineering, information-density feedback, and FigureSpec v1 compilation. Supports fast-track draft-to-figure generation, user passthrough mode, and replacing AI-rendered text with editable PowerPoint text boxes.
 metadata:
   version: "2.2.0"
   stages: [writing, research, review]
 ---
 
-# Academic Figure Workflow
+# fig1-draw
 
 Produce a grounded academic figure and a stable local artifact. Preserve the user's chosen backend, reference assets, style direction, review preference, and output scope.
 
@@ -54,15 +54,15 @@ A URL is not automatically a repository. Inspect it first.
 
 | Input | Route | Execution Behavior |
 |---|---|---|
-| **Direct User Architecture (Passthrough)** | This skill's design flow | **Skip the analyzer**. User gave explicit nodes/flow; compile FigureSpec v1 and render directly. |
-| **Draft Notes / Outline / Partial Draft** | `../academic-figure-analyzer/SKILL.md` | **Draft-to-Figure Fast-Track**. For rough notes, outlines, or sections without full results: focus on Figure 1 framework. |
-| **Complete Manuscript (Markdown / LaTeX / PDF / URL)** | `../academic-figure-analyzer/SKILL.md` | **Full Planning**. For complete papers with experiments/results: multi-figure strategy, claim verification, and constraints. |
-| **Repository path or repository URL** | `../academic-figure-analyzer/SKILL.md` | Extract semantic architecture graph; omit engineering plumbing (data loaders, trainers). |
-| **Paper plus repository** | `../academic-figure-analyzer/SKILL.md` | Paper/user defines narrative & topology; repository supplies parameter & dimension verification. |
-| **External style reference** | `../academic-figure-analyzer/SKILL.md` | Extract transferable style from external references. |
+| **Direct User Architecture (Passthrough)** | This skill's design flow | **Skip fig1-analyze**. User gave explicit nodes/flow; compile FigureSpec v1 and render directly. |
+| **Draft Notes / Outline / Partial Draft** | `../fig1-analyze/SKILL.md` | **Draft-to-Figure Fast-Track**. For rough notes, outlines, or sections without full results: focus on Figure 1 framework. |
+| **Complete Manuscript (Markdown / LaTeX / PDF / URL)** | `../fig1-analyze/SKILL.md` | **Full Planning**. For complete papers with experiments/results: multi-figure strategy, claim verification, and constraints. |
+| **Repository path or repository URL** | `../fig1-analyze/SKILL.md` | Extract semantic architecture graph; omit engineering plumbing (data loaders, trainers). |
+| **Paper plus repository** | `../fig1-analyze/SKILL.md` | Paper/user defines narrative & topology; repository supplies parameter & dimension verification. |
+| **External style reference** | `../fig1-analyze/SKILL.md` | Extract transferable style from external references. |
 | **Existing render to edit** | This skill's revise mode | Preserve its scientific content, topology and visible text, then apply only the requested delta. |
 
-For an article URL, use an available web/browser/document reader to obtain the paper text, captions, and linked figures. For a PDF, use a PDF-capable reader for paper content. If academic-figure-analyzer is not installed, perform the minimum equivalent analysis and mark the degraded path.
+For an article URL, use an available web/browser/document reader to obtain the paper text, captions, and linked figures. For a PDF, use a PDF-capable reader for paper content. If fig1-analyze is not installed, perform the minimum equivalent analysis and mark the degraded path.
 
 ## Keep versioned internal artifacts
 

@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
-sys.path.insert(0, str(ROOT / "academic-figure-workflow" / "scripts"))
+sys.path.insert(0, str(ROOT / "fig1-draw" / "scripts"))
 
 from validate_figure_spec import ValidationReport, validate_spec  # noqa: E402
 from validate_skill_pack import validate_skills  # noqa: E402
@@ -243,7 +243,7 @@ class PackValidationTests(unittest.TestCase):
         self.assertTrue(rogue[0].path.endswith("rogue-skill/SKILL.md"))
 
     def test_worker_prompt_keeps_bounded_contract_fields(self) -> None:
-        prompt = (ROOT / "academic-figure-workflow" / "prompts" / "figure-worker.md").read_text(
+        prompt = (ROOT / "fig1-draw" / "prompts" / "figure-worker.md").read_text(
             encoding="utf-8"
         )
         for field in (

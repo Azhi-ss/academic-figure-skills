@@ -32,10 +32,10 @@ Palette values only make sense with a surface and line treatment. Select a profi
 
 | Signals | Profile | Primary skill | Visual grammar |
 |---|---|---|---|
-| technical stack, compact network, classic vector, strict print | **`classic-technical`** | `academic-figure-workflow` | restrained geometry, fine borders, white or near-white modules, compact sans labels |
-| airy, token flow, interface-like, soft cards | **`pastel-airy-ui`** | `academic-figure-workflow` | white cards, subtle border/shadow, floating pills and tokens, generous whitespace |
-| hand-drawn academic infographic, modular narrative, agent/scientific workflow, tinted zones | **`illustrated-modular`** | `academic-figure-workflow` | asymmetric regions, soft semantic-zone fills, strong same-hue outlines, no shadow, open line art inside regions; a subcard only for a real one-level grouping |
-| supplied reference does not fit one preset | **`reference-led`** | `academic-figure-workflow` | override defaults with observed grammar; do not assume an illustrated surface |
+| technical stack, compact network, classic vector, strict print | **`classic-technical`** | `fig1-draw` | restrained geometry, fine borders, white or near-white modules, compact sans labels |
+| airy, token flow, interface-like, soft cards | **`pastel-airy-ui`** | `fig1-draw` | white cards, subtle border/shadow, floating pills and tokens, generous whitespace |
+| hand-drawn academic infographic, modular narrative, agent/scientific workflow, tinted zones | **`illustrated-modular`** | `fig1-draw` | asymmetric regions, soft semantic-zone fills, strong same-hue outlines, no shadow, open line art inside regions; a subcard only for a real one-level grouping |
+| supplied reference does not fit one preset | **`reference-led`** | `fig1-draw` | override defaults with observed grammar; do not assume an illustrated surface |
 
 Do not force a supplied reference into a binary classic/pastel label. A coherent figure may combine a classic flat canvas, tinted modular zones, and hand-drawn illustrations. State the observed properties so the combination is intentional rather than a style-word mixture.
 

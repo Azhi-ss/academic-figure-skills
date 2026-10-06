@@ -6,7 +6,7 @@ Backends (first available wins for embedded images):
   2. PyMuPDF (fitz)
 Optional page rasterization: pdftoppm when --pages is set.
 
-This is a helper for academic-figure-analyzer — not a trained
+This is a helper for fig1-analyze — not a trained
 classifier. Filtering is size-based only; structure analysis stays with the agent.
 """
 

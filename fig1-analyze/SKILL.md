@@ -1,11 +1,11 @@
 ---
-name: academic-figure-analyzer
+name: fig1-analyze
 description: 把仓库、论文/草稿、参考图分析成可交接结果（SemanticArchitecture@1、FigurePlan@1、ReferenceAnalysis@1），不写 prompt，也不生图。
 metadata:
   version: "1.0.0"
 ---
 
-# Academic Figure Analyzer
+# fig1-analyze
 
 把仓库、论文或草稿、参考图分析成可交接结果。本 skill 不写 prompt，也不生图。
 
@@ -57,4 +57,4 @@ Markdown、LaTeX、PDF 正文，或论文 URL 打开后的正文，读 `referenc
 
 ## 停止
 
-分析结果交付后即停止。用户要 prompt 或要图时，交给 `academic-figure-workflow`。不要在本 skill 里编译 prompt，也不要生图。
+分析结果交付后即停止。用户要 prompt 或要图时，交给 `fig1-draw`。不要在本 skill 里编译 prompt，也不要生图。

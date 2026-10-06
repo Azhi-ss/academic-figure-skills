@@ -19,7 +19,7 @@ from typing import Any
 
 PACK_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-sys.path.insert(0, str(PACK_ROOT / "academic-figure-workflow" / "scripts"))
+sys.path.insert(0, str(PACK_ROOT / "fig1-draw" / "scripts"))
 
 from validate_figure_spec import ValidationReport, print_reports, validate_path  # noqa: E402
 
