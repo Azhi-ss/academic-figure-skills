@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 三个 skill 的对外名称改为 `fig-analyze`、`fig-draw`、`fig-pptx`（原先是 `fig1-analyze`、`fig1-draw`、`fig2pptx`）。
 - `fig-pptx` 在接受示意图并要求可编辑 PPT 之后，按背景、框架、图标、文本框四层重画；文字是唯一的文本。源 PNG 不改。结果图的数据点要保持原样时不走这一步。
 - 版本：包 4.4.0，`fig-pptx` 1.1.0。文本框字体按源图里的字来选。漫画字用 Comic Neue；没有就安装 `fonts-comic-neue`，不改用另一类字体。
+- `fig-draw` 交付后询问要不要做成可编辑 PPT，同意后才交给 `fig-pptx`。
 
 ## [4.3.0] - 2026-10-10
 

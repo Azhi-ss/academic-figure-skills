@@ -133,8 +133,8 @@ For rendering skills, preserve the execution contract:
 - keep the confirmed composition when repairing arrows; do not replace it
   with an equal icon row;
 - preserve revision files and audit every edit;
-- after delivery, mention that visible text can become editable PowerPoint
-  PPTX in `fig-pptx`; do not build the PPTX in a rendering skill.
+- after delivery, ask whether to make an editable PowerPoint file and stop;
+  a yes goes to `fig-pptx`. Do not build the PPTX in a rendering skill.
 
 ### Validation before a pull request
 

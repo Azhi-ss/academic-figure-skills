@@ -5,9 +5,9 @@
 ![Stars](https://img.shields.io/github/stars/Azhi-ss/academic-figure-skills?style=social)
 
 **Academic paper figure skills for Claude Code, Cursor, Codex & Gemini CLI.**  
-AI 驱动的学术论文配图技能包：看材料 → 第一次出图前选定风格 → 设计并生图 → 对照原图检查。图交出去之后，如果你接受这张示意图，还可以用单独的 `fig-pptx` 做成可编辑 PPT：干净背景、透明框架、透明图标，文字是真文本框。
+AI 驱动的学术论文配图技能包：看材料 → 第一次出图前选定风格 → 设计并生图 → 对照原图检查。图交出去之后，会问你要不要把这张示意图做成可编辑 PPT。你同意之后，`fig-pptx` 才做：干净背景、透明框架、透明图标，文字是真文本框。
 
-> **是什么？** 3 个可独立安装的 agent skill。`fig-analyze` 看仓库、论文、草稿和参考图。`fig-draw` 定风格、写规格、生图、检查。`fig-pptx` 在你接受示意图并要求之后，把它做成可编辑 PPT。第一次出图若还没点名风格、也没有要跟随的参考图，会先展示 6 张预览并停下。「直接画」只跳过提示词展示，不代替选风格。三个画面是 `classic-technical`、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是照着你给的参考图走，不会自动变成手绘风。互不相关的来源或互不相关的图可以分开做；一张图从设计画到检查仍由同一次流程做完。
+> **是什么？** 3 个可独立安装的 agent skill。`fig-analyze` 看仓库、论文、草稿和参考图。`fig-draw` 定风格、写规格、生图、检查。交付后会问要不要做成可编辑 PPT，你同意之后 `fig-pptx` 才做。第一次出图若还没点名风格、也没有要跟随的参考图，会先展示 6 张预览并停下。「直接画」只跳过提示词展示，不代替选风格。三个画面是 `classic-technical`、`pastel-airy-ui`、`illustrated-modular`；`reference-led` 是照着你给的参考图走，不会自动变成手绘风。互不相关的来源或互不相关的图可以分开做；一张图从设计画到检查仍由同一次流程做完。
 
 **3 skills · 3 core style profiles · native Codex rendering · reference-aware revision** · Install: `npx skills add Azhi-ss/academic-figure-skills -g --all`
 
@@ -142,9 +142,10 @@ python3 fig-draw/scripts/validate_render_audit.py \
 对照原图检查 → 最多改两轮
 （不把图收成等大图标条）
         ↓
-把图交给你，并说明示意图可以交给 fig-pptx
+把图交给你，并询问要不要做成可编辑 PPT
         ↓
-你接受这张图并要求之后，fig-pptx 才做成可编辑 PPT
+你同意之后，fig-pptx 才做成可编辑 PPT
+（要改图就先改，改完再问）
 ```
 
 参考图可以交给生图工具。匹配的是构图、笔触、分区、字体和强调方式，不复制原图的文字、拓扑和结论。几张互不相关的图可以分开做；一张图的设计、出图和检查不拆开。
@@ -163,7 +164,7 @@ python3 fig-draw/scripts/validate_render_audit.py \
 4. 保存 `r0/r1/r2` 版本，每次编辑后重新查看与审计；
 5. 首图后最多两轮语义返修，瞬态传输重试不占额度。
 
-若密集文字一次定向修复后仍不可靠，改用 SVG、drawio、Typst 或混合文字，不让图像模型无限重画。图交出去之后，若你接受这张示意图并希望它能在 PPT 里改，再交给 [fig-pptx](fig-pptx/SKILL.md)。图片层会按源图重画，文字写成文本框。源 PNG 不改。结果图的数据点要保持原样时不要走这一步。
+若密集文字一次定向修复后仍不可靠，改用 SVG、drawio、Typst 或混合文字，不让图像模型无限重画。图交出去之后询问要不要做成可编辑 PPT，你同意后再交给 [fig-pptx](fig-pptx/SKILL.md)。图片层会按源图重画，文字写成文本框。源 PNG 不改。结果图的数据点要保持原样时不要走这一步。
 
 ## 三个 surface profile + reference-led 模式
 
@@ -237,7 +238,7 @@ npx skills add Azhi-ss/academic-figure-skills -g --all
 You: 分析这个仓库并直接生图，不要展示 prompt
 AI:  [先看仓库 → 若你还没选风格，展示 6 张预览并停下
       → 你选定后写规格、校验、生图、对照原图检查
-      → 把图交给你，并说明可以换成可编辑 PPT 文字]
+      → 把图交给你，并询问要不要做成可编辑 PPT]
 ```
 
 ```
