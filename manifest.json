@@ -1,17 +1,17 @@
 {
   "name": "academic-figure-skills",
-  "version": "4.2.0",
-  "description": "Two academic figure skills: fig1-draw designs style, palette, and prompts, compiles FigureSpec, and handles native rendering, visual audit, and targeted revision; fig1-analyze turns repositories, papers, drafts, and reference figures into SemanticArchitecture, FigurePlan, and ReferenceAnalysis.",
+  "version": "4.4.0",
+  "description": "Three academic figure skills: fig-draw designs style, palette, and prompts, compiles FigureSpec, and handles native rendering, visual audit, and targeted revision; fig-analyze turns repositories, papers, drafts, and reference figures into SemanticArchitecture, FigurePlan, and ReferenceAnalysis; fig-pptx rebuilds an accepted schematic figure into an editable PPTX of background, frame, icons, and real text boxes.",
   "author": "Azhi-ss",
   "repository": "https://github.com/Azhi-ss/academic-figure-skills",
   "license": "MIT",
   "skills": [
     {
-      "id": "fig1-draw",
-      "name": "fig1-draw",
-      "version": "2.2.0",
-      "description": "Design evidence-grounded academic figures and construct, diagnose, or revise prompts; semantic palettes, reference-led styles, and FigureSpec v1. Plan, generate, inspect, and refine figures with conditional review and native image-tool routing. Repository, paper, draft, or reference-figure inputs are analyzed by fig1-analyze first. Can replace AI-rendered text with editable PowerPoint text boxes.",
-      "path": "./fig1-draw",
+      "id": "fig-draw",
+      "name": "fig-draw",
+      "version": "2.3.0",
+      "description": "Design evidence-grounded academic figures and construct, diagnose, or revise prompts; semantic palettes, reference-led styles, and FigureSpec v1. Plan, generate, inspect, and refine figures with conditional review and native image-tool routing. Repository, paper, draft, or reference-figure inputs are analyzed by fig-analyze first.",
+      "path": "./fig-draw",
       "trigger_phrases": [
         "帮我从仓库到配图走一遍", "完整论文配图工作流", "academic figure workflow",
         "end-to-end figure pipeline", "from paper to figure prompt",
@@ -28,20 +28,18 @@
         "有色语义分区图示风", "illustrated modular figure",
         "reference-led academic figure", "airy figure prompt",
         "paper figure", "academic figure", "academic diagram",
-        "学术配图JSON", "Visual Brief",
-        "把 AI 图里的文字做成可编辑 PPTX", "editable text on an AI figure",
-        "ai-figure-text-pptx"
+        "学术配图JSON", "Visual Brief"
       ],
       "stages": ["research", "writing", "review"],
       "tools": ["bash", "image_gen", "view_image"],
       "tags": ["academic", "workflow", "orchestration", "figure", "prompt", "planning", "style-library", "designer", "spec", "color", "palette", "figure-spec", "technical-vector", "pastel", "illustrated-modular", "reference-aware"]
     },
     {
-      "id": "fig1-analyze",
-      "name": "fig1-analyze",
+      "id": "fig-analyze",
+      "name": "fig-analyze",
       "version": "1.0.0",
       "description": "Evidence-backed analysis of repositories, paper drafts, and reference figures into SemanticArchitecture@1, FigurePlan@1, and ReferenceAnalysis@1, without writing prompts or generating images.",
-      "path": "./fig1-analyze",
+      "path": "./fig-analyze",
       "trigger_phrases": [
         "分析代码仓库", "仓库分析", "repo analyzer",
         "analyze this repo", "理解这个代码库",
@@ -56,6 +54,21 @@
       "stages": ["research", "writing", "review"],
       "tools": ["bash"],
       "tags": ["academic", "repository", "analysis", "deep-learning", "machine-learning", "code", "draft", "paper", "planning", "figure", "markdown", "architecture", "diagram", "extraction", "pdf"]
+    },
+    {
+      "id": "fig-pptx",
+      "name": "fig-pptx",
+      "version": "1.1.0",
+      "description": "Rebuild an accepted academic schematic into an editable PPTX: clean background, transparent frame, transparent icons, and real text boxes. The text font follows the figure lettering, including comic faces for comic lettering. Use when the user asks for editable text, an editable PPTX, or fig-pptx. Does not edit the source PNG. Do not use it when plotted data marks must stay pixel-identical.",
+      "path": "./fig-pptx",
+      "trigger_phrases": [
+        "把 AI 图做成可编辑 PPTX",
+        "fig-pptx",
+        "editable text on an AI figure"
+      ],
+      "stages": ["review"],
+      "tools": ["bash"],
+      "tags": ["academic", "figure", "pptx", "text"]
     }
   ]
 }

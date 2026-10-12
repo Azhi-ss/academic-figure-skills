@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.4.0] - 2026-10-12
+
+### Changed
+
+- 三个 skill 的对外名称改为 `fig-analyze`、`fig-draw`、`fig-pptx`（原先是 `fig1-analyze`、`fig1-draw`、`fig2pptx`）。
+- `fig-pptx` 在接受示意图并要求可编辑 PPT 之后，按背景、框架、图标、文本框四层重画；文字是唯一的文本。源 PNG 不改。结果图的数据点要保持原样时不走这一步。
+- 版本：包 4.4.0，`fig-pptx` 1.1.0。文本框字体按源图里的字来选。漫画字用 Comic Neue；没有就安装 `fonts-comic-neue`，不改用另一类字体。
+
+## [4.3.0] - 2026-10-10
+
+### Changed
+
+- 可编辑 PPT 文字从 `fig1-draw` 拆出，单独成为 `fig1-text`。出图只告知可以做；用户接受这张图并要求之后，由 `fig1-text` 用 `scripts/build_overlay.py` 盖住旧字并放原生文本框。
+- 版本：包 4.3.0，`fig1-draw` 2.3.0，`fig1-text` 1.0.0。
+
 ## [4.2.0] - 2026-10-01
 
 ### Changed

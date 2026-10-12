@@ -111,9 +111,9 @@ A good skill should include:
 
 1. **Input / Output Contract** — minimum inputs, deliverable shape
 2. **Steps with completion criteria** — checkable done conditions per step
-3. **Pointers to disclosed reference** — large tables live in that skill's own `references/` (for example `fig1-draw/references/palettes.md`), not copied into another skill
+3. **Pointers to disclosed reference** — large tables live in that skill's own `references/` (for example `fig-draw/references/palettes.md`), not copied into another skill
 4. **Stop conditions** — when to halt vs continue downstream
-5. **Sparse-input cases** — partial results labeled `推断` / `待确认` (see `fig1-analyze/references/missing-info-policy.md`)
+5. **Sparse-input cases** — partial results labeled `推断` / `待确认` (see `fig-analyze/references/missing-info-policy.md`)
 
 Do **not** paste the full palette hex tables into new skills. Keep the canonical
 palette, style, and audit files inside the skill that uses them. Never link to
@@ -134,7 +134,7 @@ For rendering skills, preserve the execution contract:
   with an equal icon row;
 - preserve revision files and audit every edit;
 - after delivery, mention that visible text can become editable PowerPoint
-  text, and build that PPTX only after the user accepts the figure and asks.
+  PPTX in `fig-pptx`; do not build the PPTX in a rendering skill.
 
 ### Validation before a pull request
 
@@ -145,9 +145,9 @@ python3 -B -m unittest discover -s tests -v
 python3 scripts/validate_skill_pack.py
 ```
 
-When changing FigureSpec, edit `fig1-draw/figure-spec.schema.json`;
+When changing FigureSpec, edit `fig-draw/figure-spec.schema.json`;
 the validator in that skill reads it directly, so extend
-`fig1-draw/scripts/validate_figure_spec.py` only for cross-field
+`fig-draw/scripts/validate_figure_spec.py` only for cross-field
 rules. Update the prose contract and tests together.
 A render-capable caller must also run render-ready validation with its trusted
 workspace root before calling an image model.

@@ -142,7 +142,7 @@ semantic_zone:
   icon_accent: "#......"
 ```
 
-[`fig1-draw/references/palettes.md`](../fig1-draw/references/palettes.md) 的 I1 token 给出了可直接使用的蓝、绿、桃、紫、青、金和珊瑚配对。Agentic-science 图中可按实际内容映射 reasoning/planning、evidence/context、deterministic execution、advisory/uncertainty、memory/provenance/recovery、output/report 和 exception/stop；没有出现的角色不必占色。
+[`fig-draw/references/palettes.md`](../fig-draw/references/palettes.md) 的 I1 token 给出了可直接使用的蓝、绿、桃、紫、青、金和珊瑚配对。Agentic-science 图中可按实际内容映射 reasoning/planning、evidence/context、deterministic execution、advisory/uncertainty、memory/provenance/recovery、output/report 和 exception/stop；没有出现的角色不必占色。
 
 ### 颜色数量
 
@@ -283,7 +283,7 @@ Connections: [...]
 2. 在 SVG、Typst、Figma、Inkscape 或其他可编辑工具中叠加文本和连线
 3. 或在每轮生成后做 OCR 对照并局部修订
 
-图已经交给用户、并且用户接受这张图、又要求文字能在 PPT 里修改时，再按 workflow 的 `references/editable-pptx.md` 盖住旧字、放上原生文本框。不在同一轮里做，也不在用户还没接受的图上做。
+图已经交给用户、并且用户接受这张示意图、又要求它能在 PPT 里修改时，交给 `fig-pptx`：按 `fig-pptx/references/layers.md` 重画背景、框架和图标，文字写成文本框。不在同一轮里做，也不在用户还没接受的图上做。结果图的数据点要保持原样时不要交给它。
 
 ---
 
